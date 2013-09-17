@@ -26,6 +26,7 @@
 *.mtc
 *.mtc0
 *.tex.bak
+*.tex.sav
 *.cls.bak
 *.cls.sav
 thesis.pdf
