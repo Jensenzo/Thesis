@@ -427,6 +427,20 @@ An early wavelet based click detection algorithm proposes to detect clicks by an
 %introduced by: \cite{Coifman1992a}
 The Wavelet Packet Transform (WPT) can be seen as a generalisation of the Wavelet transform in that it extends the link between multi-resolution approximations and wavelets. The WPT can also be seen as a natural extension of Multi Taper Spectrum Estimation (MSTE) \cite{Thomson1982} which employs a filter bank paradigm for spectrum estimation.
 
+The classical approach to spectrum estimation is to use the Fourier transform to obtain what was referred to as the Periodogram\cite{Farhang-Boroujeny2008}. Traditionally we have that the Power Spectral Density (PSD) is defined as:
+
+\begin{equation}\label{eq:LitRev_Detection_PSD1}
+S_{xx}(\omega) = \trac{1}{N} \left\| \sum^{N}_{n=1} x(n) e^{-i \omega n} \right\|^2.
+\end{equation}
+
+For a given frequency $\omega_i$, equation~\ref{eq:LitRev_Detection_PSD1} can be rewritten as
+
+\begin{equation}\label{eq:LitRev_Detection_PSD2}
+S_{xx}(\omega_i) = \left\| \sum^{N}_{k=1} h_i(k) x(n-k) \right\|^2,
+\end{equation}
+
+where $h_i(k) = w(k)e^{-i \omega_i n}$ and $w(k)$ is a window function. 
+
 \todo{WPT description and review.}
 %describe the filter bank paradigm from the periodogram basis using \cite{Ariananda2013} p. 1 column 2. and go on with section III of the same paper. Then move to a theoretical description of WPT and finally a lit review of its validity in the audio/speech fields (as seen below)
 
