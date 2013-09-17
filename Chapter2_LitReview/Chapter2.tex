@@ -8,6 +8,7 @@
 
 The literature review presented in this chapter is split into 3 major sections. Classification, Detection and Restoration. These 3 major areas will generally be dealt with in the order in which they are relevant.
 
+%Not JUST classification. Also some other stuff (needs to be removed)
 \section{Classification}\label{sec:LitRev_Classification}
 \subsection{Computational Auditory Scene Analysis (CASA)}
 The CASA approach to source separation attempts to mimic the Auditory Scene Analyzing (ASA) capabilities of the brain by computational means. \cite{Wang2006} state: ``One may define the CASA problem as the challenge of constructing a machine learning system that achieves human performance in ASA''. In an attempt to make CASA systems more \emph{biologically relevant} many CASA systems limit their scope to either monaural or binaural input signals and hence replicating the ASA problem where only the signal from the two ears are present.
@@ -369,8 +370,10 @@ Now we have that the wavelet transform of $f \in \mathbf{L^2}(\mathbb{R})$ at ti
 \begin{equation}\label{eq:Mallat1999_x}
 W f(u,s) = \langle f, \psi_{u,s} \rangle = \int^{+infty}_{-\infty} = f(t) \frac{1}{\sqrt{s}}\psi^\ast \left( \frac{t-u}{s} \right) dt.
 \end{equation}
- %continue on reasoning from eq 4.50 Mallat 1999
+
+%continue on reasoning from eq 4.50 Mallat 1999
 \todo{Add appendix of 4.50-4.55 Mallat1999}
+
 The energy spread of a wavelet time-frequency atom $\phi_{u,s}$ corresponds to a Heisenberg box centered at $(u,\eta/s)$ where $\eta$ is the center frequency of $\hat{\phi}$ the Fourier transform of $\phi$, and $\hat{\phi_{u,s}}$ is the Fourier transform of $\phi$ dilated by $1/s$ \todo{refer to appendix}. The Heisenberg box remains of area $\sigma_t \sigma_\omega$ at all scales but it is now $s\sigma_t$ on the time axis and $\sigma_\omega /s$ along the frequency axis. The temporal and frequency resolution is now dependent on $s$ as illustrated in Figure~\ref{fig:LitRev_HeisenbergBox_wavelets}
 
 \begin{figure}[!] %LitRev_HeisenbergBox_wavelets
@@ -414,18 +417,16 @@ The main difference between classic Fourier analysis and Wavelet analysis is tha
 
 Figure~\ref{fig:LitRev_Wavelets} shows a similar plot to Figure~\ref{fig:LitRev_STFTlims} but for the Wavelet transform instead. It should be noted that a Wavelet spectrum, equivalent to a traditional spectrogram, is traditionally plotted in the time-scale space, where scale can be seen as being inversely proportional to frequency.
 
-The multi-resolution properties of the wavelet transform has made the Wavelet transform in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005}. Equally the computational efficiency of the discrete wavelet transform is is cited\cite{Kadambe1992} as a significant advantage over the FFT with an $O(N)$ complexity compared to $O(N\mathrm{log}(N)$ for FFT\cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}.
+The multi-resolution properties of the wavelet transform has made the Wavelet transform in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005}. Equally the computational efficiency of the discrete wavelet transform is cited\cite{Kadambe1992} as a significant advantage over the FFT with an $O(N)$ complexity compared to $O(N\mathrm{log}(N)$ for FFT\cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}. Several authors propose wavelets used as a bases for audio classification applications\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005} and report that a specific advantage of the wavelet basis is its compact representation compared to the time domain signal which decreases processing delay/cost\cite{Lambrou1998}.
 
-%Beat detection/extraction:     \cite{Czyzewski1995}\cite{Tzanetakis2001}
-%Audio classification:          \cite{Tzanetakis2001}\cite{Lambrou1998}\cite{Lin2005}
-
-%Also rewrite: The discrete wavelet transform is also less computationally complex, taking O(N) time as compared to O(N log N) for the fast Fourier transform\cite{Mallat1999}.
+An early wavelet based click detection algorithm proposes to detect clicks by analysing the wavelet coefficients of the signal for discontinuities\cite{Czyzewski1995}. The authors apply a neural network algorithm to robustly detect and classify impulses although the authors note that the required training stage is both ``a complex and time-consuming procedure''. While not explicitly discussed the authors appear to be targeting extremely short time impulses of the order of 1 or 2 samples, or what they call ``parazite impulses''.
 
 
 \subsubsection{Wavelet Packet Transform (WPT)}
 \todo{Wavelet Packet Transform review}
 %introduced by: \cite{Coifman1992a}
-The Wavelet Packet Transform (WPT) can be seen as a generalisation of the Wavelet transform in that it extends the link between multi-resolution approximations and wavelets.
+The Wavelet Packet Transform (WPT) can be seen as a generalisation of the Wavelet transform in that it extends the link between multi-resolution approximations and wavelets. The WPT can also be seen as a natural extension of Multi Taper Spectrum Estimation (MSTE) \cite{Thomson1982} which employs a filter bank paradigm for spectrum estimation. 
+
 
 % Start with Multi Taper Spectrum Estimator (MTSE)
 % \cite{Thomson1982}
@@ -452,7 +453,7 @@ The restoration of corrupted speech and audio samples by a localised degradation
 
 %\cite{Windyga2001}, \cite{Alajlan2004}: Non-linear, minimum or maximum of neighborhood based on dark or bright spot. (Alajlan based on Windyga, good explanation of Windyga in Alajlan)
 
-
+%\cite{Czyzewski1995}: LPC and maybe more (meta analysis)
 
 %Median filtering for restoration:
 %JAYNAT, N.S.: â€˜Average and median based smoothing for improving
