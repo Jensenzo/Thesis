@@ -234,13 +234,9 @@ in which the $d$-dimensional observations vector \textbf{t} is related to a corr
 \cite{Lawrence2005} presents an extended PPCA model based on the work of \cite{Tipping1999} termed Dual Probabilistic PCA (DPPCA). The DPPCA method can, through Gaussian processes, nonlinearize the linear mappings from the embedded space and hence provide new probabilistic approach to visualizing and modeling of high dimensional data.
 \section{Detection}\label{sec:LitRev_Detection}
 
-Any restoration of transient noise events presupposes complete knowledge of the position of the corruption. In practice this information is unknown \emph{a priori} and some a detection procedure must be employed to ascertain the timing of the corruptions. As noted in this section, a large number of different approaches to transient noise detection has been studied, and since there are as many types of transient noise as there are data that can be corrupted by it, the methods and range from simple \emph{ad hoc} filtering approaches to more complicated model based approaches.
+Any restoration of transient noise events presupposes complete knowledge of the position of the corruption. In practice this information is unknown \emph{a priori} and some a detection procedure must be employed to ascertain the timing of the corruptions. As noted in this section, a large number of different approaches to transient noise detection has been studied, and since there are as many types of transient noise as there are data that can be corrupted by it, the  detection methods range from simple \emph{ad hoc} filtering approaches to more complicated model based approaches.
 
-%criteria for detection. cite: (An Introduction to the Psychology of Hearing)
-%what can not be heard should not be detected.
-
-%old text:
-%A difficulty with the detection of noise transients in speech is the greatly varying spectral and temporal characteristics of speech signals. Previous time domain algorithms \cite{Chandra1998}\cite{Vaseghi1990} have been computationally efficient but failed to exploit the spectral characteristics of noise pulses.
+In a reconstruction algorithm it is important to focus our attention on audible corruptions. The audibility of a corruption is not only a function of its amplitude or the energy that it represents, but also the context in which is sits. Physcoacoustically some corruptions may be rendered inaudible through masking effects such as the precedence effect, and hence any restoration effort is wasted or potentially damaging.\todo{Add citation for (An Introduction to the Psychology of Hearing)}
 
 The simplest impulse detection algorithms exploit the relatively sparse nature of many audio, and in particular speech, signals above 9000 Hz in relation to impulsive noise which often exhibits a much smoother and wider frequency characteristics \cite{Subramanya2007}. In \cite{Kasparis1993}\cite{US6795559} the authors preprocess their signals using a High Pass filter to target to the impulsive noise.
 
@@ -332,7 +328,7 @@ which is also called the Short Time Fourier Transform (STFT) since the window $g
 To evaluate the energy density $P_S$ of the STFT, also called the \emph{spectrogram}, the squared magnitude is computed:
 
 \begin{equation}\label{eq:Mallat1999_3}
-P_S f(u,xi) = |S f(u,\xi)|^2 = \left| \int^{+\infty}_{-\infty} f(t)g(t-u)\mathrm{e}^{-i\xi t} dt \right|^2.
+P_S f(u,\xi) = |S f(u,\xi)|^2 = \left| \int^{+\infty}_{-\infty} f(t)g(t-u)\mathrm{e}^{-i\xi t} dt \right|^2.
 \end{equation}
 
 The \emph{spectrogram} of $f$ is a measure of the energy in the time-frequency neighborhood of $(u,\xi)$. This is also called the Heisenberg box of $g_{u,\xi}$ and is defined as a region in the time-frequency plane $(t, \omega)$ whose location and width depends entirely on the time-frequency spread of the window $g_{u,\xi}$ centered around $(u,\xi)$\cite{Mallat1999}.
@@ -417,6 +413,34 @@ The main difference between classic Fourier analysis and Wavelet analysis is tha
 
 Figure~\ref{fig:LitRev_Wavelets} shows a similar plot to Figure~\ref{fig:LitRev_STFTlims} but for the Wavelet transform instead. It should be noted that a Wavelet spectrum, equivalent to a traditional spectrogram, is traditionally plotted in the time-scale space, where scale can be seen as being inversely proportional to frequency.
 
+Consider now the discreet power spectral density calculation, from Equation~\ref{eq:Mallat1999_3}, for the signal $x(n)$:
+%Add description for filter bank paradigm here
+
+\begin{equation}\label{eq:LitRev_Detection_PSD1}
+S_{xx}(\omega) = \trac{1}{N} \left| \sum^{N}_{n=1} x(n) e^{-i \omega n} \right|^2.
+\end{equation}
+
+For a given frequency $\omega_i$, equation~\ref{eq:LitRev_Detection_PSD1} can be rewritten as
+
+\begin{equation}\label{eq:LitRev_Detection_PSD2}
+S_{xx}(\omega_i) = \left\| \sum^{N}_{k=1} h_i(k) x(n-k) \right\|^2,
+\end{equation}
+
+where
+
+\begin{equation}\label{eq:LitRev_Detection_PSD3} 
+ $h_i(k) = w(k)e^{-i \omega_i n}$,
+\end{equation}
+
+and $w(k)$ is a window function. Considering $w(k)$ as a prototypical FIR lowpass filter, the collection of all $h_i(k)$s constitutes a bank of bandpass filters each centered on frequency $\omega_i$\cite{Ariananda2013}. This implementation is commonly referred to as the periodogram but it also highlights what sometimes is called the filter bank paradigm and is a particularly simple implementation of the DWT\cite{Mallat1999}.
+
+Considering again the window function $w(k)$ from equation~\ref{eq:LitRev_Detection_PSD3}, the simplest window conceivable would be a simple rectangular window $w(k) = 1/N$. Naturally this would lead to significant side lobe leaks in the spectral domain 
+
+%Another problem with the periodogram is that the estimates of the PSD are coarse with low precision and large variance which does not improve with more data. The only way to improve the variance of the periodogram is to average the PSD coefficients. This can be done in two ways: one by computing several (shorter) periodograms and use these to compute averages of each PSD coefficient. Or by applying a window function to the data first. This is equivalent to replacing each periodogram coefficient by a weighted average of coefficients. This is what happens in the Blackman-Tukey method [2]. And of course, the two methods can be combined, so that one computes an average of several windowed periodograms. This is the Welch method [2].
+
+
+
+
 The multi-resolution properties of the wavelet transform has made the Wavelet transform in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005}. Equally the computational efficiency of the discrete wavelet transform is cited\cite{Kadambe1992} as a significant advantage over the FFT with an $O(N)$ complexity compared to $O(N\mathrm{log}(N)$ for FFT\cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}. Several authors propose wavelets used as a bases for audio classification applications\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005} and report that a specific advantage of the wavelet basis is its compact representation compared to the time domain signal which decreases processing delay/cost\cite{Lambrou1998}.
 
 An early wavelet based click detection algorithm proposes to detect clicks by analysing the wavelet coefficients of the signal for discontinuities\cite{Czyzewski1995}. The authors apply a neural network algorithm to robustly detect and classify impulses although the authors note that the required training stage is both ``a complex and time-consuming procedure''. While not explicitly discussed the authors appear to be targeting extremely short time impulses of the order of 1 or 2 samples, or what they call ``parazite impulses''.
@@ -439,7 +463,7 @@ For a given frequency $\omega_i$, equation~\ref{eq:LitRev_Detection_PSD1} can be
 S_{xx}(\omega_i) = \left\| \sum^{N}_{k=1} h_i(k) x(n-k) \right\|^2,
 \end{equation}
 
-where $h_i(k) = w(k)e^{-i \omega_i n}$ and $w(k)$ is a window function. 
+where $h_i(k) = w(k)e^{-i \omega_i n}$ and $w(k)$ is a window function.
 
 \todo{WPT description and review.}
 %describe the filter bank paradigm from the periodogram basis using \cite{Ariananda2013} p. 1 column 2. and go on with section III of the same paper. Then move to a theoretical description of WPT and finally a lit review of its validity in the audio/speech fields (as seen below)
