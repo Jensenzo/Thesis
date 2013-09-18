@@ -413,11 +413,12 @@ The main difference between classic Fourier analysis and Wavelet analysis is tha
 
 Figure~\ref{fig:LitRev_Wavelets} shows a similar plot to Figure~\ref{fig:LitRev_STFTlims} but for the Wavelet transform instead. It should be noted that a Wavelet spectrum, equivalent to a traditional spectrogram, is traditionally plotted in the time-scale space, where scale can be seen as being inversely proportional to frequency.
 
-Consider now the discreet power spectral density calculation, from Equation~\ref{eq:Mallat1999_3}, for the signal $x(n)$:
+\subsubsection{Multi-resolution analysis with Filter Banks}
+Consider now the discrete power spectral density calculation, from Equation~\ref{eq:Mallat1999_3}, for the signal $x(n)$:
 %Add description for filter bank paradigm here
 
 \begin{equation}\label{eq:LitRev_Detection_PSD1}
-S_{xx}(\omega) = \trac{1}{N} \left| \sum^{N}_{n=1} x(n) e^{-i \omega n} \right|^2.
+S_{xx}(\omega) = \frac{1}{N} \left| \sum^{N}_{n=1} x(n) e^{-i \omega n} \right|^2.
 \end{equation}
 
 For a given frequency $\omega_i$, equation~\ref{eq:LitRev_Detection_PSD1} can be rewritten as
@@ -429,16 +430,44 @@ S_{xx}(\omega_i) = \left\| \sum^{N}_{k=1} h_i(k) x(n-k) \right\|^2,
 where
 
 \begin{equation}\label{eq:LitRev_Detection_PSD3}
- $h_i(k) = w(k)e^{-i \omega_i n}$,
+h_i(k) = w(k)e^{-i \omega_i n},
 \end{equation}
 
 and $w(k)$ is a window function. Considering $w(k)$ as a prototypical FIR lowpass filter, the collection of all $h_i(k)$s constitutes a bank of bandpass filters each centered on frequency $\omega_i$\cite{Ariananda2013}. This implementation is commonly referred to as the periodogram but it also highlights what sometimes is called the filter bank paradigm and is a particularly simple implementation of the DWT\cite{Mallat1999}.
 
-Considering again the window function $w(k)$ from equation~\ref{eq:LitRev_Detection_PSD3}, the simplest window conceivable would be a simple rectangular window $w(k) = 1/N$. Naturally this would lead to significant side lobe leaks in the spectral domain and is therefore highly undesirable. Employing Hamming and Hann windows is a common approach to alleviate these issues. Another issue that arises with the periodogram is that its estimates are coarse with low precision and large variance\cite{Ariananda2013}. A common method for alleviating this variance problem is by windowing the data first. \cite{} \todo{Cite Blackman-Tukey method [2] and Welch.}
+Considering again the window function $w(k)$ from equation~\ref{eq:LitRev_Detection_PSD3}, the simplest window conceivable would be a simple rectangular window $w(k) = 1/N$. Naturally this would lead to significant side lobe leaks in the spectral domain and is therefore highly undesirable. Employing Hamming and Hann windows is a common approach to alleviate these issues. Another issue that arises with the periodogram is that its estimates are coarse with low precision and large variance\cite{Ariananda2013}. A common method for alleviating this variance problem is by windowing the data first\cite{Lim1988book}.
+
+Work done on Multi Taper Spectrum Estimation (MTSE)\cite{Thomson1982} and later on multi-resolution theory\cite{Mallat1989}\cite{Meyer1995} proves that conjugate mirror filter characterizes a wavelet and that cascading these filters will lead to a fast implementation of the discrete wavelet transform.
+
+Figure~\ref{fig:LitRev_DWTstep.pdf} shows a diagrammatic representation of a single step of the DWT. The \emph{Lo} and \emph{Hi-pass} filters represent, respectively, the low and high pass conjugate mirror filters and the following step is a dyadic decimation (down-sampling) step. Since the spectrum of each filtered signal is effectively halved by the filters, the decimation step removes redundant information in accordance with Nyquist's theorem. The output of the low and high-pass filters are commonly referred to as the approximation and the detail coefficients respectively\cite{Mallat1999}.
+
+%LitRev_DWTstep.pdf
+\begin{figure}
+\centering
+\includegraphics[width=85mm]{LitRev_DWTstep.pdf}
+\begin{picture}(0,0)
+%\put(-195,133){Scale}
+%\put(-22,-7){Time}
+\end{picture}
+\caption{A single wavelet decomposition step.}
+\label{fig:LitRev_DWTstep.pdf}
+\end{figure}
+
+Figure~\ref{fig:LitRev_DWTtree.pdf} shows a three level wavelet decomposition. 
+%LitRev_DWTtree.pdf
+\begin{figure}
+\centering
+\includegraphics[width=85mm]{LitRev_DWTtree.pdf}
+\begin{picture}(0,0)
+%\put(-195,133){Scale}
+%\put(-22,-7){Time}
+\end{picture}
+\caption{Three level wavelet decomposition tree.}
+\label{fig:LitRev_DWTtree.pdf}
+\end{figure}
 
 
-
-The multi-resolution properties of the wavelet transform has made the Wavelet transform in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005}. Equally the computational efficiency of the discrete wavelet transform is cited\cite{Kadambe1992} as a significant advantage over the FFT with an $O(N)$ complexity compared to $O(N\mathrm{log}(N)$ for FFT\cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}. Several authors propose wavelets used as a bases for audio classification applications\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005} and report that a specific advantage of the wavelet basis is its compact representation compared to the time domain signal which decreases processing delay/cost\cite{Lambrou1998}.
+The multi-resolution properties of the wavelet transform has made the Wavelet transform popular in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands\cite{Sinha1993}\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Zurera2001}\cite{Lin2005}. Equally the computational efficiency of the discrete wavelet transform is cited\cite{Kadambe1992} as a significant advantage over the FFT with an $O(N)$ complexity compared to $O(N\mathrm{log}(N)$ for FFT\cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}. Several authors propose wavelets used as a bases for audio classification applications\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005} and report that a specific advantage of the wavelet basis is its compact representation compared to the time domain signal which decreases processing delay/cost\cite{Lambrou1998}.
 
 An early wavelet based click detection algorithm proposes to detect clicks by analysing the wavelet coefficients of the signal for discontinuities\cite{Czyzewski1995}. The authors apply a neural network algorithm to robustly detect and classify impulses although the authors note that the required training stage is both ``a complex and time-consuming procedure''. While not explicitly discussed the authors appear to be targeting extremely short time impulses of the order of 1 or 2 samples, or what they call ``parazite impulses''.
 
@@ -446,41 +475,28 @@ An early wavelet based click detection algorithm proposes to detect clicks by an
 \subsubsection{Wavelet Packet Transform (WPT)}
 \todo{Wavelet Packet Transform review}
 %introduced by: \cite{Coifman1992a}
-The Wavelet Packet Transform (WPT) can be seen as a generalisation of the Wavelet transform in that it extends the link between multi-resolution approximations and wavelets. The WPT can also be seen as a natural extension of Multi Taper Spectrum Estimation (MSTE) \cite{Thomson1982} which employs a filter bank paradigm for spectrum estimation.
-
-The classical approach to spectrum estimation is to use the Fourier transform to obtain what was referred to as the Periodogram\cite{Farhang-Boroujeny2008}. Traditionally we have that the Power Spectral Density (PSD) is defined as:
-
-\begin{equation}\label{eq:LitRev_Detection_PSD1}
-S_{xx}(\omega) = \trac{1}{N} \left\| \sum^{N}_{n=1} x(n) e^{-i \omega n} \right\|^2.
-\end{equation}
-
-For a given frequency $\omega_i$, equation~\ref{eq:LitRev_Detection_PSD1} can be rewritten as
-
-\begin{equation}\label{eq:LitRev_Detection_PSD2}
-S_{xx}(\omega_i) = \left\| \sum^{N}_{k=1} h_i(k) x(n-k) \right\|^2,
-\end{equation}
-
-where $h_i(k) = w(k)e^{-i \omega_i n}$ and $w(k)$ is a window function.
-
-\todo{WPT description and review.}
-%describe the filter bank paradigm from the periodogram basis using \cite{Ariananda2013} p. 1 column 2. and go on with section III of the same paper. Then move to a theoretical description of WPT and finally a lit review of its validity in the audio/speech fields (as seen below)
-
-% Start with Multi Taper Spectrum Estimator (MTSE)
-% \cite{Thomson1982}
-%- WPT Spectrum estimation comparison
-%\cite{Ariananda2013}
-
-%\cite{He2008} - DWPT
-%
-%Psychoacoustic models based on Wavelets (DWPT)
-%\cite{Sinha1993}
-%\cite{Zurera2001}
-%\cite{Carnero1999}
-%
+The Wavelet Packet Transform (WPT) can be seen as a generalisation of the Wavelet transform in that it extends the link between multi-resolution approximations and wavelets. The WPT can also be seen as a natural extension of MSTE\cite{Thomson1982}. While the DWT decomposes only the approximation coefficients the WPT applies the decomposition step symmetrically throughout the tree as seen in Figure~\ref{fig:LitRev_WPTtree.pdf}. Since the standard DWT algorithm is limited to wavelet bases that increase by a power of two towards the higher scales (low frequencies) it is possible that some other combination of bases could provide a better basis in some applications\cite{Coifman1992a}.
 
 
-Due to the compactly supported nature of the wavelet \cite{Mallat1999} these shortcomings can be mitigated \cite{Nongpiur2008} and provide a useful basis for the removal of impulses with little to no noticeable degradation of the signal. Further, direct statistical modeling the noise pulses and background signals allows for probabilistic inference \cite{Godsill1998} with potentially very high accuracy, and in this case greatly simplifies calculations and implementation.
+%LitRev_WPTtree.pdf
+\begin{figure}
+\centering
+\includegraphics[width=125mm]{LitRev_WPTtree.pdf}
+\begin{picture}(0,0)
+%\put(-195,133){Scale}
+%\put(-22,-7){Time}
+\end{picture}
+\caption{Three level wavelet packet decomposition tree.}
+\label{fig:LitRev_WPTtree.pdf}
+\end{figure}
 
+In a recent study comparing the WPT to other spectrum estimation techniques it was generally found that the WPT ``operated well for all types of sources and its performances were comparable or at times even better than other existing approaches.''\cite{Ariananda2013}. In particular it was found that WPT performed well in reducing variance in the stop bands.
+
+The authors of \cite{He2008} developed a psychoacoustic model based around the WPT and found that not only was the WPT computationally more efficient than a Fourier transform-based alternative but it also provided a better spectral resolution. For psychoacoustic applications it was found that the generalization of the DWT yielded a better approximation of the critical bands employed\cite{Carnero1999}\cite{He2008} compared to similar DWT based models\cite{Sinha1993}\cite{Zurera2001}.
+
+\todo{Needs rewriting. ->}
+Due to the compactly supported nature of the wavelet\cite{Mallat1999} these shortcomings can be mitigated \cite{Nongpiur2008} and provide a useful basis for the removal of impulses with little to no noticeable degradation of the signal. Further, direct statistical modeling the noise pulses and background signals allows for probabilistic inference \cite{Godsill1998} with potentially very high accuracy, and in this case greatly simplifies calculations and implementation.
+\todo{<-}
 
 \section{Restoration}\label{sec:LitRev_Restoration}
 The restoration of corrupted speech and audio samples by a localised degradation, also referred to as clicks or noise pulses, has inspired much research and many approaches. Corruptions can generally be seen to have varying severity. Short clicks have traditionally been treated as completely corrupted or essentially missing transforming the restoration task into one of interpolation of missing samples\cite{Godsill1998book}\cite{Tukey1977}\cite{Tukey1974}.
