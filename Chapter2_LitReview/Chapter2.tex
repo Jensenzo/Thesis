@@ -428,16 +428,13 @@ S_{xx}(\omega_i) = \left\| \sum^{N}_{k=1} h_i(k) x(n-k) \right\|^2,
 
 where
 
-\begin{equation}\label{eq:LitRev_Detection_PSD3} 
+\begin{equation}\label{eq:LitRev_Detection_PSD3}
  $h_i(k) = w(k)e^{-i \omega_i n}$,
 \end{equation}
 
 and $w(k)$ is a window function. Considering $w(k)$ as a prototypical FIR lowpass filter, the collection of all $h_i(k)$s constitutes a bank of bandpass filters each centered on frequency $\omega_i$\cite{Ariananda2013}. This implementation is commonly referred to as the periodogram but it also highlights what sometimes is called the filter bank paradigm and is a particularly simple implementation of the DWT\cite{Mallat1999}.
 
-Considering again the window function $w(k)$ from equation~\ref{eq:LitRev_Detection_PSD3}, the simplest window conceivable would be a simple rectangular window $w(k) = 1/N$. Naturally this would lead to significant side lobe leaks in the spectral domain 
-
-%Another problem with the periodogram is that the estimates of the PSD are coarse with low precision and large variance which does not improve with more data. The only way to improve the variance of the periodogram is to average the PSD coefficients. This can be done in two ways: one by computing several (shorter) periodograms and use these to compute averages of each PSD coefficient. Or by applying a window function to the data first. This is equivalent to replacing each periodogram coefficient by a weighted average of coefficients. This is what happens in the Blackman-Tukey method [2]. And of course, the two methods can be combined, so that one computes an average of several windowed periodograms. This is the Welch method [2].
-
+Considering again the window function $w(k)$ from equation~\ref{eq:LitRev_Detection_PSD3}, the simplest window conceivable would be a simple rectangular window $w(k) = 1/N$. Naturally this would lead to significant side lobe leaks in the spectral domain and is therefore highly undesirable. Employing Hamming and Hann windows is a common approach to alleviate these issues. Another issue that arises with the periodogram is that its estimates are coarse with low precision and large variance\cite{Ariananda2013}. A common method for alleviating this variance problem is by windowing the data first. \cite{} \todo{Cite Blackman-Tukey method [2] and Welch.}
 
 
 
