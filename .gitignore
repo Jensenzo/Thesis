@@ -30,4 +30,4 @@
 *.cls.bak
 *.cls.sav
 thesis.pdf
-
+*.synctex
