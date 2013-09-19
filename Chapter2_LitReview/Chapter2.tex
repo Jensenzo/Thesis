@@ -260,7 +260,8 @@ where $e_t$ is the prediction error (or excitation signal) and $\mathbf{a} = \{a
 
 In \cite{Vaseghi1990} the authors find that linear prediction systems, or AR process, are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''. This realisation is used to separate out the residual of the LPC model effectively leaving the excitation noise in addition to the transient noise events, similarly to the pre-processing step of the favored approach in \cite{Kauppinen2002}. 
 
-\todo{insert theory of separation via LPC}
+\todo{insert theory of separation via LPC from \Vaseghi1990 equation 4-7}
+
 
 Since the transient noise pulses are transformed to a scaled version of the impulse response of the inverse LPC filter, and since experimental results conducted by \cite{Vaseghi1990} shows the amplitude of the excitation signal is in the order of $10^{-1}$ to $10^{-4}$ the detection task is greatly simplified. The authors of \cite{Godsill1998} note that the disadvantages with the approach outlined in \cite{Vaseghi1990} is the inability to detect small impulses in the presence of much larger disturbances as well as the introduction of distortion for certain signals. In \cite{Godsill1998} the impulse detection problem is put in a Bayesian framework and extended to non-Gaussian noise pulses.
 
