@@ -268,27 +268,27 @@ y_n = x_n + d_n,
 
 and assuming that the speech signal can be modelled with a linear prediction model,
 \begin{equation}\label{eq:Vaseghi1990_4}
-x_n = \sum^P+{k=1} a_k x_{n-k} +ge_n,
+x_n = \sum^P_{k=1} a_k x_{n-k} +ge_n,
 \end{equation}
 where $\mathbf{a}$ is the LPC parameters, $e_n$ is the excitation signal and $g$ is the linear prediction system's gain. The excitation signal can either be noise-like or a mixture of noise and some quasi periodic train of pulses. White noise is considered a good excitation signal for speech modelling\cite{Vaseghi1990}.
 
 Equation~\ref{eq:Vaseghi1990_1} can now be rewritten
 \begin{equation}\label{eq:Vaseghi1990_5}
-y_n = \sum^P+{k=1} a_k x_{n-k} + e_n + d_n.
+y_n = \sum^P_{k=1} a_k x_{n-k} + e_n + d_n.
 \end{equation}
 
 With an estimate for the LPC parameters $\mathbf{\hat{a}}$, the noisy signal $y_n$ can be written as the noisy excitation signal $v_n$
 
 \begin{eqnarray}
 % \nonumber to remove numbering (before each equation)
-  v_n &=& y_n - \sum^P+{k=1} \hat{a}_k y_{n-k} \nonumber\\
-  &=& x_n + d_h - \sum^P+{k=1} (a_k - \tilde{a}_k)(x_{n-k} + d_{n-k}),\label{eq:Vaseghi1990_6}
+  v_n &=& y_n - \sum^P_{k=1} \hat{a}_k y_{n-k} \nonumber\\
+  &=& x_n + d_h - \sum^P_{k=1} (a_k - \tilde{a}_k)(x_{n-k} + d_{n-k}),\label{eq:Vaseghi1990_6}
 \end{eqnarray}
 
 where $a_k$ is the error in the LPC parameter vector estimate. Equation~\ref{eq:Vaseghi1990_6} can now be rewritten
 
 \begin{equation}\label{eq:Vaseghi1990_7}
-v_n = e_n + d_h - \sum^P+{k=1} \hat{a}_k d_{n-k} + \sum^P+{k=1} \tilde{a}_k x_{n-k}.
+v_n = e_n + d_h - \sum^P+{k=1} \hat{a}_k d_{n-k} + \sum^P_{k=1} \tilde{a}_k x_{n-k}.
 \end{equation}
 
 The three elements that contribute to the noise in the excitation sequence estimate is therefore the impulsive disturbance $d_n$, the past noise samples $p$ and the inflation in the variance of the the residual signal due to the error parameter estimate\cite{Vaseghi1990}.

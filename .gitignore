@@ -28,8 +28,8 @@
 *.tex.bak
 *.tex.sav
 *.cls.bak
+*.brf
 *.cls.sav
 thesis.pdf
 *.synctex
-*.brf
 *.db
