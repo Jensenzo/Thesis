@@ -96,7 +96,7 @@ The incoming audio signal can be expressed as the linear combination of a voiced
 \begin{equation}\label{eq:modelgeneral}
     x(n) = \sum_i c_i \Phi_i(n) + \sum_{j} w_{j}(n) \Psi_{j}(n),
 \end{equation}
-where $c_i$ are the coefficients for the voiced parts of the signal and $\Phi$ is the standard short-time Fourier basis. $w_{j}(n)$ are the coefficients of the residual where $j$ is an integer relating to some translation and dilation of some Wavelet basis function $\Psi$. Here we are utilising an overcomplete dictionary of atoms to represent the audio: a dictionary of `tonal' atoms and a dictionary of `transient' atoms that are aimed at capturing voiced speech and transient noise, respectively. Multiple dictionaries have been employed in Bayesian probabilistic methodologies for noise reduction purposes in \cite{Fevotte2006}\cite{Fevotte2008}   (see also references therein for other approaches with multiple dictionaries). We plan to report on such fully Bayesian approaches to our model above in future publications, but here we focus on development of a fast algorithm using the principles of the above model in order to first extract the tonal (voiced) components in order to process the noise components directly in wavelet domain. Other tonal dictionaries such as Gabor functions and other transient dictionaries such as standard discrete or continuous wavelet transforms can of course be substituted in our methods with minor modifications. Wavelets are found to be particularly suited to the types of noise transient we observe here, which are localised in time and can be of highly variable durations and frequency profile.
+where $c_i$ are the coefficients for the voiced parts of the signal and $\Phi$ is the standard short-time Fourier basis. $w_{j}(n)$ are the coefficients of the residual where $j$ is an integer relating to some translation and dilation of some Wavelet basis function $\Psi$. Here we are utilising an overcomplete dictionary of atoms to represent the audio: a dictionary of `tonal' atoms and a dictionary of `transient' atoms that are aimed at capturing voiced speech and transient noise, respectively. Multiple dictionaries have been employed in Bayesian probabilistic methodologies for noise reduction purposes in \cite{Fevotte2006}\cite{Fevotte2008} (see also references therein for other approaches with multiple dictionaries). \todo{Maybe remove this: }We plan to report on such fully Bayesian approaches to our model above in future publications, but here we focus on development of a fast algorithm using the principles of the above model in order to first extract the tonal (voiced) components in order to process the noise components directly in wavelet domain. Other tonal dictionaries such as Gabor functions and other transient dictionaries such as standard discrete or continuous wavelet transforms can of course be substituted in our methods with minor modifications. Wavelets are found to be particularly suited to the types of noise transient we observe here, which are localised in time and can be of highly variable durations and frequency profile.
 
 Figure~\ref{fig:Separation_Residual_Example} shows an example of the residual obtained by simply subtracting outstanding peaks from the spectrum on frames of 20ms with 10ms overlap. The spectral peaks were identified using a threshold of a factor of three of the median filtered spectrum excluding frequencies below 85 Hz and above 10 kHz. The audio data presented in Figure~\ref{fig:Separation_Residual_Example} is a short sentence with two keystrokes embedded in it. The red plot overlay shows the residual where it is clear that the speech magnitude has been greatly reduced while the two clear keystrokes are largely left unchanged. \todo{Numerical justification for the effectiveness of the separation.}
 
@@ -111,10 +111,138 @@ Figure~\ref{fig:Separation_Residual_Example} shows an example of the residual ob
 
 The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a Wavelet Packet Decomposition (WPD) such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for an level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. For the case of a wavelet decomposition with decimation steps the time index from the terminal node coefficient sets and equation~\ref{eq:modelgeneral} will be related by a factor of $1/J$.
 
-\todo{Write description of implementation (algorithm)}
+\subsubsection{Algorithm description}
+The method for selecting the tonal components from the noisy signal is described in this section. 
+
+As described in the literature\todo{cite literature on speech modelling}, speech signals are typically slowly varying signals with energy concentrated around specific frequencies known as formant frequencies. These frequencies are related to the physiological shape of the human vocal tract and are typically manifested as spectral peaks\cite{Fant1970}. The algorithm attempts to detect these peaks and separate out this presumed vocal content. Figure~\ref{fig:Separation_Spectrum_Selection.pdf} shows an example of the algorithm running on block of speech data. The algorithm proceeds by calculating a running median value of the STFT magnitude coefficients from a 320 sample long signal buffer. The media filter takes the running median value of 60 spectral samples and coefficients exceeding some factor $\nu$ of the median value (blue line in figure) are selected as tonal values (black bars). The red bars in Figure~\ref{fig:Separation_Spectrum_Selection.pdf} are assumed to be transient noise and their magnitude is set to zero. A suitable factor of the median value needs to be selected and for this application $\nu = 3.5$ was chosen. The detection of formant frequencies were additionally confined to be above 85 Hz and below 4000 Hz. 
+
+\begin{figure} %Separation_Spectrum_Selection.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=14cm]{Separation_Spectrum_Selection.pdf}}
+\end{minipage}
+\caption{Example of the tonal selection algorithm. Block size of 320 samples. Audio sample rate of 16kHz.}
+\label{fig:Separation_Spectrum_Selection.pdf}
+\end{figure}
 
 \subsection{Noise burst model}
+We assume that the coefficients for each terminal node $j$ can be modeled as some switched additive noise process such that:
+
+\begin{equation}\label{eq:model1}
+    w_{j}(n) = i_{n} \theta_{n,j} + v_{n,j},
+\end{equation}
+where $i_{n}$ is the binary (1/0) switching variable denoting the presence of $\theta_{n,j}$ for $i_{n} = 1$ and otherwise $i_{n} = 0$. The transient signal $\theta_{n,j}$ is thus a switched noise burst corrupted by additive noise $v_{n,j}$.
+Note that the grouping of the transient noise bursts will depend on the statistics of $i_{n}$ so that it is most likely that detections occur clusters. could be modeled as a Markov chain which will describe some degree of cohesion between frequency and time, i.e. the transient noise pulses will typically have a similar index of onset and will likely stay active for a length of time proportional with wavelet scale $j$.
+
+We can now express our model in terms of the additive noise and a matrix of coefficients
+
+\begin{equation}\label{eq:model2}
+\boldsymbol{w} = \boldsymbol{\theta} + \boldsymbol{v},
+\end{equation}
+
+where $\boldsymbol{w} = [\boldsymbol{w}_1,\boldsymbol{w}_2,\ldots,\boldsymbol{w}_J]$ and where $\boldsymbol{w}_j = [w_{1,j}, w_{2,j}, \ldots, w_{N,j}]^T$ for the $j$th set of coefficients. $\boldsymbol{\theta}$ is the corresponding switched noise burst $J$ by $N$ matrix containing elements $i_{n}\theta_{n,j}$ and $\boldsymbol{v}$ is the random additive noise describing, for example, the effect of speech on the coefficients. For simplicity we consider $i_{n}$ to be constant across scales $j$ so the discrete vector $\boldsymbol{i} = [i_{1}, i_{2}, \ldots, i_{N}]$ can take any one of $2^{N}$ values. It is although possible to let $i$ vary with $j$ to express different detection characteristics at different scales. The detection task now becomes the estimation of the true state of $\boldsymbol{i}$ from the observed sequence $\boldsymbol{w}$.
+
+Assuming that both the noise burst $\boldsymbol{\theta}$ and the background noise $\boldsymbol{v}$ can be modeled as zero mean Gaussian distributions, we have that:
+
+\begin{equation}\label{eq:burst}
+\boldsymbol{\theta}_n \sim \mathcal{N}_{\boldsymbol{\theta}_n}(0,\Lambda),
+\end{equation}
+
+where $\Lambda$ is a covariance matrix, here taken as diagonal with diagonal elements $\left[\lambda_{1}, \lambda_{2}, \ldots, \lambda_{J}\right]$, learned from training examples of keyboard clicks.
+
+The background noise is also modelled as a zero-mean Gaussian process so that:
+
+\begin{equation}\label{eq:noise}
+\boldsymbol{v}_n \sim \mathcal{N}_{\boldsymbol{v}_n}(0,C_{\boldsymbol{v}}),
+\end{equation}
+
+where again $C_v$ is a diagonal covariance matrix with diagonal components $[\sigma_{v,1}^2, \sigma_{v,2}^2, \ldots, \sigma_{v,J}^2]$.
+
+%Bayes'
+Treating the detection state $\boldsymbol{i}$ as a discrete random vector the probability of $\boldsymbol{i}$ conditional upon the observed (and corrupted) data $\boldsymbol{w}$ and other prior information available to us. This posterior probability $p(\boldsymbol{i}|\boldsymbol{w})$ can be expressed using Bayes' rule so that
+
+\begin{equation}\label{eq:Bayes}
+p(\boldsymbol{i}|\boldsymbol{w}) = \frac{p(\boldsymbol{w}|\boldsymbol{i})p(\boldsymbol{i})}{p(\boldsymbol{w})}
+\end{equation}
+
+where the likelihood $p(\boldsymbol{w}|\boldsymbol{i})$ will be a significant component of $p(\boldsymbol{i}|\boldsymbol{w})$.
+$\boldsymbol{\theta}$ is our switched random noise process and its amplitude is defined by the noise burst amplitude p.d.f. $p_{\boldsymbol{\theta}}$ which is the joint distribution for the burst amplitudes where $i_{n} = 1$.
+
+Since both functions $p_{\boldsymbol{v}}(\boldsymbol{v})$ and $p_{\boldsymbol{\theta}}(\boldsymbol{\theta})$ are zero-mean Gaussians, we can express each set of wavelet coefficients as $w_j(n)$ as:
+
+\begin{equation}\label{eq:cases}
+  w_j(n) \sim
+  \begin{cases}
+    \mathcal{N}(0,\sigma_{v,j}^2 + \lambda_j), & \quad i_n = 1\\
+   \mathcal{N}(0,\sigma_{v,j}^2), & \quad i_n = 0,
+  \end{cases}
+\end{equation}
+
+and the likelihood function $p(\boldsymbol{w}|\boldsymbol{i})$ becomes
+
+\begin{equation}\label{eq:likelihood1}
+p(\boldsymbol{w}|\boldsymbol{i}) = \prod^J \prod^N \mathcal{N}(0,\sigma_{v,j}^2 + i_n\lambda_j).
+\end{equation}
+
+The Maximum Likelihood (ML) estimate for $i_n$ can now trivially be calculated as
+\begin{equation}\label{eq:ml1}
+\hat{i}_n^{\textrm{MLE}} = \arg\max_{i\in\{0,1\}} \prod^J \mathcal{N}(0,\sigma_{v,j} + i_n\lambda_j).
+\end{equation}
+
+Given that keyboard transient noise usually occurs in long bursts, it is essential to incorporate this knowledge into the model. We thus model the state vector $\boldsymbol{i}$ as a Hidden Markov Model (HMM). Decoding of the hidden state sequence can then be computed using the Viterbi algorithm to calculate the most likely detection sequence $\boldsymbol{i}$:
+
+\begin{equation}\label{eq:viterbi}
+\hat{\boldsymbol{i}}^{\textrm{MAP}} = \arg\max_{{\bf i}\in\{0,1\}^N} p(i_{0})\prod_n p(i_n | i_{n-1})p(\boldsymbol{w}(n) | i_n).
+\end{equation}
+
+Here $p(i_{0})$ is the starting probability, $p(i_n | i_{n-1})$ is the transition probability from one state to the next and $p(\boldsymbol{w}(n) | i_n)$ is the emission probability or the observation probability, as determined by (\ref{eq:cases}).
+
+The algorithm proposed above aims to implement a detection algorithm with superior temporal resolution compared with current approaches and to view the detection state as an HMM in order to incorporate prior knowledge of the likely evolution of the detection state. In addition, the proposed algorithm is also fundamentally different from current approaches in that it utilises a sparse residual signal that is well modelled by a wavelet basis.
+
+\subsubsection{Results}
+\todo{Fill out this section}
+
 \subsection{AR filtering approach}
+
+The terminal node coefficients of the WPT of an incoming audio sequence $x(n)$ of length $N$ is defined as $X(j,t)$ where $j$ is the $j$th terminal node, $j \in \{1, \ldots, J\}$, and $t$ is the time index related to $n$. A level $L$ WPT gives $J = 2^L$ terminal nodes. $X(t)$ will be used to denote a vector of all coefficients at a given time index $t$. We assume that the coefficients for each terminal node $j$ follow this linear predictive model
+
+\begin{equation}\label{eq:lpm}
+X(j,t) = \sum_{m=1}^{M} a_{j,m} X(j,t - m) + v(j,t),
+\end{equation}
+
+where $a_{jm}$ is the $m$th weight applied to the $j$th terminal node so that $\mathbf{a}_j = \{a_{j,1}, \ldots, a_{j,M} \}$, $M$ is the size of the buffer used, and $v(j,t)$ is Gaussian noise with zero mean so that
+
+\begin{equation}\label{eq:lpmnoise}
+v(j,t) \sim \mathcal{N}_v(0,\sigma^2_{j,t}).
+\end{equation}
+
+We can now express the probability of $X(j,t)$ conditional on prior values of $X$.
+
+\begin{align}\label{eq:likelihood}
+p\left(X\left(j,t\right)|X\left(j,t-1\right),\ldots,X\left(j,t-M\right)\right) = \nonumber\\
+\qquad \mathcal{N}_X\left( \sum_{m=1}^M a_{j,m} X(j,t - m), \sigma_{j,t}^2\right),
+\end{align}
+
+and the marginal probability can be expressed as
+
+\begin{equation}\label{eq:marginal}
+p\left(X(t)\right) = \prod^J p\left(X(j,t)\right),
+\end{equation}
+
+assuming that the conditional probabilities for each set of coefficients are independent.
+
+We can now calculate the log-likelihood $\log\mathcal{L} = \log{p\left(X(t)\right)}$ for the current coefficient $X(t)$,
+
+\begin{align}\label{eq:loglike}
+\log \mathcal{L} &= \log \left\{ \prod^J p \left( X(j,t) | X(j,t-1),\ldots,X(j,t-M) \right) \right\} \\
+&=  \sum^J \log \left\{p \left( X(j,t) | X(j,t-1),\ldots,X(j,t-M) \right) \right\}\nonumber\\
+&=  -\frac{1}{2} \sum^J \frac{1}{\sigma_{j,t}^2}\left(X(j,t) -  \sum_{m=1}^{M} a_{j,m} X(j,t - m) \right)^2 + C_{j,t}\nonumber,
+\end{align}
+where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of how well $X(t)$ can be predicted by its previous values.
+
+\subsubsection{Results}
+\todo{Fill out this section}
+
 
 % ------------------------------------------------------------------------
 
