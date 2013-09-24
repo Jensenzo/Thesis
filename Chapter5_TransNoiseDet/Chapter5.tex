@@ -125,7 +125,7 @@ As described in the literature\todo{cite literature on speech modelling}, speech
 \label{fig:Separation_Spectrum_Selection.pdf}
 \end{figure}
 
-\todo{Add text for diagram.}
+\todo{Add text for diagrams.}
 \begin{figure} %SeparationDiagram.pdf
 \centering
 \includegraphics[width=140mm]{SeparationDiagram.pdf}
@@ -134,8 +134,8 @@ As described in the literature\todo{cite literature on speech modelling}, speech
 \put(-30,97){Tonal}
 \put(-30,20){Residual}
 
-\put(-300,45){Median}
-\put(-300,30){filter}
+\put(-302,45){Median}
+\put(-302,30){filter}
 
 \put(-362,88){STFT}
 \put(-90,88){iSTFT}
@@ -144,7 +144,29 @@ As described in the literature\todo{cite literature on speech modelling}, speech
 \label{fig:SeparationDiagram.pdf}
 \end{figure}
 
+\begin{figure} %SeparationDiagram2.pdf
+\centering
+\includegraphics[width=140mm]{SeparationDiagram2.pdf}
+\begin{picture}(0,0)
+\put(-420,20){Signal}
+\put(-30,97){Tonal}
+\put(-30,20){Residual}
 
+\put(-301,45){Median}
+\put(-301,30){filter}
+
+\put(-305,146){Simple}
+\put(-305,131){Detector}
+
+\put(-233,146){Vocal}
+\put(-233,131){Memory}
+
+\put(-362,88){STFT}
+\put(-90,88){iSTFT}
+\end{picture}
+\caption{Diagram of separation algorithm.}
+\label{fig:SeparationDiagram2.pdf}
+\end{figure}
 
 \subsection{Noise burst model}
 We assume that the coefficients for each terminal node $j$ can be modeled as some switched additive noise process such that:
