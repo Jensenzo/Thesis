@@ -112,9 +112,9 @@ Figure~\ref{fig:Separation_Residual_Example} shows an example of the residual ob
 The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a Wavelet Packet Decomposition (WPD) such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for an level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. For the case of a wavelet decomposition with decimation steps the time index from the terminal node coefficient sets and equation~\ref{eq:modelgeneral} will be related by a factor of $1/J$.
 
 \subsubsection{Algorithm description}
-The method for selecting the tonal components from the noisy signal is described in this section. 
+The method for selecting the tonal components from the noisy signal is described in this section.
 
-As described in the literature\todo{cite literature on speech modelling}, speech signals are typically slowly varying signals with energy concentrated around specific frequencies known as formant frequencies. These frequencies are related to the physiological shape of the human vocal tract and are typically manifested as spectral peaks\cite{Fant1970}. The algorithm attempts to detect these peaks and separate out this presumed vocal content. Figure~\ref{fig:Separation_Spectrum_Selection.pdf} shows an example of the algorithm running on block of speech data. The algorithm proceeds by calculating a running median value of the STFT magnitude coefficients from a 320 sample long signal buffer. The media filter takes the running median value of 60 spectral samples and coefficients exceeding some factor $\nu$ of the median value (blue line in figure) are selected as tonal values (black bars). The red bars in Figure~\ref{fig:Separation_Spectrum_Selection.pdf} are assumed to be transient noise and their magnitude is set to zero. A suitable factor of the median value needs to be selected and for this application $\nu = 3.5$ was chosen. The detection of formant frequencies were additionally confined to be above 85 Hz and below 4000 Hz. 
+As described in the literature\todo{cite literature on speech modelling}, speech signals are typically slowly varying signals with energy concentrated around specific frequencies known as formant frequencies. These frequencies are related to the physiological shape of the human vocal tract and are typically manifested as spectral peaks\cite{Fant1970}. The algorithm attempts to detect these peaks and separate out this presumed vocal content. Figure~\ref{fig:Separation_Spectrum_Selection.pdf} shows an example of the algorithm running on block of speech data. The algorithm proceeds by calculating a running median value of the STFT magnitude coefficients from a 320 sample long signal buffer. The media filter takes the running median value of 60 spectral samples and coefficients exceeding some factor $\nu$ of the median value (blue line in figure) are selected as tonal values (black bars). The red bars in Figure~\ref{fig:Separation_Spectrum_Selection.pdf} are assumed to be transient noise and their magnitude is set to zero. A suitable factor of the median value needs to be selected and for this application $\nu = 3.5$ was chosen. The detection of formant frequencies were additionally confined to be above 85 Hz and below 4000 Hz.
 
 \begin{figure} %Separation_Spectrum_Selection.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -124,6 +124,27 @@ As described in the literature\todo{cite literature on speech modelling}, speech
 \caption{Example of the tonal selection algorithm. Block size of 320 samples. Audio sample rate of 16kHz.}
 \label{fig:Separation_Spectrum_Selection.pdf}
 \end{figure}
+
+\todo{Add text for diagram.}
+\begin{figure} %SeparationDiagram.pdf
+\centering
+\includegraphics[width=140mm]{SeparationDiagram.pdf}
+\begin{picture}(0,0)
+\put(-420,20){Signal}
+\put(-30,97){Tonal}
+\put(-30,20){Residual}
+
+\put(-300,45){Median}
+\put(-300,30){filter}
+
+\put(-362,88){STFT}
+\put(-90,88){iSTFT}
+\end{picture}
+\caption{Diagram of separation algorithm.}
+\label{fig:SeparationDiagram.pdf}
+\end{figure}
+
+
 
 \subsection{Noise burst model}
 We assume that the coefficients for each terminal node $j$ can be modeled as some switched additive noise process such that:
