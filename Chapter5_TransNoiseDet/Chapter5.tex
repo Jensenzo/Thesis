@@ -1,7 +1,7 @@
 \chapter{Transient Noise Detection}\label{ch:TransientNoiseDetection}
 
 \ifpdf
-    \graphicspath{{Chapter5_TransNoiseDet/Chapter5Figs/PNG/}{Chapter5_TransNoiseDet/Chapter5Figs/PDF/}{Chapter5_TransNoiseDet/Chapter5Figs/}{Chapter5_TransNoiseDet/Chapter5Figs/NoiseBurstModel/}}
+    \graphicspath{{Chapter5_TransNoiseDet/Chapter5Figs/PNG/}{Chapter5_TransNoiseDet/Chapter5Figs/PDF/}{Chapter5_TransNoiseDet/Chapter5Figs/}{Chapter5_TransNoiseDet/Chapter5Figs/NoiseBurstModel/}{Chapter5_TransNoiseDet/Chapter5Figs/ARFilterMethod/}}
 \else
     \graphicspath{{Chapter5_TransNoiseDet/Chapter5Figs/EPS/}{Chapter5_TransNoiseDet/Chapter5Figs/}}
 \fi
@@ -89,6 +89,7 @@ Figure~\ref{fig:Keyboard4StrokesFast} shows an example of a short rapid 4 keystr
 
 \section{Detection algorithms}\label{sec:WPdetection}
 
+
 The basic detection algorithm is comprised of two stages. First a separation stage aims to separate the transient noise pulses by separating out tonal atoms assumed to be speech components and secondly a detection stage which attempts to detect transient noise events through the wavelet bases. For the detection stage 2 different approaches has been explored.
 
 \subsection{Separation pre processing}
@@ -99,9 +100,6 @@ The incoming audio signal can be expressed as the linear combination of a voiced
 where $c_i$ are the coefficients for the voiced parts of the signal and $\Phi$ is the standard short-time Fourier basis. $w_{j}(n)$ are the coefficients of the residual where $j$ is an integer relating to some translation and dilation of some Wavelet basis function $\Psi$. Here we are utilising an overcomplete dictionary of atoms to represent the audio: a dictionary of `tonal' atoms and a dictionary of `transient' atoms that are aimed at capturing voiced speech and transient noise, respectively. Multiple dictionaries have been employed in Bayesian probabilistic methodologies for noise reduction purposes in \cite{Fevotte2006}\cite{Fevotte2008} (see also references therein for other approaches with multiple dictionaries). \todo{Maybe remove this: }We plan to report on such fully Bayesian approaches to our model above in future publications, but here we focus on development of a fast algorithm using the principles of the above model in order to first extract the tonal (voiced) components in order to process the noise components directly in wavelet domain. Other tonal dictionaries such as Gabor functions and other transient dictionaries such as standard discrete or continuous wavelet transforms can of course be substituted in our methods with minor modifications. Wavelets are found to be particularly suited to the types of noise transient we observe here, which are localised in time and can be of highly variable durations and frequency profile.
 
 The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a Wavelet Packet Decomposition (WPD) such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for an level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. For the case of a wavelet decomposition with decimation steps the time index from the terminal node coefficient sets and equation~\ref{eq:modelgeneral} will be related by a factor of $1/J$.
-
-
-
 
 \subsubsection{Algorithm description}
 The method for selecting the tonal components from the noisy signal is described in this section.
@@ -140,7 +138,6 @@ The algorithm proceeds by calculating a running median value of the STFT magnitu
 \todo{This is a bit weak?}
 A proposed addition to the algorithm described above and represented in Figure~\ref{fig:SeparationDiagram.pdf} includes a step to replace removed spectral information in frames suspected of being corrupted by key strokes to make the tonal component itself sound better. First of all a simple detection algorithm is employed to detect the spectral characteristics of an impulse. For the purpose of this implementation the detection criteria was a certain proportion of energy in a high frequency band in relation to a low frequency band, since energy in speech frames is largely located at the lower frequencies while impulses exhibit a wider frequency response. Figure~\ref{fig:SeparationDiagram2.pdf} shows a diagram of the revised algorithm. The removed spectral components in a corrupted frame is replaced by components from a historic buffer containing uncorrupted data.
 
-
 \begin{figure} %SeparationDiagram2.pdf
 \centering
 \includegraphics[width=140mm]{SeparationDiagram2.pdf}
@@ -165,76 +162,6 @@ A proposed addition to the algorithm described above and represented in Figure~\
 \label{fig:SeparationDiagram2.pdf}
 \end{figure}
 
-\subsubsection{Results}
-
-Figure~\ref{fig:Separation_Residual_Example} shows an example of the residual obtained by simply subtracting outstanding peaks from the spectrum on frames of 20ms with 10ms overlap. The spectral peaks were identified using a threshold of a factor of three of the median filtered spectrum excluding frequencies below 85 Hz and above 10 kHz. The audio data presented in Figure~\ref{fig:Separation_Residual_Example} is a short sentence with two keystrokes embedded in it. The red plot overlay shows the residual where it is clear that the speech magnitude has been greatly reduced while the two clear keystrokes are largely left unchanged. \todo{Numerical justification for the effectiveness of the separation.}
-
-\begin{figure}
-\begin{minipage}[b]{1.0\linewidth}
-  \centering
-  \centerline{\includegraphics[width=10cm]{Separation_Residual_Example}}
-\end{minipage}
-\caption{Example of the separation step.}
-\label{fig:Separation_Residual_Example}
-\end{figure}
-
-An example of the waveforms from the separation processing stage with both the tonal and the residual component zoomed in on a keyboard stroke plotted together, can be seen in Figure~\ref{fig:SeparationWaveformEx320.pdf}a and Figure~\ref{fig:SeparationWaveformEx320.pdf}b respectively. The data displayed in Figure~\ref{fig:SeparationWaveformEx320.pdf} is processed by applying the separation algorithm over blocks of 320 samples and sampled at 16kHz which is equivalent to blocks of 20ms, a common block size in communication systems\cite{Subramanya2007}. While the separation stage clearly removes the initial impulse, a strong tonal component of the keyboard typing pulse is retained and a lower frequency impulse, presumably related to the keyboard stroke, is also retained later in the example. 
-
-\begin{figure} %SeparationWaveformEx320.pdf
-\begin{minipage}[b]{1.0\linewidth}
-  \centering
-  \centerline{\includegraphics[width=12cm]{SeparationWaveformEx320.pdf}
-  \begin{picture}(0,0)
-\put(-310,270){a)}
-\put(-310,130){b)}
-\end{picture}}
-\end{minipage}
-\caption{Separation example of keyboard impulse, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 320.}
-\label{fig:SeparationWaveformEx320.pdf}
-\end{figure}
-
-Applying the algorithm to block sizes of 640 samples yields a better separation result as seen in Figure~\ref{fig:SeparationWaveformEx640.pdf}. Within blocks of 320 samples the tonal components of keyboard impulses may contain enough energy to make a significant impression on the spectrum to be detected as a tonal component but with a block size of 640 samples it is clear that less of the energy introduced by the keyboard stroke is retained.
-
-\begin{figure} %SeparationWaveformEx640.pdf
-\begin{minipage}[b]{1.0\linewidth}
-  \centering
-  \centerline{\includegraphics[width=12cm]{SeparationWaveformEx640.pdf}
-  \begin{picture}(0,0)
-\put(-310,270){a)}
-\put(-310,130){b)}
-\end{picture}}
-\end{minipage}
-\caption{Separation example of keyboard impulse, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 640.}
-\label{fig:SeparationWaveformEx640.pdf}
-\end{figure}
-
-In Figure~\ref{fig:SeparationWaveformExBig320.pdf} and \ref{fig:SeparationWaveformExBig640.pdf} a the keyboard strokes from Figure~\ref{fig:SeparationWaveformEx320.pdf} and \ref{fig:SeparationWaveformEx640.pdf} are seen with speech data. For both block sizes it is seen that the voiced parts of the signal are mainly represented in the tonal component while the keyboard stroke, around sample number 7600, is largely within the residual component. 
-
-\begin{figure} %SeparationWaveformExBig320.pdf
-\begin{minipage}[b]{1.0\linewidth}
-  \centering
-  \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig320.pdf}
-  \begin{picture}(0,0)
-\put(-310,275){a)}
-\put(-310,135){b)}
-\end{picture}}
-\end{minipage}
-\caption{Separation example of speech and impulses, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 320.}
-\label{fig:SeparationWaveformExBig320.pdf}
-\end{figure}
-
-\begin{figure} %SeparationWaveformExBig640.pdf
-\begin{minipage}[b]{1.0\linewidth}
-  \centering
-  \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig640.pdf}
-  \begin{picture}(0,0)
-\put(-310,275){a)}
-\put(-310,135){b)}
-\end{picture}}
-\end{minipage}
-\caption{Separation example of speech and impulses, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 640.}
-\label{fig:SeparationWaveformExBig640.pdf}
-\end{figure}
 
 \subsection{Noise burst model}
 We assume that the coefficients for each terminal node $j$ can be modeled as some switched additive noise process such that:
@@ -314,6 +241,117 @@ The algorithm proposed above aims to implement a detection algorithm with superi
 
 \subsubsection{Results}
 
+\subsection{AR filtering approach}
+
+The terminal node coefficients of the WPT of an incoming audio sequence $x(n)$ of length $N$ is defined as $X(j,t)$ where $j$ is the $j$th terminal node, $j \in \{1, \ldots, J\}$, and $t$ is the time index related to $n$. A level $L$ WPT gives $J = 2^L$ terminal nodes. $X(t)$ will be used to denote a vector of all coefficients at a given time index $t$. We assume that the coefficients for each terminal node $j$ follow this linear predictive model
+
+\begin{equation}\label{eq:lpm}
+X(j,t) = \sum_{m=1}^{M} a_{j,m} X(j,t - m) + v(j,t),
+\end{equation}
+
+where $a_{jm}$ is the $m$th weight applied to the $j$th terminal node so that $\mathbf{a}_j = \{a_{j,1}, \ldots, a_{j,M} \}$, $M$ is the size of the buffer used, and $v(j,t)$ is Gaussian noise with zero mean so that
+
+\begin{equation}\label{eq:lpmnoise}
+v(j,t) \sim \mathcal{N}_v(0,\sigma^2_{j,t}).
+\end{equation}
+
+We can now express the probability of $X(j,t)$ conditional on prior values of $X$.
+
+\begin{align}\label{eq:likelihood}
+p\left(X\left(j,t\right)|X\left(j,t-1\right),\ldots,X\left(j,t-M\right)\right) = \nonumber\\
+\qquad \mathcal{N}_X\left( \sum_{m=1}^M a_{j,m} X(j,t - m), \sigma_{j,t}^2\right),
+\end{align}
+
+and the marginal probability can be expressed as
+
+\begin{equation}\label{eq:marginal}
+p\left(X(t)\right) = \prod^J p\left(X(j,t)\right),
+\end{equation}
+
+assuming that the conditional probabilities for each set of coefficients are independent.
+
+We can now calculate the log-likelihood $\log\mathcal{L} = \log{p\left(X(t)\right)}$ for the current coefficient $X(t)$,
+
+\begin{align}\label{eq:loglike}
+\log \mathcal{L} &= \log \left\{ \prod^J p \left( X(j,t) | X(j,t-1),\ldots,X(j,t-M) \right) \right\} \\
+&=  \sum^J \log \left\{p \left( X(j,t) | X(j,t-1),\ldots,X(j,t-M) \right) \right\}\nonumber\\
+&=  -\frac{1}{2} \sum^J \frac{1}{\sigma_{j,t}^2}\left(X(j,t) -  \sum_{m=1}^{M} a_{j,m} X(j,t - m) \right)^2 + C_{j,t}\nonumber,
+\end{align}
+where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of how well $X(t)$ can be predicted by its previous values.
+
+\section{Section}
+\subsection{Separation Results}
+Figure~\ref{fig:Separation_Residual_Example} shows an example of the residual obtained by simply subtracting outstanding peaks from the spectrum on frames of 20ms with 10ms overlap. The spectral peaks were identified using a threshold of a factor of three of the median filtered spectrum excluding frequencies below 85 Hz and above 10 kHz. The audio data presented in Figure~\ref{fig:Separation_Residual_Example} is a short sentence with two keystrokes embedded in it. The red plot overlay shows the residual where it is clear that the speech magnitude has been greatly reduced while the two clear keystrokes are largely left unchanged. \todo{Numerical justification for the effectiveness of the separation.}
+
+\begin{figure}
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=10cm]{Separation_Residual_Example}}
+\end{minipage}
+\caption{Example of the separation step.}
+\label{fig:Separation_Residual_Example}
+\end{figure}
+
+An example of the waveforms from the separation processing stage with both the tonal and the residual component zoomed in on a keyboard stroke plotted together, can be seen in Figure~\ref{fig:SeparationWaveformEx320.pdf}a and Figure~\ref{fig:SeparationWaveformEx320.pdf}b respectively. The data displayed in Figure~\ref{fig:SeparationWaveformEx320.pdf} is processed by applying the separation algorithm over blocks of 320 samples and sampled at 16kHz which is equivalent to blocks of 20ms, a common block size in communication systems\cite{Subramanya2007}. While the separation stage clearly removes the initial impulse, a strong tonal component of the keyboard typing pulse is retained and a lower frequency impulse, presumably related to the keyboard stroke, is also retained later in the example.
+
+\begin{figure} %SeparationWaveformEx320.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{SeparationWaveformEx320.pdf}
+  \begin{picture}(0,0)
+\put(-310,270){a)}
+\put(-310,130){b)}
+\end{picture}}
+\end{minipage}
+\caption{Separation example of keyboard impulse, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 320.}
+\label{fig:SeparationWaveformEx320.pdf}
+\end{figure}
+
+Applying the algorithm to block sizes of 640 samples yields a better separation result as seen in Figure~\ref{fig:SeparationWaveformEx640.pdf}. Within blocks of 320 samples the tonal components of keyboard impulses may contain enough energy to make a significant impression on the spectrum to be detected as a tonal component but with a block size of 640 samples it is clear that less of the energy introduced by the keyboard stroke is retained.
+
+\begin{figure} %SeparationWaveformEx640.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{SeparationWaveformEx640.pdf}
+  \begin{picture}(0,0)
+\put(-310,270){a)}
+\put(-310,130){b)}
+\end{picture}}
+\end{minipage}
+\caption{Separation example of keyboard impulse, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 640.}
+\label{fig:SeparationWaveformEx640.pdf}
+\end{figure}
+
+In Figure~\ref{fig:SeparationWaveformExBig320.pdf} and \ref{fig:SeparationWaveformExBig640.pdf} a the keyboard strokes from Figure~\ref{fig:SeparationWaveformEx320.pdf} and \ref{fig:SeparationWaveformEx640.pdf} are seen with speech data. For both block sizes it is seen that the voiced parts of the signal are mainly represented in the tonal component while the keyboard stroke, around sample number 7600, is largely within the residual component.
+
+\begin{figure} %SeparationWaveformExBig320.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig320.pdf}
+  \begin{picture}(0,0)
+\put(-310,275){a)}
+\put(-310,135){b)}
+\end{picture}}
+\end{minipage}
+\caption{Separation example of speech and impulses, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 320.}
+\label{fig:SeparationWaveformExBig320.pdf}
+\end{figure}
+
+\begin{figure} %SeparationWaveformExBig640.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig640.pdf}
+  \begin{picture}(0,0)
+\put(-310,275){a)}
+\put(-310,135){b)}
+\end{picture}}
+\end{minipage}
+\caption{Separation example of speech and impulses, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 640.}
+\label{fig:SeparationWaveformExBig640.pdf}
+\end{figure}
+
+\subsection{Noise Burst method results}
+
 The performance of the detection algorithm proposed (red) is in this section compared to two other keystroke detection algorithms. The first algorithm is the Unsupervised Keystroke Detection (UKD) algorithm presented in \cite{Subramanya2007} (blue), and the second is a standard median filtered algorithm (green) $y(n) = x(n)^2 - \textrm{MED}\left|x(n)^2\right|$ where $x(n)$ is the incoming signal, $y(n)$ is the detection statistics and $\textrm{MED}\left|\cdot \right|$ is the median filter. The following data is all sampled at 32 kHz and recorded either on a laptop or a microphone attached near an external PC keyboard. The median filter buffer is 10 samples and the UKD algorithm is implemented as described in \cite{Subramanya2007}.
 
 Figure~\ref{fig:NBDetCompare} shows an example of the detection algorithms running on the same audio sequence used in Figure~\ref{fig:Separation_Residual_Example}. The coloured step functions indicate a detection with their high state and no detection with their low state. All algorithms have been tuned to be as sensitive as possible while only allowing correct detections. Lowering the thresholds on the UKD and the median filter algorithms slightly would cause a false detection in this example. In this example the Noise Burst model quite clearly picks out the keystroke impulse and a secondary impulse associated with the lifting of the keyboard key. It is also clear how the HMM stage estimates the most likely length of the impulse and not just the onset as the UKD and median filter approaches.
@@ -372,46 +410,31 @@ It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResu
 \label{fig:NBDetectionResults}
 \end{figure}
 
-\subsection{AR filtering approach}
 
-The terminal node coefficients of the WPT of an incoming audio sequence $x(n)$ of length $N$ is defined as $X(j,t)$ where $j$ is the $j$th terminal node, $j \in \{1, \ldots, J\}$, and $t$ is the time index related to $n$. A level $L$ WPT gives $J = 2^L$ terminal nodes. $X(t)$ will be used to denote a vector of all coefficients at a given time index $t$. We assume that the coefficients for each terminal node $j$ follow this linear predictive model
+\subsection{AR Filter method results}
 
-\begin{equation}\label{eq:lpm}
-X(j,t) = \sum_{m=1}^{M} a_{j,m} X(j,t - m) + v(j,t),
-\end{equation}
+\begin{figure}
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12.5cm]{ARFiltCompareLongTaps.pdf}}
+%  \vspace{2.0cm}
+  \centerline{(a) 10 taps with no speech.}\medskip
+\end{minipage}
+%
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12.5cm]{ARFiltCompareLongTapsnTalk.pdf}}
+%  \vspace{1.5cm}
+  \centerline{(b) 10 taps embedded in 10 utterances. Stars indicate ground truth.}\medskip
+\end{minipage}
+\hfill
+%
+\caption{Detection results for sequences of taps.}
+\label{fig:ARFilterDetectionResults}
+\end{figure}
 
-where $a_{jm}$ is the $m$th weight applied to the $j$th terminal node so that $\mathbf{a}_j = \{a_{j,1}, \ldots, a_{j,M} \}$, $M$ is the size of the buffer used, and $v(j,t)$ is Gaussian noise with zero mean so that
+\section{Discussion}
 
-\begin{equation}\label{eq:lpmnoise}
-v(j,t) \sim \mathcal{N}_v(0,\sigma^2_{j,t}).
-\end{equation}
-
-We can now express the probability of $X(j,t)$ conditional on prior values of $X$.
-
-\begin{align}\label{eq:likelihood}
-p\left(X\left(j,t\right)|X\left(j,t-1\right),\ldots,X\left(j,t-M\right)\right) = \nonumber\\
-\qquad \mathcal{N}_X\left( \sum_{m=1}^M a_{j,m} X(j,t - m), \sigma_{j,t}^2\right),
-\end{align}
-
-and the marginal probability can be expressed as
-
-\begin{equation}\label{eq:marginal}
-p\left(X(t)\right) = \prod^J p\left(X(j,t)\right),
-\end{equation}
-
-assuming that the conditional probabilities for each set of coefficients are independent.
-
-We can now calculate the log-likelihood $\log\mathcal{L} = \log{p\left(X(t)\right)}$ for the current coefficient $X(t)$,
-
-\begin{align}\label{eq:loglike}
-\log \mathcal{L} &= \log \left\{ \prod^J p \left( X(j,t) | X(j,t-1),\ldots,X(j,t-M) \right) \right\} \\
-&=  \sum^J \log \left\{p \left( X(j,t) | X(j,t-1),\ldots,X(j,t-M) \right) \right\}\nonumber\\
-&=  -\frac{1}{2} \sum^J \frac{1}{\sigma_{j,t}^2}\left(X(j,t) -  \sum_{m=1}^{M} a_{j,m} X(j,t - m) \right)^2 + C_{j,t}\nonumber,
-\end{align}
-where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of how well $X(t)$ can be predicted by its previous values.
-
-\subsubsection{Results}
-\todo{Fill out this section}
 
 
 % ------------------------------------------------------------------------
