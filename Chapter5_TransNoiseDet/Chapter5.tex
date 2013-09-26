@@ -239,8 +239,6 @@ The algorithm proposed above aims to implement a detection algorithm with superi
 
 \todo{Describe HMM (Viterbi)}
 
-\subsubsection{Results}
-
 \subsection{AR filtering approach}
 
 The terminal node coefficients of the WPT of an incoming audio sequence $x(n)$ of length $N$ is defined as $X(j,t)$ where $j$ is the $j$th terminal node, $j \in \{1, \ldots, J\}$, and $t$ is the time index related to $n$. A level $L$ WPT gives $J = 2^L$ terminal nodes. $X(t)$ will be used to denote a vector of all coefficients at a given time index $t$. We assume that the coefficients for each terminal node $j$ follow this linear predictive model
@@ -279,8 +277,8 @@ We can now calculate the log-likelihood $\log\mathcal{L} = \log{p\left(X(t)\righ
 \end{align}
 where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of how well $X(t)$ can be predicted by its previous values.
 
-\section{Section}
-\subsection{Separation Results}
+\section{Results}
+\subsection{Separation Results} %DONE
 Figure~\ref{fig:Separation_Residual_Example} shows an example of the residual obtained by simply subtracting outstanding peaks from the spectrum on frames of 20ms with 10ms overlap. The spectral peaks were identified using a threshold of a factor of three of the median filtered spectrum excluding frequencies below 85 Hz and above 10 kHz. The audio data presented in Figure~\ref{fig:Separation_Residual_Example} is a short sentence with two keystrokes embedded in it. The red plot overlay shows the residual where it is clear that the speech magnitude has been greatly reduced while the two clear keystrokes are largely left unchanged. \todo{Numerical justification for the effectiveness of the separation.}
 
 \begin{figure}
@@ -307,7 +305,7 @@ An example of the waveforms from the separation processing stage with both the t
 \label{fig:SeparationWaveformEx320.pdf}
 \end{figure}
 
-Applying the algorithm to block sizes of 640 samples yields a better separation result as seen in Figure~\ref{fig:SeparationWaveformEx640.pdf}. Within blocks of 320 samples the tonal components of keyboard impulses may contain enough energy to make a significant impression on the spectrum to be detected as a tonal component but with a block size of 640 samples it is clear that less of the energy introduced by the keyboard stroke is retained.
+Applying the algorithm to block sizes of 640 samples yields a better separation result for short tonal components as seen in Figure~\ref{fig:SeparationWaveformEx640.pdf}. Within blocks of 320 samples the tonal components of keyboard impulses may contain enough energy to make a significant impression on the spectrum to be detected as a tonal component but with a block size of 640 samples it is clear that less of the energy introduced by the keyboard stroke is retained.
 
 \begin{figure} %SeparationWaveformEx640.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -350,11 +348,13 @@ In Figure~\ref{fig:SeparationWaveformExBig320.pdf} and \ref{fig:SeparationWavefo
 \label{fig:SeparationWaveformExBig640.pdf}
 \end{figure}
 
+\subsection{Detection results} %A note about the issues of plotting/decribing/comparing detection results.
+
 \subsection{Noise Burst method results}
 
-The performance of the detection algorithm proposed (red) is in this section compared to two other keystroke detection algorithms. The first algorithm is the Unsupervised Keystroke Detection (UKD) algorithm presented in \cite{Subramanya2007} (blue), and the second is a standard median filtered algorithm (green) $y(n) = x(n)^2 - \textrm{MED}\left|x(n)^2\right|$ where $x(n)$ is the incoming signal, $y(n)$ is the detection statistics and $\textrm{MED}\left|\cdot \right|$ is the median filter. The following data is all sampled at 32 kHz and recorded either on a laptop or a microphone attached near an external PC keyboard. The median filter buffer is 10 samples and the UKD algorithm is implemented as described in \cite{Subramanya2007}.
+The performance of the detection algorithm proposed (red) is in this chapter compared to two other keystroke detection algorithms. The first algorithm is the Unsupervised Keystroke Detection (UKD) algorithm presented in \cite{Subramanya2007} (blue), and the second is a standard median filtered algorithm (green) $y(n) = x(n)^2 - \textrm{MED}\left|x(n)^2\right|$ where $x(n)$ is the incoming signal, $y(n)$ is the detection statistics and $\textrm{MED}\left|\cdot \right|$ is the median filter. The following data is all sampled at 32 kHz and recorded either on a laptop or a microphone attached near an external PC keyboard. The median filter buffer is 10 samples and the UKD algorithm is implemented as described in \cite{Subramanya2007}.
 
-Figure~\ref{fig:NBDetCompare} shows an example of the detection algorithms running on the same audio sequence used in Figure~\ref{fig:Separation_Residual_Example}. The coloured step functions indicate a detection with their high state and no detection with their low state. All algorithms have been tuned to be as sensitive as possible while only allowing correct detections. Lowering the thresholds on the UKD and the median filter algorithms slightly would cause a false detection in this example. In this example the Noise Burst model quite clearly picks out the keystroke impulse and a secondary impulse associated with the lifting of the keyboard key. It is also clear how the HMM stage estimates the most likely length of the impulse and not just the onset as the UKD and median filter approaches.
+Figure~\ref{fig:NBDetCompare} shows an example of the detection algorithms running on the same audio sequence used in Figure~\ref{fig:Separation_Residual_Example}. The coloured step functions indicate a detection with their high state and no detection with their low state. All algorithms have been tuned to be as sensitive as possible while only allowing correct detections, or plausibly correct detections. Lowering the thresholds on the UKD and the median filter algorithms slightly would cause a false detection in this example. In this example the Noise Burst model quite clearly picks out the keystroke impulse and a secondary impulse associated with the lifting of the keyboard key. It is also clear how the HMM stage estimates the most likely length of the impulse and not just the onset as the UKD and median filter approaches.
 
 \begin{figure} %NBDetCompare.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -369,24 +369,10 @@ Figure~\ref{fig:NBDetCompare} shows an example of the detection algorithms runni
 \label{fig:NBDetCompare.pdf}
 \end{figure}
 
-To quantify the performance of the algorithms, the test performed in \ref{fig:NBDetCompare.pdf} was run on the two audio sequences seen in Figure~\ref{fig:res}. Figure~\ref{fig:res}(a) shows the results from running the algorithm on 10 clean keystrokes, and Figure~\ref{fig:res}(b) shows the results from 10 keystrokes but each of which are embedded at different points in different utterances. The algorithms are all tuned to be as sensitive as possible on a third audio sequence containing 8 seconds of only speech without getting any detections.
+To quantify the performance of the algorithms, the test performed in \ref{fig:NBDetCompare.pdf} was run on the two audio sequences seen in Figure~\ref{fig:NBDetectionResults}. Figure~\ref{fig:NBDetectionResults}(a) shows the results from running the algorithm on 10 clean keystrokes, and Figure~\ref{fig:NBDetectionResults}(b) shows the results from 10 keystrokes but each of which are embedded at different points in different utterances. The algorithms are all tuned to be as sensitive as possible on a third audio sequence containing 8 seconds of only speech without getting any detections.
 
-To further quantify the performance of the algorithm a similar test to the above was run on 61 seconds of speech and 43 individual keyboards taps. The audio was recorded via an external microphone in 16kHz and all algorithms were tuned similarly to the previous test. The results of this test has been tabulated in Table~\ref{table:resultsTest}.
 
-\begin{table}
-\caption{Detection results}
-\centering
-\begin{tabular}{|l | c c c|}
-\hline
-                            & Noise Burst   & UKD       & Median        \\
- \hline
- Correct detection rate     & 34 \%         & 20 \%     & 50 \%         \\
- False detections pr second & 0             & 0.03      & 0.02          \\
- \hline
- \end{tabular}
- \label{table:NBResultsTest}
-\end{table}
-
+\todo{Test results from table were actually AR filter}
 It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the UKD algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the UKD algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the UKD appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than UKD while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
 
 
@@ -432,6 +418,43 @@ It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResu
 \caption{Detection results for sequences of taps.}
 \label{fig:ARFilterDetectionResults}
 \end{figure}
+
+\subsubsection{False detection rate}
+\todo{****** Merge two sections}
+To further quantify the performance of the algorithm a similar test to the above was run on 61 seconds of speech and 43 individual keyboards taps. The audio was recorded via an external microphone in 16kHz and all algorithms were tuned similarly to the previous test. The results of this test has been tabulated in Table~\ref{table:ARFiltResultsTest}.
+
+\begin{table}
+\caption{Detection results}
+\centering
+\begin{tabular}{|l | c c c|}
+\hline
+                            & Noise Burst   & UKD       & Median        \\
+ \hline
+ Correct detection rate     & 34 \%         & 20 \%     & 50 \%         \\
+ False detections pr second & 0             & 0.03      & 0.02          \\
+ \hline
+ \end{tabular}
+ \label{table:ARFiltResultsTest}
+\end{table}
+\todo{******}
+
+
+To evaluate the performance of any given detection algorithm the rate of false detections is often considered. Assuming that all positive detections were detected correctly, the false detection rate gives a measure of an algorithms sensitivity and therefore its performance.
+
+In this comparison we will be comparing the Wavelet based detection algorithm, discussed in section~\ref{sec:WPdetection}, the STFT based UKD algorithm\cite{Subramanya2007} and a basic median based detection algorithm. Since all these detection algorithms investigated depend on various thresholds, it is important to construct a method for calibrating all methods so a valid comparison can be drawn. For this a set of 40 keyboard taps collected from a variety of sources was used. The threshold was set as the minimum value of the maximum responses of each tap for every model. In other words, the threshold was adjusted so that it would only just detect all 40 taps.
+
+Figure~\ref{fig:maxes.pdf} shows the various maximum responses of each tap for all three detection methods. Had any of these methods produced a significantly lower response for only a few of the taps the calibration scheme chosen here would have put that detection method at a disadvantage. In this instance none of the methods produce significantly outlying responses. It is although noted that the Wavelet based detector does produce extremely high responses in some instances.
+
+\begin{figure} %maxes.pdf
+\centering
+\includegraphics[width=120mm]{maxes.pdf}
+\caption{Various detection algorithm response performance for the same 40 keystroke taps.}
+\label{fig:maxes.pdf}
+\end{figure}
+
+Given the threshold set as described above, an additional 55 short audio segments (combined playing time of about 1 min) containing speech were analysed.
+
+It was found that both the Wavelet and STFT based methods had 2 false detections while the median detector had 28 false detections. While the STFT UKD method might have identical performance to the Wavelet based method it should be noted that the UKD method requires a longer look-ahead and provides a coarser temporal resolution than the Wavelet based method.
 
 \section{Discussion}
 
