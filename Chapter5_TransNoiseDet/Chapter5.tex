@@ -396,6 +396,24 @@ It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResu
 \label{fig:NBDetectionResults}
 \end{figure}
 
+\subsubsection{False detection rate}
+\todo{****** Merge two sections}
+To further quantify the performance of the algorithm a similar test to the above was run on 61 seconds of speech and 43 individual keyboards taps. The audio was recorded via an external microphone in 16kHz and all algorithms were tuned similarly to the previous test. The results of this test has been tabulated in Table~\ref{table:NBResultsTest}.
+
+\begin{table}
+\caption{Detection results}
+\centering
+\begin{tabular}{|l | c c c|}
+\hline
+                            & Noise Burst   & UKD       & Median        \\
+ \hline
+ Correct detection rate     & 34 \%         & 20 \%     & 50 \%         \\
+ False detections pr second & 0             & 0.03      & 0.02          \\
+ \hline
+ \end{tabular}
+ \label{table:NBResultsTest}
+\end{table}
+\todo{******}
 
 \subsection{AR Filter method results}
 
@@ -420,24 +438,6 @@ It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResu
 \end{figure}
 
 \subsubsection{False detection rate}
-\todo{****** Merge two sections}
-To further quantify the performance of the algorithm a similar test to the above was run on 61 seconds of speech and 43 individual keyboards taps. The audio was recorded via an external microphone in 16kHz and all algorithms were tuned similarly to the previous test. The results of this test has been tabulated in Table~\ref{table:ARFiltResultsTest}.
-
-\begin{table}
-\caption{Detection results}
-\centering
-\begin{tabular}{|l | c c c|}
-\hline
-                            & Noise Burst   & UKD       & Median        \\
- \hline
- Correct detection rate     & 34 \%         & 20 \%     & 50 \%         \\
- False detections pr second & 0             & 0.03      & 0.02          \\
- \hline
- \end{tabular}
- \label{table:ARFiltResultsTest}
-\end{table}
-\todo{******}
-
 
 To evaluate the performance of any given detection algorithm the rate of false detections is often considered. Assuming that all positive detections were detected correctly, the false detection rate gives a measure of an algorithms sensitivity and therefore its performance.
 
