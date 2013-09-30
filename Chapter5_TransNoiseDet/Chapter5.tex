@@ -348,13 +348,13 @@ In Figure~\ref{fig:SeparationWaveformExBig320.pdf} and \ref{fig:SeparationWavefo
 \label{fig:SeparationWaveformExBig640.pdf}
 \end{figure}
 
-\subsection{Detection results} %A note about the issues of plotting/decribing/comparing detection results.
-
+\subsection{Detection results method} %A note about the issues of plotting/decribing/comparing detection results.
+\todo{Write about quantifying detection results and the ambiguity of detections.}
 \subsection{Noise Burst method results}
-
+%Introduction to results
 The performance of the detection algorithm proposed (red) is in this chapter compared to two other keystroke detection algorithms. The first algorithm is the Unsupervised Keystroke Detection (UKD) algorithm presented in \cite{Subramanya2007} (blue), and the second is a standard median filtered algorithm (green) $y(n) = x(n)^2 - \textrm{MED}\left|x(n)^2\right|$ where $x(n)$ is the incoming signal, $y(n)$ is the detection statistics and $\textrm{MED}\left|\cdot \right|$ is the median filter. The following data is all sampled at 32 kHz and recorded either on a laptop or a microphone attached near an external PC keyboard. The median filter buffer is 10 samples and the UKD algorithm is implemented as described in \cite{Subramanya2007}.
 
-Figure~\ref{fig:NBDetCompare} shows an example of the detection algorithms running on the same audio sequence used in Figure~\ref{fig:Separation_Residual_Example}. The coloured step functions indicate a detection with their high state and no detection with their low state. All algorithms have been tuned to be as sensitive as possible while only allowing correct detections, or plausibly correct detections. Lowering the thresholds on the UKD and the median filter algorithms slightly would cause a false detection in this example. In this example the Noise Burst model quite clearly picks out the keystroke impulse and a secondary impulse associated with the lifting of the keyboard key. It is also clear how the HMM stage estimates the most likely length of the impulse and not just the onset as the UKD and median filter approaches.
+Figure~\ref{fig:NBDetCompare.pdf} shows an example of the detection algorithms running on the same audio sequence used in Figure~\ref{fig:Separation_Residual_Example}. The coloured step functions indicate a detection with their high state and no detection with their low state. All algorithms have been tuned to be as sensitive as possible while only allowing correct detections, or plausibly correct detections. Lowering the thresholds on the UKD and the median filter algorithms slightly would cause a false detection in this example. In this example the Noise Burst model quite clearly picks out the keystroke impulse and a secondary impulse associated with the lifting of the keyboard key. It is also clearly seen how the HMM stage estimates the most likely length of the impulse and not just the onset as the UKD and median filter approaches.
 
 \begin{figure} %NBDetCompare.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -369,12 +369,7 @@ Figure~\ref{fig:NBDetCompare} shows an example of the detection algorithms runni
 \label{fig:NBDetCompare.pdf}
 \end{figure}
 
-To quantify the performance of the algorithms, the test performed in \ref{fig:NBDetCompare.pdf} was run on the two audio sequences seen in Figure~\ref{fig:NBDetectionResults}. Figure~\ref{fig:NBDetectionResults}(a) shows the results from running the algorithm on 10 clean keystrokes, and Figure~\ref{fig:NBDetectionResults}(b) shows the results from 10 keystrokes but each of which are embedded at different points in different utterances. The algorithms are all tuned to be as sensitive as possible on a third audio sequence containing 8 seconds of only speech without getting any detections.
-
-
-\todo{Test results from table were actually AR filter}
-It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the UKD algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the UKD algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the UKD appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than UKD while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
-
+To quantify the performance of the algorithms, the test performed in \ref{fig:NBDetCompare.pdf} was run on the two audio sequences seen in Figure~\ref{fig:NBDetectionResults}. Figure~\ref{fig:NBDetectionResults}(a) shows the results from running the algorithm on 10 clean keystrokes, and Figure~\ref{fig:NBDetectionResults}(b) shows the results from 10 keystrokes but each of which are embedded at different points in different utterances. Both the Noise Burst model and the UKD algorithm manages to pick up all 10 keystrokes, with UKD catching some additional faint impulses, while the median filter misses 3 keystrokes, mainly the ones with the smallest maximum amplitude. The median filter misses all but 2 keystrokes in Figure~\ref{fig:NBDetectionResults}(b), while the UKD algorithm and the noise burst algorithm misses 3 and 1 respectively. The stars in Figure~\ref{fig:NBDetectionResults}(b) indicate the ground truth, or in other words the best estimate of where the initial keystroke occurred in the sequence. The algorithms are all tuned to be as sensitive as possible on a third audio sequence containing 8 seconds of only speech without getting any detections.
 
 \begin{figure}
 \begin{minipage}[b]{1.0\linewidth}
@@ -397,7 +392,6 @@ It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResu
 \end{figure}
 
 \subsubsection{False detection rate}
-\todo{****** Merge two sections}
 To further quantify the performance of the algorithm a similar test to the above was run on 61 seconds of speech and 43 individual keyboards taps. The audio was recorded via an external microphone in 16kHz and all algorithms were tuned similarly to the previous test. The results of this test has been tabulated in Table~\ref{table:NBResultsTest}.
 
 \begin{table}
@@ -413,9 +407,9 @@ To further quantify the performance of the algorithm a similar test to the above
  \end{tabular}
  \label{table:NBResultsTest}
 \end{table}
-\todo{******}
 
 \subsection{AR Filter method results}
+Figure~\ref{fig:ARFilterDetectionResults} shows, similar to Figure~\ref{fig:NBDetectionResults}, the detection performance for the AR filter method (red) in relation to that of the UKD\cite{Subramanya2007} (blue) and the standard median filter method (green). Figure~\ref{fig:ARFilterDetectionResults}(a) shows the algorithms performance on 10 clean keyboard strokes while Figure~\ref{fig:ARFilterDetectionResults}(b) shows an example of the algorithms' performance when the keyboard strokes are embedded in speech. As can be seen in Figure~\ref{fig:NBDetectionResults} with the proposed noise burst model, the AR filter model in Figure~\ref{fig:ARFilterDetectionResults} indicates a detection in between the first and the second correct detections. Both of these detections are clearly provoked by the sudden onset of the speech utterance and is considered a false detection. 
 
 \begin{figure}
 \begin{minipage}[b]{1.0\linewidth}
@@ -435,6 +429,47 @@ To further quantify the performance of the algorithm a similar test to the above
 %
 \caption{Detection results for sequences of taps.}
 \label{fig:ARFilterDetectionResults}
+\end{figure}
+
+Since the 3 detection methods compared in this section all work by thresholding some statistical value the maximum excitation for various signal types can be compared and ideally there should be a margin between correct detection and false detections in which a threshold limit can be set. Figures~\ref{fig:DetectPerfARFilt.pdf} - \ref{fig:DetectPerfMedian.pdf} are figures showing the maximum excitations for 40 different keystroke files and 53 different speech segments for the three different detection methods previously compared in this section. \todo{Explain the training set}. Figures~\ref{fig:DetectPerfARFilt.pdf} and \ref{fig:DetectPerfUKD.pdf} show that for both the AR filter and the UKD method, there is a distinct margin in between the lowest maximum excitation for a positive detection and the highest maximum detection for a false detection indicating that there are a range of values for which perfect detection could be achieved for this training set. Figure~\ref{fig:DetectPerfMedian.pdf} shows that although the mean value for the maximum detection statistics are clearly separated, several samples give results within the range of 0.05, the lowest maximum detection for a keystroke, and 0.29, the highest maximum detection for a clean speech signal.
+
+\begin{figure} %DetectPerfARFilt.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{DetectPerfARFilt.pdf}
+  \begin{picture}(0,0)
+%\put(-310,275){a)}
+%\put(-310,135){b)}
+\end{picture}}
+\end{minipage}
+\caption{Maximum detector response for files with either a tap or some speech.}
+\label{fig:DetectPerfARFilt.pdf}
+\end{figure}
+
+\begin{figure} %DetectPerfUKD.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{DetectPerfUKD.pdf}
+  \begin{picture}(0,0)
+%\put(-310,275){a)}
+%\put(-310,135){b)}
+\end{picture}}
+\end{minipage}
+\caption{Maximum detector response for files with either a tap or some speech.}
+\label{fig:DetectPerfUKD.pdf}
+\end{figure}
+
+\begin{figure} %DetectPerfMedian.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{DetectPerfMedian.pdf}
+  \begin{picture}(0,0)
+%\put(-310,275){a)}
+%\put(-310,135){b)}
+\end{picture}}
+\end{minipage}
+\caption{Maximum detector response for files with either a tap or some speech.}
+\label{fig:DetectPerfMedian.pdf}
 \end{figure}
 
 \subsubsection{False detection rate}
@@ -458,7 +493,8 @@ It was found that both the Wavelet and STFT based methods had 2 false detections
 
 \section{Discussion}
 
-
+%Discussion of NBDetectionResults and NBResultsTest
+It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the UKD algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the UKD algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the UKD appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than UKD while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
 
 % ------------------------------------------------------------------------
 
