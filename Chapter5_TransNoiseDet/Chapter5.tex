@@ -12,7 +12,7 @@ The focus of our noise reduction efforts will purely be on the perspective of th
 
 As noted in the literature review, chapter~\ref{sec:LitRev_Detection}, a range of approaches has been taken to detect impulsive noise in speech and audio. In general the approaches taken can be divided into two categories. The ones that focus on corruptions caused by mechanical defects in the medium or errors in the communication channel and \todo{finish}
 
-\section{A look at the data}
+\section{A look at the data}\label{sec:WPdata}
 Figure~\ref{fig:TypingSPLKeyboards} shows a plot of the A-weighted sound pressure level (SPL) of 4 different keyboard impulses aligned\cite{Hauswirth2013}. This data was recorded with an artificial binaural head measurement system in an anechoic environment and as such only serves to outline audible real world acoustic scenario of keystroke impulses. The data clearly shows some key features of keyboard noise.
 \begin{enumerate}
 \item The length of keyboard strokes can be upwards of 350 ms.
@@ -101,7 +101,7 @@ where $c_i$ are the coefficients for the voiced parts of the signal and $\Phi$ i
 
 The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a Wavelet Packet Decomposition (WPD) such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for an level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. For the case of a wavelet decomposition with decimation steps the time index from the terminal node coefficient sets and equation~\ref{eq:modelgeneral} will be related by a factor of $1/J$.
 
-\subsubsection{Algorithm description}
+\subsubsection{Algorithm description}\label{sec:WPdetectionSep}
 The method for selecting the tonal components from the noisy signal is described in this section.
 
 As described in the literature\todo{cite literature on speech modelling}, speech signals are typically slowly varying signals with energy concentrated around specific frequencies known as formant frequencies. These frequencies are related to the physiological shape of the human vocal tract and are typically manifested as spectral peaks\cite{Fant1970}. The algorithm attempts to detect these peaks and separate out this presumed vocal content. Figure~\ref{fig:Separation_Spectrum_Selection.pdf} shows an example of the algorithm running on block of speech data. A diagrammatic representation of the algorithm is shown in Figure~\ref{fig:SeparationDiagram.pdf} where ``iSTFT'' refers to the inverse Fourier transform on a windowed block of data.
@@ -163,7 +163,7 @@ A proposed addition to the algorithm described above and represented in Figure~\
 \end{figure}
 
 
-\subsection{Noise burst model}
+\subsection{Noise burst model}\label{sec:WPdetectionNB}
 We assume that the coefficients for each terminal node $j$ can be modeled as some switched additive noise process such that:
 
 \begin{equation}\label{eq:model1}
@@ -239,7 +239,7 @@ The algorithm proposed above aims to implement a detection algorithm with superi
 
 \todo{Describe HMM (Viterbi)}
 
-\subsection{AR filtering approach}
+\subsection{AR filtering approach}\label{sec:WPdetectionAR}
 
 The terminal node coefficients of the WPT of an incoming audio sequence $x(n)$ of length $N$ is defined as $X(j,t)$ where $j$ is the $j$th terminal node, $j \in \{1, \ldots, J\}$, and $t$ is the time index related to $n$. A level $L$ WPT gives $J = 2^L$ terminal nodes. $X(t)$ will be used to denote a vector of all coefficients at a given time index $t$. We assume that the coefficients for each terminal node $j$ follow this linear predictive model
 
@@ -277,7 +277,42 @@ We can now calculate the log-likelihood $\log\mathcal{L} = \log{p\left(X(t)\righ
 \end{align}
 where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of how well $X(t)$ can be predicted by its previous values.
 
-\section{Results}
+\section{Methods}\label{sec:WPmethods} %A note about the issues of plotting/decribing/comparing detection results.
+\todo{Write about quantifying detection results and the ambiguity of detections.}
+The goal of any validation of a detection algorithm should clearly be to assess whether or not the algorithm detects what it is designed to detect as well as if it can dismiss everything else. In Section~\ref{sec:WPdata} it was noted that the impulses in question contain multiple segments that vary in length, amplitude and structure in some cases. To assess the performance of the detection algorithm having a complete record of time of the impulse occurrence would clearly be advantageous. While the primary goal of a keyboard is to inform the computer of keystrokes and their timing, the sample rate of a keyboard is often nowhere near that of audio. A standard desktop keyboard is quoted as accepting 1000 keystrokes per minute based on internal testing\cite{MSCurveKeyboard3000}. In addition to this comes additional variable latency inherent in the OS ultimately rendering any such data useless. To achieve a suable ground truth estimate of keyboard strokes within audio files manual labeling is the only viable option and this procedure gives rise to a range of additional problems and sources of error:
+
+\begin{itemize}
+  \item Variability in the marking of the impulse onset due to subjective factors.
+  \item Impulses hidden within speech segments can appear invisible yet audible with few audible cues to their exact temporal location.
+  \item Ambiguity in the number of impulse onsets within a single keystroke event as seen in Figure~\ref{fig:KeyboardStrokeSlow}.
+\end{itemize}
+
+Especially the latter concern has caused a variety of issues in relation to the meaningful evaluation of the detection performance of all evaluated detection algorithms within this chapter. While a typical keyboard stroke can contain multiple impulses at varying delays from each other, other background impulses might well also be of interest when considering a detection algorithm for audio restoration. While not the primary target, mouse clicks and foot steps from other sources might exhibit many of the spectral characteristics of keyboard strokes and hence cause a similar level of nuisance. 
+
+To evaluate the performance of the detection algorithms in this section, a library of audio files have been used divided into 3 main categories.
+
+\begin{description}
+  \item[Speech] Speech segments of 1-2 seconds manually verified to contain nothing that should be considered a noise pulse.
+  \item[Keyboard strokes] Audio segments containing nothing but a keyboard stroke.
+  \item[Mixed] Speech segment containing a keyboard stroke. 
+\end{description}
+
+The speech segments serve as a reference for the false detection rate, the keyboard stroke files provide an unambiguous reference for positive detections and the mixed files are mainly of interest for either visual and audible inspections and subjective restoration trials conducted in the following chapter. 
+
+The 4 main detection methods tested in the following section are:
+\begin{enumerate}
+  \item Noise burst model from section~\label{sec:WPdetectionNB}
+  \item AR filter method from section~\label{sec:WPdetectionAR}
+  \item UKD algorithm from \cite{Subramanya2007}
+  \item Generic median filter detector. 
+\end{enumerate}
+Both of the methods outlined in this chapter will utilize the pre-processing stage discussed in section~\label{sec:WPdetectionSep}.
+
+While the AR filter, UKD and median filter methods all rely on the thresholding on some statistical or detection value, the Noise burst model relies on a range of parameters such as variance estimates and transition probabilities. Since the sensitivity, and thereby detection and false detection rate, are dependent on these thresholds a method for visualising the performance of the algorithms is to compare the range of these statistical or detection values that the thresholds apply to. The greater the margin between false detections and correct detections the stronger the detection capability of the algorithm.
+
+The Noise burst model will be compared to other algorithms by calibrating the sensitivity of all algorithms to a similar standard of sensitivity using clean speech data and making sure nothing is detected within them. 
+
+\section{Results}\label{sec:WPresults}
 \subsection{Separation Results} %DONE
 Figure~\ref{fig:Separation_Residual_Example} shows an example of the residual obtained by simply subtracting outstanding peaks from the spectrum on frames of 20ms with 10ms overlap. The spectral peaks were identified using a threshold of a factor of three of the median filtered spectrum excluding frequencies below 85 Hz and above 10 kHz. The audio data presented in Figure~\ref{fig:Separation_Residual_Example} is a short sentence with two keystrokes embedded in it. The red plot overlay shows the residual where it is clear that the speech magnitude has been greatly reduced while the two clear keystrokes are largely left unchanged. \todo{Numerical justification for the effectiveness of the separation.}
 
@@ -348,8 +383,9 @@ In Figure~\ref{fig:SeparationWaveformExBig320.pdf} and \ref{fig:SeparationWavefo
 \label{fig:SeparationWaveformExBig640.pdf}
 \end{figure}
 
-\subsection{Detection results method} %A note about the issues of plotting/decribing/comparing detection results.
-\todo{Write about quantifying detection results and the ambiguity of detections.}
+
+
+
 \subsection{Noise Burst method results}
 %Introduction to results
 The performance of the detection algorithm proposed (red) is in this chapter compared to two other keystroke detection algorithms. The first algorithm is the Unsupervised Keystroke Detection (UKD) algorithm presented in \cite{Subramanya2007} (blue), and the second is a standard median filtered algorithm (green) $y(n) = x(n)^2 - \textrm{MED}\left|x(n)^2\right|$ where $x(n)$ is the incoming signal, $y(n)$ is the detection statistics and $\textrm{MED}\left|\cdot \right|$ is the median filter. The following data is all sampled at 32 kHz and recorded either on a laptop or a microphone attached near an external PC keyboard. The median filter buffer is 10 samples and the UKD algorithm is implemented as described in \cite{Subramanya2007}.
@@ -409,7 +445,7 @@ To further quantify the performance of the algorithm a similar test to the above
 \end{table}
 
 \subsection{AR Filter method results}
-Figure~\ref{fig:ARFilterDetectionResults} shows, similar to Figure~\ref{fig:NBDetectionResults}, the detection performance for the AR filter method (red) in relation to that of the UKD\cite{Subramanya2007} (blue) and the standard median filter method (green). Figure~\ref{fig:ARFilterDetectionResults}(a) shows the algorithms performance on 10 clean keyboard strokes while Figure~\ref{fig:ARFilterDetectionResults}(b) shows an example of the algorithms' performance when the keyboard strokes are embedded in speech. As can be seen in Figure~\ref{fig:NBDetectionResults} with the proposed noise burst model, the AR filter model in Figure~\ref{fig:ARFilterDetectionResults} indicates a detection in between the first and the second correct detections. Both of these detections are clearly provoked by the sudden onset of the speech utterance and is considered a false detection. 
+Figure~\ref{fig:ARFilterDetectionResults} shows, similar to Figure~\ref{fig:NBDetectionResults}, the detection performance for the AR filter method (red) in relation to that of the UKD\cite{Subramanya2007} (blue) and the standard median filter method (green). Figure~\ref{fig:ARFilterDetectionResults}(a) shows the algorithms performance on 10 clean keyboard strokes while Figure~\ref{fig:ARFilterDetectionResults}(b) shows an example of the algorithms' performance when the keyboard strokes are embedded in speech. As can be seen in Figure~\ref{fig:NBDetectionResults} with the proposed noise burst model, the AR filter model in Figure~\ref{fig:ARFilterDetectionResults} indicates a detection in between the first and the second correct detections. Both of these detections are clearly provoked by the sudden onset of the speech utterance and is considered a false detection.
 
 \begin{figure}
 \begin{minipage}[b]{1.0\linewidth}
@@ -491,10 +527,12 @@ Given the threshold set as described above, an additional 55 short audio segment
 
 It was found that both the Wavelet and STFT based methods had 2 false detections while the median detector had 28 false detections. While the STFT UKD method might have identical performance to the Wavelet based method it should be noted that the UKD method requires a longer look-ahead and provides a coarser temporal resolution than the Wavelet based method.
 
-\section{Discussion}
+\section{Discussion}\label{sec:WPdiscussion}
 
 %Discussion of NBDetectionResults and NBResultsTest
 It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the UKD algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the UKD algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the UKD appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than UKD while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
+\section{Conclusions}\label{sec:WPconclusions}
+
 
 % ------------------------------------------------------------------------
 
@@ -502,4 +540,4 @@ It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResu
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End:
+%%% End: \ 
