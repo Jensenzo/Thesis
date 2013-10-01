@@ -10,7 +10,7 @@ The rapid increase in availability of high speed internet connections has made p
 
 The focus of our noise reduction efforts will purely be on the perspective of the receiving end since this is the only noise accessible to us through signal processing, but also since the acoustical feedback from keyboards is often an important cue for the typist, whereas to the receiver it will uncorrelated with any actions.
 
-As noted in the literature review, chapter~\ref{sec:LitRev_Detection}, a range of approaches has been taken to detect impulsive noise in speech and audio. In general the approaches taken can be divided into two categories. The ones that focus on corruptions caused by mechanical defects in the medium or errors in the communication channel and \todo{finish}
+As noted in the literature review, chapter~\ref{sec:LitRev_Detection}, a range of approaches has been taken to detect impulsive noise in speech and audio. In general the approaches taken can be divided into two categories. The ones that focus on corruptions caused by mechanical defects in the medium or errors in the communication channel and corruptions caused by acoustically additive noise such as transient noise events like hand claps, keyboard strokes and mouse button clicks. Although, as noted in chapter~\ref{sec:LitRev_Detection}, there is an overlap between the applications and the methods used, the focus of this chapter will be the detection of acoustically additive transient noise events, specifically keyboard stroke noise, which are especially characterised by their length.
 
 \section{A look at the data}\label{sec:WPdata}
 Figure~\ref{fig:TypingSPLKeyboards} shows a plot of the A-weighted sound pressure level (SPL) of 4 different keyboard impulses aligned\cite{Hauswirth2013}. This data was recorded with an artificial binaural head measurement system in an anechoic environment and as such only serves to outline audible real world acoustic scenario of keystroke impulses. The data clearly shows some key features of keyboard noise.
@@ -88,11 +88,11 @@ Figure~\ref{fig:Keyboard4StrokesFast} shows an example of a short rapid 4 keystr
 \end{figure}
 
 \section{Detection algorithms}\label{sec:WPdetection}
-
-
 The basic detection algorithm is comprised of two stages. First a separation stage aims to separate the transient noise pulses by separating out tonal atoms assumed to be speech components and secondly a detection stage which attempts to detect transient noise events through the wavelet bases. For the detection stage 2 different approaches has been explored.
 
 \subsection{Separation pre processing}
+The purpose of the separation stage is twofold. Firstly the removal of tonal atoms, and thereby speech, should aid in the detection algorithms ability to distinguish between speech signals and transient noise. Secondly, the tonal atoms provide a good first approximation for a restoration, equally the residual signal, used for detection, should ideally be a sparse signal containing mainly the transient noise events. Future restoration efforts should therefore mainly be focused on the residual signal and, in general, the scope of the detrimental effects of restoration should be limited.
+
 The incoming audio signal can be expressed as the linear combination of a voiced signal and a sparse signal containing the transient noise events:
 \begin{equation}\label{eq:modelgeneral}
     x(n) = \sum_i c_i \Phi_i(n) + \sum_{j} w_{j}(n) \Psi_{j}(n),
@@ -278,7 +278,13 @@ We can now calculate the log-likelihood $\log\mathcal{L} = \log{p\left(X(t)\righ
 where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of how well $X(t)$ can be predicted by its previous values.
 
 \section{Methods}\label{sec:WPmethods} %A note about the issues of plotting/decribing/comparing detection results.
-\todo{Write about quantifying detection results and the ambiguity of detections.}
+\subsection{Separation algorithm}
+\todo{Write about separation algorithm results}
+Results provided for the separation algorithm mainly take the form of waveforms. These provide a reference for the amplitude reduction achieved for speech segments of the signal containing both speech and keyboard strokes. Figures are also provided that show the effect of the separation algorithm on both a clean speech segment as well as a keyboard stroke corrupted segment.
+
+A plot of a moving frame estimate of the Mean Squared Error (MSE) is also provided as well as other error measurements such as Peak Signal to Noise Ration (PSNR) and the maximum MSE for the entire signal. 
+
+\subsection{Detection algorithms}
 The goal of any validation of a detection algorithm should clearly be to assess whether or not the algorithm detects what it is designed to detect as well as if it can dismiss everything else. In Section~\ref{sec:WPdata} it was noted that the impulses in question contain multiple segments that vary in length, amplitude and structure in some cases. To assess the performance of the detection algorithm having a complete record of time of the impulse occurrence would clearly be advantageous. While the primary goal of a keyboard is to inform the computer of keystrokes and their timing, the sample rate of a keyboard is often nowhere near that of audio. A standard desktop keyboard is quoted as accepting 1000 keystrokes per minute based on internal testing\cite{MSCurveKeyboard3000}. In addition to this comes additional variable latency inherent in the OS ultimately rendering any such data useless. To achieve a suable ground truth estimate of keyboard strokes within audio files manual labeling is the only viable option and this procedure gives rise to a range of additional problems and sources of error:
 
 \begin{itemize}
@@ -287,30 +293,32 @@ The goal of any validation of a detection algorithm should clearly be to assess 
   \item Ambiguity in the number of impulse onsets within a single keystroke event as seen in Figure~\ref{fig:KeyboardStrokeSlow}.
 \end{itemize}
 
-Especially the latter concern has caused a variety of issues in relation to the meaningful evaluation of the detection performance of all evaluated detection algorithms within this chapter. While a typical keyboard stroke can contain multiple impulses at varying delays from each other, other background impulses might well also be of interest when considering a detection algorithm for audio restoration. While not the primary target, mouse clicks and foot steps from other sources might exhibit many of the spectral characteristics of keyboard strokes and hence cause a similar level of nuisance. 
+Especially the latter concern has caused a variety of issues in relation to the meaningful evaluation of the detection performance of all evaluated detection algorithms within this chapter. While a typical keyboard stroke can contain multiple impulses at varying delays from each other, other background impulses might well also be of interest when considering a detection algorithm for audio restoration. While not the primary target, mouse clicks and foot steps from other sources might exhibit many of the spectral characteristics of keyboard strokes and hence cause a similar level of nuisance.
 
 To evaluate the performance of the detection algorithms in this section, a library of audio files have been used divided into 3 main categories.
 
 \begin{description}
   \item[Speech] Speech segments of 1-2 seconds manually verified to contain nothing that should be considered a noise pulse.
   \item[Keyboard strokes] Audio segments containing nothing but a keyboard stroke.
-  \item[Mixed] Speech segment containing a keyboard stroke. 
+  \item[Mixed] Speech segment containing a keyboard stroke.
 \end{description}
 
-The speech segments serve as a reference for the false detection rate, the keyboard stroke files provide an unambiguous reference for positive detections and the mixed files are mainly of interest for either visual and audible inspections and subjective restoration trials conducted in the following chapter. 
+The speech segments serve as a reference for the false detection rate, the keyboard stroke files provide an unambiguous reference for positive detections and the mixed files are mainly of interest for either visual and audible inspections and subjective restoration trials conducted in the following chapter.
 
 The 4 main detection methods tested in the following section are:
 \begin{enumerate}
   \item Noise burst model from section~\label{sec:WPdetectionNB}
   \item AR filter method from section~\label{sec:WPdetectionAR}
   \item UKD algorithm from \cite{Subramanya2007}
-  \item Generic median filter detector. 
+  \item Generic median filter detector.
 \end{enumerate}
 Both of the methods outlined in this chapter will utilize the pre-processing stage discussed in section~\label{sec:WPdetectionSep}.
 
 While the AR filter, UKD and median filter methods all rely on the thresholding on some statistical or detection value, the Noise burst model relies on a range of parameters such as variance estimates and transition probabilities. Since the sensitivity, and thereby detection and false detection rate, are dependent on these thresholds a method for visualising the performance of the algorithms is to compare the range of these statistical or detection values that the thresholds apply to. The greater the margin between false detections and correct detections the stronger the detection capability of the algorithm.
 
-The Noise burst model will be compared to other algorithms by calibrating the sensitivity of all algorithms to a similar standard of sensitivity using clean speech data and making sure nothing is detected within them. 
+The Noise burst model will be compared to other algorithms by calibrating the sensitivity of all algorithms to a similar standard of sensitivity using clean speech data and making sure nothing is detected within them.
+
+While the noise burst model offers a statistical framework for estimating the duration of impulses, it is also possible to assume the length of a corruption based on experience or even estimate the extent of the corruption based on the level of the excitation over the threshold. This approach will be assumed on all other algorithms and therefore short detections extents in future sections will not necessarily be considered undesirable.
 
 \section{Results}\label{sec:WPresults}
 \subsection{Separation Results} %DONE
@@ -383,7 +391,32 @@ In Figure~\ref{fig:SeparationWaveformExBig320.pdf} and \ref{fig:SeparationWavefo
 \label{fig:SeparationWaveformExBig640.pdf}
 \end{figure}
 
+\todo{Reconstruct pdf of SeparationError plot to correct mistakes.}
+To further evaluate the effect of the separation algorithm a comparison of the MSE and the waveform is provided in Figure~\ref{fig:SeparationError.pdf}. In Figure~\ref{fig:SeparationError.pdf}(a) the corrupted signal and the tonal component of the corrupted signal is compared to the original uncorrupted signal. This comparison is made possible since the noisy signal has been corrupted by the linear addition of a keyboard stroke and therefore a perfect record of the uncorrupted signal is available for the MSE estimate. The large spike in Figure~\ref{fig:SeparationError.pdf}(a) is the location of the corruption in the signal and it is clearly noted how both the corrupted signal as well as the tonal component of the corrupted signal excites the MSE estimate to varying degrees. 
 
+Figure~\ref{fig:SeparationError.pdf}(b) shows the waveform for the signals compared in Figure~\ref{fig:SeparationError.pdf}(a) and Figure~\ref{fig:SeparationErrorData.pdf} provides a zoomed in view of the waveform for a further detailed comparison. 
+
+For the audio segment in Figure~\ref{fig:SeparationError.pdf} in addition to the MSE estimate provided, the Peak Signal to Noise Ratio (PSNR) value was also increased from 80.5 dB, for the corrupted signal, to 82 dB for the tonal component of the corrupted signal. The maximum MSE was also calculated to be reduced from 0.52 to 0.32 for the entire signal.
+
+\begin{figure} %SeparationError.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{SeparationError.pdf}
+  \begin{picture}(0,0)
+\put(-310,390){(a)}
+\put(-310,180){(b)}
+\end{picture}}
+\end{minipage}
+\caption{Separation performance example of speech and an impulse, (a) Means Squared Error (MSE) comparison (b) waveform comparison. Sample rate: 16kHz. Block size: 640.}
+\label{fig:SeparationError.pdf}
+\end{figure}
+
+\begin{figure} %SeparationErrorData.pdf
+  \centering
+  \includegraphics[width=10cm]{SeparationErrorData.pdf}
+\caption{Zoomed in version of the waveform from Figure~\ref{fig:SeparationError.pdf}. Sample rate: 16kHz. Block size: 640.}
+\label{fig:SeparationErrorData.pdf}
+\end{figure}
 
 
 \subsection{Noise Burst method results}
@@ -528,9 +561,21 @@ Given the threshold set as described above, an additional 55 short audio segment
 It was found that both the Wavelet and STFT based methods had 2 false detections while the median detector had 28 false detections. While the STFT UKD method might have identical performance to the Wavelet based method it should be noted that the UKD method requires a longer look-ahead and provides a coarser temporal resolution than the Wavelet based method.
 
 \section{Discussion}\label{sec:WPdiscussion}
+\subsection{Separation algorithm}
+%The main point of the separation algorithm isn't necessarily to give better detection results (since the detection algorithm already doesn't favour loud narrowband excitation, but rather to separate out parts of the signal that require different attention. Ideally the tonal component should contain no tonal components and thereby not require any additional restoration efforts.
+
+By visual inspection of Figures~\ref{fig:Separation_Residual_Example} through \ref{fig:SeparationWaveformExBig640.pdf} it is clear that the separation algorithm provides a reduction of speech while leaving transient noise events largely the same in the residual component. Audibly this effect is also clearly verified. Despite a distinct audible effect on the speech the tonal component alone manages a decreased maximum MSE from 5.2 to 3.2 as well as increasing the PSNR from 80.5 dB to 82 dB.
+
+\subsection{Detection algorithms}
+Two different, but related, detection algorithms have been presented in this chapter; the noise burst model algorithm and the AR filtering algorithm. These two have been compared to two other approaches; the UKD algorithm\cite{Subramanya2007} and a median filter algorithm. While the median filter algorithm provides a benchmark for one of the simplest approaches previously used for similar applications, the UKD algorithm represents the best alternative in the literature. 
 
 %Discussion of NBDetectionResults and NBResultsTest
 It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the UKD algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the UKD algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the UKD appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than UKD while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
+
+Figure~\ref{fig:NBDetCompare} specifically shows one of the strengths of the noise burst algorithm in relation to the UKD algorithm. While both algorithms catch elements of both keyboard strokes the UKD algorithm misses the initial impulse of the second keyboard stroke. Additionally the noise burst algorithm gives a clear estimate of the extent of the corruption as well.
+
+
+
 \section{Conclusions}\label{sec:WPconclusions}
 
 
