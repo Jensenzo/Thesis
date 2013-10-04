@@ -6,6 +6,8 @@
     \graphicspath{{Chapter6_TransNoiseRest/Chapter6Figs/EPS/}{Chapter6_TransNoiseRest/Chapter6Figs/}}
 \fi
 
+\todo{Add introduction to chapter.}
+\section{Restoration}
 \subsection{Restoration from the noise burst model}
 Having estimated the most likely state of $\boldsymbol{i}$, or the onset of a corruption, the next job will be to replace or restore corrupted samples. Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was assumed that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
 
@@ -46,7 +48,7 @@ The final stage of the algorithm proceeds by recombining the processed residual 
 %Standard restoration, interpolation
 
 
-\subsection{Residual restoration from AR filtering model}
+\subsection{Residual restoration from AR filtering method}
 %LSAR
 For the restoration of samples in the residual component the Least Squares AR (LSAR) interpolator is considered here\cite{Godsill1998book}.
 
@@ -298,6 +300,12 @@ Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the re
 \label{fig:restorationPP.pdf}
 \end{figure}
 
+
+\section{Results}
+
+\section{Discussion}
+
+\section{Conclusions}
 
 % ------------------------------------------------------------------------
 
