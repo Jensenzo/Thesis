@@ -64,6 +64,20 @@ Consider first the block of data samples $\boldsymbol{x}$ drawn from an AR proce
 \boldsymbol{x} = \left[ \boldsymbol{x}_{\boldsymbol{-(i)}a}\quad \left[0,\ldots,0\right] \quad\boldsymbol{x}_{\boldsymbol{-(i)}b} \right].
 \end{equation}
 
+The block of data $\boldsymbol{x}$ is then filtered using the AR parameters up until the end of the corrupted section,
+
+\begin{equation}\label{eq:RestBasicModelFilterEQ}
+\boldsymbol{\hat{x}}_f = \Sigma_p^P \boldsymbol{x}_{n-p}a_p.
+\end{equation}
+
+The output signal $\boldsymbol{\hat{x}}_f$ now contains a basic estimate of the corrupted section which will be called the forward filtered estimate. Reversing the order of the samples in $\boldsymbol{x}$ denoting it $\boldsymbol{x'}$ and applying the filtering step up to the end of the zeroed out corruption section gives an estimate for the backwards filtered estimate.
+
+\begin{equation}\label{eq:RestBasicModelFilterEQR}
+\boldsymbol{\hat{x}'}_b = \Sigma_p^P \boldsymbol{x'}_{n-p}a_p.
+\end{equation}
+
+The forward $\boldsymbol{\hat{x}}_f$ and backward $\boldsymbol{\hat{x}}_b$ filtered estimates can now, if both available, be faded together to produce a combined estimate for the corrupted sequence $\boldsymbol{\hat{x}}$.
+
 
 %With zeros
 %With noise
