@@ -15,8 +15,52 @@ Based on the pre processing stage from Equation~\ref{eq:modelgeneral} the restor
 
 The second part of this section will focus on restoring and removing spurious tonal components caused by the keyboard stroke. Certain keyboard types in particular were found to produce noise pulses with more tonal components than others, and in particular loud strokes on the keyboard were also found to exacerbate this issue. The methods developed in this part of the chapter will largely be of a heuristic nature.
 
-\subsection{Forwards and backwards FIR filtering}
+The restoration of the sparse residual component can be formulated as follows. In this chapter the detection state is presumed known and will be treated as a binary vector $\boldsymbol{i}$ containing a high value $i_t = 1$ for a detection and a low value $i_t = 0$ for no detection. Consider an audio segment $\boldsymbol{x}$ of length $N$ with a corrupted section starting at sample $m$ and of length $l$. The corrupted sequence can now be described as 3 separate sections with the unknown section being $\boldsymbol{x_{(i)}} = [x_m,x_{m+1},\ldots,x_{m+l-1}]$, the known section before and after the corruption respectively $\boldsymbol{x}_{\boldsymbol{-(i)}a} = [x_1,x_{2},\ldots,x_{m-1}]$ and $\boldsymbol{x}_{\boldsymbol{-(i)}b} = [x_{m+1},x_{m+2},\ldots,x_{N}]$. The total sequence is therefore
 
+\begin{equation}\label{eq:RestBasicModel}
+\boldsymbol{x} = \left[ \boldsymbol{x}_{\boldsymbol{-(i)}a}\quad\boldsymbol{x_{(i)}}\quad\boldsymbol{x}_{\boldsymbol{-(i)}b} \right].
+\end{equation}
+
+
+
+\subsection{Noise insertion}
+The simplest restoration algorithm proposed in this chapter features a simple method for replacing corrupted samples with random noise.
+
+Consider the wavelet coefficients from a decomposition following the detection stage. Similar to equation~\ref{eq:RestBasicModel} we have for the wavelet coefficients that
+
+\begin{equation}\label{eq:RestBasicModelWavelet1}
+\boldsymbol{X_j} = \left[ \boldsymbol{X}_{\boldsymbol{j,-(i)}a}\quad\boldsymbol{X}_{j,\boldsymbol{(i)}}\quad\boldsymbol{X}_{j,\boldsymbol{-(i)}b} \right],
+\end{equation}
+for $\boldsymbol{X_j}$ the $j$th terminal node, $j \in \{1, \ldots, J\}$. 
+
+The samples to replace are drawn from a zero-mean Gaussian distribution with the same variance $\sigma^2_{j,a}$ as the preceding segment $\boldsymbol{X}_{\boldsymbol{j,-(i)}a}$.
+
+\begin{equation}\label{eq:RestNoiseInsertionModelVariance1}
+\boldsymbol{X}_{j,\boldsymbol{(i)}} \sim \mathcal{N}\left(0, \sigma^2_{j,a} \right).
+\end{equation}
+
+If data is available following a corruption, the variance $\sigma^2_{j,a}$ of the succeeding segment $\boldsymbol{X}_{\boldsymbol{j,-(i)}b}$ can be used in a similar fashion. Too facilitate a smooth transition a cross fading between the two random signals should be implemented.
+
+Figure~\ref{fig:ResultsNoiseInsertion.pdf} shows an example of the restoration process described above. Figure~\ref{fig:ResultsNoiseInsertion.pdf}(a) shows a set of the initial wavelet coefficients for a keystroke. The corrupted region has been removed in Figure~\ref{fig:ResultsNoiseInsertion.pdf}(b) and replaced with zero-mean Gaussian noise with the red plot showing noise generated from the segment preceding the corruption and the red blue plot showing noise generated from the segment succeeding it. The two signals have been windowed and the final segment will be the addition of the two noise segments.
+
+\begin{figure} %ResultsNoiseInsertion.pdf
+\centering
+\includegraphics[width=100mm]{ResultsNoiseInsertion.pdf}
+\begin{picture}(0,0)
+\put(-310,390){(a)}
+\put(-310,180){(b)}
+\end{picture}
+\caption{Example of noise insertion algorithm.}
+\label{fig:ResultsNoiseInsertion.pdf}
+\end{figure}
+
+\subsection{Forwards and backwards FIR filtering}
+%Model theory
+A simple approach to restoration of short corrupted intervals is to replace the corrupted samples and filter the corrupted region with an FIR filter with parameters drawn from the segment immediately prior to the corruption.
+
+
+%With zeros
+%With noise
 
 
 \subsection{Restoration from the noise burst model}
@@ -322,7 +366,7 @@ Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the re
 \section{Discussion}
 
 % FIR filtering, computational advantage in the AR parameter estimation
-While applying the FIR filtering approaches to the interpolation task for the corrupted samples in the time or the wavelet generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the AR parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $\Theta(n^2)$\cite{Hayes1996} rather than $\Theta(n^3)$ using the state of the art Cramer\'s rule implementation\cite{Habgood2012}. Performing the restoration on the wavelet coefficients rather than the waveform will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality since the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$. 
+While applying the FIR filtering approaches to the interpolation task for the corrupted samples in the time or the wavelet generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the AR parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $\Theta(n^2)$\cite{Hayes1996} rather than $\Theta(n^3)$ using the state of the art Cramer\'s rule implementation\cite{Habgood2012}. Performing the restoration on the wavelet coefficients rather than the waveform will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality since the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$.
 
 \section{Conclusions}
 
