@@ -39,24 +39,30 @@ The samples to replace are drawn from a zero-mean Gaussian distribution with the
 \boldsymbol{X}_{j,\boldsymbol{(i)}} \sim \mathcal{N}\left(0, \sigma^2_{j,a} \right).
 \end{equation}
 
-If data is available following a corruption, the variance $\sigma^2_{j,a}$ of the succeeding segment $\boldsymbol{X}_{\boldsymbol{j,-(i)}b}$ can be used in a similar fashion. Too facilitate a smooth transition a cross fading between the two random signals should be implemented.
+If data is available following a corruption, the variance $\sigma^2_{j,b}$ of the succeeding segment $\boldsymbol{X}_{\boldsymbol{j,-(i)}b}$ can be used in a similar fashion. Too facilitate a smooth transition a cross fading between the two random signals should be implemented.
 
 Figure~\ref{fig:ResultsNoiseInsertion.pdf} shows an example of the restoration process described above. Figure~\ref{fig:ResultsNoiseInsertion.pdf}(a) shows a set of the initial wavelet coefficients for a keystroke. The corrupted region has been removed in Figure~\ref{fig:ResultsNoiseInsertion.pdf}(b) and replaced with zero-mean Gaussian noise with the red plot showing noise generated from the segment preceding the corruption and the red blue plot showing noise generated from the segment succeeding it. The two signals have been windowed and the final segment will be the addition of the two noise segments.
 
 \begin{figure} %ResultsNoiseInsertion.pdf
 \centering
-\includegraphics[width=100mm]{ResultsNoiseInsertion.pdf}
+\includegraphics[width=110mm]{ResultsNoiseInsertion.pdf}
 \begin{picture}(0,0)
-\put(-310,390){(a)}
-\put(-310,180){(b)}
+\put(-300,390){(a)}
+\put(-300,180){(b)}
 \end{picture}
-\caption{Example of noise insertion algorithm.}
+\caption{Example of noise insertion algorithm. (a) Original corrupted signal, (b) Forward (red) and backward (blue) noise interpolation.}
 \label{fig:ResultsNoiseInsertion.pdf}
 \end{figure}
 
 \subsection{Forwards and backwards FIR filtering}
 %Model theory
-A simple approach to restoration of short corrupted intervals is to replace the corrupted samples and filter the corrupted region with an FIR filter with parameters drawn from the segment immediately prior to the corruption.
+A simple approach to restoration of short corrupted intervals is to replace the corrupted samples and filter the corrupted region with an FIR filter with parameters drawn from the segment immediately prior to $\boldsymbol{x}_{\boldsymbol{-(i)}a}$ and following $\boldsymbol{x}_{\boldsymbol{-(i)}b}$ (if available) the corruption.
+
+Consider first the block of data samples $\boldsymbol{x}$ drawn from an AR process with parameters $\boldsymbol{a}$. Given a known estimate of the detection state $\boldsymbol{i}$, zero pad the corrupted samples.
+
+\begin{equation}\label{eq:RestBasicModelFilterZeros}
+\boldsymbol{x} = \left[ \boldsymbol{x}_{\boldsymbol{-(i)}a}\quad \left[0,\ldots,0\right] \quad\boldsymbol{x}_{\boldsymbol{-(i)}b} \right].
+\end{equation}
 
 
 %With zeros
