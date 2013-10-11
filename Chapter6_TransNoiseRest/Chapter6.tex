@@ -76,11 +76,23 @@ The output signal $\boldsymbol{\hat{x}}_f$ now contains a basic estimate of the 
 \boldsymbol{\hat{x}'}_b = \Sigma_p^P \boldsymbol{x'}_{n-p}a_p.
 \end{equation}
 
-The forward $\boldsymbol{\hat{x}}_f$ and backward $\boldsymbol{\hat{x}}_b$ filtered estimates can now, if both available, be faded together to produce a combined estimate for the corrupted sequence $\boldsymbol{\hat{x}}$.
+The forward $\boldsymbol{\hat{x}}_f$ and backward $\boldsymbol{\hat{x}}_b$ filtered estimates can now, if both are available, be faded together to produce a combined estimate for the corrupted sequence $\boldsymbol{\hat{x}}$.
 
+An example of a reconstructed section on can be seen in Figure~\ref{fig:ResultsFiltering.pdf}. It is noted that for this example the reconstruction is done on wavelet coefficients. Figure~\ref{fig:ResultsFiltering.pdf}(a) shows, as in Figure~\ref{fig:ResultsNoiseInsertion.pdf}, the original signal and Figure~\ref{fig:ResultsFiltering.pdf}(a) shows an example of the various parts of the reconstruction.
 
-%With zeros
-%With noise
+\begin{figure} %ResultsFiltering.pdf
+\centering
+\includegraphics[width=110mm]{ResultsFiltering.pdf}
+\begin{picture}(0,0)
+\put(-300,390){(a)}
+\put(-300,180){(b)}
+\end{picture}
+\caption{Example of forwards backwards algorithm. (a) Original corrupted signal, (b) Forward (red) and backward (blue) filtering interpolation.}
+\label{fig:ResultsFiltering.pdf}
+\end{figure}
+
+\subsubsection{Filtering with noise}
+It is possible to combine the noise insertion algorithm with the forward backward filtering algorithm to avoid a clearly audible dip in the loudness. \todo{add more}
 
 
 \subsection{Restoration from the noise burst model}
@@ -203,10 +215,6 @@ An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:Resto
 \label{fig:Restore_LSAR_2.pdf}
 \end{figure}
 
-%noise insertion
-%forward filtering
-%AR filtering
-%wavelets/waveform
 \subsection{Tonal Restoration}
 %- Historic Frequency logic and filtering (amplitudes)
 %- Future restoration (fading)
