@@ -31,7 +31,7 @@ Consider the wavelet coefficients from a decomposition following the detection s
 \begin{equation}\label{eq:RestBasicModelWavelet1}
 \boldsymbol{X_j} = \left[ \boldsymbol{X}_{\boldsymbol{j,-(i)}a}\quad\boldsymbol{X}_{j,\boldsymbol{(i)}}\quad\boldsymbol{X}_{j,\boldsymbol{-(i)}b} \right],
 \end{equation}
-for $\boldsymbol{X_j}$ the $j$th terminal node, $j \in \{1, \ldots, J\}$. 
+for $\boldsymbol{X_j}$ the $j$th terminal node, $j \in \{1, \ldots, J\}$.
 
 The samples to replace are drawn from a zero-mean Gaussian distribution with the same variance $\sigma^2_{j,a}$ as the preceding segment $\boldsymbol{X}_{\boldsymbol{j,-(i)}a}$.
 
@@ -92,11 +92,22 @@ An example of a reconstructed section on can be seen in Figure~\ref{fig:ResultsF
 \end{figure}
 
 \subsubsection{Filtering with noise}
-It is possible to combine the noise insertion algorithm with the forward backward filtering algorithm to avoid a clearly audible dip in the loudness. \todo{add more}
+It is possible to combine the noise insertion algorithm with the forward backward filtering algorithm to avoid a clearly audible dip in the loudness. This method proceeds as the original noise insertion method after which the forward backward filtering step is performed without zeroing the corrupted region.
 
+Figure~\ref{fig:ResultsNoiseInsertionFiltering.pdf} shows an example of the noise insertion and filtering method applied to the same restoration example as in Figure~\ref{fig:ResultsNoiseInsertion.pdf} and \ref{fig:ResultsFiltering.pdf}.
+
+\begin{figure} %ResultsNoiseInsertionFiltering.pdf
+\centering
+\includegraphics[width=110mm]{ResultsNoiseInsertionFiltering.pdf}
+\begin{picture}(0,0)
+\end{picture}
+\caption{Example of forwards backwards algorithm.}
+\label{fig:ResultsNoiseInsertionFiltering.pdf}
+\end{figure}
 
 \subsection{Restoration from the noise burst model}
-Having estimated the most likely state of $\boldsymbol{i}$ in section~\ref{sec:WPdetectionNB}, or the onset of a corruption, the next job will be to replace or restore corrupted samples. Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was assumed that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
+A different restoration approach can be derived from the noise burst detection method proposed in section~\ref{sec:WPdetectionNB}.
+Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was assumed that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
 
 A Bayesian approach proceeds by estimating $p(\boldsymbol{v}_n | \boldsymbol{w}_n, i_n)$. Using Bayes' rule we get that
 
@@ -117,22 +128,24 @@ p(v_n | \boldsymbol{w}_n, i_n = 1) \propto \mathcal{N}\left({(C_v + \Lambda)^{-1
 \end{equation}
 
 %\frac{\boldsymbol{w}_n}{\Lambda}\right).
-In this case where both the background noise $v_n$ and the noise burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices). While assuming corruptions as noise bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white noise bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an AR process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
+In this case where both the background noise $v_n$ and the noise burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices). 
 
-\begin{figure} %compareRecon.pdf
-\centering
-\includegraphics[width=100mm]{compareRecon.pdf}
-\begin{picture}(0,0)
-%\put(-245,235){Restored Example}
-%\put(-200,0){Time}
-\end{picture}
-\caption{Example of the algorithm interpolating corrupted waveform samples.}
-\label{fig:compareRecon}
-\end{figure}
-
-The final stage of the algorithm proceeds by recombining the processed residual with the keystrokes removed and the dictionary of tonal components from equation~\ref{eq:modelgeneral}.
-
-%Standard restoration, interpolation
+%While assuming corruptions as noise bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white noise bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an AR process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
+%
+%\begin{figure} %compareRecon.pdf
+%\centering
+%\includegraphics[width=100mm]{compareRecon.pdf}
+%\begin{picture}(0,0)
+%%\put(-245,235){Restored Example}
+%%\put(-200,0){Time}
+%\end{picture}
+%\caption{Example of the algorithm interpolating corrupted waveform samples.}
+%\label{fig:compareRecon}
+%\end{figure}
+%
+%The final stage of the algorithm proceeds by recombining the processed residual with the keystrokes removed and the dictionary of tonal components from equation~\ref{eq:modelgeneral}.
+%
+%%Standard restoration, interpolation
 
 
 \subsection{Residual restoration from AR filtering method}
@@ -404,4 +417,4 @@ While applying the FIR filtering approaches to the interpolation task for the co
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End:
+%%% End: 
