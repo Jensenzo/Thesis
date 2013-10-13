@@ -130,6 +130,19 @@ p(v_n | \boldsymbol{w}_n, i_n = 1) \propto \mathcal{N}\left({(C_v + \Lambda)^{-1
 %\frac{\boldsymbol{w}_n}{\Lambda}\right).
 In this case where both the background noise $v_n$ and the noise burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices).
 
+An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScaled.pdf}. The reference variance for the wavelet coefficient sets $C_v$ is taken over a 5 second sequence. The pulse variance $\Lambda$ is a trained value which might vary from session to session, but for the restoration stage here the first 150 samples of the detected impulse is used.
+
+\begin{figure} %ResultsScaled.pdf
+\centering
+\includegraphics[width=100mm]{ResultsScaled.pdf}
+\begin{picture}(0,0)
+%\put(-245,235){Restored Example}
+%\put(-200,0){Time}
+\end{picture}
+\caption{Examples of the burst scaling algorithm restoring corrupted wavelet coefficients.}
+\label{fig:ResultsScaled.pdf}
+\end{figure}
+
 %While assuming corruptions as noise bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white noise bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an AR process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
 %
 %\begin{figure} %compareRecon.pdf
@@ -393,8 +406,8 @@ The effect of this complete tonal restoration algorithm can be seen in Figure~\r
 \label{fig:TonalRestoratio_Spec_FullRestoration.png}
 \end{figure}
 
-\subsection{Algorithm statement}
-Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the restoration stage of the algorithm. The restoration stage takes as an input $\boldsymbol{w}$ the wavelet packet coefficients, $\boldsymbol{i}$ the detection state and the tonal components. The restoration algorithms take as an input the relevant data to be restored as well as the detection state from the detection algorithm. The restored wavelet packet coefficients $\hat{\boldsymbol{w}}$ are passed through the inverse wavelet packet decomposition algorithm (IWPD) to restore the residual waveform before being combined with the restored tonal component to reconstruct the original restored signal $\hat{x}(n)$.
+\section{Algorithm statement}
+Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the restoration stage of the algorithm. The restoration stage takes, as an input, $\boldsymbol{w}$ the wavelet packet coefficients, $\boldsymbol{i}$ the detection state and the tonal components. The restoration algorithms take as an input the relevant data to be restored as well as the detection state from the detection algorithm. The restored wavelet packet coefficients $\hat{\boldsymbol{w}}$ are passed through the inverse wavelet packet decomposition algorithm (IWPD) to restore the residual waveform before being combined with the restored tonal component to reconstruct the original restored signal $\hat{x}(n)$.
 
 \begin{figure}%restorationPP.pdf
 \centering
@@ -425,6 +438,31 @@ Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the re
 
 \section{Results}
 \subsection{something}
+
+
+\begin{figure}%ResultsScaledCombinedExample.pdf
+\centering
+\includegraphics[width=100mm]{ResultsScaledCombinedExample.pdf}
+\begin{picture}(0,0)
+%\put(-245,235){Restored Wavelet coefficients Example 1}
+%\put(-200,0){Time}
+\end{picture}
+\caption{Time series example of the burst scaling algorithm.}
+\label{fig:ResultsScaledCombinedExample.pdf}
+\end{figure}
+
+
+\begin{figure}%RestoredLSARExampleWaveform.pdf
+\centering
+\includegraphics[width=100mm]{RestoredLSARExampleWaveform.pdf}
+\begin{picture}(0,0)
+%\put(-245,235){Restored Wavelet coefficients Example 1}
+%\put(-200,0){Time}
+\end{picture}
+\caption{Time series example of the LSAR algorithm.}
+\label{fig:RestoredLSARExampleWaveform.pdf}
+\end{figure}
+
 \subsection{Subjective test}
 
 

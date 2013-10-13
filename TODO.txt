@@ -1,8 +1,12 @@
 Todo:
-Add figures for LSAR and Scaling plus the appropriate text
-Consider providing a spectrogram for the separation section as an
+
+- Add figures for LSAR and Scaling plus the appropriate text.
+
+- Consider providing a spectrogram for the separation section as an
 example. (if added remember to add a note in the methods section
 about it)
+
+- Symbol consistency, X or w for wavelet coefficients.
 
 Explain terms:
 Keyboard stroke, key stroke: A series of noise pulses created by a single press of a keyboard button. Can contain multiple multiple noise pulses.
