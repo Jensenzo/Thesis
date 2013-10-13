@@ -10,7 +10,7 @@ As mentioned previously, the keyboard stroke removal algorithm can roughly be di
 
 In this chapter a variety of methods will be explored. While the preferred detection algorithm from Chapter~\ref{ch:TransientNoiseDetection} was the AR filter method, the noise burst model lent itself to an interesting restoration model based on the noise burst assumption, which will also be explored in this chapter.
 
-\section{Restoration}
+\section{Residual Restoration}
 Based on the pre processing stage from Equation~\ref{eq:modelgeneral} the restoration section is separated into two major sections. Firstly the restoration or interpolation of the corrupted samples from the residual component of the signal will be explored. This sparse signal of transient components from the audio was found to contain a majority of the initial impulse of the keyboard strokes.
 
 The second part of this section will focus on restoring and removing spurious tonal components caused by the keyboard stroke. Certain keyboard types in particular were found to produce noise pulses with more tonal components than others, and in particular loud strokes on the keyboard were also found to exacerbate this issue. The methods developed in this part of the chapter will largely be of a heuristic nature.
@@ -105,7 +105,7 @@ Figure~\ref{fig:ResultsNoiseInsertionFiltering.pdf} shows an example of the nois
 \label{fig:ResultsNoiseInsertionFiltering.pdf}
 \end{figure}
 
-\subsection{Restoration from the noise burst model}
+\subsection{Burst scaling}
 A different restoration approach can be derived from the noise burst detection method proposed in section~\ref{sec:WPdetectionNB}.
 Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was assumed that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
 
@@ -128,7 +128,7 @@ p(v_n | \boldsymbol{w}_n, i_n = 1) \propto \mathcal{N}\left({(C_v + \Lambda)^{-1
 \end{equation}
 
 %\frac{\boldsymbol{w}_n}{\Lambda}\right).
-In this case where both the background noise $v_n$ and the noise burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices). 
+In this case where both the background noise $v_n$ and the noise burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices).
 
 %While assuming corruptions as noise bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white noise bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an AR process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
 %
@@ -148,8 +148,7 @@ In this case where both the background noise $v_n$ and the noise burst $\theta_n
 %%Standard restoration, interpolation
 
 
-\subsection{Residual restoration from AR filtering method}
-%LSAR
+\subsection{Least Squares AR (LSAR)}
 For the restoration of samples in the residual component the Least Squares AR (LSAR) interpolator is considered here\cite{Godsill1998book}.
 
 Assuming that the residual coefficients $\mathbf{x}$ are drawn from an AR process with parameters $\mathbf{a}$, and where
@@ -204,31 +203,56 @@ Solving for $\mathbf{x}_{\mathbf{(i)}}$ we have that:
   \mathbf{x}^{\mathrm{LS}}_{\mathbf{(i)}} = - (\mathbf{A}_{\mathbf{(i)}}^T \mathbf{A}_{\mathbf{(i)}} )^{-1}\mathbf{A}_{\mathbf{(i)}}^T\mathbf{A}_{\mathbf{-(i)}}\mathbf{x}_{\mathbf{-(i)}}
 \end{equation}
 
-An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:Restore_LSAR_1.pdf} and \ref{fig:Restore_LSAR_2.pdf}, where 2 different sets of Wavelet coefficients have had an impulse detection restored. Both examples are of audio sampled at 16kHz and coefficients are from a Wavelet decomposition done to the third level.
+An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:RestoredLSARExample}(a) and \ref{fig:RestoredLSARExample2}(b), where 2 different sets of Wavelet coefficients have had an impulse detection restored. Both examples are of audio sampled at 16kHz and coefficients are from a Wavelet decomposition done to the third level. Figure~\ref{fig:RestoredLSARExample}(a) uses the same detection example as the previous examples while  Figure~\ref{fig:RestoredLSARExample2}(b) shows a restoration example, from the same audio sequence, which showcases more of the algorithms restoration abilities.
 
-\begin{figure} %Restore_LSAR_1.pdf
-\centering
-\includegraphics[width=100mm]{Restore_LSAR_1.pdf}
-\begin{picture}(0,0)
-\put(-245,235){Restored Wavelet coefficients Example 1}
-%\put(-200,0){Time}
+\begin{figure}
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=10cm]{RestoredLSARExample1.pdf}}
+%  \vspace{2.0cm}
+  %\centerline{(a)}\medskip
+\end{minipage}
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=10cm]{RestoredLSARExample2.pdf}}
+  \begin{picture}(0,0)
+\put(-120,382){a)}
+\put(-120,195){b)}
 \end{picture}
-\caption{Example of the LSAR algorithm interpolating 85 missing Wavelet coefficients at level 3.}
-\label{fig:Restore_LSAR_1.pdf}
+%  \vspace{1.5cm}
+  %\centerline{(b)}\medskip
+\end{minipage}
+\caption{Examples of the LSAR algorithm interpolating corrupted wavelet coefficients.}
+\label{fig:RestoredLSARExample}
 \end{figure}
 
-\begin{figure} %Restore_LSAR_2.pdf
-\centering
-\includegraphics[width=100mm]{Restore_LSAR_2.pdf}
-\begin{picture}(0,0)
-\put(-245,235){Restored Wavelet coefficients Example 2}
-%\put(-200,0){Time}
-\end{picture}
-\caption{Example of the LSAR algorithm interpolating 85 missing Wavelet coefficients at level 3.}
-\label{fig:Restore_LSAR_2.pdf}
-\end{figure}
+%\begin{figure}% %Restore_LSAR_1.pdf
+%\centering
+%\includegraphics[width=100mm]{Restore_LSAR_1.pdf}
+%\begin{picture}(0,0)
+%\put(-245,235){Restored Wavelet coefficients Example 1}
+%%\put(-200,0){Time}
+%\end{picture}
+%\caption{Example of the LSAR algorithm interpolating 85 missing Wavelet coefficients at level 3.}
+%\label{fig:Restore_LSAR_1.pdf}
+%\end{figure}
+%
+%\begin{figure} %Restore_LSAR_2.pdf
+%\centering
+%\includegraphics[width=100mm]{Restore_LSAR_2.pdf}
+%\begin{picture}(0,0)
+%\put(-245,235){Restored Wavelet coefficients Example 2}
+%%\put(-200,0){Time}
+%\end{picture}
+%\caption{Example of the LSAR algorithm interpolating 85 missing Wavelet coefficients at level 3.}
+%\label{fig:Restore_LSAR_2.pdf}
+%\end{figure}
 
-\subsection{Tonal Restoration}
+\section{Tonal Restoration}
+
+\subsection{Basic filtering}
+
+\subsection{Historic filtering}
 %- Historic Frequency logic and filtering (amplitudes)
 %- Future restoration (fading)
 While the separation algorithm works by modeling the speech as distinctive tonal components some keystroke noise pulses also exhibit strong tonal components. Figure~\ref{fig:TonalRestoration_Spec_Orig.png} shows the spectrogram of a keyboard noise pulse imbedded in a voiced audio segment.
