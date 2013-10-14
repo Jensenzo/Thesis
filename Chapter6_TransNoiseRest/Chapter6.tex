@@ -1,7 +1,7 @@
 \chapter{Transient Noise Restoration}\label{ch:TransientNoiseRestoration}
 
 \ifpdf
-    \graphicspath{{Chapter6_TransNoiseRest/Chapter6Figs/PNG/}{Chapter6_TransNoiseRest/Chapter6Figs/PDF/}{Chapter6_TransNoiseRest/Chapter6Figs/}}
+    \graphicspath{{Chapter6_TransNoiseRest/Chapter6Figs/PNG/}{Chapter6_TransNoiseRest/Chapter6Figs/PDF/}{Chapter6_TransNoiseRest/Chapter6Figs/}{Chapter6_TransNoiseRest/Chapter6Figs/Subjective/}{Chapter6_TransNoiseRest/Chapter6Figs/Results/}}
 \else
     \graphicspath{{Chapter6_TransNoiseRest/Chapter6Figs/EPS/}{Chapter6_TransNoiseRest/Chapter6Figs/}}
 \fi
@@ -435,6 +435,25 @@ Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the re
 
 \section{Methods}
 \subsection{Subjective test}
+A subjective listening test was designed to gauge the preference of listeners to reconstructed corruptions in relation to the original corruption. Since the reconstruction procedure, in most cases, still leaves or introduces artifacts in the audio stream the experiment was intended to measure if the artificial noise would in fact be more of an audible nuisance than the original keystrokes.
+
+Subjects were presented with 12 test sets consisting of 2 audio segments each; the original audio segment containing speech and a number of keystrokes and the reconstructed segment. The order of the original segment and the reconstructed segment was randomized throughout the trial. The audio segments used for this test was a mix of fast typing and slow typing, recorded through laptops and external microphones, naturally corrupted segments and keystrokes added to clean segments, male or female speech and a variety of keyboards types and makes.
+
+The Graphical User Interface (GUI) presented to the test subjects is shown here in Figure~\ref{fig:SubjectiveExp_GUI.png}.
+
+Subjects were asked to choose their preferred audio segment or the one they found the least annoying. If they found both segments equally annoying or equally pleasing they could opt to tick both boxes and proceed. All audio segments were sampled at 16kHz, ranged from 1 to 10 seconds in length (mainly in the range 3-5 seconds), and were run through a completely sequential version of the final algorithm as it would work implemented in a communication framework. All subjects used the same set of AKG K-240 M1 circumaural open back headphones in a quiet office environment through a laptop computer audio interface and were allowed to replay audio segments as they pleased. The test was conducted on 16 individuals found in and around the office. Most of the subjects were familiar with the research being investigated.
+
+
+\begin{figure}[!] %SubjectiveExp_GUI.png
+\centering
+\includegraphics[width=120mm]{SubjectiveExp_GUI.png}
+\begin{picture}(0,0)
+%\put(-355,120){Frequency}
+%\put(-200,0){Time}
+\end{picture}
+\caption{Experimental GUI presented to subjects.}
+\label{fig:SubjectiveExp_GUI.png}
+\end{figure}
 
 \section{Results}
 \subsection{something}
