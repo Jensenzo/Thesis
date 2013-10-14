@@ -160,7 +160,7 @@ An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScal
 %%Standard restoration, interpolation
 
 
-\subsection{Least Squares AR (LSAR)}
+\subsection{Least Squares AR (LSAR)}\label{sec:ResidualRestorationLSAR}
 For the restoration of samples in the residual component the Least Squares AR (LSAR) interpolator is considered here\cite{Godsill1998book}.
 
 Assuming that the residual coefficients $\mathbf{x}$ are drawn from an AR process with parameters $\mathbf{a}$, and where
@@ -263,8 +263,8 @@ An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:Resto
 \section{Tonal Restoration}
 While the aim of the pre processing separation stage is to separate out tonal components from transient noise events, the tonal components themselves occasionally retain components introduced by the noise events. These tonal noise components are not always present, but factors such as the amplitude of the impulse, mechanical properties of the keyboard or the laptop enclosure and even the surface on which the keyboard or computer is placed can have an impact on whether or not these components are present to the extent that get identified as tonal components. Constraints such as frame sizes in the system can also add to the amount of noise leaking through to the tonal components. A short frame size can contribute to this effect.
 
-\subsection{Basic filtering}
-The most common noise component left in the tonal component of the signal is a low frequency \emph{bump}. Figure~\ref{fig:TonalArtefactSpectrumExample.png} shows an example of this, with an accompanying spectrogram. While it may be difficult to clearly visualise the extent of the corruption within a speech segment, it is clearly audible\footnote{\sound{Tonal_Example.wav}}.
+\subsection{Basic filtering}\label{sec:TonalFiltering}
+The most common noise component left in the tonal component of the signal is a low frequency \emph{bump}. Figure~\ref{fig:TonalArtefactSpectrumExample.png} shows an example of this, with an accompanying spectrogram. While it may be difficult to clearly visualise the extent of the corruption within a speech segment, it is although clearly audible.\footnote{\sound{Tonal\_Example.wav}} 
 
 \begin{figure} %TonalArtefactSpectrumExample.png
 \centering
@@ -274,10 +274,11 @@ The most common noise component left in the tonal component of the signal is a l
 %\put(-320,290){b)}
 %\put(-320,140){c)}
 \end{picture}
-\caption{Example of simple tonal restoration using filtering.}
+\caption{Example of low frequency tonal noise. A \emph{bump}. Top: Waveform and Bottom: Spectrogram of same sequence.}
 \label{fig:TonalArtefactSpectrumExample.png}
 \end{figure}
 
+A simple approach to removing low frequency noise is to apply standard high pass filter to the corrupted region. Fading in and out from this filtered segment will remove the effect of discontinuities. Figure~\ref{fig:TonalFilteringExample.pdf} shows the same example of a tonal noise component as in Figure~\ref{fig:TonalArtefactSpectrumExample.png} and the process for removing it. In Figure~\ref{fig:TonalFilteringExample.pdf}(a) the original corrupted signal can be seen together with a plot of the detection state. The unrestored tonal component is seen in Figure~\ref{fig:TonalFilteringExample.pdf}(c) with a mixing indicator showing the state of the mixing process which tapers the amplitude from 100\% to 0\% in 200 samples or an $1/80$ of a second at the sampling rate of 16000 Hz. Figure~\ref{fig:TonalFilteringExample.pdf}(b) shows the inverse mixing indicator and the high pass filtered signal with a cutoff frequency of 120 Hz. 
 
 \begin{figure} %TonalFilteringExample.pdf
 \centering
@@ -291,10 +292,13 @@ The most common noise component left in the tonal component of the signal is a l
 \label{fig:TonalFilteringExample.pdf}
 \end{figure}
 
+
 \subsection{Historic filtering}
 %- Historic Frequency logic and filtering (amplitudes)
 %- Future restoration (fading)
-While the separation algorithm works by modeling the speech as distinctive tonal components some keystroke noise pulses also exhibit strong tonal components. Figure~\ref{fig:TonalRestoration_Spec_Orig.png} shows the spectrogram of a keyboard noise pulse imbedded in a voiced audio segment.
+While the separation algorithm works by modeling the speech as distinctive tonal components some keystroke noise pulses also exhibit strong tonal components beyond those seen in section~\ref{sec:TonalFiltering}. As mentioned previously, this may be due to a range of physical conditions but possibly also due to constraints on the frame size in a system. In this section a frame size of 10 ms is assumed. 
+
+Figure~\ref{fig:TonalRestoration_Spec_Orig.png} shows the spectrogram of a keyboard noise pulse embedded in a voiced audio segment. The method described here will be applied to this audio example and followed throughout this section.
 
 \begin{figure} %TonalRestoration_Spec_Orig.png
 \centering
@@ -307,7 +311,7 @@ While the separation algorithm works by modeling the speech as distinctive tonal
 \label{fig:TonalRestoration_Spec_Orig.png}
 \end{figure}
 
-Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png} shows a spectrogram of the audio segment from Figure~\ref{fig:TonalRestoration_Spec_Orig.png} with the residual restoration applied. The separation algorithm has largely kept the voiced signal below 1500 Hz intact but some higher frequency information from the noise pulse has also been detected as tonal components and hence are still clearly visible in the spectrogram. While the frequency response of the keyboard strokes are generally wide band they can often exhibit strong tonal components due to the mechanical construction of the keyboard. These components, combined with the underlying voiced signal, is what can sometimes be seen detected as tonal components by the separation algorithm. Rather that replacing the data from the influenced buffers completely, like was done for the residual components, this sections will explore a heuristic method for filtering out interfering tonal components while keeping voiced components intact and undisturbed.
+Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png} shows a spectrogram of the audio segment from Figure~\ref{fig:TonalRestoration_Spec_Orig.png} with the LSAR residual restoration from section~\ref{sec:ResidualRestorationLSAR} applied. The separation algorithm has largely kept the voiced signal below 1500 Hz intact but some higher frequency information from the noise pulse has also been detected as tonal components and hence are still clearly visible in the spectrogram. These components, combined with the underlying voiced signal, is what can sometimes be seen detected as tonal components by the separation algorithm. Rather that replacing the data from the influenced buffers completely, like was done for the majority of the residual restoration algorithms, this sections will explore a heuristic method for filtering out interfering tonal components while keeping voiced components intact and undisturbed.
 
 \begin{figure} %TonalRestoration_Spec_ResidualRestoration.png
 \centering
@@ -320,7 +324,7 @@ Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png} shows a spectrogr
 \label{fig:TonalRestoration_Spec_ResidualRestoration.png}
 \end{figure}
 
-Since voiced components of speech generally are seen for at least 100 ms, the tonal restoration algorithm starts by keeping a record of active tonal atoms. These are already computed through the separation algorithm and so this only requires additional memory while running. Figure~\ref{fig:TonalRestoration_Spec_ResidualRestorationFrames.png} shows a grid of 10 ms frames overlayed on the previous audio frames. The grid in Figure~\ref{fig:TonalRestoration_Spec_ResidualRestorationFrames.png} indicates the extent of historic buffer and the data stored will be the tonal components that are selected by the separation algorithm as well as the magnitude of these frequencies within the buffers.
+Since voiced components of speech generally are seen for at least 100 ms, this tonal restoration algorithm starts by keeping a record of active tonal atoms. These are already computed through the separation algorithm and so this only requires additional memory while running. Figure~\ref{fig:TonalRestoration_Spec_ResidualRestorationFrames.png} shows a grid of 10 ms frames overlayed on the previous audio frames. The grid in Figure~\ref{fig:TonalRestoration_Spec_ResidualRestorationFrames.png} indicates the extent of historic buffer and the data stored will be the tonal components that are selected by the separation algorithm as well as the magnitude of these frequencies within the buffers.
 
 \begin{figure} %TonalRestoration_Spec_ResidualRestorationFrames.png
 \centering
@@ -482,7 +486,7 @@ Subjects were asked to choose their preferred audio segment or the one they foun
 \end{figure}
 
 \section{Results}
-\subsection{something}
+\subsection{Residual restoration}
 
 
 \begin{figure}%ResultsScaledCombinedExample.pdf
@@ -508,6 +512,22 @@ Subjects were asked to choose their preferred audio segment or the one they foun
 \label{fig:RestoredLSARExampleWaveform.pdf}
 \end{figure}
 
+\subsection{Tonal restoration}
+%Basic tonal filtering
+The result of the simple tonal filtering example in section~\ref{sec:TonalFiltering} can be seen in Figure~\ref{fig:TonalArtefactSpectrumExampleFiltered.png}.
+
+\begin{figure} %TonalArtefactSpectrumExampleFiltered.png
+\centering
+\includegraphics[width=120mm]{TonalArtefactSpectrumExampleFiltered.png}
+\begin{picture}(0,0)
+%\put(-320,442){a)}
+%\put(-320,290){b)}
+%\put(-320,140){c)}
+\end{picture}
+\caption{Example of simple tonal restoration using filtering.}
+\label{fig:TonalArtefactSpectrumExampleFiltered.png}
+\end{figure}
+
 \subsection{Subjective test}
 
 
@@ -515,6 +535,8 @@ Subjects were asked to choose their preferred audio segment or the one they foun
 
 % FIR filtering, computational advantage in the AR parameter estimation
 While applying the FIR filtering approaches to the interpolation task for the corrupted samples in the time or the wavelet generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the AR parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $\Theta(n^2)$\cite{Hayes1996} rather than $\Theta(n^3)$ using the state of the art Cramer\'s rule implementation\cite{Habgood2012}. Performing the restoration on the wavelet coefficients rather than the waveform will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality since the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$.
+
+%note that tonal noise (especially low frequency bumps) might not be a big nuisance. Possibly due to them not overlapping in spectrum with speech.
 
 \section{Conclusions}
 
