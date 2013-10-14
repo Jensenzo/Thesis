@@ -22,7 +22,6 @@ The restoration of the sparse residual component can be formulated as follows. I
 \end{equation}
 
 
-
 \subsection{Noise insertion}
 The simplest restoration algorithm proposed in this chapter features a simple method for replacing corrupted samples with random noise.
 
@@ -262,10 +261,35 @@ An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:Resto
 %\end{figure}
 
 \section{Tonal Restoration}
-While the aim of the pre processing separation stage is to separate out tonal components from transient noise events, the tonal components themselves occasionally retain components introduced by the noise events. 
-
+While the aim of the pre processing separation stage is to separate out tonal components from transient noise events, the tonal components themselves occasionally retain components introduced by the noise events. These tonal noise components are not always present, but factors such as the amplitude of the impulse, mechanical properties of the keyboard or the laptop enclosure and even the surface on which the keyboard or computer is placed can have an impact on whether or not these components are present to the extent that get identified as tonal components. Constraints such as frame sizes in the system can also add to the amount of noise leaking through to the tonal components. A short frame size can contribute to this effect.
 
 \subsection{Basic filtering}
+The most common noise component left in the tonal component of the signal is a low frequency \emph{bump}. Figure~\ref{fig:TonalArtefactSpectrumExample.png} shows an example of this, with an accompanying spectrogram. While it may be difficult to clearly visualise the extent of the corruption within a speech segment, it is clearly audible\footnote{\sound{Tonal_Example.wav}}.
+
+\begin{figure} %TonalArtefactSpectrumExample.png
+\centering
+\includegraphics[width=120mm]{TonalArtefactSpectrumExample.png}
+\begin{picture}(0,0)
+%\put(-320,442){a)}
+%\put(-320,290){b)}
+%\put(-320,140){c)}
+\end{picture}
+\caption{Example of simple tonal restoration using filtering.}
+\label{fig:TonalArtefactSpectrumExample.png}
+\end{figure}
+
+
+\begin{figure} %TonalFilteringExample.pdf
+\centering
+\includegraphics[width=120mm]{TonalFilteringExample.pdf}
+\begin{picture}(0,0)
+\put(-320,442){a)}
+\put(-320,290){b)}
+\put(-320,140){c)}
+\end{picture}
+\caption{Example of simple tonal restoration using filtering. a) Original complete signal and detection state, b) High pass filtered (200Hz) tonal component with mixing indicator, and c) original tonal component with mixing indicator.}
+\label{fig:TonalFilteringExample.pdf}
+\end{figure}
 
 \subsection{Historic filtering}
 %- Historic Frequency logic and filtering (amplitudes)
