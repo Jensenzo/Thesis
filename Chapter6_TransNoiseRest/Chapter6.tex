@@ -264,7 +264,7 @@ An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:Resto
 While the aim of the pre processing separation stage is to separate out tonal components from transient noise events, the tonal components themselves occasionally retain components introduced by the noise events. These tonal noise components are not always present, but factors such as the amplitude of the impulse, mechanical properties of the keyboard or the laptop enclosure and even the surface on which the keyboard or computer is placed can have an impact on whether or not these components are present to the extent that get identified as tonal components. Constraints such as frame sizes in the system can also add to the amount of noise leaking through to the tonal components. A short frame size can contribute to this effect.
 
 \subsection{Basic filtering}\label{sec:TonalFiltering}
-The most common noise component left in the tonal component of the signal is a low frequency \emph{bump}. Figure~\ref{fig:TonalArtefactSpectrumExample.png} shows an example of this, with an accompanying spectrogram. While it may be difficult to clearly visualise the extent of the corruption within a speech segment, it is although clearly audible.\footnote{\sound{Tonal\_Example.wav}} 
+The most common noise component left in the tonal component of the signal is a low frequency \emph{bump}. Figure~\ref{fig:TonalArtefactSpectrumExample.png} shows an example of this, with an accompanying spectrogram. While it may be difficult to clearly visualise the extent of the corruption within a speech segment, it is although clearly audible.\footnote{\sound{Tonal\_Example.wav}}
 
 \begin{figure} %TonalArtefactSpectrumExample.png
 \centering
@@ -278,7 +278,7 @@ The most common noise component left in the tonal component of the signal is a l
 \label{fig:TonalArtefactSpectrumExample.png}
 \end{figure}
 
-A simple approach to removing low frequency noise is to apply standard high pass filter to the corrupted region. Fading in and out from this filtered segment will remove the effect of discontinuities. Figure~\ref{fig:TonalFilteringExample.pdf} shows the same example of a tonal noise component as in Figure~\ref{fig:TonalArtefactSpectrumExample.png} and the process for removing it. In Figure~\ref{fig:TonalFilteringExample.pdf}(a) the original corrupted signal can be seen together with a plot of the detection state. The unrestored tonal component is seen in Figure~\ref{fig:TonalFilteringExample.pdf}(c) with a mixing indicator showing the state of the mixing process which tapers the amplitude from 100\% to 0\% in 200 samples or an $1/80$ of a second at the sampling rate of 16000 Hz. Figure~\ref{fig:TonalFilteringExample.pdf}(b) shows the inverse mixing indicator and the high pass filtered signal with a cutoff frequency of 120 Hz. 
+A simple approach to removing low frequency noise is to apply standard high pass filter to the corrupted region. Fading in and out from this filtered segment will remove the effect of discontinuities. Figure~\ref{fig:TonalFilteringExample.pdf} shows the same example of a tonal noise component as in Figure~\ref{fig:TonalArtefactSpectrumExample.png} and the process for removing it. In Figure~\ref{fig:TonalFilteringExample.pdf}(a) the original corrupted signal can be seen together with a plot of the detection state. The unrestored tonal component is seen in Figure~\ref{fig:TonalFilteringExample.pdf}(c) with a mixing indicator showing the state of the mixing process which tapers the amplitude from 100\% to 0\% in 200 samples or an $1/80$ of a second at the sampling rate of 16000 Hz. Figure~\ref{fig:TonalFilteringExample.pdf}(b) shows the inverse mixing indicator and the high pass filtered signal with a cutoff frequency of 120 Hz.
 
 \begin{figure} %TonalFilteringExample.pdf
 \centering
@@ -296,7 +296,7 @@ A simple approach to removing low frequency noise is to apply standard high pass
 \subsection{Historic filtering}
 %- Historic Frequency logic and filtering (amplitudes)
 %- Future restoration (fading)
-While the separation algorithm works by modeling the speech as distinctive tonal components some keystroke noise pulses also exhibit strong tonal components beyond those seen in section~\ref{sec:TonalFiltering}. As mentioned previously, this may be due to a range of physical conditions but possibly also due to constraints on the frame size in a system. In this section a frame size of 10 ms is assumed. 
+While the separation algorithm works by modeling the speech as distinctive tonal components some keystroke noise pulses also exhibit strong tonal components beyond those seen in section~\ref{sec:TonalFiltering}. As mentioned previously, this may be due to a range of physical conditions but possibly also due to constraints on the frame size in a system. In this section a frame size of 10 ms is assumed.
 
 Figure~\ref{fig:TonalRestoration_Spec_Orig.png} shows the spectrogram of a keyboard noise pulse embedded in a voiced audio segment. The method described here will be applied to this audio example and followed throughout this section.
 
@@ -464,15 +464,18 @@ Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the re
 \end{figure}
 
 \section{Methods}
+\subsection{Objective tests}
+% PESQ \cite{Loizou2007}
+% PESQ-WB (ITU P.862.2): \cite{P862-2-2005}
+
+% PEAQ \cite{Campeanu2005}
+% (BS.1387): \cite{BS-1387-1998}
 \subsection{Subjective test}
 A subjective listening test was designed to gauge the preference of listeners to reconstructed corruptions in relation to the original corruption. Since the reconstruction procedure, in most cases, still leaves or introduces artifacts in the audio stream the experiment was intended to measure if the artificial noise would in fact be more of an audible nuisance than the original keystrokes.
 
 Subjects were presented with 12 test sets consisting of 2 audio segments each; the original audio segment containing speech and a number of keystrokes and the reconstructed segment. The order of the original segment and the reconstructed segment was randomized throughout the trial. The audio segments used for this test was a mix of fast typing and slow typing, recorded through laptops and external microphones, naturally corrupted segments and keystrokes added to clean segments, male or female speech and a variety of keyboards types and makes.
 
 The Graphical User Interface (GUI) presented to the test subjects is shown here in Figure~\ref{fig:SubjectiveExp_GUI.png}.
-
-Subjects were asked to choose their preferred audio segment or the one they found the least annoying. If they found both segments equally annoying or equally pleasing they could opt to tick both boxes and proceed. All audio segments were sampled at 16kHz, ranged from 1 to 10 seconds in length (mainly in the range 3-5 seconds), and were run through a completely sequential version of the final algorithm as it would work implemented in a communication framework. All subjects used the same set of AKG K-240 M1 circumaural open back headphones in a quiet office environment through a laptop computer audio interface and were allowed to replay audio segments as they pleased. The test was conducted on 16 individuals found in and around the office. Most of the subjects were familiar with the research being investigated.
-
 
 \begin{figure}[!] %SubjectiveExp_GUI.png
 \centering
@@ -484,6 +487,8 @@ Subjects were asked to choose their preferred audio segment or the one they foun
 \caption{Experimental GUI presented to subjects.}
 \label{fig:SubjectiveExp_GUI.png}
 \end{figure}
+
+Subjects were asked to choose their preferred audio segment or the one they found the ``least annoying''. If they found both segments equally annoying or equally pleasing they could opt to tick both boxes and proceed. All audio segments were sampled at 16kHz, ranged from 1 to 10 seconds in length (mainly in the range 3-5 seconds), and were run through a completely sequential version of the final algorithm as it would work implemented in a communication framework. All subjects used the same set of AKG K-240 M1 circumaural open back headphones in a quiet office environment through a laptop computer audio interface and were allowed to replay audio segments as they pleased. The test was conducted on 16 individuals found in and around the office. Most of the subjects were familiar with the research being investigated.
 
 \section{Results}
 \subsection{Residual restoration}
@@ -513,6 +518,7 @@ Subjects were asked to choose their preferred audio segment or the one they foun
 \end{figure}
 
 \subsection{Tonal restoration}
+
 %Basic tonal filtering
 The result of the simple tonal filtering example in section~\ref{sec:TonalFiltering} can be seen in Figure~\ref{fig:TonalArtefactSpectrumExampleFiltered.png}.
 
@@ -527,8 +533,188 @@ The result of the simple tonal filtering example in section~\ref{sec:TonalFilter
 \caption{Example of simple tonal restoration using filtering.}
 \label{fig:TonalArtefactSpectrumExampleFiltered.png}
 \end{figure}
+\subsection{Objective measures}
+\subsubsection{PESQ}
+
+\begin{tabular}{l|c|c|c|c|c}
+                    & set 2 & set 4 & set 6 & set 11    & Mean \\ \hline
+  Reconstruction    & 3.385 & 3.208 & 3.616 & 2.624     & 3.208 \\
+  Original          & 3.610 & 2.949 & 3.354 & 2.108     & 3.005 \\ \hline
+  Difference        & -0.225& 0.259 & 0.262 & 0.516     & 0.203 \\
+  \hline
+\end{tabular}
+
+%Test file: 2
+% Prediction for ref3.wav/recon3.wav: PESQ_MOS = 3.385
+% Prediction for ref3.wav/dirty3.wav: PESQ_MOS = 3.610
+
+%Test file: 4
+% Prediction for ref2.wav/recon2.wav: PESQ_MOS = 3.208
+% Prediction for ref2.wav/dirty2.wav: PESQ_MOS = 2.949
+
+%Test file: 6
+% Prediction for ref.wav/recon.wav: PESQ_MOS = 3.616
+% Prediction for ref.wav/dirty.wav: PESQ_MOS = 3.354
+
+%Test file: 11
+% Prediction for ref4.wav/recon4.wav: PESQ_MOS = 2.624
+% Prediction for ref4.wav/dirty4.wav: PESQ_MOS = 2.108
+\subsubsection{PEAQ}
+From files ref48, dirty48 and recon48, data:
+
+%From: ref48, recon48:
+Model Output Variables:
+   BandwidthRefB: 612.687
+  BandwidthTestB: 612.687
+      Total NMRB: -8.71729
+    WinModDiff1B: 23.243
+            ADBB: 2.09914
+            EHSB: 0.201016
+    AvgModDiff1B: 12.0178
+    AvgModDiff2B: 29.8933
+   RmsNoiseLoudB: 1.23873
+           MFPDB: 0.5444
+  RelDistFramesB: 0.121739
+Objective Difference Grade: -2.066
+%From: ref48, dirty48:
+Model Output Variables:
+   BandwidthRefB: 610.487
+  BandwidthTestB: 610.478
+      Total NMRB: 6.50755
+    WinModDiff1B: 55.0846
+            ADBB: 2.99042
+            EHSB: 0.212077
+    AvgModDiff1B: 21.687
+    AvgModDiff2B: 68.7346
+   RmsNoiseLoudB: 9.6425
+           MFPDB: 0.468563
+  RelDistFramesB: 0.0347826
+Objective Difference Grade: -3.610
+
+
+%From: ref248, recon248:
+Model Output Variables:
+   BandwidthRefB: 694.777
+  BandwidthTestB: 691.644
+      Total NMRB: 3.94317
+    WinModDiff1B: 56.6099
+            ADBB: 2.17526
+            EHSB: 0.477275
+    AvgModDiff1B: 25.5154
+    AvgModDiff2B: 80.0012
+   RmsNoiseLoudB: 2.7302
+           MFPDB: 0.999996
+  RelDistFramesB: 0.702265
+Objective Difference Grade: -3.599
+%From: ref248, dirty248:
+Model Output Variables:
+   BandwidthRefB: 693.638
+  BandwidthTestB: 693.634
+      Total NMRB: 19.2873
+    WinModDiff1B: 74.298
+            ADBB: 2.27687
+            EHSB: 0.452058
+    AvgModDiff1B: 29.1026
+    AvgModDiff2B: 131.507
+   RmsNoiseLoudB: 2.8295
+           MFPDB: 0.999996
+  RelDistFramesB: 0.686084
+Objective Difference Grade: -3.608
+
+%From: ref348, recon348:
+Model Output Variables:
+   BandwidthRefB: 605.852
+  BandwidthTestB: 605.565
+      Total NMRB: -0.729533
+    WinModDiff1B: 36.9396
+            ADBB: 1.97902
+            EHSB: 0.381766
+    AvgModDiff1B: 24.4209
+    AvgModDiff2B: 70.0406
+   RmsNoiseLoudB: 1.76688
+           MFPDB: 0.949357
+  RelDistFramesB: 0.502392
+Objective Difference Grade: -3.678
+%From: ref348, dirty348:
+Model Output Variables:
+   BandwidthRefB: 604.254
+  BandwidthTestB: 604.153
+      Total NMRB: 6.70186
+    WinModDiff1B: 47.3994
+            ADBB: 1.89275
+            EHSB: 0.353396
+    AvgModDiff1B: 26.5329
+    AvgModDiff2B: 96.793
+   RmsNoiseLoudB: 7.08213
+           MFPDB: 0.927756
+  RelDistFramesB: 0.416268
+Objective Difference Grade: -3.862
+
+%From: ref448, recon448:
+Model Output Variables:
+   BandwidthRefB: 557.086
+  BandwidthTestB: 553.033
+      Total NMRB: 13.1709
+    WinModDiff1B: 95.4826
+            ADBB: 2.4637
+            EHSB: 1.13655
+    AvgModDiff1B: 74.9343
+    AvgModDiff2B: 316.61
+   RmsNoiseLoudB: 7.13774
+           MFPDB: 1
+  RelDistFramesB: 0.907285
+Objective Difference Grade: -3.889
+%From: ref448, dirty448:
+Model Output Variables:
+   BandwidthRefB: 554.801
+  BandwidthTestB: 554.795
+      Total NMRB: 23.4848
+    WinModDiff1B: 148.823
+            ADBB: 2.67982
+            EHSB: 0.811006
+    AvgModDiff1B: 115.359
+    AvgModDiff2B: 616.635
+   RmsNoiseLoudB: 7.40025
+           MFPDB: 0.999972
+  RelDistFramesB: 0.89404
+Objective Difference Grade: -3.747
+
+NMRB: Logarithm of the averaged Total Noise to Mask Ratio
+MFPDB: Maximum of the probability of detection after low pass filtering
+RelDistFramesB: Relative fraction of frames for which at least one frequency band contain significant noise
+
 
 \subsection{Subjective test}
+% Prefer Recon: 46%, Orig: 36%, Equal: 18%
+The results showed that 46\% of the subjects preferred the reconstructed audio segments to the originals, 36\% preferred the original and 18\% were ambivalent and found neither segment better than the other.
+
+Figure~\ref{fig:SubjectiveExp_PerTestData.pdf} shows the results for each of the 12 audio segments. It is clear that subjects generally preferred the reconstructions in sets 5, 10, 11, and 12, where the original was clearly preferred in sets 1, and 2, where the rest of the sets were more mixed in the response. Looking at the sets with a general preference of the reconstructed segment it is noted that these are primarily corrupted by keyboard strokes typed at a slower pace. The slower typed sets also contained fewer keystrokes and it is possible that a higher density of restoration artifacts are more disturbing than keystrokes due to the artifacts' seemingly higher degree of audible variability.
+
+\begin{figure}[!] %SubjectiveExp_PerTestData.pdf
+\centering
+\includegraphics[width=120mm]{SubjectiveExp_PerTestData.pdf}
+\begin{picture}(0,0)
+%\put(-355,120){Frequency}
+%\put(-200,0){Time}
+\end{picture}
+\caption{Experimental results for each set in the test.}
+\label{fig:SubjectiveExp_PerTestData.pdf}
+\end{figure}
+
+It was noted that subjects' preferences generally varied greatly. Some subjects almost entirely preferred the original segments while others were heavily in favour of the reconstructions. Most were although split throughout the sets with a slight preference in favour of the reconstructed samples. Figure~\ref{fig:SubjectiveExp_PreferenceHistogram.pdf} shows a histogram of the data from the experiment. From this figure it can be seen how the mode of the distribution of number of preferences of the reconstructed audio segment is higher (7) than that for the number of preference for the original audio segment (4). In other words, 4 subjects preferred the reconstructed segment 7 times in the test, while 4 subjects preferred the original only 4 times.
+
+\begin{figure}[!] %SubjectiveExp_PreferenceHistogram.pdf
+\centering
+\includegraphics[width=120mm]{SubjectiveExp_PreferenceHistogram.pdf}
+\begin{picture}(0,0)
+%\put(-355,120){Frequency}
+%\put(-200,0){Time}
+\end{picture}
+\caption{Histogram of test subject preferences.}
+\label{fig:SubjectiveExp_PreferenceHistogram.pdf}
+\end{figure}
+
+While the results from this test does not conclusively show a preference of the reconstructed audio segments amongst listeners it can be said that there is a slight preference to the reconstructed audio segments. Listeners who were generally in favor of the original segments reported that they preferred the ``naturally'' sounding corruptions to the more artificially soundings corruptions left by the algorithm, especially when these were imbedded in speech. Other users also noted that the key strokes were not generally perceived to be a nuisance at all. These preliminary findings underline the importance of natural and predictably sounding reconstructions.
 
 
 \section{Discussion}
