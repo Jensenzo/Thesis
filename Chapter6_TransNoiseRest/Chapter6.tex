@@ -292,11 +292,24 @@ A simple approach to removing low frequency noise is to apply standard high pass
 \label{fig:TonalFilteringExample.pdf}
 \end{figure}
 
+The result of the simple tonal filtering example can be seen in Figure~\ref{fig:TonalArtefactSpectrumExampleFiltered.png}.
+
+\begin{figure} %TonalArtefactSpectrumExampleFiltered.png
+\centering
+\includegraphics[width=120mm]{TonalArtefactSpectrumExampleFiltered.png}
+\begin{picture}(0,0)
+%\put(-320,442){a)}
+%\put(-320,290){b)}
+%\put(-320,140){c)}
+\end{picture}
+\caption{Example of simple tonal restoration using filtering.}
+\label{fig:TonalArtefactSpectrumExampleFiltered.png}
+\end{figure}
 
 \subsection{Historic filtering}
 %- Historic Frequency logic and filtering (amplitudes)
 %- Future restoration (fading)
-While the separation algorithm works by modeling the speech as distinctive tonal components some keystroke noise pulses also exhibit strong tonal components beyond those seen in section~\ref{sec:TonalFiltering}. As mentioned previously, this may be due to a range of physical conditions but possibly also due to constraints on the frame size in a system. In this section a frame size of 10 ms is assumed.
+While the separation algorithm works by modeling the speech as distinctive tonal components some keystroke noise pulses also exhibit strong tonal components beyond those seen in section~\ref{sec:TonalFiltering}. As mentioned previously, this may be due to a range of physical conditions but possibly also due to constraints on the frame size in a system. In this section a frame size of 10 ms is assumed. While the results from the simple high pass filtering algorithm presented in section~\ref{sec:TonalFiltering} does manage to remove low frequency tonal noise \emph{bumps} in the audio it fails to remove higher frequency tonal components. This section will focus on a generalised approach to removing tonal noise components introduced by some keyboard strokes, and will specifically focus on doing this in a sequential frame based and computationally simple manner.
 
 Figure~\ref{fig:TonalRestoration_Spec_Orig.png} shows the spectrogram of a keyboard noise pulse embedded in a voiced audio segment. The method described here will be applied to this audio example and followed throughout this section.
 
@@ -494,52 +507,6 @@ Subjects were asked to choose their preferred audio segment or the one they foun
 
 \todo{Explain: MOS, ODG, PEAQ, PESQ}
 \section{Results}
-\subsection{Residual restoration}
-\todo{Write text}
-
-\begin{figure}%ResultsScaledCombinedExample.pdf
-\centering
-\includegraphics[width=100mm]{ResultsScaledCombinedExample.pdf}
-\begin{picture}(0,0)
-%\put(-245,235){Restored Wavelet coefficients Example 1}
-%\put(-200,0){Time}
-\end{picture}
-\caption{Time series example of the burst scaling algorithm.}
-\label{fig:ResultsScaledCombinedExample.pdf}
-\end{figure}
-
-
-\begin{figure}%RestoredLSARExampleWaveform.pdf
-\centering
-\includegraphics[width=100mm]{RestoredLSARExampleWaveform.pdf}
-\begin{picture}(0,0)
-%\put(-245,235){Restored Wavelet coefficients Example 1}
-%\put(-200,0){Time}
-\end{picture}
-\caption{Time series example of the LSAR algorithm.}
-\label{fig:RestoredLSARExampleWaveform.pdf}
-\end{figure}
-
-\subsection{Tonal restoration}
-%Basic tonal filtering
-The result of the simple tonal filtering example in section~\ref{sec:TonalFiltering} can be seen in Figure~\ref{fig:TonalArtefactSpectrumExampleFiltered.png}.
-
-\begin{figure} %TonalArtefactSpectrumExampleFiltered.png
-\centering
-\includegraphics[width=120mm]{TonalArtefactSpectrumExampleFiltered.png}
-\begin{picture}(0,0)
-%\put(-320,442){a)}
-%\put(-320,290){b)}
-%\put(-320,140){c)}
-\end{picture}
-\caption{Example of simple tonal restoration using filtering.}
-\label{fig:TonalArtefactSpectrumExampleFiltered.png}
-\end{figure}
-
-
-
-
-
 
 \subsection{Subjective test}\label{sec:ResultsSubjectiveTest}
 % Prefer Recon: 46%, Orig: 36%, Equal: 18%
@@ -625,7 +592,8 @@ The PEAQ implementation used\cite{Loizou2007} featured a couple of other measure
 
 \subsection{Other measures}
 
-\todo{Correct this table}
+Table~\ref{tab:MaxMSE} shows the maximum mean squared error (MSE) of collection of sets tested above. It is clearly seen that across the board the reconstructed signal has a lower maximum MSE which is on average 0.3 below the corrupted signal. The set with the most improved max MSE, set 11, and the sets with the least improvement, sets 2 and 4, are also the sets with the strongest polarisation in preference to the same effect of the chosen sets.
+
 \begin{table}\begin{center}
 \caption{Max MSE results for test sets 2, 4, 6 and 11.}
 \label{tab:MaxMSE}
@@ -634,11 +602,11 @@ The PEAQ implementation used\cite{Loizou2007} featured a couple of other measure
                     & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
   Reconstruction    & 0.7071    & 0.2052    & 0.2298    & 0.2654    & 0.3519    \\
   Original          & 0.8463    & 0.3739    & 0.6171    & 0.6707    & 0.6270    \\ \hline
-  Difference        & -0.1392   & -0.1687   & -0.3873   & -0.4053   & -0.2751     \\
+  Difference        & -0.1392   & -0.1687   & -0.3873   & -0.4053   & -0.2751    \\
   \hline
 \end{tabular}\end{center}\end{table}
 
-\todo{Write text to include these figures!!!}
+An example of one of the frame based MSE comparisons are shown in Figure~\ref{fig:MSEexampleSet11.pdf}. This figure shows a series of corruptions with the a large part of them being detected and restored and as a result exhibit a much reduced MSE. A couple of the noise pulses are not detected and as a result the MSE for both the corrupted signal and the reconstructed signal are identical and overlapping. 
 
 \begin{figure} %MSEexampleSet11.pdf
 \centering
@@ -651,6 +619,7 @@ The PEAQ implementation used\cite{Loizou2007} featured a couple of other measure
 \label{fig:MSEexampleSet11.pdf}
 \end{figure}
 
+Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\ref{fig:MSEexampleSet11.pdf} focusing on two major corruptions and one missed detection. The figure shows clearly how the reconstruction algorithm dramatically reduces the MSE of three of the corruptions and almost completely removes the error for one of them. It is also noted that one corruption was not detected and hence no reconstruction was attempted.
 
 \begin{figure} %MSEexampleSet11Zoom.pdf
 \centering
@@ -663,17 +632,46 @@ The PEAQ implementation used\cite{Loizou2007} featured a couple of other measure
 \label{fig:MSEexampleSet11Zoom.pdf}
 \end{figure}
 
+The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak SNR calculations. As with the max MSE measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak SNR measures, with sets 2 and 3 showing less of an improvement than sets 6 and 11. In this case the reconstruction has a peak SNR similar to the original corrupted signal, showing no measurable improvement. In fact the peak SNR is slightly lower for the reconstruction suggesting a deterioration of the signal. On the other hand it is noted that the numbers for sets 6 and 11 are 5.4 and 3.2 dB higher respectively, giving an over all peak SNR of 1.9 dB for the 4 sets.
+ 
 \begin{table}\begin{center}
 \caption{Peak SNR results for test sets 2, 4, 6 and 11.}
 \label{tab:PeakSNR}
 \begin{tabular}{|l|c|c|c|c|c|}\hline
                     % file 3    & file 2    & file 1    & file 4
                     & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
-  Reconstruction    & 77.7      & 88.5      & 87.0      & 88.9      & 85.5      \\
-  Original          & 78.5      & 88.7      & 81.6      & 85.7      & 83.6      \\ \hline
-  Difference        & -0.8      & -0.2      & 5.4       & 3.2       & 1.9       \\
+  Reconstruction    & 77.7 dB   & 88.5 dB   & 87.0 dB   & 88.9 dB   & 85.5 dB   \\
+  Original          & 78.5 dB   & 88.7 dB   & 81.6 dB   & 85.7 dB   & 83.6 dB   \\ \hline
+  Difference        & -0.8 dB   & -0.2 dB   & 5.4  dB   & 3.2  dB   & 1.9  dB   \\
   \hline
 \end{tabular}\end{center}\end{table}
+
+\subsection{Waveforms of reconstructions}
+\todo{do text}
+
+\begin{figure}%ResultsScaledCombinedExample.pdf
+\centering
+\includegraphics[width=100mm]{ResultsScaledCombinedExample.pdf}
+\begin{picture}(0,0)
+%\put(-245,235){Restored Wavelet coefficients Example 1}
+%\put(-200,0){Time}
+\end{picture}
+\caption{Time series example of the burst scaling algorithm.}
+\label{fig:ResultsScaledCombinedExample.pdf}
+\end{figure}
+
+
+\begin{figure}%RestoredLSARExampleWaveform.pdf
+\centering
+\includegraphics[width=100mm]{RestoredLSARExampleWaveform.pdf}
+\begin{picture}(0,0)
+%\put(-245,235){Restored Wavelet coefficients Example 1}
+%\put(-200,0){Time}
+\end{picture}
+\caption{Time series example of the LSAR algorithm.}
+\label{fig:RestoredLSARExampleWaveform.pdf}
+\end{figure}
+
 
 \section{Discussion}
 
