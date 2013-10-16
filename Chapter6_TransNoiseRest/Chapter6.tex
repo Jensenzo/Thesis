@@ -519,13 +519,31 @@ MOS & Difference Grade  & Quality       & Description of Impairments  \\ \hline
 1   & -4                & Bad           & Very annoying               \\ \hline
 \end{tabular}\end{center}\end{table}
 
-
-
-% PESQ \cite{Loizou2007}
-% PESQ-WB (ITU P.862.2): \cite{P862-2-2005}
+PESQ, or the specific wide band adaptation PESQ-WB\cite{P862-2-2005}, is, unlike PEAQ, designed specifically for speech quality measures, and was first standardised as ITU-Telecommunication (ITU-T) Recommendation P.862 in 2001 with a wide band addition in 2005\cite{P862-2-2005}. The package used to generate the PESQ measures in this chapter was supplied with \cite{Loizou2007}, and quantifies the objective perceptual quality with a MOS of impairments as defined in Table~\ref{tab:MOS}.
 
 It is beyond the scope of this document to further describe the PEAQ and PESQ methods in more detail. Please refer to the cited literature for further detail.
+
 \subsubsection{Other measures}
+Further to PEAQ and PESQ, the quality of the reconstructions in this chapter will also be quantified using the Mean Squared Error (MSE). MSE is a measure of the average of the squares of the errors, or the amount which a value differs from a reference value, and is defined by:
+
+\begin{equation}\label{eq:MSEdef}
+\textrm{MSE}\left(\hat{x}\right) = \textrm{E} \left[ \left( \hat{x} - x \right)^2\right].
+\end{equation}
+
+Here $\hat{x}$ is an estimator and $x$ is the reference value.
+
+A frame based MSE is also used in this chapter to give a temporal representation of the MSE. This measure is simply the MSE applied to overlapping frames throughout the signal.
+
+It is important to stress that the MSE does not give a measure of the perceptibility of an error but just a numeric indication of the magnitude of this error. While a phase shift might be imperceptible to the listener it could potentially give a significant MSE response, while low amplitude noise modulated in phase with a signal could potentially be clearly audible while resulting in only a minor MSE response. For impulsive noise with a large magnitude in relation to the underlying signal it does provide sparse visual reference for evaluating impulsive noise and the reconstruction of corrupted samples and it is to that extent the MSE is primarily used in this chapter.
+
+\todo{Will I even use PSNR?}
+The Peak Signal to Noise Ration (PSNR) is a measure of the maximum possible power of a signal in relation to the power of a corrupting noise, and is defined as
+
+\begin{equation}\label{eq:PSNRdef}
+\textrm{PSNR} = 20 \log_{10} \left( \frac{\textrm{MAX}_\textrm{I}}{\sqrt{\textrm{MSE}}} \right),
+\end{equation}
+where MSE\textsubscript{I} is the maximum possible value for a sample.
+
 
 \section{Results}
 
@@ -571,10 +589,10 @@ Table~\ref{tab:PESQdata} shows the data from the PESQ tests. In all but the set 
 \caption{PESQ MOS results for test sets 2, 4, 6 and 11.}
 \label{tab:PESQdata}
 \begin{tabular}{|l|c|c|c|c|c|}\hline
-                    & set 2 & set 4 & set 6 & set 11    & Mean \\ \hline
-  Reconstruction    & 3.385 & 3.208 & 3.616 & 2.624     & 3.208 \\
-  Original          & 3.610 & 2.949 & 3.354 & 2.108     & 3.005 \\ \hline
-  Difference        & -0.225& 0.259 & 0.262 & 0.516     & 0.203 \\
+                    & set 2 & set 4 & set 6 & set 11  & Mean \\ \hline
+  Reconstruction    & 3.385 & 3.208 & 3.616 & 2.624   & 3.208 \\
+  Original          & 3.610 & 2.949 & 3.354 & 2.108   & 3.005 \\ \hline
+  Difference        & -0.225& 0.259 & 0.262 & 0.516   & 0.203 \\
   \hline
 \end{tabular}\end{center}\end{table}
 
@@ -661,9 +679,9 @@ The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{t
 \begin{tabular}{|l|c|c|c|c|c|}\hline
                     % file 3    & file 2    & file 1    & file 4
                     & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
-  Reconstruction    & 77.7 dB   & 88.5 dB   & 87.0 dB   & 88.9 dB   & 85.5 dB   \\
-  Original          & 78.5 dB   & 88.7 dB   & 81.6 dB   & 85.7 dB   & 83.6 dB   \\ \hline
-  Difference        & -0.8 dB   & -0.2 dB   & 5.4  dB   & 3.2  dB   & 1.9  dB   \\
+  Reconstruction    & 29.5 dB   & 40.3 dB   & 38.9 dB   & 40.7 dB   & 37.4 dB   \\
+  Original          & 30.4 dB   & 40.6 dB   & 33.5 dB   & 37.6 dB   & 35.5 dB   \\ \hline
+  Difference        & 5.4 dB    & -0.3 dB   & 0.9  dB   & 3.1  dB   & 1.8  dB   \\
   \hline
 \end{tabular}\end{center}\end{table}
 
