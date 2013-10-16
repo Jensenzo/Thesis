@@ -613,6 +613,7 @@ Table~\ref{tab:PEAQdataODG} shows the PEAQ ODG MOS for the same audio sets as in
 \caption{PEAQ ODG MOS results for test sets 2, 4, 6 and 11.}
 \label{tab:PEAQdataODG}
 \begin{tabular}{|l|c|c|c|c|c|}\hline
+                    % file 3    & file 2    & file 1    & file 4
                     & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
   Reconstruction    & -3.678    & -3.599    & -2.066    & -3.889    & -3.308    \\
   Original          & -3.862    & -3.608    & -3.610    & -3.747    & -3.707    \\ \hline
@@ -622,6 +623,57 @@ Table~\ref{tab:PEAQdataODG} shows the PEAQ ODG MOS for the same audio sets as in
 
 The PEAQ implementation used\cite{Loizou2007} featured a couple of other measured that has been included for completeness, including a description of the measures, in section~\ref{ap:PEAQdata} on page~\pageref{ap:PEAQdata}.
 
+\subsection{Other measures}
+
+\todo{Correct this table}
+\begin{table}\begin{center}
+\caption{Max MSE results for test sets 2, 4, 6 and 11.}
+\label{tab:MaxMSE}
+\begin{tabular}{|l|c|c|c|c|c|}\hline
+                    % file 3    & file 2    & file 1    & file 4
+                    & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
+  Reconstruction    & 0.7071    & 0.2052    & 0.2298    & 0.2654    & 0.3519    \\
+  Original          & 0.8463    & 0.3739    & 0.6171    & 0.6707    & 0.6270    \\ \hline
+  Difference        & -0.1392   & -0.1687   & -0.3873   & -0.4053   & -0.2751     \\
+  \hline
+\end{tabular}\end{center}\end{table}
+
+\todo{Write text to include these figures!!!}
+
+\begin{figure} %MSEexampleSet11.pdf
+\centering
+\includegraphics[width=120mm]{MSEexampleSet11.pdf}
+\begin{picture}(0,0)
+\put(-320,395){(a)}
+\put(-320,185){(b)}
+\end{picture}
+\caption{MSE comparison for data set 11. (a) Corrupted, reconstructed and reference signals, and (b) framed MSE comparison of corrupted and reconstructed signal.}
+\label{fig:MSEexampleSet11.pdf}
+\end{figure}
+
+
+\begin{figure} %MSEexampleSet11Zoom.pdf
+\centering
+\includegraphics[width=120mm]{MSEexampleSet11Zoom.pdf}
+\begin{picture}(0,0)
+\put(-320,395){(a)}
+\put(-320,185){(b)}
+\end{picture}
+\caption{Zoomed MSE comparison for data set 11. (a) Corrupted, reconstructed and reference signals, and (b) framed MSE comparison of corrupted and reconstructed signal.}
+\label{fig:MSEexampleSet11Zoom.pdf}
+\end{figure}
+
+\begin{table}\begin{center}
+\caption{Peak SNR results for test sets 2, 4, 6 and 11.}
+\label{tab:PeakSNR}
+\begin{tabular}{|l|c|c|c|c|c|}\hline
+                    % file 3    & file 2    & file 1    & file 4
+                    & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
+  Reconstruction    & 77.7      & 88.5      & 87.0      & 88.9      & 85.5      \\
+  Original          & 78.5      & 88.7      & 81.6      & 85.7      & 83.6      \\ \hline
+  Difference        & -0.8      & -0.2      & 5.4       & 3.2       & 1.9       \\
+  \hline
+\end{tabular}\end{center}\end{table}
 
 \section{Discussion}
 
