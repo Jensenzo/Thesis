@@ -477,7 +477,9 @@ Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the re
 
 \section{Methods}
 \subsection{Computational time test}
-While most of the results focus on reconstruction quality in various ways, it is important to note that since this algorithm is intended for sequential implementation in communication networks, the computational complexity is of imminent concern. Although traditional complexity measures would rate both the LSAR and the AR filtered algorithms as $O (n^2)$ the actual real world computational time could be vastly different. In an attempt to quantify these differences the code was repeatedly run 1000 times on various machines. The total computational time was divided by the total time for the audio segments processed. While reconstruction was only needed for a fraction of the audio segment length, this scaling gives an average relative computational effort for a real signal. 
+While most of the results focus on reconstruction quality in various ways, it is important to note that since this algorithm is intended for sequential implementation in communication networks, the computational complexity is of imminent concern. Although traditional complexity measures would rate both the LSAR and the AR filtered algorithms as $O (n^2)$ the actual real world computational time could be vastly different. In an attempt to quantify these differences the code was repeatedly run 1000 times on various machines. The total computational time was divided by the total time for the audio segments processed. While reconstruction was only needed for a fraction of the audio segment length, this scaling gives an average relative computational effort for a real world corrupted signal scenario.
+
+Although non of the code is optimised and the timings are done exclusively in Matlab, the code has been written use Matlab's in-built functions as often as possible. Methods tested all used the same vector segmentation code and so the only differing code was the actual reconstruction code. 
 
 \subsection{Subjective test}
 A subjective listening test was designed to gauge the preference of listeners to reconstructed corruptions in relation to the original corruption. Since the reconstruction procedure, in most cases, still leaves or introduces artifacts in the audio stream the experiment was intended to measure if the artificial noise would in fact be more of an audible nuisance than the original keystrokes.
@@ -502,7 +504,7 @@ Subjects were asked to choose their preferred audio segment or the one they foun
 \subsection{Objective tests}
 A variety of measures for evaluating the performance and the quality of the reconstructed signals are used as results in this chapter. \todo{more}
 \subsubsection{}
-The Perceptual Evaluation of Audio Quality (PEAQ) and Perceptual Evaluation of Speech Quality (PESQ) are industry standard perceptual methods for objectively evaluating the perceived quality of audio and speech specifically. 
+The Perceptual Evaluation of Audio Quality (PEAQ) and Perceptual Evaluation of Speech Quality (PESQ) are industry standard perceptual methods for objectively evaluating the perceived quality of audio and speech specifically.
 
 PEAQ is standardized by the International Telecommunication Union's Radiocommunication Sector (ITU-R) through the ITU-R Recommendation BS.1387\cite{BS-1387-1998} of 1998. The implementation used to generate the results in this chapter is the PQevalAudio package from the TSP Lab of McGill University\cite{Kabal2003}. It is noted that ITU-R BS.1387 does not provide sufficient information for a conforming implementation\cite{Campeanu2005} and so PQevalAudio fails to fall within the tight bounds of the standard. Despite this, evaluations of the package does suggest that it comes close enough to warrants its use as a quality impairment measurement\cite{Kabal2003}.
 
@@ -658,7 +660,7 @@ Table~\ref{tab:MaxMSE} shows the maximum mean squared error (MSE) of collection 
   \hline
 \end{tabular}\end{center}\end{table}
 
-An example of one of the frame based MSE comparisons are shown in Figure~\ref{fig:MSEexampleSet11.pdf}. This figure shows a series of corruptions with the a large part of them being detected and restored and as a result exhibit a much reduced MSE. A couple of the noise pulses are not detected and as a result the MSE for both the corrupted signal and the reconstructed signal are identical and overlapping. 
+An example of one of the frame based MSE comparisons are shown in Figure~\ref{fig:MSEexampleSet11.pdf}. This figure shows a series of corruptions with the a large part of them being detected and restored and as a result exhibit a much reduced MSE. A couple of the noise pulses are not detected and as a result the MSE for both the corrupted signal and the reconstructed signal are identical and overlapping.
 
 \begin{figure} %MSEexampleSet11.pdf
 \centering
@@ -685,7 +687,7 @@ Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\re
 \end{figure}
 
 The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak SNR calculations. As with the max MSE measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak SNR measures, with sets 2 and 3 showing less of an improvement than sets 6 and 11. In this case the reconstruction has a peak SNR similar to the original corrupted signal, showing no measurable improvement. In fact the peak SNR is slightly lower for the reconstruction suggesting a deterioration of the signal. On the other hand it is noted that the numbers for sets 6 and 11 are 5.4 and 3.2 dB higher respectively, giving an over all peak SNR of 1.9 dB for the 4 sets.
- 
+
 \begin{table}\begin{center}
 \caption{Peak SNR results for test sets 2, 4, 6 and 11.}
 \label{tab:PeakSNR}
@@ -730,7 +732,7 @@ The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{t
 
 % Justify the use of a tonal restorer and the specific restorer used
 
- 
+
 % FIR filtering, computational advantage in the AR parameter estimation
 While applying the FIR filtering approaches to the interpolation task for the corrupted samples in the time or the wavelet generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the AR parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $\Theta(n^2)$\cite{Hayes1996} rather than $\Theta(n^3)$ using the state of the art Cramer\'s rule implementation\cite{Habgood2012}. Performing the restoration on the wavelet coefficients rather than the waveform will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality since the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$.
 
