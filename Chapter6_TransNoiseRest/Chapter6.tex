@@ -556,10 +556,12 @@ Some benchmark computational results from the reconstruction algorithms are pres
 \caption{Computational time measures relative to audio segment length.}
 \label{tab:CompData}
 \begin{tabular}{|l|c|c|c|c|c|}\hline
-                        % Lenovo            & Home              & Work
-                        & PC 1              & PC 2              & PC 3              &  Mean \\ \hline
-  Filtering w. noise    & 1.9 $\ttt{-3}$    & 3.4 $\ttt{-3}$    & 2.8 $\ttt{-3}$    &  2.7 $\ttt{-3}$  \\
-  LSAR                  & 1.0 $\ttt{-1}$    & 2.3 $\ttt{-1}$    & 2.5 $\ttt{-1}$    &  1.9 $\ttt{-1}$  \\ \hline
+                                % Lenovo            & Home              & Work
+                                & PC 1              & PC 2              & PC 3              &  Mean \\ \hline
+  Filtering w. noise (wavelet)  & 1.9 $\ttt{-3}$    & 3.4 $\ttt{-3}$    & 2.6 $\ttt{-3}$    &  2.6 $\ttt{-3}$  \\
+  Filtering w. noise (waveform) & 1.4 $\ttt{-3}$    & 3.5 $\ttt{-3}$    & 2.4 $\ttt{-3}$    &  2.4 $\ttt{-3}$  \\
+  LSAR (wavelet)                & 1.0 $\ttt{-1}$    & 2.3 $\ttt{-1}$    & 2.5 $\ttt{-1}$    &  1.9 $\ttt{-1}$  \\
+  LSAR (waveform) (N=100)       & 2.3 $\ttt{0}$     & 0.0 $\ttt{0}$     & 0.0 $\ttt{0}$     &  0.0 $\ttt{0}$  \\ \hline
 \end{tabular}\end{center}\end{table}
 
 
