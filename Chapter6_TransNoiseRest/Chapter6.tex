@@ -90,7 +90,7 @@ An example of a reconstructed section on can be seen in Figure~\ref{fig:ResultsF
 \label{fig:ResultsFiltering.pdf}
 \end{figure}
 
-\subsubsection{Filtering with noise}
+\subsubsection{Filtering with noise}\label{sec:ResidualRestorationFilteredNoise}
 It is possible to combine the noise insertion algorithm with the forward backward filtering algorithm to avoid a clearly audible dip in the loudness. This method proceeds as the original noise insertion method after which the forward backward filtering step is performed without zeroing the corrupted region.
 
 Figure~\ref{fig:ResultsNoiseInsertionFiltering.pdf} shows an example of the noise insertion and filtering method applied to the same restoration example as in Figure~\ref{fig:ResultsNoiseInsertion.pdf} and \ref{fig:ResultsFiltering.pdf}.
@@ -305,7 +305,7 @@ The result of the simple tonal filtering example can be seen in Figure~\ref{fig:
 \label{fig:TonalArtefactSpectrumExampleFiltered.png}
 \end{figure}
 
-\subsection{Historic filtering}
+\subsection{Historic filtering}\label{sec:HistoricFiltering}
 %- Historic Frequency logic and filtering (amplitudes)
 %- Future restoration (fading)
 While the separation algorithm works by modeling the speech as distinctive tonal components some keystroke noise pulses also exhibit strong tonal components beyond those seen in section~\ref{sec:TonalFiltering}. As mentioned previously, this may be due to a range of physical conditions but possibly also due to constraints on the frame size in a system. In this section a frame size of 10 ms is assumed. While the results from the simple high pass filtering algorithm presented in section~\ref{sec:TonalFiltering} does manage to remove low frequency tonal noise \emph{bumps} in the audio it fails to remove higher frequency tonal components. This section will focus on a generalised approach to removing tonal noise components introduced by some keyboard strokes, and will specifically focus on doing this in a sequential frame based and computationally simple manner.
@@ -323,7 +323,7 @@ Figure~\ref{fig:TonalRestoration_Spec_Orig.png} shows the spectrogram of a keybo
 \label{fig:TonalRestoration_Spec_Orig.png}
 \end{figure}
 
-Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png} shows a spectrogram of the audio segment from Figure~\ref{fig:TonalRestoration_Spec_Orig.png} with the LSAR residual restoration from section~\ref{sec:ResidualRestorationLSAR} applied. The separation algorithm has largely kept the voiced signal below 1500 Hz intact but some higher frequency information from the noise pulse has also been detected as tonal components and hence are still clearly visible in the spectrogram. These components, combined with the underlying voiced signal, is what can sometimes be seen detected as tonal components by the separation algorithm. Rather that replacing the data from the influenced buffers completely, like was done for the majority of the residual restoration algorithms, this sections will explore a heuristic method for filtering out interfering tonal components while keeping voiced components intact and undisturbed.
+Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png} shows a spectrogram of the audio segment from Figure~\ref{fig:TonalRestoration_Spec_Orig.png} with the Filtered Noise residual restoration from section~\ref{sec:ResidualRestorationFilteredNoise} applied. The separation algorithm has largely kept the voiced signal below 1500 Hz intact but some higher frequency information from the noise pulse has also been detected as tonal components and hence are still clearly visible in the spectrogram. These components, combined with the underlying voiced signal, is what can sometimes be seen detected as tonal components by the separation algorithm. Rather that replacing the data from the influenced buffers completely, like was done for the majority of the residual restoration algorithms, this sections will explore a heuristic method for filtering out interfering tonal components while keeping voiced components intact and undisturbed.
 
 \begin{figure} %TonalRestoration_Spec_ResidualRestoration.png
 \centering
@@ -332,7 +332,7 @@ Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png} shows a spectrogr
 \put(-245,235){Spectrogram of signal after residual restoration}
 %\put(-200,0){Time}
 \end{picture}
-\caption{Example of residual restored audio segment}
+\caption{Example of residual restored audio segment.}
 \label{fig:TonalRestoration_Spec_ResidualRestoration.png}
 \end{figure}
 
@@ -403,13 +403,13 @@ While the filtered tonal components in a corrupted frame might now contain only 
 \begin{picture}(0,0)
 \put(-250,235){Spectrum of signal after residual restoration}
 \end{picture}
-\caption{Example of residual restored and magnitude scaled audio segment}
+\caption{Example of residual restored and magnitude scaled audio segment.}
 \label{fig:TonalRestoratio_Spec_MagFiltScale.png}
 \end{figure}
 
 After applying both tonal filtering and rescaling Figure~\ref{fig:TonalRestoratio_Spec_MagFiltScale.png} shows the resulting spectrogram. While the initial pulse has been removed from the spectrogram a secondary pulse is still visible. This pulse shows how louder pulses will influence multiple buffers and hence it is necessary to employ filtering procedures for a number of frames after each detected corruption.
 
-Figure~\ref{fig:TonalRestoratio_TonalFuture.pdf} shows a diagram of the logic employed to filter out remnants of noise pulses following a keyboard stroke detection. The algorithm contains 2 major components. First it applies a window function to the future tonal components so at the end of the procedure the algorithm performs as before a corruption was seen. Secondly the algorithm continues to apply the filtering and rescaling functions from the historic buffer. Since this second part of the algorithm is largely made up data this will be faded out as the real current data is faded back in.
+Figure~\ref{fig:TonalRestoratio_TonalFuture.pdf} shows a diagram of the logic employed to filter out remnants of noise pulses following a keyboard stroke detection. The algorithm contains 2 major components. First it applies a window function to the future tonal components so at the end of the procedure the algorithm performs as before a corruption was seen. Secondly the algorithm continues to apply the filtering and re-scaling functions from the historic buffer. Since this second part of the algorithm is largely made up data this will be faded out as the real current data is faded back in.
 
 \begin{figure} %TonalRestoratio_TonalFuture.pdf
 \centering
@@ -551,7 +551,7 @@ where MSE\textsubscript{I} is the maximum possible value for a sample.
 
 
 \section{Results}
-\subsection{Preliminary computational measures}
+\subsection{Preliminary computational measures}\label{sec:CompData}
 Some benchmark computational results from the reconstruction algorithms are presented in Table~\ref{tab:CompData}. Both methods tested here use an AR model order of $p_w=100$ for wavelet based methods, and an order of $p_t=800$ for waveform/time based methods. For all PCs tested the computational time for the LSAR algorithm is 2 orders of magnitude higher than the simple AR filtering algorithm with noise on the wavelet based methods. The filtering method applied to the waveform and the wavelet basis had similar computational impact.
 
 \begin{table}\begin{center}
@@ -690,6 +690,7 @@ Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\re
 \label{fig:MSEexampleSet11Zoom.pdf}
 \end{figure}
 
+%Peak SNR PSNR (maybe not needed)
 The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak SNR calculations. As with the max MSE measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak SNR measures, with sets 2 and 3 showing less of an improvement than sets 6 and 11. In this case the reconstruction has a peak SNR similar to the original corrupted signal, showing no measurable improvement. In fact the peak SNR is slightly lower for the reconstruction suggesting a deterioration of the signal. On the other hand it is noted that the numbers for sets 6 and 11 are 5.4 and 3.2 dB higher respectively, giving an over all peak SNR of 1.9 dB for the 4 sets.
 
 \begin{table}\begin{center}
@@ -705,31 +706,40 @@ The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{t
 \end{tabular}\end{center}\end{table}
 
 \subsection{Waveforms of reconstructions}
-A series of waveforms are in this section represented to visualise the performance of the reconstruction algorithms' performance. While not necessarily a complete 
-\todo{do text}
+A selection of waveforms are in this section represented to visualise the performance of the reconstruction algorithms' performance. While not adequate for an evaluation of the varies algorithms' performance general trends may be visible and the shape of the envelope may give an indication of the naturalness of the amplitude. Figure~\ref{fig:RestoredExamplesComparison} shows a comparison of the filtered noise and the LSAR reconstruction algorithms. In this example the basic high pass filtering tonal restoration is applied to the examples.
 
-\begin{figure}%ResultsScaledCombinedExample.pdf
-\centering
-\includegraphics[width=100mm]{ResultsScaledCombinedExample.pdf}
-\begin{picture}(0,0)
-\put(-245,235){Restored Wavelet coefficients Example 1}
-\put(-200,0){Time}
+\begin{figure}
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{FilterNoise-wavelet-hello123-recon.pdf}}
+\end{minipage}
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=12cm]{LSAR-wavelet-hello123-recon.pdf}}
+  \begin{picture}(0,0)
+\put(-150,468){(a)}
+\put(-150,235){(b)}
 \end{picture}
-\caption{Time series example of the burst scaling algorithm.}
-\label{fig:ResultsScaledCombinedExample.pdf}
+\end{minipage}
+\caption{Examples of the final output of (a) the filtered noise model and (b) the LSAR reconstruction algorithms. Both reconstructing wavelet coefficients.}
+\label{fig:RestoredExamplesComparison}
 \end{figure}
 
+The waveforms resulting from various stages of the historic filtering tonal restoration algorithm, described in section~\ref{sec:HistoricFiltering}, is shown in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}. The waveforms in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf} follow the previously discussed spectrograms from Figures~\ref{fig:TonalRestoration_Spec_Orig.png}, \ref{fig:TonalRestoration_Spec_ResidualRestoration.png}, \ref{fig:TonalRestoratio_Spec_MagFiltScale.png} and \ref{fig:TonalRestoratio_Spec_FullRestoration.png}. In Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(a) the original corrupted signal is seen with the residual reconstructed signal using the filtered noise algorithm but with no tonal restoration. The separation algorithm is in this example implemented using a 160 sample frame size and the particular keyboard strokes exhibit clear tonal components which pollute the tonal component. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(b) shows the initial tonal restoration also seen in Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png}. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(c) shows the full restoration of the signal. 
 
-\begin{figure}%RestoredLSARExampleWaveform.pdf
+\begin{figure}[!] %FullAlgorithmTonalRestSteps.pdf
 \centering
-\includegraphics[width=100mm]{RestoredLSARExampleWaveform.pdf}
+\includegraphics[width=110mm]{FullAlgorithmTonalRestSteps.pdf}
 \begin{picture}(0,0)
-%\put(-245,235){Restored Wavelet coefficients Example 1}
-%\put(-200,0){Time}
+\put(-300,458){(a)}
+\put(-300,298){(b)}
+\put(-300,143){(c)}
 \end{picture}
-\caption{Time series example of the LSAR algorithm.}
-\label{fig:RestoredLSARExampleWaveform.pdf}
+\caption{Full tonal restoration and residual algorithm. (a) Residual restoration only. (b) Residual- and Tonal restoration of first frame and filtering of future frames. (c) Full tonal restoration. All restorations compared with original corrupted signal.}
+\label{fig:FullAlgorithmTonalRestSteps.pdf}
 \end{figure}
+
+Audio versions of all examples used throughout this section are available on the website:\todo{ Insert website name.} \sound{all}
 
 
 \section{Discussion}
@@ -737,12 +747,13 @@ A series of waveforms are in this section represented to visualise the performan
 
 
 % FIR filtering, computational advantage in the AR parameter estimation
-While applying the FIR filtering approaches to the interpolation task for the corrupted samples in the time or the wavelet generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the AR parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $\Theta(n^2)$\cite{Hayes1996} rather than $\Theta(n^3)$ using the state of the art Cramer\'s rule implementation\cite{Habgood2012}. Performing the restoration on the wavelet coefficients rather than the waveform will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality since the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$.
+While applying the FIR filtering approaches to the interpolation task for the corrupted samples in the time or the wavelet generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the AR parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $O(n^2)$\cite{Hayes1996} rather than $O(n^3)$ using the state of the art Cramer\'s rule implementation\cite{Habgood2012}. Performing the restoration on the wavelet coefficients rather than the waveform will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality since the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$.
 
 % Justify the use of the AR filtering (filtering with noise) restoration algorithm
-Based on the extent of the corruptions, as seen in section~\ref{sec:WPdata}, the residual restoration algorithm's ability to reconstruct longer stretches of missing data is essential. With keyboard strokes affecting upwards of a third of a second, many frames may end up retaining artifacts from the keyboard stroke. The ability of a restoration algorithm to filter or interpolate backwards in a sequential scenario with long corruptions and short frame sizes, is negligible when a simple fading operation can mitigate discontinuities.
+Based on the extent of the corruptions, as seen in section~\ref{sec:WPdata}, the residual restoration algorithm's ability to reconstruct longer stretches of missing data is essential. With keyboard strokes affecting upwards of a third of a second, many frames may end up retaining artifacts from the keyboard stroke. The ability of a restoration algorithm to filter or interpolate backwards in a sequential scenario with long corruptions and short frame sizes, is negligible when a simple fading operation can mitigate discontinuities. While a variety of methods exist that deal specifically with the restoration of long gaps in audio files, similar to the ones seen her, or modifications to the LSAR reconstruction algorithm\cite{Kauppinen2002a}\cite{Esquef2006} these are all based on restorations of the full audio sequence. The computational data presented in section~\ref{sec:CompData} also suggests that a full LSAR reconstruction algorithm, or derivatives thereof, may not be feasible in most real time communication systems with limited computational and power resources.
 
 %note that tonal noise (especially low frequency bumps) might not be a big nuisance. Possibly due to them not overlapping in spectrum with speech.
+
 
 \section{Conclusions}
 
