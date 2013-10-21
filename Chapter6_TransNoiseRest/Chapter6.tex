@@ -561,7 +561,7 @@ Some benchmark computational results from the reconstruction algorithms are pres
                                 % Lenovo            & Home              & Work
                                 & PC 1              & PC 2              & PC 3              &  Mean \\ \hline
   Filtering w. noise (wavelet)  & 1.9 $\ttt{-3}$    & 3.4 $\ttt{-3}$    & 2.6 $\ttt{-3}$    &  2.6 $\ttt{-3}$  \\
-  Filtering w. noise (waveform) & 1.4 $\ttt{-3}$    & 3.5 $\ttt{-3}$    & 2.4 $\ttt{-3}$    &  2.4 $\ttt{-3}$  \\
+  Filtering w. noise (waveform) & 1.8 $\ttt{-3}$    & 0.0 $\ttt{-3}$    & 0.0 $\ttt{-3}$    &  0.0 $\ttt{-3}$  \\
   LSAR (wavelet)                & 1.0 $\ttt{-1}$    & 2.3 $\ttt{-1}$    & 2.5 $\ttt{-1}$    &  1.9 $\ttt{-1}$  \\
   LSAR (waveform) (N=100)       & 2.3 $\ttt{0}$     & 4.0 $\ttt{0}$     & 3.9 $\ttt{0}$     &  3.4 $\ttt{0}$  \\ \hline
 \end{tabular}\end{center}\end{table}
@@ -705,14 +705,15 @@ The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{t
 \end{tabular}\end{center}\end{table}
 
 \subsection{Waveforms of reconstructions}
+A series of waveforms are in this section represented to visualise the performance of the reconstruction algorithms' performance. While not necessarily a complete 
 \todo{do text}
 
 \begin{figure}%ResultsScaledCombinedExample.pdf
 \centering
 \includegraphics[width=100mm]{ResultsScaledCombinedExample.pdf}
 \begin{picture}(0,0)
-%\put(-245,235){Restored Wavelet coefficients Example 1}
-%\put(-200,0){Time}
+\put(-245,235){Restored Wavelet coefficients Example 1}
+\put(-200,0){Time}
 \end{picture}
 \caption{Time series example of the burst scaling algorithm.}
 \label{fig:ResultsScaledCombinedExample.pdf}
@@ -732,8 +733,6 @@ The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{t
 
 
 \section{Discussion}
-
-
 % Justify the use of a tonal restorer and the specific restorer used
 
 
