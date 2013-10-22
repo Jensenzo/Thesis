@@ -561,7 +561,7 @@ Some benchmark computational results from the reconstruction algorithms are pres
                                 % Lenovo            & Home              & Work
                                 & PC 1              & PC 2              & PC 3              &  Mean \\ \hline
   Filtering w. noise (wavelet)  & 1.9 $\ttt{-3}$    & 3.4 $\ttt{-3}$    & 2.6 $\ttt{-3}$    &  2.6 $\ttt{-3}$  \\
-  Filtering w. noise (waveform) & 1.8 $\ttt{-3}$    & 0.0 $\ttt{-3}$    & 2.9 $\ttt{-3}$    &  0.0 $\ttt{-3}$  \\
+  Filtering w. noise (waveform) & 1.8 $\ttt{-3}$    & 4.1 $\ttt{-3}$    & 2.9 $\ttt{-3}$    &  2.9 $\ttt{-3}$  \\
   LSAR (wavelet)                & 1.0 $\ttt{-1}$    & 2.3 $\ttt{-1}$    & 2.5 $\ttt{-1}$    &  1.9 $\ttt{-1}$  \\
   LSAR (waveform) (N=100)       & 2.3 $\ttt{0}$     & 4.0 $\ttt{0}$     & 3.9 $\ttt{0}$     &  3.4 $\ttt{0}$  \\ \hline
 \end{tabular}\end{center}\end{table}
@@ -725,7 +725,7 @@ A selection of waveforms are in this section represented to visualise the perfor
 \label{fig:RestoredExamplesComparison}
 \end{figure}
 
-The waveforms resulting from various stages of the historic filtering tonal restoration algorithm, described in section~\ref{sec:HistoricFiltering}, is shown in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}. The waveforms in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf} follow the previously discussed spectrograms from Figures~\ref{fig:TonalRestoration_Spec_Orig.png}, \ref{fig:TonalRestoration_Spec_ResidualRestoration.png}, \ref{fig:TonalRestoratio_Spec_MagFiltScale.png} and \ref{fig:TonalRestoratio_Spec_FullRestoration.png}. In Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(a) the original corrupted signal is seen with the residual reconstructed signal using the filtered noise algorithm but with no tonal restoration. The separation algorithm is in this example implemented using a 160 sample frame size and the particular keyboard strokes exhibit clear tonal components which pollute the tonal component. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(b) shows the initial tonal restoration also seen in Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png}. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(c) shows the full restoration of the signal. 
+The waveforms resulting from various stages of the historic filtering tonal restoration algorithm, described in section~\ref{sec:HistoricFiltering}, is shown in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}. The waveforms in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf} follow the previously discussed spectrograms from Figures~\ref{fig:TonalRestoration_Spec_Orig.png}, \ref{fig:TonalRestoration_Spec_ResidualRestoration.png}, \ref{fig:TonalRestoratio_Spec_MagFiltScale.png} and \ref{fig:TonalRestoratio_Spec_FullRestoration.png}. In Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(a) the original corrupted signal is seen with the residual reconstructed signal using the filtered noise algorithm but with no tonal restoration. The separation algorithm is in this example implemented using a 160 sample frame size and the particular keyboard strokes exhibit clear tonal components which pollute the tonal component. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(b) shows the initial tonal restoration also seen in Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png}. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(c) shows the full restoration of the signal.
 
 \begin{figure}[!] %FullAlgorithmTonalRestSteps.pdf
 \centering
