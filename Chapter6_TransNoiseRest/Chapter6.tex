@@ -10,6 +10,8 @@ As mentioned previously, the keyboard stroke removal algorithm can roughly be di
 
 In this chapter a variety of methods will be explored. While the preferred detection algorithm from Chapter~\ref{ch:TransientNoiseDetection} was the AR filter method, the noise burst model lent itself to an interesting restoration model based on the noise burst assumption, which will also be explored in this chapter.
 
+%structure of chapter
+
 \section{Residual Restoration}
 Based on the pre processing stage from Equation~\ref{eq:modelgeneral} the restoration section is separated into two major sections. Firstly the restoration or interpolation of the corrupted samples from the residual component of the signal will be explored. This sparse signal of transient components from the audio was found to contain a majority of the initial impulse of the keyboard strokes.
 
@@ -486,6 +488,12 @@ Although non of the code is optimised and the timings are done exclusively in Ma
 \subsection{Subjective test}
 A subjective listening test was designed to gauge the preference of listeners to reconstructed corruptions in relation to the original corruption. Since the reconstruction procedure, in most cases, still leaves or introduces artifacts in the audio stream the experiment was intended to measure if the artificial noise would in fact be more of an audible nuisance than the original keystrokes.
 
+%What was tested and why that.
+The combination of algorithms selected for testing were the separation algorithm with a 160 sample frame window, the AR filtering detection algorithm with the AR filtering with noise reconstruction and the full historical tonal reconstruction algorithm. The discussion provided in section~\ref{sec:RestorationDiscussion} outlines the background for these choices in more detail and concludes that this combination provides the best performance versus complexity tradeoff. 
+
+%Wavelet type chosen
+The mother wavelet basis selected was the Daubechies 8 (db8) wavelet\cite{Daubechies1992}, with a quadrature filter of order 16. Db8 is selected largely for its relatively low order but it was also found, through tests not reproduced here, to perform comparably to competing bases.
+
 Subjects were presented with 12 test sets consisting of 2 audio segments each; the original audio segment containing speech and a number of keystrokes and the reconstructed segment. The order of the original segment and the reconstructed segment was randomized throughout the trial. The audio segments used for this test was a mix of fast typing and slow typing, recorded through laptops and external microphones, naturally corrupted segments and keystrokes added to clean segments, male or female speech and a variety of keyboards types and makes.
 
 The Graphical User Interface (GUI) presented to the test subjects is shown here in Figure~\ref{fig:SubjectiveExp_GUI.png}.
@@ -569,6 +577,8 @@ Some benchmark computational results from the reconstruction algorithms are pres
 
 \subsection{Subjective test}\label{sec:ResultsSubjectiveTest}
 % Prefer Recon: 46%, Orig: 36%, Equal: 18%
+
+
 The results showed that 46\% of the subjects preferred the reconstructed audio segments to the originals, 36\% preferred the original and 18\% were ambivalent and found neither segment better than the other.
 
 Figure~\ref{fig:SubjectiveExp_PerTestData.pdf} shows the results for each of the 12 audio segments. It is clear that subjects generally preferred the reconstructions in sets 5, 10, 11, and 12, where the original was clearly preferred in sets 1, and 2, where the rest of the sets were more mixed in the response. Looking at the sets with a general preference of the reconstructed segment it is noted that these are primarily corrupted by keyboard strokes typed at a slower pace. The slower typed sets also contained fewer keystrokes and it is possible that a higher density of restoration artifacts are more disturbing than keystrokes due to the artifacts' seemingly higher degree of audible variability.
@@ -742,7 +752,7 @@ The waveforms resulting from various stages of the historic filtering tonal rest
 Audio versions of all examples used throughout this section are available on the website:\todo{ Insert website name.} \sound{all}
 
 
-\section{Discussion}
+\section{Discussion}\label{sec:RestorationDiscussion}
 % Justify the use of a tonal restorer and the specific restorer used
 
 
@@ -752,7 +762,17 @@ While applying the FIR filtering approaches to the interpolation task for the co
 % Justify the use of the AR filtering (filtering with noise) restoration algorithm
 Based on the extent of the corruptions, as seen in section~\ref{sec:WPdata}, the residual restoration algorithm's ability to reconstruct longer stretches of missing data is essential. With keyboard strokes affecting upwards of a third of a second, many frames may end up retaining artifacts from the keyboard stroke. The ability of a restoration algorithm to filter or interpolate backwards in a sequential scenario with long corruptions and short frame sizes, is negligible when a simple fading operation can mitigate discontinuities. While a variety of methods exist that deal specifically with the restoration of long gaps in audio files, similar to the ones seen her, or modifications to the LSAR reconstruction algorithm\cite{Kauppinen2002a}\cite{Esquef2006} these are all based on restorations of the full audio sequence. The computational data presented in section~\ref{sec:CompData} also suggests that a full LSAR reconstruction algorithm, or derivatives thereof, may not be feasible in most real time communication systems with limited computational and power resources.
 
-%note that tonal noise (especially low frequency bumps) might not be a big nuisance. Possibly due to them not overlapping in spectrum with speech.
+%Discuss subjective test results
+%Generally slightly in favor of restoration, yet generally split.
+
+%Discuss objective perceptible results
+%Overwhelmingly an improvement
+
+%Discuss other objective measures
+%Overwhelmingly an improvement
+
+%note that tonal noise (especially low frequency bumps) might not be a big nuisance. Possibly due to them not overlapping in spectrum with speech and the low frequency bumps being clearly audible (actually they are mutually exclusive statements). 
+Despite broadly improved objective measures following detection and reconstruction, the subjective test revealed that restored audio segments were not preferred by some of the listeners. Although as a whole slightly in favor of the restored segments, the subjects in this test were split in their preference in all but a few of the testing sets. It is beyond the scope of this discussion to delve deeper into the psychoacoustic basis of these results, but it is noted that great care should be taken when applying reconstructive algorithms within speech signals, and perhaps audio signals in general, since artificially introduced artifacts may cause more of a disturbance than the original noise source. Equally these results underline the importance of subjective measurements for restoration algorithms since objective perceptive measures are not able to distinguish between noise that may be deemed \emph{natural} or \emph{expected} by the user and which sounds may be deemed \emph{unnatural} and \emph{unexpected}. It is possible that by introducing the latter... \todo{finish sentence}.
 
 
 \section{Conclusions}
