@@ -229,8 +229,8 @@ An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:Resto
   \centering
   \centerline{\includegraphics[width=10cm]{RestoredLSARExample2.pdf}}
   \begin{picture}(0,0)
-\put(-120,382){a)}
-\put(-120,195){b)}
+\put(-120,382){(a)}
+\put(-120,195){(b)}
 \end{picture}
 %  \vspace{1.5cm}
   %\centerline{(b)}\medskip
@@ -261,7 +261,7 @@ An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:Resto
 %\label{fig:Restore_LSAR_2.pdf}
 %\end{figure}
 
-\section{Tonal Restoration}
+\section{Tonal Restoration}\label{sec:TonalFiltering}
 While the aim of the pre processing separation stage is to separate out tonal components from transient noise events, the tonal components themselves occasionally retain components introduced by the noise events. These tonal noise components are not always present, but factors such as the amplitude of the impulse, mechanical properties of the keyboard or the laptop enclosure and even the surface on which the keyboard or computer is placed can have an impact on whether or not these components are present to the extent that get identified as tonal components. Constraints such as frame sizes in the system can also add to the amount of noise leaking through to the tonal components. A short frame size can contribute to this effect.
 
 \subsection{Basic filtering}\label{sec:TonalFiltering}
@@ -285,11 +285,11 @@ A simple approach to removing low frequency noise is to apply standard high pass
 \centering
 \includegraphics[width=120mm]{TonalFilteringExample.pdf}
 \begin{picture}(0,0)
-\put(-320,442){a)}
-\put(-320,290){b)}
-\put(-320,140){c)}
+\put(-320,442){(a)}
+\put(-320,290){(b)}
+\put(-320,140){(c)}
 \end{picture}
-\caption{Example of simple tonal restoration using filtering. a) Original complete signal and detection state, b) High pass filtered (200Hz) tonal component with mixing indicator, and c) original tonal component with mixing indicator.}
+\caption{Example of simple tonal restoration using filtering. (a) Original complete signal and detection state, (b) High pass filtered (200Hz) tonal component with mixing indicator, and c) original tonal component with mixing indicator.}
 \label{fig:TonalFilteringExample.pdf}
 \end{figure}
 
@@ -489,7 +489,7 @@ Although non of the code is optimised and the timings are done exclusively in Ma
 A subjective listening test was designed to gauge the preference of listeners to reconstructed corruptions in relation to the original corruption. Since the reconstruction procedure, in most cases, still leaves or introduces artifacts in the audio stream the experiment was intended to measure if the artificial noise would in fact be more of an audible nuisance than the original keystrokes.
 
 %What was tested and why that.
-The combination of algorithms selected for testing were the separation algorithm with a 160 sample frame window, the AR filtering detection algorithm with the AR filtering with noise reconstruction and the full historical tonal reconstruction algorithm. The discussion provided in section~\ref{sec:RestorationDiscussion} outlines the background for these choices in more detail and concludes that this combination provides the best performance versus complexity tradeoff. 
+The combination of algorithms selected for testing were the separation algorithm with a 160 sample frame window, the AR filtering detection algorithm with the AR filtering with noise reconstruction and the full historical tonal reconstruction algorithm. The discussion provided in section~\ref{sec:RestorationDiscussion} outlines the background for these choices in more detail and concludes that this combination provides the best performance versus complexity tradeoff.
 
 %Wavelet type chosen
 The mother wavelet basis selected was the Daubechies 8 (db8) wavelet\cite{Daubechies1992}, with a quadrature filter of order 16. Db8 is selected largely for its relatively low order but it was also found, through tests not reproduced here, to perform comparably to competing bases.
@@ -701,7 +701,7 @@ Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\re
 \end{figure}
 
 %Peak SNR PSNR (maybe not needed)
-The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak SNR calculations. As with the max MSE measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak SNR measures, with sets 2 and 3 showing less of an improvement than sets 6 and 11. In this case the reconstruction has a peak SNR similar to the original corrupted signal, showing no measurable improvement. In fact the peak SNR is slightly lower for the reconstruction suggesting a deterioration of the signal. On the other hand it is noted that the numbers for sets 6 and 11 are 5.4 and 3.2 dB higher respectively, giving an over all peak SNR of 1.9 dB for the 4 sets.
+The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak SNR calculations. As with the max MSE measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak SNR measures, with sets 2 and 4 in this case showing no improvement as opposed to some improvement in sets 6 and 11. Overall the average improvement for the 4 tested signals is 1.8 dB.
 
 \begin{table}\begin{center}
 \caption{Peak SNR results for test sets 2, 4, 6 and 11.}
@@ -711,7 +711,7 @@ The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{t
                     & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
   Reconstruction    & 29.5 dB   & 40.3 dB   & 38.9 dB   & 40.7 dB   & 37.4 dB   \\
   Original          & 30.4 dB   & 40.6 dB   & 33.5 dB   & 37.6 dB   & 35.5 dB   \\ \hline
-  Difference        & 5.4 dB    & -0.3 dB   & 0.9  dB   & 3.1  dB   & 1.8  dB   \\
+  Difference        & -0.9 dB   & -0.3 dB   & 5.4  dB   & 3.1  dB   & 1.8  dB   \\
   \hline
 \end{tabular}\end{center}\end{table}
 
@@ -753,29 +753,44 @@ Audio versions of all examples used throughout this section are available on the
 
 
 \section{Discussion}\label{sec:RestorationDiscussion}
-% Justify the use of a tonal restorer and the specific restorer used
-
 
 % FIR filtering, computational advantage in the AR parameter estimation
 While applying the FIR filtering approaches to the interpolation task for the corrupted samples in the time or the wavelet generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the AR parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $O(n^2)$\cite{Hayes1996} rather than $O(n^3)$ using the state of the art Cramer\'s rule implementation\cite{Habgood2012}. Performing the restoration on the wavelet coefficients rather than the waveform will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality since the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$.
 
 % Justify the use of the AR filtering (filtering with noise) restoration algorithm
-Based on the extent of the corruptions, as seen in section~\ref{sec:WPdata}, the residual restoration algorithm's ability to reconstruct longer stretches of missing data is essential. With keyboard strokes affecting upwards of a third of a second, many frames may end up retaining artifacts from the keyboard stroke. The ability of a restoration algorithm to filter or interpolate backwards in a sequential scenario with long corruptions and short frame sizes, is negligible when a simple fading operation can mitigate discontinuities. While a variety of methods exist that deal specifically with the restoration of long gaps in audio files, similar to the ones seen her, or modifications to the LSAR reconstruction algorithm\cite{Kauppinen2002a}\cite{Esquef2006} these are all based on restorations of the full audio sequence. The computational data presented in section~\ref{sec:CompData} also suggests that a full LSAR reconstruction algorithm, or derivatives thereof, may not be feasible in most real time communication systems with limited computational and power resources.
+Based on the extent of the corruptions, seen in section~\ref{sec:WPdata}, the residual restoration algorithm's ability to reconstruct longer stretches of missing data is essential. With keyboard strokes affecting upwards of a third of a second, many frames may end up retaining artifacts from the keyboard stroke. The ability of a restoration algorithm to filter or interpolate backwards in a sequential scenario with long corruptions and short frame sizes, is negligible when a simple fading operation can mitigate discontinuities. While a variety of methods exist that deal specifically with the restoration of long gaps in audio files, similar to the ones seen her, or modifications to the LSAR reconstruction algorithm\cite{Kauppinen2002a}\cite{Esquef2006} these are all based on restorations of the full audio sequence. The computational data presented in section~\ref{sec:CompData} also suggests that a full LSAR reconstruction algorithm, or derivatives thereof, may not be feasible in most real time communication systems with limited computational and power resources.
+
+% Justify the use of a tonal restorer and the specific restorer used
+Despite the benefits of the separation stage results presented in section~\ref{sec:WPseparation} and discussed in section~\ref{sec:WPdiscussion} clearly indicate a need for tonal restoration in some examples. It was also noted that the need for tonal restoration increases when shorter frames sizes are used in the separation process. Section~\ref{sec:TonalFiltering} outlined some example results from the some proposed tonal restoration algorithms, and it was clearly seen how with relatively simple filtering and heuristic methods, tonal noise components can be logically targeted. While the simple high pass filtering effectively remove low frequency \emph{bump} associated with many keyboard strokes the more advanced heuristic method was seen to restore frequencies more selectively especially when tonal noise was introduced outside of the voiced spectrum.
 
 %Discuss subjective test results
 %Generally slightly in favor of restoration, yet generally split.
+%Prefer Recon: 46%, Orig: 36%, Equal: 18%
+The subjective listening results presented in section~\ref{sec:ResultsSubjectiveTest} show mixed results. Although slightly in favor of restored audio segments, it is clear from Figure~\ref{fig:SubjectiveExp_PerTestData.pdf} that some audio testing sets, namely set 1 and 2, were heavily favored by the test subjects, and no sets achieve unanimous preference either. Upon inspection of the particular sets in question it is clear that users found the artifacts introduced by the current algorithm more of a nuisance than the original keystroke pulses. Conversely it was found that the sets that achieved the most preferences for the restored segments were the ones that achieved the least notable artifacts or most \emph{soft} or \emph{naturally sounding} artifacts. The restored set 10 audio segment, in particular, leaves behind a clear indication of keyboard stroke activity but manages to reduce the amplitude of these dramatically. In practice this was caused by the detection algorithm not responding quickly enough to the impulse, but the result is a clearly attenuated natural sounding keystroke which was, with the exception of 2 subjects finding it equal in preferredness to the original, was preferred by all subjects. Overall it should be noted that the restored audio segments were selected as the preferred segment 46\% of the time while the original corrupted sequences were only favored 36\% of the time with the 18\% not preferring either. For all tested sets the detection algorithm, at least when evaluated audibly, appears to detect nearly all noise pulses. As discussed previously, it can be difficult to evaluate the false detection rate on these testing sets, but no sets were observed to clearly suffer from false detections.
+
 
 %Discuss objective perceptible results
 %Overwhelmingly an improvement
+Contrary to the subjective results, the selected testing sets from the subjective test, gave a much clearer results of the effect of the restoration algorithm with an on average improvement of 0.2 for PESQ and 0.4 for PEAQ MOS difference. For the PESQ measures the results ranged from a 0.2 in favor of the original to 0.5 in favor of the restoration, noting that the 0.5 MOS difference improvement was for the only testing set, 11, used for the objective measures tests which was also preferred by a majority of the testing subjects. The PEAQ results, as noted, also showed a preference to the restored segments in general, but counterintuitively seemed to rate the original audio segment higher in set 11 in clear contrast to the PESQ results. It is although noted that more weight should be put on the PESQ results since these measures were specifically generated based on telecommunication standards for wideband speech.
 
 %Discuss other objective measures
 %Overwhelmingly an improvement
+Consider the more general MSE and max MSE measure, the reconstructed segments also show consistent improvements. The max MSE was decreased by just under 0.3 on average with improvement differences ranging from over 0.1 to 0.4. The framewise MSE results, in Figure~\ref{fig:MSEexampleSet11.pdf} and \ref{fig:MSEexampleSet11Zoom.pdf}, also show these relative improvements throughout a corruption. It is although noted that MSE does not give any indication of perceptibility of errors and also penalises phase shifts which may in many cases be imperceptible to human listeners. On the other hand, MSE, and max MSE in particular, is particularly sensitive to impulsive noise primarily seen in this application.
 
-%note that tonal noise (especially low frequency bumps) might not be a big nuisance. Possibly due to them not overlapping in spectrum with speech and the low frequency bumps being clearly audible (actually they are mutually exclusive statements). 
-Despite broadly improved objective measures following detection and reconstruction, the subjective test revealed that restored audio segments were not preferred by some of the listeners. Although as a whole slightly in favor of the restored segments, the subjects in this test were split in their preference in all but a few of the testing sets. It is beyond the scope of this discussion to delve deeper into the psychoacoustic basis of these results, but it is noted that great care should be taken when applying reconstructive algorithms within speech signals, and perhaps audio signals in general, since artificially introduced artifacts may cause more of a disturbance than the original noise source. Equally these results underline the importance of subjective measurements for restoration algorithms since objective perceptive measures are not able to distinguish between noise that may be deemed \emph{natural} or \emph{expected} by the user and which sounds may be deemed \emph{unnatural} and \emph{unexpected}. It is possible that by introducing the latter... \todo{finish sentence}.
+% Discuss PSNR results
+\todo{Include PSNR discussion if included in final version.}
 
+%note that tonal noise (especially low frequency bumps) might not be a big nuisance. Possibly due to them not overlapping in spectrum with speech and the low frequency bumps being clearly audible (actually they are mutually exclusive statements).
+Despite broadly improved objective measures following detection and reconstruction, the subjective test revealed that restored audio segments were not preferred by some of the listeners. Although as a whole slightly in favor of the restored segments, the subjects in this test were split in their preference in all but a few of the testing sets. It is beyond the scope of this discussion to delve deeper into the psychoacoustic basis of these results, but it is noted that great care should be taken when applying reconstructive algorithms within speech signals, and perhaps audio signals in general, since artificially introduced artifacts may cause more of a disturbance than the original noise source. Equally these results underline the importance of subjective measurements for restoration algorithms since objective perceptive measures are not able to distinguish between noise that may be deemed \emph{natural} or \emph{expected} by the user and which sounds may be deemed \emph{unnatural} and \emph{unexpected}.
 
 \section{Conclusions}
+Subjective results presented in this chapter are mixed but on average preference is shown for restored audio segments. It was found that most results were very split and only a few sets was found clearly preferred by the listeners. Objective performance results on the other hand show clear improvements for the restored audio segments with PESQ on average showing an improvement of 0.2 MOS and 0.4 for PEAQ for the selected sets. While neither of these results were overwhelming it was noted that these were generally better for sets that were generally the least preferred in the subjective test. These results indicate that there is a nuisance factor associated with the subtle artifacts introduced by the algorithm that may be less preferred by listeners than the relatively louder and more perceivable keyboard stroke pulses. 
+
+It is probably the case that, assuming that all restorations of real time audio will introduce some artifacts, for any keyboard stroke pulse there is some level of restoration that objective perception methods will deem \emph{better} than the original while subjective result may deem them \emph{less preferred}. Equally it is probably also the case that there is also a level of restoration that will be deemed \emph{preferred} in subjective tests for any corruption. This initial gap of disagreement between the perceptual model and the subjective test may lie in the fact that keyboard stroke noise is to some extent expected in the telecommunication scenario and is therefore deemed \emph{natural} while artificially sounding artifacts are not.
+
+
+%% Future research
+%- Investigate this discrepancy between perceivability and nuisance for artificial and natural noise
 
 % ------------------------------------------------------------------------
 

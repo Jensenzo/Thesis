@@ -90,8 +90,10 @@ Figure~\ref{fig:Keyboard4StrokesFast} shows an example of a short rapid 4 keystr
 \section{Detection algorithms}\label{sec:WPdetection}
 The basic detection algorithm is comprised of two stages. First a separation stage aims to separate the transient noise pulses by separating out tonal atoms assumed to be speech components and secondly a detection stage which attempts to detect transient noise events through the wavelet bases. For the detection stage 2 different approaches has been explored.
 
-\subsection{Separation pre processing}
-The purpose of the separation stage is twofold. Firstly the removal of tonal atoms, and thereby speech, should aid in the detection algorithms ability to distinguish between speech signals and transient noise. Secondly, the tonal atoms provide a good first approximation for a restoration, equally the residual signal, used for detection, should ideally be a sparse signal containing mainly the transient noise events. Future restoration efforts should therefore mainly be focused on the residual signal and, in general, the scope of the detrimental effects of restoration should be limited.
+\subsection{Separation pre processing}\label{sec:WPseparation}
+%good amplitude results in \cite{Vaseghi1990}
+The purpose of the separation stage is twofold. Firstly the removal of tonal atoms, and thereby speech, should aid in the detection algorithms ability to distinguish between speech signals and transient noise. Secondly, the tonal atoms provide a good first approximation for a restoration, equally the residual signal, used for detection, should ideally be a sparse signal containing mainly the transient noise events. Methods utilizing similar approaches in the literature clearly documents its advantages\cite{Godsill1998book} (see section~\ref{sec:LitRevAR} for full review). Visual examples produced in section~\ref{sec:WPseparation} and audible examples provided \sound{Separation examples} also speaks to the power of the separation pre processing stage.
+Future restoration efforts should therefore mainly be focused on the residual signal and, in general, the scope of the detrimental effects of restoration should be limited.
 
 The incoming audio signal can be expressed as the linear combination of a voiced signal and a sparse signal containing the transient noise events:
 \begin{equation}\label{eq:modelgeneral}

@@ -249,7 +249,7 @@ The authors of \cite{Chandra1998} employ the SD-ROM (Signal Dependent Rank Order
 
 Since transient noise events often exhibit a sudden fast change in the signal, one way to detect the onset of a noise event is to detect abrupt nonstationary changes in the dynamics of time series. In \cite{Fancourt2000} the authors employ neural network predictors for this task, while \cite{Kauppinen2002} proposes an iterative discrete derivative method. In \cite{Kauppinen2002} the linear predictor and median hybrid method outperformed the derivative approach and the method described in \cite{Fancourt2000} was never tested on real data but the requirement for training and the inherent detection deadzone does reduce the method's general applicability.
 
-\subsubsection{Autoregressive (AR) methods}
+\subsubsection{Autoregressive (AR) methods}\label{sec:LitRevAR}
 While autoregressive (AR) methods have been used in other fields for detection and restoration of transient noise events \cite{Arakawa1986} these methods were generally pioneered in the field of audio processing in \cite{Vaseghi1988thesis}\cite{Vaseghi1988}\cite{Vaseghi1990}. AR methods are today the basis for many impulse detection algorithms in audio applications\cite{Karjalainen1997}\cite{Esquef2000}\cite{Haermae2000}\cite{Esquef2002}\cite{Kauppinen2002}\cite{Wolfe2005}\cite{Subramanya2007}. The AR method proceeds by considering a sub-frame of the audio data $x_t$ for $ t = \{ 1, \ldots, N \}$. Assuming the data is drawn from a short-term stationary AR process:
 
 \begin{equation}\label{eq:ARmodel}
