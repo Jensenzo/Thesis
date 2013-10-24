@@ -529,7 +529,9 @@ The authors of \cite{He2008} developed a psychoacoustic model based around the W
 \todo{Add literature review on HMM?}
 
 \section{Restoration}\label{sec:LitRev_Restoration}
-The restoration of corrupted speech and audio samples by a localised degradation, also referred to as clicks or noise pulses, has inspired much research and many approaches. Corruptions can generally be seen to have varying severity. Short clicks have traditionally been treated as completely corrupted or essentially missing transforming the restoration task into one of interpolation of missing samples\cite{Godsill1998book}\cite{Tukey1977}\cite{Tukey1974}.
+The restoration of corrupted speech and audio samples by a localised degradation, also referred to as clicks or noise pulses, has inspired much research and many approaches. Corruptions can generally be seen to have varying severity. Clicks and pulses have traditionally been treated as completely corrupted or essentially missing samples transforming the restoration task into one of interpolation of missing samples\cite{Tukey1974}\cite{Tukey1977}\cite{Godsill1998book}.
+
+An exhaustive review of the methods employed in the field up until the year of publishing in 1992 can be found in \cite{Veldhuis1992}. A summary of relevant methods and more recent methods are provided in this section. While the focus of this thesis is the interpolation of audio segments, as with the detection task, some methods or related approaches can be found in the field of image restoration of localised corruptions.
 
 %literature review
 % LSE estimates with LPC model. Long term correlation structure
@@ -602,11 +604,14 @@ The restoration of corrupted speech and audio samples by a localised degradation
 
 %Low frequency pulse corruption:
 %|P. A. A. Esquef, L. W. P. Biscainho, and V. Välimäki, "An Efficient Algorithm for the Restoration of Audio Signals Corrupted with Low-Frequency Pulses", Journal of the Audio Engineering Society, vol. 51, no. 6, pp. 502-517, June 2003
+\cite{Esquef2003a}
 
 %Wavelet Shrinkage:
 %|L. W. P. Biscainho, F. P. Freeland, P. A. A. Esquef, and P. S. R. Diniz, "Wavelet Shrinkage De-noising Applied to Real Audio Signals under Perceptual Evaluation," in Proc. X European Signal Processing Conf. (EUSIPCO 2000), pp. 2061-2064, Tampere, Finland, September 2000.
+\cite{Biscainho2000}
 
-%An Efficient Model-Based Method for Reconstruction of Audio Signals Across Long Gaps \cite{Esquef2006} (based on \cite{Kauppinen2002a})
+%An Efficient Model-Based Method for Reconstruction of Audio Signals Across Long Gaps 
+\cite{Esquef2006} (based on \cite{Kauppinen2002a})
 % The use of a maximally-decimated filterbank renders easier
 %the interpolation task within a subband. This is due to the decreased
 %number of resonance modes to be modeled, allowing
