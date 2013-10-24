@@ -240,7 +240,7 @@ In a reconstruction algorithm it is important to focus our attention on audible 
 
 The simplest impulse detection algorithms exploit the relatively sparse nature of many audio, and in particular speech, signals above 9000 Hz in relation to impulsive noise which often exhibits a much smoother and wider frequency characteristics \cite{Subramanya2007}. In \cite{Kasparis1993}\cite{US6795559} the authors preprocess their signals using a High Pass filter to target to the impulsive noise.
 
-\subsubsection{Median filter methods}
+\subsection{Median filter methods}
 A classic impulse noise detection (and restoration) scheme has involved a median filter\cite{Tukey1974}\cite{Lee1985}\cite{Heinonen1985}\cite{Heinonen1987}\cite{Maekivirta1991}\cite{Kasparis1993}.
 %explain median filtering
 Median filtering for signal smoothing, first published in \cite{Tukey1974}, has, according to \cite{Brillinger2002}, some important characteristics in that they reduce ``spiky'' noise while preserving jump discontinuities (edges). In \cite{Lee1985} it is noted that the media filter has limited effect on non-impulsive noise and the authors propose a method for augmenting the median filter with a linear filter for added smoothing. This augmentation of the nonlinear media filter approach with a linear filtering approach has become a popular variation of median filtering process for impulsive noise detection and reduction spawning a variety of implementations \cite{Lee1985}\cite{Heinonen1985}\cite{Nieminen1987}\cite{Kasparis1993}\cite{Loveridge1995}. In \cite{Kauppinen2002} it was also noted that the impulse detection algorithm that performed best was the median filter preprocessed by a linear filter. In recent years median based algorithms such as weighted median (WM) filters \cite{Yin1996}\cite{Wang2010} and switching median filters \cite{Abreu1996}\cite{Chen2000}\cite{Chen2001}\cite{Lin2007} have seen a fair bit of attention although the focus of the implementations have almost exclusively been focused on image data.
@@ -249,7 +249,7 @@ The authors of \cite{Chandra1998} employ the SD-ROM (Signal Dependent Rank Order
 
 Since transient noise events often exhibit a sudden fast change in the signal, one way to detect the onset of a noise event is to detect abrupt nonstationary changes in the dynamics of time series. In \cite{Fancourt2000} the authors employ neural network predictors for this task, while \cite{Kauppinen2002} proposes an iterative discrete derivative method. In \cite{Kauppinen2002} the linear predictor and median hybrid method outperformed the derivative approach and the method described in \cite{Fancourt2000} was never tested on real data but the requirement for training and the inherent detection deadzone does reduce the method's general applicability.
 
-\subsubsection{Autoregressive (AR) methods}\label{sec:LitRevAR}
+\subsection{Autoregressive (AR) methods}\label{sec:LitRevAR}
 While autoregressive (AR) methods have been used in other fields for detection and restoration of transient noise events \cite{Arakawa1986} these methods were generally pioneered in the field of audio processing in \cite{Vaseghi1988thesis}\cite{Vaseghi1988}\cite{Vaseghi1990}. AR methods are today the basis for many impulse detection algorithms in audio applications\cite{Karjalainen1997}\cite{Esquef2000}\cite{Haermae2000}\cite{Esquef2002}\cite{Kauppinen2002}\cite{Wolfe2005}\cite{Subramanya2007}. The AR method proceeds by considering a sub-frame of the audio data $x_t$ for $ t = \{ 1, \ldots, N \}$. Assuming the data is drawn from a short-term stationary AR process:
 
 \begin{equation}\label{eq:ARmodel}
@@ -348,6 +348,8 @@ F_t = - \frac{1}{2} \sum_k \frac{1}{\sigma^2_{tk}} \left( S\left(k,t\right) - \s
 \end{equation}
 
 where $C_{tk}$ is a constant.
+\subsection{Hidden Markov Model (HMM)}
+\todo{Add information about the HMM and Viterbi in particular}
 
 \subsubsection{Time-Frequency processing}
 Since the object of interest in our detection efforts is inherently transient and therefore localised in time, it is a significant shortcoming of classic Fourier analysis that it provides no such temporal information. The basics of time-frequency processing is the correlation of a signal with a family of waveforms that are well concentrated in time as well as in frequency\cite{Mallat1999} also called \emph{time-frequency atoms}\cite{Gabor1946}. The popular STFT used in numerous applications dates back to 1946 and the introduction of the windowed Fourier atoms to measure the ``frequency variations'' of sound. Given the real and symmetric window
@@ -530,11 +532,14 @@ The authors of \cite{He2008} developed a psychoacoustic model based around the W
 The restoration of corrupted speech and audio samples by a localised degradation, also referred to as clicks or noise pulses, has inspired much research and many approaches. Corruptions can generally be seen to have varying severity. Short clicks have traditionally been treated as completely corrupted or essentially missing transforming the restoration task into one of interpolation of missing samples\cite{Godsill1998book}\cite{Tukey1977}\cite{Tukey1974}.
 
 %literature review
-%\cite{Vaseghi1990}: LSE estimates with LPC model. Long term correlation structure
+% LSE estimates with LPC model. Long term correlation structure
+\cite{Vaseghi1990}
 
-%\cite{Windyga2001}, \cite{Alajlan2004}: Non-linear, minimum or maximum of neighborhood based on dark or bright spot. (Alajlan based on Windyga, good explanation of Windyga in Alajlan)
+% Non-linear, minimum or maximum of neighborhood based on dark or bright spot. (Alajlan based on Windyga, good explanation of Windyga in Alajlan)
+\cite{Windyga2001}, \cite{Alajlan2004}
 
-%\cite{Czyzewski1995}: LPC and maybe more (meta analysis)
+% LPC and maybe more (meta analysis)
+\cite{Czyzewski1995}
 
 %\cite{Vaseghi1990}: LPC. "An interpolation algorithm was
 %described that takes advantage of the quasi-periodic
@@ -546,18 +551,21 @@ The restoration of corrupted speech and audio samples by a localised degradation
 %Median filtering for restoration:
 %JAYNAT, N.S.: â€˜Average and median based smoothing for improving
 %digital speech quality in the presence of transmission errorsâ€™,
-%IEEE Trans., COM-24,1976, pp. 1043-1045
+%IEEE Trans., COM-24,1976, pp. 1043-1045 
+\cite{Jayant1976}
 %
 % ^ Efficacy of employing some simple waveform smoothing. Transmission errors.
 %
 %KUNDA, A.: â€˜Applications of a two dimensional generalised mean
 %filtering for removal of impulsive noise from imagesâ€™, IEEE 7rans.,
-%ASP-23, (6), 1984, pp. 552-557
+%ASP-23, (6), 1984, pp. 552-557 
+\cite{Kundu1984}
 %Weighted mean, black and white photos, very simple!
 %
 %RABINER, L.R., SAMBUR, M.R., and SCHMIDT, C.Es
 %of a nonlinear smoothing algorithm to speech processing.
-%IEEE Trans., ASSP-32, (3), 1984â€˜
+%IEEE Trans., ASSP-32, (3), 1975 
+\cite{Rabiner1975}
 %
 % ^ Median and linear smoothing combined.
 %   Linear smoothing is rarely enough.
@@ -568,11 +576,29 @@ The restoration of corrupted speech and audio samples by a localised degradation
 %Median LPC hybrid
 %NIEMINEN, HEINONEN, P., and NEUVO, Y.: â€˜Suppression
 %and detection of impulsive type interference using adaptive median
-%hybrid filterâ€™. IEEE Proc. ICASSP 1987, pp. 117-120.
+%hybrid filterâ€™. IEEE Proc. ICASSP 1987, pp. 117-120. 
+\cite{Nieminen1987a}
 
-% AR \cite{Janssen1986}
-% P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002.
-%|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects (DAFx-03), pp. 18-23 London, UK, September 8-11, 2003.
+% AR 
+\cite{Janssen1986}
+% P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002. \cite{Esquef2002a}
+%|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects (DAFx-03), pp. 18-23 London, UK, September 8-11, 2003. 
+\cite{Esquef2003}
+
+% Band limited extrapolation/band-limited interpolation
+\cite{Papoulis1975}\cite{Ferreira2001}
+
+% waveform substitution schemes
+\cite{Goodman1986} \cite{Niediwiecki2001}
+
+% interpolators based on sinusoidal modeling
+\cite{Maher1994}\cite{Godsill1998book}
+
+% subband methods
+\cite{Montresor1991} \cite{Cocchi2001}
+
+% and AR-based interpolators
+\cite{Godsill1998book} \cite{Vaseghi1988thesis} \cite{Janssen1986}
 
 %Low frequency pulse corruption:
 %|P. A. A. Esquef, L. W. P. Biscainho, and V. Välimäki, "An Efficient Algorithm for the Restoration of Audio Signals Corrupted with Low-Frequency Pulses", Journal of the Audio Engineering Society, vol. 51, no. 6, pp. 502-517, June 2003
@@ -602,6 +628,8 @@ The restoration of corrupted speech and audio samples by a localised degradation
 %\cite{Nongpiur2008} : "On the basis of these differences, an algorithm was developed
 %to identify and suppress wavelet coefficients that correspond to
 %impulse noise."
+
+% A comprehensive review of restoration methods can be found in \cite{Veldhuis1992}
 
 %\section{Residual Restoration}
 A variety of restoration algorithms have been tested for the restoration of the residual audio component. Based on the nature of the detection algorithm, the restoration step can be done either on the wavelet coefficients or on the time series data.

@@ -229,7 +229,7 @@ The Maximum Likelihood (ML) estimate for $i_n$ can now trivially be calculated a
 \hat{i}_n^{\textrm{MLE}} = \arg\max_{i\in\{0,1\}} \prod^J \mathcal{N}(0,\sigma_{v,j} + i_n\lambda_j).
 \end{equation}
 
-Given that keyboard transient noise usually occurs in long bursts, it is essential to incorporate this knowledge into the model. We thus model the state vector $\boldsymbol{i}$ as a Hidden Markov Model (HMM). Decoding of the hidden state sequence can then be computed using the Viterbi algorithm to calculate the most likely detection sequence $\boldsymbol{i}$:
+Given that keyboard transient noise usually occurs in long bursts, it is essential to incorporate this knowledge into the model. We thus model the state vector $\boldsymbol{i}$ as a Hidden Markov Model (HMM). Decoding of the hidden state sequence can then be computed using the Viterbi algorithm\cite{Viterbi1967}\cite{Forney1973} to calculate the most likely detection sequence $\boldsymbol{i}$:
 
 \begin{equation}\label{eq:viterbi}
 \hat{\boldsymbol{i}}^{\textrm{MAP}} = \arg\max_{{\bf i}\in\{0,1\}^N} p(i_{0})\prod_n p(i_n | i_{n-1})p(\boldsymbol{w}(n) | i_n).
