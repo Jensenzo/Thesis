@@ -99,14 +99,14 @@ The incoming audio signal can be expressed as the linear combination of a voiced
 \begin{equation}\label{eq:modelgeneral}
     x(n) = \sum_i c_i \Phi_i(n) + \sum_{j} w_{j}(n) \Psi_{j}(n),
 \end{equation}
-where $c_i$ are the coefficients for the voiced parts of the signal and $\Phi$ is the standard short-time Fourier basis. $w_{j}(n)$ are the coefficients of the residual where $j$ is an integer relating to some translation and dilation of some Wavelet basis function $\Psi$. Here we are utilising an overcomplete dictionary of atoms to represent the audio: a dictionary of `tonal' atoms and a dictionary of `transient' atoms that are aimed at capturing voiced speech and transient noise, respectively. Multiple dictionaries have been employed in Bayesian probabilistic methodologies for noise reduction purposes in \cite{Fevotte2006}\cite{Fevotte2008} (see also references therein for other approaches with multiple dictionaries). \todo{Maybe remove this: }We plan to report on such fully Bayesian approaches to our model above in future publications, but here we focus on development of a fast algorithm using the principles of the above model in order to first extract the tonal (voiced) components in order to process the noise components directly in wavelet domain. Other tonal dictionaries such as Gabor functions and other transient dictionaries such as standard discrete or continuous wavelet transforms can of course be substituted in our methods with minor modifications. Wavelets are found to be particularly suited to the types of noise transient we observe here, which are localised in time and can be of highly variable durations and frequency profile.
+where $c_i$ are the coefficients for the voiced parts of the signal and $\Phi$ is the standard short-time Fourier basis. $w_{j}(n)$ are the coefficients of the residual where $j$ is an integer relating to some translation and dilation of some Wavelet basis function $\Psi$. Here we are utilising an overcomplete dictionary of atoms to represent the audio: a dictionary of `tonal' atoms and a dictionary of `transient' atoms that are aimed at capturing voiced speech and transient noise, respectively. Multiple dictionaries have been employed in Bayesian probabilistic methodologies for noise reduction purposes in \cite{Fevotte2006}\cite{Fevotte2008} (see also references therein for other approaches with multiple dictionaries). \todo{Maybe remove this: }Here we focus on development of a fast algorithm using the principles of the above model in order to first extract the tonal (voiced) components in order to process the noise components directly in the wavelet domain. Other tonal dictionaries such as Gabor functions and other transient dictionaries such as standard discrete or continuous wavelet transforms can of course be substituted in our methods with minor modifications. Wavelets are found to be particularly suited to the types of noise transient we observe here, which are localised in time and can be of highly variable durations and frequency profile.
 
 The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a Wavelet Packet Decomposition (WPD) such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for an level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. For the case of a wavelet decomposition with decimation steps the time index from the terminal node coefficient sets and equation~\ref{eq:modelgeneral} will be related by a factor of $1/J$.
 
 \subsubsection{Algorithm description}\label{sec:WPdetectionSep}
 The method for selecting the tonal components from the noisy signal is described in this section.
 
-As described in the literature\todo{cite literature on speech modelling}, speech signals are typically slowly varying signals with energy concentrated around specific frequencies known as formant frequencies. These frequencies are related to the physiological shape of the human vocal tract and are typically manifested as spectral peaks\cite{Fant1970}. The algorithm attempts to detect these peaks and separate out this presumed vocal content. Figure~\ref{fig:Separation_Spectrum_Selection.pdf} shows an example of the algorithm running on block of speech data. A diagrammatic representation of the algorithm is shown in Figure~\ref{fig:SeparationDiagram.pdf} where ``iSTFT'' refers to the inverse Fourier transform on a windowed block of data.
+As described in the literature\cite{Vaseghi1988thesis}\cite{Vaseghi1990}, speech signals are typically slowly varying signals with energy concentrated around specific frequencies known as formant frequencies. These frequencies are related to the physiological shape of the human vocal tract and are typically manifested as spectral peaks\cite{Fant1970}. The algorithm attempts to detect these peaks and separate out this presumed vocal content. Figure~\ref{fig:Separation_Spectrum_Selection.pdf} shows an example of the algorithm running on block of speech data. A diagrammatic representation of the algorithm is shown in Figure~\ref{fig:SeparationDiagram.pdf} where ``iSTFT'' refers to the inverse Fourier transform on a windowed block of data.
 
 \begin{figure} %Separation_Spectrum_Selection.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -239,8 +239,6 @@ Here $p(i_{0})$ is the starting probability, $p(i_n | i_{n-1})$ is the transitio
 
 The algorithm proposed above aims to implement a detection algorithm with superior temporal resolution compared with current approaches and to view the detection state as an HMM in order to incorporate prior knowledge of the likely evolution of the detection state. In addition, the proposed algorithm is also fundamentally different from current approaches in that it utilises a sparse residual signal that is well modelled by a wavelet basis.
 
-\todo{Describe HMM (Viterbi)}
-
 \subsection{AR filtering approach}\label{sec:WPdetectionAR}
 
 The terminal node coefficients of the WPT of an incoming audio sequence $x(n)$ of length $N$ is defined as $X(j,t)$ where $X_j$ is the $j$th terminal node, $j \in \{1, \ldots, J\}$, and $t$ is the time index related to $n$. A level $L$ WPT gives $J = 2^L$ terminal nodes. $X(t)$ will be used to denote a vector of all coefficients at a given time index $t$. We assume that the coefficients for each terminal node $j$ follow this linear predictive model
@@ -281,7 +279,6 @@ where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of 
 
 \section{Methods}\label{sec:WPmethods} %A note about the issues of plotting/decribing/comparing detection results.
 \subsection{Separation algorithm}
-\todo{Write about separation algorithm results}
 Results provided for the separation algorithm mainly take the form of waveforms. These provide a reference for the amplitude reduction achieved for speech segments of the signal containing both speech and keyboard strokes. Figures are also provided that show the effect of the separation algorithm on both a clean speech segment as well as a keyboard stroke corrupted segment.
 
 A plot of a moving frame estimate of the Mean Squared Error (MSE) is also provided as well as other error measurements such as Peak Signal to Noise Ration (PSNR) and the maximum MSE for the entire signal.
@@ -399,7 +396,7 @@ To further evaluate the effect of the separation algorithm a comparison of the M
 
 Figure~\ref{fig:SeparationError.pdf}(b) shows the waveform for the signals compared in Figure~\ref{fig:SeparationError.pdf}(a) and Figure~\ref{fig:SeparationErrorData.pdf} provides a zoomed in view of the waveform for a further detailed comparison.
 
-For the audio segment in Figure~\ref{fig:SeparationError.pdf} in addition to the MSE estimate provided, the Peak Signal to Noise Ratio (PSNR) value was also increased from 80.5 dB, for the corrupted signal, to 82 dB for the tonal component of the corrupted signal. The maximum MSE was also calculated to be reduced from 0.52 to 0.32 for the entire signal.
+For the audio segment in Figure~\ref{fig:SeparationError.pdf} in addition to the MSE estimate provided, the Peak Signal to Noise Ratio (PSNR) value was also increased from \todo{Recalculate PSNR} 80.5 dB, for the corrupted signal, to 82 dB for the tonal component of the corrupted signal. The maximum MSE was also calculated to be reduced from 0.52 to 0.32 for the entire signal.
 
 \begin{figure} %SeparationError.pdf
 \begin{minipage}[b]{1.0\linewidth}
