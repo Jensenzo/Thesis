@@ -534,7 +534,7 @@ The restoration of corrupted speech and audio samples by a localised degradation
 An exhaustive review of the methods employed in the field up until the year of publishing in 1992 can be found in \cite{Veldhuis1992}. A summary of relevant methods and more recent methods are provided in this section. While the focus of this thesis is the interpolation of audio segments, as with the detection task, some methods or related approaches can be found in the field of image restoration of localised corruptions or other 1 and 2 dimensional implementations.
 
 \subsection{Nonlinear approaches}
-As noted in section~\ref{sec:LitRevDetMedianFilts}, a classic impulse detection approach in both audio and image processing has been by median filtering. Equally, many of the approaches mentioned previously employ median based approaches for restoring the detected impulses\cite{Tukey1974}\cite{Lee1985}\cite{Heinonen1985}\cite{Heinonen1987}\cite{Maekivirta1991}\cite{Kasparis1993}.
+As noted in section~\ref{sec:LitRevDetMedianFilts}, a classic impulse detection approach in both audio and image processing has been by median filtering. Equally, many of the approaches mentioned previously employ median based approaches for restoring the detected impulses\cite{Tukey1974}\cite{Lee1985}\cite{Heinonen1985}\cite{Heinonen1987}\cite{Maekivirta1991}\cite{Kasparis1993}\cite{Alajlan2004}. In \cite{Bovik1983} it was shown that the optimal Order Statistics Filter (OSF) tends towards a median filter as the noise becomes increasingly impulsive, and that in particular the median filter is effective when the impulse length is less than half the median window size\cite{Alajlan2004}.
 
 Much of the early work on nonlinear digital smoothing followed the original proposed algorithm by Tukey\cite{Tukey1974}. Following this publication the algorithm, in combination with linear filtering, was applied to speech signals and was found to perform reasonably\cite{Rabiner1975}. The authors noted that the median filter alone, although successful in the preservation of sharp discontinuities not associated with noise, failed to provide sufficient smoothing and was therefore paired with a simple 3-point linear filter. In addition the authors described a double smoothing algorithm which attempted to isolate noisy segments and re-subtract them. 
 
@@ -567,18 +567,32 @@ These methods all appear to have been applied indiscriminately to the data seque
 %and detection of impulsive type interference using adaptive median
 %hybrid filterâ€™. IEEE Proc. ICASSP 1987, pp. 117-120.
 
-Later median hybrid combinations were introduced and formalised, and the median filters were \cite{Nieminen1987a}\cite{Lee1985} \cite{Heinonen1987}
+Realizing the power of both linear and non-linear approaches to non-stationary noise detection and restoration, a range of \emph{hybrid} approaches arose\cite{Nieminen1987a}\cite{Lee1985} \cite{Heinonen1987}. A Modified Trimmed Mean (MTM) filter, was found to outperform a standard median filter in the task of preserving naturally sharp edged in signals\cite{Lee1985}. The MTM filter quite simply replaces values of a frame with the average of a subframe selected around the outer frame's median value\cite{Lee1985}. An FIR Median Hybrid (FMH) filter was designed with the aim of outperforming the standard median filter computationally. The FMH filter was found to perform similarly the the standard median filter\cite{Heinonen1987}. Lastly the Adaptive Median Hybrid (AMH) filters, proposed in \cite{Nieminen1987a}, employ multiple substructures which was considered ``ideal for processing of signals with statistics which change abruptly''. The theory is that at least one of the substructures will have adapted to a local change in the signal characteristics, whereas short non-stationary changes will be omitted. For the examples presented, this approach conserved sharp local changes while a comparable Least Means Squares (LMS) filter did not\cite{Nieminen1987a}. 
 
 
+%Lee: L and M filters + useful modification: MTM filter
+% "combine properties of both the linear and median filters"
+% "The concept of double-window filtering is introduced as a refinement of MTM filtering"
+% "It was observed that M filters offers a more favorable combination of the characteristics of running mean and median filters than the L filters"
+% "The MTM filters were shown to provide better overall characteristics. In fact, we have seen that MTM filters can preserve noisy edges better than can median filters."
+
+%Heinonen: FIR-median hybrid (FMH) filters (M filter)
+% "The FIR-median Hybrid (FMH) filters require significantly less computations than the Standard Median (SM) filters.
+
+%Nieminen: Adaptive Median Hybrid (AMH) filters
+% "In the AMH filters, adaptive filter substructures are used
+% to estimate the current signal value from the future and
+% past signal values. The output of the overall filter is the
+% median of the %adaptive filter outputs and the currents ignal
+% value. This kind of nonlinear filter structure is shown to
+% adapt and preserve rapid changes in signal characteristics
+% well. However, it filters out short duration interferences. By
+% examining the difference between the original and filtered
+% data, interferences can be detected."
 
 % Non-linear, minimum or maximum of neighborhood based on dark or bright spot. (Alajlan based on Windyga, good explanation of Windyga in Alajlan)
-\cite{Windyga2001}, \cite{Alajlan2004}
-
-%Combined linear/non-linear: \cite{Lee1985} \cite{Heinonen1987}
-
-
-
-
+\cite{Windyga2001}, \cite{Alajlan2004}\cite{Xu1998}
+In the field of image processing the median filter is still an integral part in most state-of-the-art impulsive noise filters\cite{Alajlan2004}. Other popular non-linear methods employed have been the maximum-minimum method\cite{Xu1998} and the peak-and-valley filter\cite{Windyga2001} and a modified maximum-minimum approach\cite{Alajlan2004} which aims apply a maximum-minimum approach to selected samples only. All these non-linear approaches were found to have similar performance but with median filter bearing a higher computational cost\cite{Alajlan2004}.
 
 %literature review
 \subsection{Linear approaches}
