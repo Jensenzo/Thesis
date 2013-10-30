@@ -6,16 +6,30 @@
     \graphicspath{{Chapter4_MultiAPR/Chapter4Figs/EPS/}{Chapter4_MultiAPR/Chapter4Figs/}}
 \fi
 
+%Introduction to multichannel APR
+While a key aspect of the basic single channel Acoustic Pulse Recognition (APR) system was founded in the breath of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and specifically multiple microphones. Specifically laptop computers and mobile phones frequently employ multiple microphones for noise cancellation applications. 
+
+In this chapter the APR system is generalised to multiple channels and results are provided to quantify the multi channel APR system's performance in relation to a single channel equivalent.
+
+%outline of chapter
+
+\section{Background}
+%Discuss and outline the advantages of multiple channels in a physical detection application
+
+%Discuss time of flight (ToF) (and sample rates/size tradeoff)
+
 
 \section{Models}
 \subsection{Model and theory}
-A standard linear instantaneous model is considered where observations $y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
+The multi channel model proposed here is an extension of the multi component model proposed in section~\todo{insert section for model}.
+ 
+Similarly to equation~\ref{eq:mod1} we consider observations of the form $y_c = [y_{c,0}, \ldots , y_{c,N-1}]^T$ for the $c$th channel so that $\mathbf{y} = [y_c, \ldots, y_C]$ for $C$ independent channels. The standard noisy linear instantaneous model is considered for a single channel $c$:
 
 \begin{equation}\label{eq:mod1}
-y = \sum_{i=1}^{I} \theta_i^j t_i^j(n_0) + v,
+y_c = \sum_{i=1}^{I} \theta_{c,i}^j t_{c,i}^j(n_0) + v_c,
 \end{equation}
 
-where $t_i^j(n_0)$ is the $j$th template, $j \in \{1, \ldots ,J\}$, for $I$ independent components and $\theta_i^j$ is the amplitude of the $j$th spot and $i$th component. In this section the model has been assumed to be of zero mean $\mu^j(n_0) =0$ although this assumption could easily be avoided by adding it to the model. Take $\theta_i^j$ to be a random variable, $\Theta^j = [\theta_1^j,\ldots,\theta_I^j]^T$, describing the scale of each template component $i$ where
+where $t_{c,i}^j(n_0)$ is the $j$th template for the $c$th channel, $j_c \in \{1, \ldots ,J\}$, for $I$ independent components and $\theta_{c,i}^j$ is the amplitude of the $c$th channel, $j$th spot and $i$th component. In this section the model has been assumed to be of zero mean $\mu_c^j(n_0) =0$ although this assumption could easily be avoided by adding it to the model. Take $\theta_i^j$ to be a random variable, $\Theta^j = [\theta_1^j,\ldots,\theta_I^j]^T$, describing the scale of each template component $i$ where
 
 \begin{equation}\label{eq:theta}
 \Theta^j \sim \mathcal{N}(\mu_{\Theta}^j,C_{\Theta}^j),
@@ -135,6 +149,31 @@ As with the previous method, the log-likelihood is calculated
 \end{equation}
 
 and maximized over the $J$ different templates, similar to equation~(\ref{eq:MLdefinition}).
+
+\subsection{Temp likelihood stuff}
+We can now express the probability of $X(j,t)$ conditional on prior values of $X$.
+
+\begin{align}\label{eq:likelihood}
+p\left(X\left(j,t\right)|X\left(j,t-1\right),\ldots,X\left(j,t-M\right)\right) = \nonumber\\
+\qquad \mathcal{N}_X\left( \sum_{m=1}^M a_{j,m} X(j,t - m), \sigma_{j,t}^2\right),
+\end{align}
+
+and the marginal probability can be expressed as
+
+\begin{equation}\label{eq:marginal}
+p\left(X(t)\right) = \prod^J p\left(X(j,t)\right),
+\end{equation}
+
+assuming that the conditional probabilities for each set of coefficients are independent.
+
+We can now calculate the log-likelihood $\log\mathcal{L} = \log{p\left(X(t)\right)}$ for the current coefficient $X(t)$,
+
+\begin{align}\label{eq:loglike}
+\log \mathcal{L} &= \log \left\{ \prod^J p \left( X(j,t) | X(j,t-1),\ldots,X(j,t-M) \right) \right\} \\
+&=  \sum^J \log \left\{p \left( X(j,t) | X(j,t-1),\ldots,X(j,t-M) \right) \right\}\nonumber\\
+&=  -\frac{1}{2} \sum^J \frac{1}{\sigma_{j,t}^2}\left(X(j,t) -  \sum_{m=1}^{M} a_{j,m} X(j,t - m) \right)^2 + C_{j,t}\nonumber,
+\end{align}
+where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of how well $X(t)$ can be predicted by its previous values.
 
 \section{Training}
 
