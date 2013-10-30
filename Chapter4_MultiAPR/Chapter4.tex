@@ -6,6 +6,144 @@
     \graphicspath{{Chapter4_MultiAPR/Chapter4Figs/EPS/}{Chapter4_MultiAPR/Chapter4Figs/}}
 \fi
 
+
+\section{Models}
+\subsection{Model and theory}
+A standard linear instantaneous model is considered where observations $y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
+
+\begin{equation}\label{eq:mod1}
+y = \sum_{i=1}^{I} \theta_i^j t_i^j(n_0) + v,
+\end{equation}
+
+where $t_i^j(n_0)$ is the $j$th template, $j \in \{1, \ldots ,J\}$, for $I$ independent components and $\theta_i^j$ is the amplitude of the $j$th spot and $i$th component. In this section the model has been assumed to be of zero mean $\mu^j(n_0) =0$ although this assumption could easily be avoided by adding it to the model. Take $\theta_i^j$ to be a random variable, $\Theta^j = [\theta_1^j,\ldots,\theta_I^j]^T$, describing the scale of each template component $i$ where
+
+\begin{equation}\label{eq:theta}
+\Theta^j \sim \mathcal{N}(\mu_{\Theta}^j,C_{\Theta}^j),
+\end{equation}
+
+and Gaussian noise to model background interference:
+
+\begin{equation}\label{eq:noise}
+v_n \stackrel{i.i.d.}{\sim} \mathcal{N}(0,\sigma_{v,n}^2).
+\end{equation}
+
+Considering this model in matrix notation:
+\begin{equation}\label{eq:mod2}
+y = \textbf{t}\Theta + \textbf{v}.
+\end{equation}
+
+For simplicity the matrices $\textbf{t}^j(n_0)$ and $\Theta^j$ will from now on be referred to as simply $\textbf{t}$ and $\Theta$ respectively.
+Bayes' theorem can now be used to evaluate the joint probability of $y$ and $\Theta$ as
+
+\begin{equation}\label{eq:bayes1}
+p(y,\Theta | j) = p(y|\Theta,j)p(\Theta | j).
+\end{equation}
+
+Since the goal is to evaluate the probability of each data reading $y$ given a particular position/model $j$, the dependency of $\Theta$ can be marginalized out,
+
+\begin{eqnarray}\nonumber
+p(y|j) &=& \int_\Theta p(y,\Theta|j) d\Theta \\
+\label{eq:marg1} &=& \int_\Theta p(y|\Theta,j)p(\Theta|j) d\Theta.
+\end{eqnarray}
+
+Given (\ref{eq:noise}) and (\ref{eq:mod2}), the probability $p(y|\Theta)$ can be expressed as:
+
+\begin{equation}\label{eq:probybeta}
+p(y|\Theta,j) = \mathcal{N}_y(\textbf{t}\Theta,\sigma_v^2\textbf{I}),
+\end{equation}
+where $\textbf{I}$ is the identity matrix.
+Now (\ref{eq:marg1}) can be written as:
+
+\begin{equation}\label{eq:marg2}
+p(y|j) = \int_\Theta \mathcal{N}_y(\textbf{t}\Theta,\sigma_v^2 \textbf{I})\times\mathcal{N}_\Theta(\mu_\Theta,C_\Theta) d\Theta
+\end{equation}
+
+The product of two normal distributions is another normal distribution and since this resulting normal distribution is no longer normalized a normalizing constant $z$ is added:
+
+\begin{equation}\label{eq:prod1}
+\mathcal{N}_y(\textbf{t}\Theta,\sigma_v^2 \textbf{I})\cdot\mathcal{N}_\Theta(\mu_\Theta,C_\Theta) = z \times \mathcal{N}_\Theta(\hat{C}_\Theta,\hat{\mu}_\Theta)
+\end{equation}
+
+Since:
+\begin{equation}\label{eq:marg3}
+\int_\Theta \mathcal{N}_\Theta(\hat{C}_\Theta,\hat{\mu}_\Theta) d\Theta = 1,
+\end{equation}
+we have that:
+\begin{equation}\label{eq:marg4}
+p(y|j) = z \times \int_\Theta \mathcal{N}_\Theta(\hat{C}_\Theta,\hat{\mu}_\Theta) d\Theta = z.
+\end{equation}
+
+To evaluate $z$ the l.h.s. of equation (\ref{eq:prod1}) is expanded
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}
+\label{eq:prod2} & & \mathcal{N}_y(\textbf{t}\Theta,\sigma_v^2 \textbf{I})\times\mathcal{N}_\Theta(\mu_\Theta,C_\Theta) = \\\nonumber
+& & \qquad \frac{1}{(2\pi)^{\frac{n}{2}} |\sigma_v^2\textbf{I}|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2}(y - \textbf{t}\Theta)^T(\sigma_v^2 \textbf{I})^{-1}(y - \textbf{t}\Theta)\right] \times {} \\\nonumber
+& & \qquad \frac{1}{(2\pi)^{\frac{n}{2}}|C_\Theta|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2}(\Theta - \mu_\Theta)^TC_\Theta^{-1}(\Theta - \mu_\Theta)\right] \\\nonumber
+& & \quad= \frac{1}{(2\pi)^n |\sigma_v^2\textbf{I}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \textrm{exp}\bigg[-\frac{\textbf{I}}{2\sigma_v^2}\left(y^Ty+\Theta^T\textbf{t}^T\textbf{t}\Theta - 2 \Theta^T\textbf{t}y\right) - {} \\\nonumber
+& & \qquad \frac{1}{2C_\Theta} \left(\Theta^T\Theta + \mu_\Theta^T\mu_\Theta - 2 \Theta^T\mu_\Theta\right) \bigg] \\\nonumber
+& & \quad = \frac{1}{(2\pi)^n |\sigma_v^2\textbf{I}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \textrm{exp}\Bigg[-\frac{1}{2}\Bigg(\Theta^T\left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\Theta - 2 \Theta^T\left(\frac{\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) + {}\\\nonumber
+& & \qquad \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg].
+\end{eqnarray}}
+The r.h.s. of equation (\ref{eq:prod1}) is also expanded,
+
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}
+\label{eq:prod3} & & z \times \mathcal{N}_\Theta(\hat{C}_\Theta,\hat{\mu}_\Theta) \\\nonumber
+& & \quad = z\frac{1}{(2\pi)^{\frac{n}{2}} |\hat{C}_\Theta|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2}\left(\Theta - \hat{\mu}_\Theta\right)^T\hat{C}_\Theta^{-1}\left(\Theta - \hat{\mu}_\Theta\right)\right] \\\nonumber
+& & \quad = z\frac{1}{(2\pi)^{\frac{n}{2}} |\hat{C}_\Theta|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2}\left(\Theta^T\hat{C}_\Theta^{-1}\Theta + \hat{\mu}_\Theta^T\hat{C}_\Theta^{-1}\hat{\mu}_\Theta - 2\Theta^T\hat{C}_\Theta^{-1}\hat{\mu}_\Theta\right)\right],
+\end{eqnarray}}
+and by inspection and comparison between equation (\ref{eq:prod2}) and (\ref{eq:prod3}) it is found that:
+
+\begin{eqnarray}
+\label{eq:prod4}
+\hat{C}_\Theta &=& \left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)^{-1} \qquad \textrm{and}\\\nonumber
+\hat{\mu}_\Theta &=& \left(\frac{\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right)\hat{C}_\Theta.
+\end{eqnarray}
+
+Equation (\ref{eq:prod2}) and (\ref{eq:prod4}) are equated and the normalizing constant $z$ is isolated.
+
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}\label{eq:z1}
+z &=& \frac{(2\pi)^{\frac{n}{2}}\left|\hat{C}_\Theta\right|^{\frac{1}{2}} }{(2\pi)^n |\sigma_v^2\textbf{I}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \times {}\\\nonumber
+& &\frac{\textrm{exp}\Bigg[-\frac{1}{2}\Bigg(\Theta^T\left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\Theta - 2 \Theta^T\left(\frac{\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) + \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg]}{\textrm{exp}\left[-\frac{1}{2}\left(\Theta^T\hat{C}_\Theta^{-1}\Theta - 2\Theta^T\hat{C}_\Theta^{-1}\hat{\mu}_\Theta + \hat{\mu}_\Theta^T\hat{C}_\Theta^{-1}\hat{\mu}_\Theta \right)\right]}.
+\end{eqnarray}}
+Substituting $\hat{C}_\Theta$ from equation~(\ref{eq:prod4}) and doing some simplification, gives:
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}\label{eq:z2}
+z &=& \frac{\left|\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right|^{-\frac{1}{2}}}{(2\pi)^{\frac{n}{2}} |\sigma_v^2\textbf{I}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \times {}\\\nonumber
+& &\frac{\textrm{exp}\Bigg[-\frac{1}{2}\Bigg(\Theta^T\left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\Theta - 2 \Theta^T\left(\frac{\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) +  \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg]}{\textrm{exp}\left[-\frac{1}{2}\left(\Theta^T \left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\Theta  - 2\Theta^T\left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\hat{\mu}_\Theta  + \hat{\mu}_\Theta^T\left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\hat{\mu}_\Theta \right)\right]}
+\end{eqnarray}}
+Substituting $\hat{\mu}_\Theta$ from equation~(\ref{eq:prod4}) and doing some simplification, gives:
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}\label{eq:z2}
+z &=& \frac{1}{(2\pi)^{\frac{n}{2}} |\textbf{t}^T\textbf{t}+\sigma_v^2C_\Theta^{-1}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \times {}\\\nonumber
+& &\frac{\textrm{exp}\Bigg[-\frac{1}{2}\Bigg(- 2 \Theta^T\left(\frac{\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) +  \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg]}{\textrm{exp}\left[-\frac{1}{2}\left(- 2\Theta^T\left(\frac{\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right)  + \left(\left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)^T\right)^{-1}\left(\frac{\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right)^T\left(\frac{\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) \right)\right]}\\\nonumber{}\\\nonumber
+&=& \frac{1}{(2\pi)^{\frac{n}{2}} |\Phi|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}}\times \frac{\textrm{exp}\left[-\frac{1}{2\sigma_v^2}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty\right)\right]}{\textrm{exp}\left[-\frac{1}{2\sigma_v^2}\left(\left(\Phi^T\right)^{-1}\Lambda^T\Lambda \right)\right]}\\\nonumber{}\\\nonumber
+&=& \frac{1}{(2\pi)^{\frac{n}{2}} |\Phi|^{\frac{1}{2}}|C_\Theta|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2\sigma_v^2}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right)\right],
+\end{eqnarray}}
+where:
+\begin{eqnarray}
+\label{eq:z3}
+\Phi &=& \textbf{t}^T\textbf{t} + \sigma_v^2C_\Theta^{-1} \qquad \textrm{and}\\\nonumber
+\Lambda &=& \textbf{t}^Ty + \sigma_v^2\mu_\Theta C_\Theta^{-1}.
+\end{eqnarray}
+
+As with the previous method, the log-likelihood is calculated
+
+\begin{equation}\label{eq:loglikeli}
+\log{p(y|j)} = - \frac{n}{2}\log{2 \pi}- \frac{1}{2}\log{|\Phi|} - \frac{1}{2}\log{|C_\Theta|} - \frac{1}{2\sigma^2_v}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right)
+\end{equation}
+
+and maximized over the $J$ different templates, similar to equation~(\ref{eq:MLdefinition}).
+
+\section{Training}
+
+
+\section{Method}
+\section{Results}
+\section{Discussion}
+\section{Conclusions}
+
 % ------------------------------------------------------------------------
 
 
