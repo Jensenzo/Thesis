@@ -233,6 +233,10 @@ in which the $d$-dimensional observations vector \textbf{t} is related to a corr
 
 \cite{Lawrence2005} presents an extended PPCA model based on the work of \cite{Tipping1999} termed Dual Probabilistic PCA (DPPCA). The DPPCA method can, through Gaussian processes, nonlinearize the linear mappings from the embedded space and hence provide new probabilistic approach to visualizing and modeling of high dimensional data.
 
+\subsection{Multichannel APR}
+White paper \cite{TouchSystems2006}
+Patent family \cite{US7411581}
+
 \section{Detection}\label{sec:LitRev_Detection}
 Any restoration of transient noise events presupposes complete knowledge of the position of the corruption. In practice this information is unknown \emph{a priori} and some a detection procedure must be employed to ascertain the timing of the corruptions. As noted in this section, a large number of different approaches to transient noise detection has been studied, and since there are as many types of transient noise as there are data that can be corrupted by it, the  detection methods range from simple \emph{ad hoc} filtering approaches to more complicated model based approaches.
 
@@ -536,7 +540,7 @@ An exhaustive review of the methods employed in the field up until the year of p
 \subsection{Nonlinear approaches}
 As noted in section~\ref{sec:LitRevDetMedianFilts}, a classic impulse detection approach in both audio and image processing has been by median filtering. Equally, many of the approaches mentioned previously employ median based approaches for restoring the detected impulses\cite{Tukey1974}\cite{Lee1985}\cite{Heinonen1985}\cite{Heinonen1987}\cite{Maekivirta1991}\cite{Kasparis1993}\cite{Alajlan2004}. In \cite{Bovik1983} it was shown that the optimal Order Statistics Filter (OSF) tends towards a median filter as the noise becomes increasingly impulsive, and that in particular the median filter is effective when the impulse length is less than half the median window size\cite{Alajlan2004}.
 
-Much of the early work on nonlinear digital smoothing followed the original proposed algorithm by Tukey\cite{Tukey1974}. Following this publication the algorithm, in combination with linear filtering, was applied to speech signals and was found to perform reasonably\cite{Rabiner1975}. The authors noted that the median filter alone, although successful in the preservation of sharp discontinuities not associated with noise, failed to provide sufficient smoothing and was therefore paired with a simple 3-point linear filter. In addition the authors described a double smoothing algorithm which attempted to isolate noisy segments and re-subtract them. 
+Much of the early work on nonlinear digital smoothing followed the original proposed algorithm by Tukey\cite{Tukey1974}. Following this publication the algorithm, in combination with linear filtering, was applied to speech signals and was found to perform reasonably\cite{Rabiner1975}. The authors noted that the median filter alone, although successful in the preservation of sharp discontinuities not associated with noise, failed to provide sufficient smoothing and was therefore paired with a simple 3-point linear filter. In addition the authors described a double smoothing algorithm which attempted to isolate noisy segments and re-subtract them.
 
 
 %Median filtering for restoration:
@@ -560,14 +564,14 @@ A similar early approach used to combat the effects of transmission errors in di
 % "Generalized median filtering and related nonlinear filtering techniques"
 % Another median+linear smoother
 
-These methods all appear to have been applied indiscriminately to the data sequences which bore a cost to the signal fidelity. 
+These methods all appear to have been applied indiscriminately to the data sequences which bore a cost to the signal fidelity.
 
 %Median LPC hybrid
 %NIEMINEN, HEINONEN, P., and NEUVO, Y.: â€˜Suppression
 %and detection of impulsive type interference using adaptive median
 %hybrid filterâ€™. IEEE Proc. ICASSP 1987, pp. 117-120.
 
-Realizing the power of both linear and non-linear approaches to non-stationary noise detection and restoration, a range of \emph{hybrid} approaches arose\cite{Nieminen1987a}\cite{Lee1985} \cite{Heinonen1987}. A Modified Trimmed Mean (MTM) filter, was found to outperform a standard median filter in the task of preserving naturally sharp edged in signals\cite{Lee1985}. The MTM filter quite simply replaces values of a frame with the average of a subframe selected around the outer frame's median value\cite{Lee1985}. An FIR Median Hybrid (FMH) filter was designed with the aim of outperforming the standard median filter computationally. The FMH filter was found to perform similarly the the standard median filter\cite{Heinonen1987}. Lastly the Adaptive Median Hybrid (AMH) filters, proposed in \cite{Nieminen1987a}, employ multiple substructures which was considered ``ideal for processing of signals with statistics which change abruptly''. The theory is that at least one of the substructures will have adapted to a local change in the signal characteristics, whereas short non-stationary changes will be omitted. For the examples presented, this approach conserved sharp local changes while a comparable Least Means Squares (LMS) filter did not\cite{Nieminen1987a}. 
+Realizing the power of both linear and non-linear approaches to non-stationary noise detection and restoration, a range of \emph{hybrid} approaches arose\cite{Nieminen1987a}\cite{Lee1985} \cite{Heinonen1987}. A Modified Trimmed Mean (MTM) filter, was found to outperform a standard median filter in the task of preserving naturally sharp edged in signals\cite{Lee1985}. The MTM filter quite simply replaces values of a frame with the average of a subframe selected around the outer frame's median value\cite{Lee1985}. An FIR Median Hybrid (FMH) filter was designed with the aim of outperforming the standard median filter computationally. The FMH filter was found to perform similarly the the standard median filter\cite{Heinonen1987}. Lastly the Adaptive Median Hybrid (AMH) filters, proposed in \cite{Nieminen1987a}, employ multiple substructures which was considered ``ideal for processing of signals with statistics which change abruptly''. The theory is that at least one of the substructures will have adapted to a local change in the signal characteristics, whereas short non-stationary changes will be omitted. For the examples presented, this approach conserved sharp local changes while a comparable Least Means Squares (LMS) filter did not\cite{Nieminen1987a}.
 
 
 %Lee: L and M filters + useful modification: MTM filter
@@ -613,16 +617,16 @@ In the field of image processing the median filter is still an integral part in 
 
 %KUNDA, A.: â€˜Applications of a two dimensional generalised mean
 %filtering for removal of impulsive noise from imagesâ€™, IEEE 7rans.,
-%ASP-23, (6), 1984, pp. 552-557 
+%ASP-23, (6), 1984, pp. 552-557
 \cite{Kundu1984}
 %Weighted mean, black and white photos, very simple!
 %
 
 
-% AR 
+% AR
 \cite{Janssen1986}
 % P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002. \cite{Esquef2002a}
-%|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects (DAFx-03), pp. 18-23 London, UK, September 8-11, 2003. 
+%|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects (DAFx-03), pp. 18-23 London, UK, September 8-11, 2003.
 \cite{Esquef2003}
 
 % Band limited extrapolation/band-limited interpolation
@@ -648,7 +652,7 @@ In the field of image processing the median filter is still an integral part in 
 %|L. W. P. Biscainho, F. P. Freeland, P. A. A. Esquef, and P. S. R. Diniz, "Wavelet Shrinkage De-noising Applied to Real Audio Signals under Perceptual Evaluation," in Proc. X European Signal Processing Conf. (EUSIPCO 2000), pp. 2061-2064, Tampere, Finland, September 2000.
 \cite{Biscainho2000}
 
-%An Efficient Model-Based Method for Reconstruction of Audio Signals Across Long Gaps 
+%An Efficient Model-Based Method for Reconstruction of Audio Signals Across Long Gaps
 \cite{Esquef2006} (based on \cite{Kauppinen2002a})
 % The use of a maximally-decimated filterbank renders easier
 %the interpolation task within a subband. This is due to the decreased

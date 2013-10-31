@@ -7,14 +7,21 @@
 \fi
 
 %Introduction to multichannel APR
-While a key aspect of the basic single channel Acoustic Pulse Recognition (APR) system was founded in the breath of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and specifically multiple microphones. Specifically laptop computers and mobile phones frequently employ multiple microphones for noise cancellation applications. 
+While a key aspect of the basic single channel Acoustic Pulse Recognition (APR) system was founded in the breath of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and specifically multiple microphones. Laptop computers, tablets and mobile phones frequently employ multiple microphones for noise cancellation\cite{Habets2013}\cite{Habets2012}, echo cancelation\cite{US7925007} and localisation applications\cite{US8174547}\cite{US8233353}.
 
 In this chapter the APR system is generalised to multiple channels and results are provided to quantify the multi channel APR system's performance in relation to a single channel equivalent.
 
 %outline of chapter
+\todo{outline of chapter}
 
 \section{Background}
 %Discuss and outline the advantages of multiple channels in a physical detection application
+Chapter~\ref{ch:APR} described the theory and application of a single channel APR system. This system relied on the existence of a single transducer in or on the device for the APR application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanically noise in the device. Multiple channels enables theoretically improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same results. This is particularly an advantage when the additional available channels are designed to specifically be a reference source discounting either some noise source (say background noise) or the target source (say speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise.
+
+\subsection{Time of Flight (ToF)}
+A second advantage of the multi channel system is the main functional component of previous multichannel APR systems\cite{TouchSystems2006}\cite{US7411581}. Time of Flight (ToF) or Time Delay of Arrival (TDA) or the relative time of arrival of especially transient events at uniquely placed receiving transducers gives an additional indication of the origin of a pulse. 
+
+Consider a tap on a surface which generates a pulse and thereby an acoustic wavefront propagating radially outwards from the point of impact.
 
 %Discuss time of flight (ToF) (and sample rates/size tradeoff)
 
@@ -22,7 +29,7 @@ In this chapter the APR system is generalised to multiple channels and results a
 \section{Models}
 \subsection{Model and theory}
 The multi channel model proposed here is an extension of the multi component model proposed in section~\todo{insert section for model}.
- 
+
 Similarly to equation~\ref{eq:mod1} we consider observations of the form $y_c = [y_{c,0}, \ldots , y_{c,N-1}]^T$ for the $c$th channel so that $\mathbf{y} = [y_c, \ldots, y_C]$ for $C$ independent channels. The standard noisy linear instantaneous model is considered for a single channel $c$:
 
 \begin{equation}\label{eq:mod1}
