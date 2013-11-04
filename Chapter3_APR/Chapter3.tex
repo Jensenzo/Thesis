@@ -207,7 +207,7 @@ j_{MAP} = \arg\max_j p(y|j,n_0)p(j,n_0).
 \end{equation}
 
 
-\section{PCA type method}
+\section{PCA type method}\label{sec:APRpca}
 While the ML and MAP methods provide a simple and reasonably effective model selection algorithm, a range of environmental factors can have an impact on the recorded pulse. Figure~\ref{fig:shiftOverTemperature} shows 6 different mean templates recorded at 6 different temperatures in the range of 19.5 to 34.4 $^o$C.
 
 \begin{figure}[!]
@@ -353,7 +353,7 @@ As with the previous method, the log-likelihood is calculated
 
 and maximized over the $J$ different templates, similar to equation~(\ref{eq:MLdefinition}).
 
-\section{Training}
+\section{Training}\label{sec:APRtraining}
 In order to be able to deploy the above mentioned models, the templates needed in the models needs to be created. The term ``training'' is here used to refer to the process of creating the matrices $t^j(n_0)$ and $t^j_i(n_0)$ containing the $J$ models and $I$ components, the covariance matrix $C^j_\Theta$ and the mean $\mu^j_\Theta$.
 
 To train a template for a spot, a large quantity of tapping data is recorded from the device and stored. This tapping data is labeled, that is, the spot which was tapped to create the tapping pulse is known and the tapping data is divided into separate streams depending on this label. To pick out the individual taps from the audio stream, a representative tap is manually chosen from each stream and used as the coefficients in a correlation detector, the results of which is used to determine the alignment of the individual taps in the audio stream. Figure~\ref{fig:correlationDetect} shows a short audio stream of taps where the red dots indicated detected taps.

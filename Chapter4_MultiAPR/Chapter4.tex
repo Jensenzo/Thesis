@@ -78,9 +78,8 @@ Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} shows an example of 3 waveforms
 Based on the estimated phase speed in the surface, provided in appendix~\ref{ap:SpeedCalc}, this additional distance is 4.4 cm approximately corresponding to a range of early reflective paths on the surface.
 
 
-\section{Models}
-\subsection{Model and theory}
-The multi channel model proposed here is an extension of the multi component model proposed in section~\todo{insert section for model}.
+\section{Model and theory}\label{sec:MultiAPRModelTheory}
+The multi channel model proposed here is an extension of the multi component model proposed in section~\ref{sec:APRpca}.
 
 Similarly to equation~\ref{eq:mod1} we consider observations of the form $y_c = [y_{c,0}, \ldots , y_{c,N-1}]^T$ for the $c$th channel so that $\textbf{y} = [y_c, \ldots, y_C]$ for $C$ independent channels. The standard noisy linear instantaneous model is considered for a single channel $c$:
 
@@ -140,8 +139,11 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 \log{\left( p(j |\textbf{y})\right)} = \argmax{j} \sum^C \log{\left( p(y|j,n_0,c) \right)}.
 \end{equation}
 
-\section{Training}
+\section{Training}\label{sec:MultiAPRTraining}
 %describe the different training schemes employed
+The training of the templates for the multi channel APR system proceeds similarly to the single channel APR PCA based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In this chapter 4 different methods will be compared, while these will be described in detail in section~\ref{sec:MultiAPRMethod}, the training for these models will be outlined below.
+
+The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most basic, or the base line approach that will be tested in this chapter. Each channel $c$ will be considered independently and so the training stage will exactly mirror that presented in section~\ref{sec:MultiAPRMethod} relating to the PCA training with $J$ different templates.
 
 \begin{figure} %trainingSystem1.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -162,6 +164,8 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 \label{fig:trainingSystem1.pdf}
 \end{figure}
 
+An initial implementation of the multichannel system training is shown in Figure~\ref{fig:trainingSystem2.pdf}. Here the templates are considered together but aligned independently. This approach follows the training method presented in section~\ref{sec:MultiAPRMethod} and while the classification probabilities are considered jointly the templates are trained independently allowing for different templates with different lengths and number of components.
+
 \begin{figure} %trainingSystem2.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
@@ -180,6 +184,8 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 \caption{Example of individually aligned training but joint probability, and the templates' application in testing.}
 \label{fig:trainingSystem2.pdf}
 \end{figure}
+
+Figure~\ref{fig:trainingSystem3.pdf} shows the multi channel APR system training using joint alignment. While, as in section~\ref{sec:MultiAPRMethod}, the other methods presented here have trained each channel independently, this approach only prompts the trainer for alignment cues based on data from one channel. This means that the relative alignments between channels $c$ and spots $j$ remain intact. Data associated with each channel can be stored independently as previously but each template will now be of similar length and will require slightly longer templates to account for impulses arriving prior to those of the alignment channel (channel 1 $c=1$ for all tests conducted).
 
 \begin{figure} %trainingSystem3.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -200,10 +206,37 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 \label{fig:trainingSystem3.pdf}
 \end{figure}
 
-\section{Method}
+\section{Method}\label{sec:MultiAPRMethod}
+
+
 
 \subsection{System setup}\label{sec:MultiAPRSystem}
+%tests Q for q=1 to q=Q
 
+\begin{figure} %MultiAPRsystem.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=10cm]{MultiAPRsystem.pdf}
+  \begin{picture}(0,0)
+\put(-90,176){Microphone}
+\put(-90,158){Impact site}
+\put(-90,140){Surface edge}
+\end{picture}}
+\end{minipage}
+\caption{}
+\label{fig:MultiAPRsystem.pdf}
+\end{figure}
+
+\subsection{Approaches}
+While the underlying theory behind the multi channel APR system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}.
+
+As mentioned previously the multi channel approach will be compared to the standard single channel approach. The single channel PCA method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~{fig:trainingSystem1.pdf}. In addition the single channel results will be processed and the unique mode for each test $q$ result, if it exists, will be shown together with the median for each test $q$.
+
+    
+
+
+\section{Results}\label{sec:MultiAPRResults}
+\subsection{ToF example}
 \begin{figure} %MultiSourceExample.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
@@ -217,7 +250,6 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 \label{fig:MultiSourceExample.pdf}
 \end{figure}
 
-\section{Results}
 \section{Discussion}
 \section{Conclusions}
 
