@@ -135,7 +135,7 @@ Similar to equation~\ref{eq:MLdefinition}, the Maximum Likelihood estimator can 
 p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 \end{equation}
 
-\begin{equation}\label{eq:MLdefinition_c}
+\begin{equation}\label{eq:MLdefinition2_c}
 \log{\left( p(j |\textbf{y})\right)} = \argmax{j} \sum^C \log{\left( p(y|j,n_0,c) \right)}.
 \end{equation}
 
@@ -143,15 +143,17 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 %describe the different training schemes employed
 The training of the templates for the multi channel APR system proceeds similarly to the single channel APR PCA based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In this chapter 4 different methods will be compared, while these will be described in detail in section~\ref{sec:MultiAPRMethod}, the training for these models will be outlined below.
 
-The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most basic, or the base line approach that will be tested in this chapter. Each channel $c$ will be considered independently and so the training stage will exactly mirror that presented in section~\ref{sec:MultiAPRMethod} relating to the PCA training with $J$ different templates.
+The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most basic, or the base line approach that will be tested in this chapter. Each channel $c$ will be considered independently and so the training stage will exactly mirror that presented in section~\ref{sec:MultiAPRMethod} relating to the PCA training with $J$ different templates. The right side of Figures~{fig:trainingSystem1.pdf}-{fig:trainingSystem3.pdf} shows an example of how various models will relate to the data when they are tested. Testing is done on $Q$ samples. 
 
 \begin{figure} %trainingSystem1.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
   \centerline{\includegraphics[width=13cm]{trainingSystem1.pdf}
   \begin{picture}(0,0)
-  \put(-334,255){Training}
-  \put(-133,255){Testing}
+  \put(-334,260){Training}
+  \put(-133,260){Testing}
+  \put(-180,250){q=1}
+  \put(-60,250){q=Q}
 \put(-351,205){j=1}
 \put(-344,187){j=2}
 \put(-329,167){j=J}
@@ -171,8 +173,10 @@ An initial implementation of the multichannel system training is shown in Figure
   \centering
   \centerline{\includegraphics[width=13cm]{trainingSystem2.pdf}
   \begin{picture}(0,0)
-    \put(-334,220){Training}
-  \put(-137,220){Testing}
+    \put(-334,225){Training}
+    \put(-137,225){Testing}
+    \put(-195,215){q=1}
+  \put(-65,215){q=Q}
 \put(-351,50){j=1}
 \put(-342,33){j=2}
 \put(-334,9){j=J}
@@ -192,8 +196,10 @@ Figure~\ref{fig:trainingSystem3.pdf} shows the multi channel APR system training
   \centering
   \centerline{\includegraphics[width=13cm]{trainingSystem3.pdf}
   \begin{picture}(0,0)
-    \put(-334,220){Training}
-  \put(-137,220){Testing}
+    \put(-334,225){Training}
+  \put(-137,225){Testing}
+    \put(-195,215){q=1}
+  \put(-65,215){q=Q}
 \put(-350,49.5){j=1}
 \put(-342,33){j=2}
 \put(-334,9){j=J}
@@ -232,8 +238,15 @@ While the underlying theory behind the multi channel APR system was outlined in 
 
 As mentioned previously the multi channel approach will be compared to the standard single channel approach. The single channel PCA method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~{fig:trainingSystem1.pdf}. In addition the single channel results will be processed and the unique mode for each test $q$ result, if it exists, will be shown together with the median for each test $q$.
 
-    
+Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multichannel implementation. Here the channels were not aligned and the detection likelihoods were combined as described in equation~\ref{eq:MLdefinition2_c}. While this approach clearly fails to take advantage of the inherent ToF information it may serve as a control to evaluate the effect of ToF. In addition to this approach the maximum detection likelihood for each channel $c$ are combined and the class corresponding the combined largest excitation is chosen. In other words:
 
+\begin{equation}\label{eq:jointprob3_c}
+p(j|y) = \argmax{j} \prod^C \underset{n_0}{\max} p(y|j,n_o,c).
+\end{equation}
+
+This approach attempts to remedy the naive multi channel approach by making an assumption. It is assumed that while a template may not perfectly fit an impulse associated with a different template, it will still have its maximum excitation when aligned correctly with the pulse. This enables a \emph{post hoc} pseudo alignment of the templates. This approach is included to remedy the naive multi channel approach.
+
+Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is presented. Here the ToF information is inherently retained assuming that the relative channel alignments in the testing system is kept constant between training and testing. While a template for a single channel may score well with wrong testing data when combined with templates for other channels the effect should be blurred in time while a correct classification will have a set of matching template in addition to matching ToF information.  
 
 \section{Results}\label{sec:MultiAPRResults}
 \subsection{ToF example}
