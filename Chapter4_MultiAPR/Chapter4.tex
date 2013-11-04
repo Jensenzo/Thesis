@@ -1,7 +1,7 @@
 \chapter{Multichannel Acoustic Pulse Recognition System}\label{ch:MultichannelAPR}
 
 \ifpdf
-    \graphicspath{{Chapter4_MultiAPR/Chapter4Figs/PNG/}{Chapter4_MultiAPR/Chapter4Figs/PDF/}{Chapter4_MultiAPR/Chapter4Figs/}}
+    \graphicspath{{Chapter4_MultiAPR/Chapter4Figs/PNG/}{Chapter4_MultiAPR/Chapter4Figs/PDF/}{Chapter4_MultiAPR/Chapter4Figs/}{Chapter4_MultiAPR/Chapter4Figs/Training/}}
 \else
     \graphicspath{{Chapter4_MultiAPR/Chapter4Figs/EPS/}{Chapter4_MultiAPR/Chapter4Figs/}}
 \fi
@@ -19,7 +19,7 @@ In this chapter the APR system is generalised to multiple channels and results a
 Chapter~\ref{ch:APR} described the theory and application of a single channel APR system. This system relied on the existence of a single transducer in or on the device for the APR application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanically noise in the device. Multiple channels enables theoretically improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same results. This is particularly an advantage when the additional available channels are designed to specifically be a reference source discounting either some noise source (say background noise) or the target source (say speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise.
 
 \subsection{Time of Flight (ToF)}
-A second advantage of the multi channel system is the main functional component of previous multichannel APR systems\cite{TouchSystems2006}\cite{US7411581}. Time of Flight (ToF) or Time Delay of Arrival (TDA) or the relative time of arrival of especially transient events at uniquely placed receiving transducers gives an additional indication of the origin of a pulse. 
+A second advantage of the multi channel system is the main functional component of previous multichannel APR systems\cite{TouchSystems2006}\cite{US7411581}. Time of Flight (ToF) or Time Delay of Arrival (TDA) or the relative time of arrival of especially transient events at uniquely placed receiving transducers gives an additional indication of the origin of a pulse.
 
 Consider a tap on a surface which generates a pulse and thereby an acoustic wavefront propagating radially outwards from the point of impact. The array of microphones embedded in the surface will receive the wavefront at different times relative to their distance from the point of impact and the phase velocity. Figure~\ref{fig:ToFexample.pdf} shows an example of a surface with a wavefront's propagation and 3 microphones' relative position within the propagation pattern.
 
@@ -28,15 +28,16 @@ Consider a tap on a surface which generates a pulse and thereby an acoustic wave
   \centering
   \centerline{\includegraphics[width=12cm]{ToFexample.pdf}
   \begin{picture}(0,0)
-\put(-310,275){Microphones}
-\put(-310,135){Impact site}
+\put(-200,5){Microphone}
+\put(-310,5){Impact site}
+\put(-80,5){Wavefront}
 \end{picture}}
 \end{minipage}
-\caption{An example of a wavefront's radial propagation in a surface and 3 embedded microphones.}
+\caption{An example of a wavefront's radial propagation in a surface and 3 embedded microphones. All reflections are omitted.}
 \label{fig:ToFexample.pdf}
 \end{figure}
 
-No timing or localisation information can be inferred from a single microphone where as a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than 3 microphones are required to locate the origin of a tap on a 2 dimensional plane\cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system. 
+No timing or localisation information can be inferred from a single microphone where as a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than 3 microphones are required to locate the origin of a tap on a 2 dimensional plane\cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system.
 
 %Discuss time of flight (ToF) (and sample rates/size tradeoff)
 For constant phase speed $c$ in a specific material and time difference $\Delta t$ the spatial difference between microphones $\Delta d$ can be calculated with a basic equation of motion,
@@ -45,21 +46,21 @@ For constant phase speed $c$ in a specific material and time difference $\Delta 
 \Delta d  = c \Delta t.
 \end{equation}
 
-For a digital system sampled at sampling rate $fs$, time difference is equivalent to $\Delta t = \Delta S/fs$ where $S$ is the a number of samples and $t$ and sampling rate is measured in seconds and samples per second respectively. 
+For a digital system sampled at sampling rate $f_s$, time difference is equivalent to $\Delta t = \Delta S/f_s$ where $S$ is the a number of samples and $t$ and sampling rate is measured in seconds and samples per second respectively.
 
 The positional difference $\Delta d$ can now be calculated from the sample difference $\Delta S$ between two events as,
 
 \begin{equation}\label{eq:ToFcalcs2}
-\Delta d  = c \frac{\Delta S}{fs}.
+\Delta d  = c \frac{\Delta S}{f_s}.
 \end{equation}
 
-For the minimum sampling rate $fs$ needed to detect any spatial difference $\Delta S \leq 1$ equation~\ref{eq:ToFcalcs2} is rearranged to
+For the minimum sampling rate $f_s$ needed to detect any spatial difference $\Delta S \leq 1$ equation~\ref{eq:ToFcalcs2} is rearranged to
 
 \begin{equation}\label{eq:ToFcalcs3}
-fs  \geq \frac{c}{\Delta d}.
+f_s  \geq \frac{c}{\Delta d}.
 \end{equation}
 
-Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} shows an example of 3 waveforms from 3 different microphones embedded in a surface. Various points on the waveforms have been affixed with data tags to allow for a comparison of their relative arrival times. In this example the absolute distant in the surface from the microphones to the impact site was 30, 10 and 20 cm for microphones 1, 2 and 3 respectively. It is important to note that so far it has been the first arrivals that have been of primary concern for the positioning of signals, but Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} also shows other waveform elements related to the surface geometry. Microphone 3 provides a clear secondary negative peak at sample number 45. This secondary peak quite likely corresponds to a reflected (non direct) pulse arriving slightly delayed to the direct pulse due to the longer path travelled. 
+Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} shows an example of 3 waveforms from 3 different microphones embedded in a surface. Various points on the waveforms have been affixed with data tags to allow for a comparison of their relative arrival times. In this example the absolute distant in the surface from the microphones to the impact site was 30, 10 and 20 cm for microphones 1, 2 and 3 respectively. It is important to note that so far it has been the first arrivals that have been of primary concern for the positioning of signals, but Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} also shows other waveform elements related to the surface geometry. Microphone 3 provides a clear secondary negative peak at sample number 45. This secondary peak quite likely corresponds to a reflected (non direct) pulse arriving slightly delayed to the direct pulse due to the longer path travelled.
 
 \begin{figure} %MultiSourceExampleAnnoSpot9.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -141,6 +142,57 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 
 \section{Training}
 %describe the different training schemes employed
+
+\begin{figure} %trainingSystem1.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=13cm]{trainingSystem1.pdf}
+  \begin{picture}(0,0)
+  \put(-334,250){Training}
+  \put(-133,250){Testing}
+\put(-351,202){j=1}
+\put(-344,184){j=2}
+\put(-329,164){j=J}
+\put(-380,217){c=1}
+\put(-380,127){c=2}
+\put(-380,40){c=C}
+\end{picture}}
+\end{minipage}
+\caption{Example of individual training per channel $c$ and the templates' application in testing.}
+\label{fig:trainingSystem1.pdf}
+\end{figure}
+
+\begin{figure} %trainingSystem2.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=13cm]{trainingSystem2.pdf}
+  \begin{picture}(0,0)
+    \put(-334,175){Training}
+  \put(-134,175){Testing}
+\put(-380,137){c=1}
+\put(-380,90){c=2}
+\put(-380,25){c=C}
+\end{picture}}
+\end{minipage}
+\caption{Example of individually aligned training but joint probability, and the templates' application in testing.}
+\label{fig:trainingSystem2.pdf}
+\end{figure}
+
+\begin{figure} %trainingSystem3.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=13cm]{trainingSystem3.pdf}
+  \begin{picture}(0,0)
+    \put(-334,175){Training}
+  \put(-134,175){Testing}
+\put(-380,139){c=1}
+\put(-380,92){c=2}
+\put(-380,25){c=C}
+\end{picture}}
+\end{minipage}
+\caption{Example of fixed alignment training, and the templates' application in testing.}
+\label{fig:trainingSystem3.pdf}
+\end{figure}
 
 \section{Method}
 

@@ -6,7 +6,7 @@
     \graphicspath{{Chapter3_APR/Chapter3Figs/EPS/}{Chapter3_APR/Chapter3Figs/}}
 \fi
 
-In this appendix a calculation of the phase speed for the experimental set up in chapter~\ref{ch:MultichannelAPR}. The 2 microphones used in this example are referred to as Microphone 2 and 3, in section~\ref{sec:MultiAPRSystem}, for path $a$ and $b$ respectively. Figure~\ref{fig:SurfDiagram.pdf} shows these paths on the surface in relation to the impact site which is marked by a red dot. 
+In this appendix a calculation of the phase speed for the experimental set up in chapter~\ref{ch:MultichannelAPR}. The 2 microphones used in this example are referred to as Microphone 2 and 3, in section~\ref{sec:MultiAPRSystem}, for path $a$ and $b$ respectively. Figure~\ref{fig:SurfDiagram.pdf} shows these paths on the surface in relation to the impact site which is marked by a red dot.
 
 \begin{figure} %SurfDiagram.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -41,23 +41,23 @@ where $t_a$ and $t_b$ is the time of flight only within the surface material wit
 t_a = \frac{a}{c} \qquad ; \qquad t_b = \frac{b}{c}.
 \end{equation}
 
-In addition the total difference in time of flight can be described as 
+In addition the total difference in time of flight can be described as
 
 \begin{equation}\label{eq:appPathABdif}
-t_B - t_A = \Delta t = \frac{\Delta S}{fs},
+t_B - t_A = \Delta t = \frac{\Delta S}{f_s},
 \end{equation}
-for $\Delta S$ sample difference between arrival and $fs$ sampling frequency.
+for $\Delta S$ sample difference between arrival and $f_s$ sampling frequency.
 
 The equations in \ref{eq:appPathAB} can now be substituted into equation~\ref{eq:appPathAB} and then further into~\ref{eq:appPathABdif}.
 
 \begin{eqnarray}
-% \nonumber to remove numbering (before each equation) 
-\nonumber   \left(\frac{b}{c} + t_\theta\right) - \left(\frac{a}{c} + t_\theta\right) &=& \frac{\Delta S}{fs} \\
-\nonumber   \frac{b-a}{c} &=& \frac{\Delta S}{fs} \\
-            c &=& \frac{fs}{\Delta S} \left( b-a \right)
+% \nonumber to remove numbering (before each equation)
+\nonumber   \left(\frac{b}{c} + t_\theta\right) - \left(\frac{a}{c} + t_\theta\right) &=& \frac{\Delta S}{f_s} \\
+\nonumber   \frac{b-a}{c} &=& \frac{\Delta S}{f_s} \\
+            c &=& \frac{f_s}{\Delta S} \left( b-a \right)
 \end{eqnarray}
 
-From Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} in chapter~\ref{ch:MultichannelAPR} it was found that the difference between the arrival at Microphone 2 and 3 where 11 samples, $\Delta S = 11$ at $fs = 48000$ Hz, and given the values provided for $a$ and $b$, the phase speed $c$ in the surface was found to be $c = 423.3 $ m/s.
+From Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} in chapter~\ref{ch:MultichannelAPR} it was found that the difference between the arrival at Microphone 2 and 3 where 11 samples, $\Delta S = 11$ at $f_s = 48000$ Hz, and given the values provided for $a$ and $b$, the phase speed $c$ in the surface was found to be $c = 423.3 $ m/s.
 
 
 % ------------------------------------------------------------------------
