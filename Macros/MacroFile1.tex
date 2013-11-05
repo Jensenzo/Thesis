@@ -8,6 +8,10 @@
 \newcommand{\todo}[1]{\textcolor{red}{@TODO: #1}}
 \newcommand{\sound}[1]{\textcolor{blue}{@Sound file: #1}}
 
+%% Ref macros
+\newcounter{appcount}
+\newcommand{\approachN}[1]{\refstepcounter{appcount}\label{#1}Approach~\ref{#1}}%\#\arabic{appcount}
+
 %% Maths macros
 \newcommand{\argmin}[1]{\underset{#1}{\mathrm{arg~min}}}
 \newcommand{\argmax}[1]{\underset{#1}{\mathrm{arg~max}}}
