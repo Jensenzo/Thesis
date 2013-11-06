@@ -42,6 +42,10 @@
 \usepackage{ifpdf}
 \usepackage{pgf}
 \usepackage{StyleFiles/chapterx}
+\usepackage{color}
+\usepackage{fixltx2e}
+\usepackage{caption}
+\usepackage{subcaption}
 
 %Chapter style settings
 \cxset{jens}
@@ -58,7 +62,6 @@
 %uncomment next line to change bibliography name to references for Book document class
 \renewcommand{\bibname}{References}
 % note that this doesn't do much if you later define another bibliography style
-
 
 % Nomenclature
 \usepackage{nomencl}
