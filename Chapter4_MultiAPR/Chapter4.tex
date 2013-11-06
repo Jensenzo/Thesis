@@ -264,6 +264,8 @@ Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is present
 
 \section{Results}\label{sec:MultiAPRResults}
 \subsection{ToF example}
+While the impulse translations, due to differences in ToF between microphones, presented in the figures in section~\ref{sec:MultiAPRTraining} were exaggerated for visual clarity, the data presented in Figure~\ref{fig:ToFexample.pdf} gave an example of the typical effect of spaced out microphones on the surface. Figure~\ref{fig:MultiSourceExample.pdf} shows the complete impulse from Figure~\ref{fig:ToFexample.pdf}. Figure~\ref{sec:MultiAPRTraining}(a) clearly shows two different impulse decay envelopes for microphones 2 and 3, with microphone 3's signal appearing to decay at a slower rate and contain more energy in general.
+
 \begin{figure} %MultiSourceExample.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
@@ -277,7 +279,8 @@ Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is present
 \label{fig:MultiSourceExample.pdf}
 \end{figure}
 
-
+\subsection{Classification results}
+Classification results for the multichannel classification test is presented in Table~\ref{tab:multiAPRresults}. The expected baseline for random guessing is $11 \%$ for this 9 spot model.
 \begin{table}\begin{center}
 \caption{Multichannel classification results}
 \label{tab:multiAPRresults}
@@ -290,6 +293,9 @@ Approach \#             & Approach description        & \% correct    & \% wrong
 \ref{app:MultiNaiveMax} & Multichannel Max Probability& 94 \%         & 6 \%      & 0 \%       \\ 
 \ref{app:Multi}         & Multichannel Joint          & 99 \%         & 1 \%      & 0 \%       \\ \hline
 \end{tabular}\end{center}\end{table}
+
+Since all data was recorded with no explicit noise present detection threshold could be set to a very low level without any false detections. The missed classification results noted for the mode based individual channel approach (Approach \ref{app:IndiChanMode}) was due to a three way disagreement between the all channels. It is also noted that in these missed detection cases the similar median based classification approach (Approach \ref{app:IndiChanMedian}) will simply have picked the spot with the median value in a numerical sense.
+
 
 \section{Discussion}
 \section{Conclusions}
