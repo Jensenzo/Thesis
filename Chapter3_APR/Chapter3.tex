@@ -6,7 +6,6 @@
     \graphicspath{{Chapter3_APR/Chapter3Figs/EPS/}{Chapter3_APR/Chapter3Figs/}}
 \fi
 
-
 This chapter describes work undertaken with several waveform classification algorithms, specifically designed to detect and classify taps incident on a device containing a single microphone. The different models in the classification algorithms correspond to different tapping positions $j$ on the device, and the algorithms can hence be said to represent a new touch screen technology using acoustic pulse recognition. The work is specifically focussed on applications using a single sensor to attempt to tackle the difficult issue of the structural uncertainty and its effect on recorded waveforms without the aid of inter microphone time and intensity differences. It is although possible to extend the theory presented here to multiple microphones and thereby increase performance.
 This work has been the main focus of the research conducted the last 8 months and will, as a result, constitute a significant proportion of this report. The work undertaken on waveform classification has had a significant practical application component and where possible results and applications will be presented.
 
@@ -524,7 +523,8 @@ A selected run of the sparse training extension, for the ML algorithm, has given
 \caption{Intensity map of model probabilities. Black dots represent trained tapping spots, as seen on Figure~\ref{fig:Pad}. }\label{fig:padPlot}
 \end{figure}
 
-\section{Analysis}
+\section{Discussion}
+
 The results from the previous section enables one to make a range of assertions about the relative performance of the different algorithms in various conditions. It is for example noticed in Figure~\ref{fig:PCAperform}, \ref{fig:PCAperformNail} and \ref{fig:PCAMLMAPperform} that the performance of the PCA varies greatly by including 2 rather than 1 components in the template set. It is also noted from Figure~\ref{fig:PCAperform} and \ref{fig:MLperform} that with only 2 components, $q=2$, the PCA easily outperforms the ML (and MAP) method but with only 1 component, $q=1$, the performance of the PCA drops to $p(j)$. Although both the ML and PCA are equivalent from the viewpoint of the detection for $q=1$, it is clear that there performance is not. In the case of $q=1$ what separates the two algorithms are how the template $t^j(n_0)$ is derived. It appears that the mean template is more effective in classifying pulses than the PC is. The most likely explanation for this behavior is that the PC of one of the taps is a sufficiently broad interpretation of the tap that it results in a high likelihood in each case and hence ``wins'' each classification. This hypothesis is further supported by the performance for $q=1$ in Figure~\ref{fig:PCAperform_SN-SN}, where the ratio between missed detections and misclassifications is entirely different with an overwhelming number of missed detections to misclassifications. In this case, with this training data, the PC was clearly a much less likely fit to the testing data.
 
 Figures~\ref{fig:PCAperformLength}, \ref{fig:MLperform} and \ref{fig:MAPperformLength} consistently suggest that the performance of all algorithms appear almost unaffected of template length $M$ for lengths $M\geq110$. The PCA algorithm performance appear to have a slight gradient up to $M=170$, although this might simply be due to the trimming of the aligned taps for one of the templates. Besides this slight difference, the change of template length $M$ appears to affect all methods in a similar manner.
@@ -535,13 +535,13 @@ Figure~\ref{fig:PCAMLMAPperform} gives a definitive insight into the relative pe
 
 Although no quantifiable results of the performance of the interpolated training algorithm exist, preliminary tests show that the system is able to detect some off- grid points with relative success in certain very specific regions of the board, but for the most part the results are fairly random. It is thought that this performance is due to problems with either alignment or more erratic and unpredictable pulses arising from certain regions. The common feature of multiple high probability regions observed in Figure~\ref{fig:padPlot} is more than likely due to symmetry in the mechanical structure being reflected in the vibrational characteristics of the device. The issue of the structural symmetry is thought to specifically be an issue on the wooden board due to its mechanical uniformity, although the intensity map does generally show the correct tapping position with higher probabilities than the other peaks created by symmetry.
 
-% ------------------------------------------------------------------------
+\section{Conclusions}
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "../thesis"
-%%% End:
+The algorithms presented in this report as part of the first year of the PhD, has shown promising performance. The multi-component approach to the classification algorithm has shown to provide robustness in light of uncertainty in the use of tapping tools and in fact provide better performance if allowed to train on varied data. The multi-component approach to acoustic pulse recognition has consistently outperformed the ML and MAP methods also presented in this report.
 
+A range of possible extensions to the models and algorithms have been identified in the literature, and new ideas and extensions have been outlined and included in the time plan for the further research. Further studies into the nature of the variations observed in tapping data will provide further inspiration on extensions combined with the extensions outlined in the time plan should provide a suitable PhD project. 
+
+\subsection{Possible future work}
 
 % ------------------------------------------------------------------------
 

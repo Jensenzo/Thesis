@@ -12,8 +12,7 @@ While a key aspect of the basic single channel Acoustic Pulse Recognition (APR) 
 In this chapter the APR system is generalised to multiple channels and results are provided to quantify the multi channel APR system's performance in relation to a single channel equivalent.
 
 %outline of chapter
-\todo{outline of chapter}
-
+This chapter will begin outlining the background for the multichannel APR system in relation to the previously discussed single channel system. The theory behind the generalised theory will be presented after which the training procedures required will be discussed in relation to the approach taken in section~\ref{sec:APRtraining}. The method used for the evaluation of the work is outlined after which the results, discussion and conclusions are presented.
 \section{Background}
 %Discuss and outline the advantages of multiple channels in a physical detection application
 Chapter~\ref{ch:APR} described the theory and application of a single channel APR system. This system relied on the existence of a single transducer in or on the device for the APR application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanically noise in the device. Multiple channels enables theoretically improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same results. This is particularly an advantage when the additional available channels are designed to specifically be a reference source discounting either some noise source (say background noise) or the target source (say speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise.
@@ -213,7 +212,6 @@ Figure~\ref{fig:trainingSystem3.pdf} shows the multi channel APR system training
 \end{figure}
 
 \section{Method}\label{sec:MultiAPRMethod}
-
 \subsection{System setup}\label{sec:MultiAPRSystem}
 To evaluate the performance of the algorithms a multi channel setup was assembled. Figure~\ref{fig:MultiAPRsystem.pdf} shows a diagram of the system. The legend to the right indicates the elements in the diagram the numbers to the left of each microphone and active spot is the channel/microphone and active spot/template number respectively used henceforth. The surface used in this system is the same as shown in Figure~\ref{fig:Pad} but different active spots, or trained spots, have been chosen.
 
@@ -237,7 +235,7 @@ To evaluate the performance of the algorithms a multi channel setup was assemble
 \label{fig:MultiAPRsystem.pdf}
 \end{figure}
 
-It is noted that Microphone 1 is not embedded within the surface but is located slightly above and beyond the surface edge, whereas Microphones 2 and 3 are embedded within the back of the surface wedged in with low density foam similarly to tests conducted in section~\ref{sec:APRsystem}. Equipment details, photographs of setup and evaluation of converter accuracy is provided in appendix~\todo{make and refer to appendix}.
+It is noted that Microphone 1 is not embedded within the surface but is located slightly above and beyond the surface edge, whereas Microphones 2 and 3 are embedded within the back of the surface wedged in with low density foam similarly to tests conducted in section~\ref{sec:APRsystem}. Equipment details, photographs of setup and evaluation of converter accuracy is provided in appendix~\ref{ap:MultiAPRsystem}.
 
 These differences in microphone type and placement underlines the fact that the algorithm treats the system as a black box with the only requirement being reproducibility. 
 
@@ -297,6 +295,7 @@ Approach \#             & Approach description        & \% correct    & \% wrong
 \section{Conclusions}
 
 %Further work
+\subsection{Possible future work}
 %correlate noise
 %Correlate \theta in a channel internally
 
