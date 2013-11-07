@@ -39,7 +39,7 @@ Consider a tap on a surface which generates a pulse and thereby an acoustic wave
 No timing or localisation information can be inferred from a single microphone where as a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than 3 microphones are required to locate the origin of a tap on a 2 dimensional plane\cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system.
 
 %Discuss time of flight (ToF) (and sample rates/size tradeoff)
-For constant phase speed $c$ in a specific material and time difference $\Delta t$ the spatial difference between microphones $\Delta d$ can be calculated with a basic equation of motion,
+For constant phase velocity $c$ in a specific material and time difference $\Delta t$ the spatial difference between microphones $\Delta d$ can be calculated with a basic equation of motion,
 
 \begin{equation}\label{eq:ToFcalcs1}
 \Delta d  = c \Delta t.
@@ -74,7 +74,7 @@ Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} shows an example of 3 waveforms
 \label{fig:MultiSourceExampleAnnoSpot9.pdf}
 \end{figure}
 
-Based on the estimated phase speed in the surface, provided in appendix~\ref{ap:SpeedCalc}, this additional distance is 4.4 cm approximately corresponding to a range of early reflective paths on the surface.
+Based on the estimated phase velocity in the surface, provided in appendix~\ref{ap:SpeedCalc}, this additional distance is 4.4 cm approximately corresponding to a range of early reflective paths on the surface.
 
 
 \section{Model and theory}\label{sec:MultiAPRModelTheory}
@@ -140,7 +140,7 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 
 \section{Training}\label{sec:MultiAPRTraining}
 %describe the different training schemes employed
-The training of the templates for the multi channel APR system proceeds similarly to the single channel APR PCA based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In this chapter a number of different methods will be compared, while these will be described in more detail in section~\ref{sec:MultiAPRMethod}, the training for these models will be outlined below.
+The training of the templates for the multi channel APR system proceeds similarly to the single channel APR PCA based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In all tests conducted throughout this chapter the number of PCA components used was $I = 8$ components. In this chapter a number of different methods will be compared, while these will be described in more detail in section~\ref{sec:MultiAPRMethod}, the training for these models will be outlined below.
 
 The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most basic, or the base line approach that will be tested in this chapter. Each channel $c$ will be considered independently and so the training stage will exactly mirror that presented in section~\ref{sec:MultiAPRMethod} relating to the PCA training with $J$ different templates. The right side of Figures~\ref{fig:trainingSystem1.pdf}-\ref{fig:trainingSystem3.pdf} shows an example of how various models will relate to the data when they are tested. Testing is done on $Q$ samples. 
 
@@ -243,14 +243,35 @@ These differences in microphone type and placement underlines the fact that the 
 Training data for the $J=9$ models, see Figure~\ref{fig:MultiAPRsystem.pdf}, consisted of approximately 33 seconds of audio data containing between 46 and 52 taps at varying intensity and strike angle. The taps were done with a capped Bic Cristal pen ``BiC\textregistered''. The $C=3$ channels were recorded simultaneously.
 
 %tests Q for q=1 to q=Q
-The set of data used for testing in this chapter consisted of $Q=79$ testing taps randomly distributed over the $J=9$ active spots. Each set of testing taps $q$ was comprised of $C=3$ channels. Each $Q \times C$ tapping pulse was separated into separate audio files of approximately 2 seconds length.
+Two data sets were used for testing in this chapter, one without noise and one with noise. The noiseless set consisted of $Q=79$ testing taps and the noisy set consisted of $Q=45$ taps both were randomly distributed over the $J=9$ active spots. Each set of testing taps $q$ was comprised of $C=3$ channels. Each $Q \times C$ tapping pulse was separated into separate audio files of approximately 2 seconds length.
 
-All data was recorded as PCM 16 bit audio data sampled at 48 kHz.
+All data was recorded as PCM 16 bit audio data sampled at 48 kHz. The noisy testing sets were recorded with loud music playing in the background. Figure~\ref{fig:NoisyMicSignalsCompare} shows an example of an impulse recorded in a clean and in a noisy environment for microphone 1, Figure~\ref{fig:NoisyMicSignalsCompare}(a), and for microphone 2, Figure~\ref{fig:NoisyMicSignalsCompare}(b). It is clearly noted that the signal from microphone 2 is less affected by the acoustic noise. This mixture of more and less noise sensitive microphones emulates the real world scenario of devices with noise or signal reference microphones for noise reduction algorithms.
+
+\begin{figure}[t]
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=11cm]{NoiseCompare1}}%10
+  %\vspace{.5cm}
+  \centerline{(a) Microphone 1}\medskip
+\end{minipage}
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=11cm]{NoiseCompare2}}%10
+  %\begin{picture}(0,0)
+%\put(-120,382){(a)}
+%\put(-120,195){(b)}
+%\end{picture}
+ %\vspace{1.5cm}
+  \centerline{(b) Microphone 2}\medskip
+\end{minipage}
+\caption{Examples of audio signal in clean and noisy conditions for (a) Microphone 1 and (b) Microphone 2.}
+\label{fig:NoisyMicSignalsCompare}
+\end{figure}
 
 \subsection{Approaches}
 While the underlying theory behind the multi channel APR system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
 
-As mentioned previously the multi channel approach will be compared to the standard single channel approach (\approachN{app:IndiChan}). The single channel PCA method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single channel results will be processed and the unique mode (\approachN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachN{app:IndiChanMedian}) for each test $q$.
+As mentioned previously the multichannel approach will be compared to the standard single channel approach (\approachN{app:IndiChan}). The single channel PCA method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single channel results will be processed and the unique mode (\approachN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachN{app:IndiChanMedian}) for each test $q$.
 
 Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multichannel implementation (\approachN{app:MultiNaive}). Here the channels were not aligned and the detection likelihoods were combined as described in equation~\ref{eq:MLdefinition2_c}. While this approach clearly fails to take advantage of the inherent ToF information it may serve as a control to evaluate the effect of ToF. In addition to this approach the maximum detection likelihood for each channel $c$ are combined and the class corresponding the combined largest excitation is chosen (\approachN{app:MultiNaiveMax}). In other words:
 
@@ -279,14 +300,17 @@ While the impulse translations, due to differences in ToF between microphones, p
 \label{fig:MultiSourceExample.pdf}
 \end{figure}
 
-\subsection{Classification results}
-Classification results for the multichannel classification test is presented in Table~\ref{tab:multiAPRresults}. The expected baseline for random guessing is $11 \%$ for this 9 spot model.
+\subsection{Classification results}\label{sec:MultiAPRResultsClass}
+Classification results for the multichannel classification test are presented in Table~\ref{tab:multiAPRresults}. The expected baseline for random guessing is $11 \%$ for this 9 spot model.
 \begin{table}\begin{center}
 \caption{Multichannel classification results}
 \label{tab:multiAPRresults}
-\begin{tabular}{|c|c|c|c|c|}\hline
+\begin{tabular}{|c|l|c|c|c|}\hline
 Approach \#             & Approach description        & \% correct    & \% wrong  & \% missed  \\ \hline
 \ref{app:IndiChan}      & Individual channels         & 89 \%         & 11 \%     & 0 \%       \\
+                        &  - mic 1 $c = 1$            & 99 \%         & 1 \%      & 0 \%       \\ 
+                        &  - mic 2 $c = 2$            & 77 \%         & 23 \%     & 0 \%       \\ 
+                        &  - mic 3 $c = 3$            & 90 \%         & 10 \%     & 0 \%       \\ 
 \ref{app:IndiChanMode}  & Individual channels (mode)  & 92 \%         & 5 \%      & 3 \%       \\
 \ref{app:IndiChanMedian}& Individual channels (median)& 92 \%         & 8 \%      & 0 \%       \\
 \ref{app:MultiNaive}    & Multichannel Independent    & 75 \%         & 25 \%     & 0 \%       \\
@@ -294,17 +318,48 @@ Approach \#             & Approach description        & \% correct    & \% wrong
 \ref{app:Multi}         & Multichannel Joint          & 99 \%         & 1 \%      & 0 \%       \\ \hline
 \end{tabular}\end{center}\end{table}
 
-Since all data was recorded with no explicit noise present detection threshold could be set to a very low level without any false detections. The missed classification results noted for the mode based individual channel approach (Approach \ref{app:IndiChanMode}) was due to a three way disagreement between the all channels. It is also noted that in these missed detection cases the similar median based classification approach (Approach \ref{app:IndiChanMedian}) will simply have picked the spot with the median value in a numerical sense.
+The results for individual channels from Approach \ref{app:IndiChanMode} has been presented in Table~\ref{tab:multiAPRresults}. The Individually trained and tested channels approach correct classification result of $89\%$ is an average of the results from all channels. It should be noted that the individual channels are not proposed as classification methods in their own right, since all channels should be considered of equal weight. The individual channels are only presented here for transparency and to underline that Approach~\ref{app:IndiChan} was run on all test files individually.
+
+Since all data was recorded with no explicit noise present, the detection threshold could be set to a very low level without any false detections. The missed classification results noted for the mode-based individual channel approach (Approach \ref{app:IndiChanMode}) was due to three way disagreements between the channels. It is also noted that in these missed detection cases the similar median based classification approach (Approach \ref{app:IndiChanMedian}) will simply have picked the spot with the median value in a numerical sense.
+
+In Table~\ref{tab:multiAPRresultsNoise} the results from at slightly smaller $Q=45$ test are presented. These results are conducted in a noisy environment with music playing in the background but with the same templates as with the previous test. 
+
+\begin{table}\begin{center}
+\caption{Multichannel classification results in noisy environment.}
+\label{tab:multiAPRresultsNoise}
+\begin{tabular}{|c|l|c|c|c|}\hline
+Approach \#             & Approach description        & \% correct    & \% wrong  & \% missed  \\ \hline
+\ref{app:IndiChan}      & Individual channels         & 83 \%         & 17 \%     & 0 \%       \\
+                        &  - mic 1 $c = 1$            & 98 \%         & 2 \%      & 0 \%       \\
+                        &  - mic 2 $c = 2$            & 78 \%         & 22 \%     & 0 \%       \\
+                        &  - mic 3 $c = 3$            & 73 \%         & 27 \%     & 0 \%       \\
+\ref{app:IndiChanMode}  & Individual channels (mode)  & 87 \%         & 7 \%      & 7 \%       \\
+\ref{app:IndiChanMedian}& Individual channels (median)& 89 \%         & 11 \%     & 0 \%       \\
+\ref{app:MultiNaive}    & Multichannel Independent    & 51 \%         & 49 \%     & 0 \%       \\
+\ref{app:MultiNaiveMax} & Multichannel Max Probability& 84 \%         & 16 \%     & 0 \%       \\
+\ref{app:Multi}         & Multichannel Joint          & 100 \%        & 0 \%      & 0 \%       \\ \hline
+\end{tabular}\end{center}\end{table}
 
 
 \section{Discussion}
+The results presented in section~\ref{sec:MultiAPRResultsClass} show a consistently increasing classification performance for the multichannel APR system with the best performance achieved from the aligned trained and tested multichannel system (Approach \ref{app:Multi}) with a classification result of 99\% for the 79 clean trials and 100\% for the 45 noisy trials. 
+
+%Single channel results perform well. Which microphone performs best is possibly a question of environment though.
+With the exception of Approach~\ref{app:MultiNaive}, the poorest performance was achieved by the individually trained approach (\ref{app:IndiChan}), yet looking at the performance for channel 1 it was noted that this channel managed correct classification performance identical to Approach \ref{app:Multi} in the clean test while in the noisy test it got very close to it. As can be seen clearly in Figure~\ref{fig:NoisyMicSignalsCompare} the acoustic noise has affected microphone 1 to a larger extent than microphone 2 (and presumably 3 given their identical mounting) despite the classification results still being the best for channel 1. 
+
+Slightly improved performance, from the basic individually trained approach (\ref{app:IndiChan}), was achieved by looking at the individual channel results' mode and median values. for the $C=3$ system these approaches were identical with the exception of the case where all three channels were in disagreement. Here the mode-processed method returned class 0 indicating the relative ignorance of the result, where the median result returns the median of the classes' numerical value. In our clean data results it is noted that the 3 \% in question, equal to 2 trials, were guessed incorrectly by the median processing step. Table~\ref{tab:multiAPRresultsNoise} highlighted the difference between approaches \ref{app:IndiChanMode} and \ref{app:IndiChanMedian} with a 2 percentage point (pp) difference at the cost of a 4 pp increase in wrong classifications. It is noted that in certain situations this might be a sensible guess but in most cases it would be tantamount to a random guess between the competing methods. The sparse training scenario discussed in section~\ref{sec:APRspareTraining} could be viable candidate for the median processed classification result if eventually extended to a multichannel scenario.
+
+Approaches \ref{app:IndiChanMode} and \ref{app:IndiChanMedian} were presented as a way of achieving higher classification accuracy with only access to the various classes retrieved from the individual classifiers. Approaches \ref{app:MultiNaive} and \ref{app:MultiNaiveMax} present possible extensions when the underlying classifying statistics are considered as well. As predicted, Approaches \ref{app:MultiNaive} does not perform as well as the other methods due to the relatively random alignment of the templates, but as noted previously, Approach \ref{app:MultiNaiveMax} rectifies the underlying idea of the approach and increases the classification performance to 94 \% and 84 \% for clean and noisy tests respectively. As noted, this method assumes that the maximum excitation is achieved at perfect alignment for the correct model. While the multichannel approach (\ref{app:Multi}) achieves 99 \% and 100 \% correct classification, this assumption clearly does not hold true. Approach \ref{app:MultiNaiveMax} remains the best performing approach for non-aligned templates.
+
+The highest correct classification results, for both the clean and the noisy tests, were achieved with the multichannel approach (\ref{app:Multi}) with combined alignment. While in the clean test this method managed to identical results to channel 1 from Approach~\ref{app:IndiChan}, in the noisy test the multichannel approach (\ref{app:Multi}) managed slightly better performance, underlining that this approach can be better than the best of its constituent parts. 
+
 \section{Conclusions}
 
 %Further work
 \subsection{Possible future work}
 %correlate noise
 %Correlate \theta in a channel internally
-
+%The maximum log-likelihood value could have been consulted with a relative or absolute approach. It would also be possible to construct a quality metric based on the calculated statistics of the additional 6 classes not chosen by any of the channels.
 % ------------------------------------------------------------------------
 
 

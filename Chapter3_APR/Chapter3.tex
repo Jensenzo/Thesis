@@ -405,7 +405,7 @@ Figure~\ref{fig:trainingsytemRotate} shows a block diagram of the implementation
 \caption{Block diagram of training stage of algorithm.}\label{fig:trainingsytemRotate}
 \end{figure}
 
-\subsection{Sparse training extension}
+\subsection{Sparse training extension}\label{sec:APRspareTraining}
 The methods outlined above requires labeled training data for each model in the classifier. Since this is entirely manageable to obtain this data for low resolution implementation of the pulse recognition system, obtaining this data on a larger device with a greater resolution can become cumbersome and time consuming. This extension of the standard training method for the ML and MAP methods enables detection of points outside the training grid at a scalable resolution.
 
 To achieve this extended resolution, the algorithm creates a linear interpolation between neighboring templates. The assumption is that the acoustic pulses vary relatively linearly between the two templates and hence it may be possible to estimate any template in between the two. Since the mobile phone, used for the previous implementation, undoubtedly is a very complicated vibrational system it was hypothesized that the solid wooden board might provide a more predictable vibrational system and hence a better implementation platform for the interpolation algorithm.

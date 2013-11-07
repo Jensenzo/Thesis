@@ -69,6 +69,17 @@ Microphone 1, seen in Figures~\ref{fig:mic1} and \ref{fig:wholesystem}, was an O
 
 The AD converters used was an RME Firface 800 and can be seen in Figure~\ref{fig:wholesystem}. All data was sampled at 48 kHz at 16 bit.
 
+\section{Impulse alignment test}\label{sec:MultiAPRsystemAligntest}
+While the application presented in chapter~\ref{ch:MultichannelAPR} only requires a consistent time alignment between channels, the phase speed calculations of appendix~\ref{ap:SpeedCalc} does rest on the assumption of absolutely aligned channels. To verify this assumption the three microphones were spatially aligned in an open space, as seen in Figure~\ref{fig:micsaligned}, and a sharp impulse, via a forceful hand clap, was applied approximately 4 meters away. The waveform for the impulse onset is presented in Figure~\ref{fig:micsalignedOnset}. Assuming a speed of sound in air at $20\,^{\circ}\mathrm{C}$ $c = 343 \mathrm{m}/\mathrm{s}$. For a signal sampled at 48000 Hz, this gives a ``sample distance'' of about 7 mm. 
+
+\begin{figure}
+  \centering
+  \includegraphics[width=8cm]{alignedTestingImpulses.pdf}%4
+\caption{Impulse onset of spatially aligned microphones.}
+\label{fig:micsalignedOnset}
+\end{figure}
+
+Figure~\ref{fig:micsalignedOnset} shows a feasible perfect alignment given the differences inherent in the microphones. Microphones 2 and 3 are identical with a symmetric placement on the the outside of Microphone 1. The sampled signals appear perfectly aligned.
 % ------------------------------------------------------------------------
 
 %%% Local Variables:
