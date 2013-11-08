@@ -29,9 +29,10 @@
 *.tex.sav
 *.cls.bak
 *.brf
-thesis.brf
 *.cls.sav
 thesis.pdf
 *.synctex
 *.db
 *.bak
+~$*
+thesis.brf
