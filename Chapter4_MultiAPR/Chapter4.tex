@@ -9,18 +9,19 @@
 %Introduction to multichannel APR
 While a key aspect of the basic single channel Acoustic Pulse Recognition (APR) system was founded in the breath of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and specifically multiple microphones. Laptop computers, tablets and mobile phones frequently employ multiple microphones for noise cancellation\cite{Habets2013}\cite{Habets2012}, echo cancelation\cite{US7925007} and localisation applications\cite{US8174547}\cite{US8233353}.
 
-In this chapter the APR system is generalised to multiple channels and results are provided to quantify the multi channel APR system's performance in relation to a single channel equivalent.
+In this chapter the APR system is generalised to multiple channels and results are provided to quantify the multichannel APR system's performance in relation to a single channel equivalent.
 
 %outline of chapter
 This chapter will begin outlining the background for the multichannel APR system in relation to the previously discussed single channel system. The theory behind the generalised theory will be presented after which the training procedures required will be discussed in relation to the approach taken in section~\ref{sec:APRtraining}. The method used for the evaluation of the work is outlined after which the results, discussion and conclusions are presented.
+
 \section{Background}
 %Discuss and outline the advantages of multiple channels in a physical detection application
-Chapter~\ref{ch:APR} described the theory and application of a single channel APR system. This system relied on the existence of a single transducer in or on the device for the APR application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanically noise in the device. Multiple channels enables theoretically improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same results. This is particularly an advantage when the additional available channels are designed to specifically be a reference source discounting either some noise source (say background noise) or the target source (say speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise.
+Chapter~\ref{ch:APR} described the theory and application of a single channel APR system. This system relied on the presence of a single transducer in or on the device for the APR application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanically noise in the device. Multiple channels enable theoretically improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same expected results. This is particularly an advantage when the additional available channels are designed to specifically be a reference source discounting either some noise source (say background noise) or the target source (say speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise.
 
 \subsection{Time of Flight (ToF)}
-A second advantage of the multi channel system is the main functional component of previous multichannel APR systems\cite{TouchSystems2006}\cite{US7411581}. Time of Flight (ToF) or Time Delay of Arrival (TDA) or the relative time of arrival of especially transient events at uniquely placed receiving transducers gives an additional indication of the origin of a pulse.
+A second advantage of the multichannel system is the main functional component of previous multichannel APR systems\cite{TouchSystems2006}\cite{US7411581}. Time of Flight (ToF) or Time Delay of Arrival (TDA) or the relative time of arrival of, especially transient, events at uniquely placed receiving transducers gives an additional indication of the origin of a impulse.
 
-Consider a tap on a surface which generates a pulse and thereby an acoustic wavefront propagating radially outwards from the point of impact. The array of microphones embedded in the surface will receive the wavefront at different times relative to their distance from the point of impact and the phase velocity. Figure~\ref{fig:ToFexample.pdf} shows an example of a surface with a wavefront's propagation and 3 microphones' relative position within the propagation pattern.
+Consider a tap on a surface which generates an impulse and thereby an acoustic wavefront propagating radially outwards from the point of impact. The array of microphones embedded in the surface will receive the wavefront at different times relative to their distance from the point of impact and the phase velocity. Figure~\ref{fig:ToFexample.pdf} shows an example of a surface with a wavefront's propagation and 3 microphones' relative position within the propagation pattern.
 
 \begin{figure} %ToFexample.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -59,7 +60,7 @@ For the minimum sampling rate $f_s$ needed to detect any spatial difference $\De
 f_s  \geq \frac{c}{\Delta d}.
 \end{equation}
 
-Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} shows an example of 3 waveforms from 3 different microphones embedded in a surface. Various points on the waveforms have been affixed with data tags to allow for a comparison of their relative arrival times. In this example the absolute distant in the surface from the microphones to the impact site was 30, 10 and 20 cm for microphones 1, 2 and 3 respectively. It is important to note that so far it has been the first arrivals that have been of primary concern for the positioning of signals, but Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} also shows other waveform elements related to the surface geometry. Microphone 3 provides a clear secondary negative peak at sample number 45. This secondary peak quite likely corresponds to a reflected (non direct) pulse arriving slightly delayed to the direct pulse due to the longer path travelled.
+Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} shows an example of 3 waveforms from 3 different microphones embedded in a surface. Various points on the waveforms have been affixed with data tags to allow for a comparison of their relative arrival times. In this example the absolute distance in the surface from the microphones to the impact site was 30, 10 and 20 cm for microphones 1, 2 and 3 respectively. It is important to note that so far it has been the first arrivals that have been of primary concern for the positioning of signals, but Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} also shows other waveform elements related to the surface geometry. Microphone 3 provides a clear secondary negative peak at sample number 45. This secondary peak quite likely corresponds to a reflected (non direct) impulse arriving slightly delayed to the direct impulse due to the longer path travelled.
 
 \begin{figure} %MultiSourceExampleAnnoSpot9.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -78,7 +79,7 @@ Based on the estimated phase velocity in the surface, provided in appendix~\ref{
 
 
 \section{Model and theory}\label{sec:MultiAPRModelTheory}
-The multi channel model proposed here is an extension of the multi component model proposed in section~\ref{sec:APRpca}.
+The multichannel model proposed here is an extension of the multi component model proposed in section~\ref{sec:APRpca}.
 
 Similarly to equation~\ref{eq:mod1} we consider observations of the form $y_c = [y_{c,0}, \ldots , y_{c,N-1}]^T$ for the $c$th channel so that $\textbf{y} = [y_c, \ldots, y_C]$ for $C$ independent channels. The standard noisy linear instantaneous model is considered for a single channel $c$:
 
@@ -140,7 +141,7 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 
 \section{Training}\label{sec:MultiAPRTraining}
 %describe the different training schemes employed
-The training of the templates for the multi channel APR system proceeds similarly to the single channel APR PCA based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In all tests conducted throughout this chapter the number of PCA components used was $I = 8$ components. In this chapter a number of different methods will be compared, while these will be described in more detail in section~\ref{sec:MultiAPRMethod}, the training for these models will be outlined below.
+The training of the templates for the multichannel APR system proceeds similarly to the single channel APR PCA based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In all tests conducted throughout this chapter the number of PCA components used was $I = 8$ components. In this chapter a number of different methods will be compared, while these will be described in more detail in section~\ref{sec:MultiAPRMethod}, the training for these models will be outlined below.
 
 The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most basic, or the base line approach that will be tested in this chapter. Each channel $c$ will be considered independently and so the training stage will exactly mirror that presented in section~\ref{sec:MultiAPRMethod} relating to the PCA training with $J$ different templates. The right side of Figures~\ref{fig:trainingSystem1.pdf}-\ref{fig:trainingSystem3.pdf} shows an example of how various models will relate to the data when they are tested. Testing is done on $Q$ samples.
 
@@ -188,7 +189,7 @@ An initial implementation of the multichannel system training is shown in Figure
 \label{fig:trainingSystem2.pdf}
 \end{figure}
 
-Figure~\ref{fig:trainingSystem3.pdf} shows the multi channel APR system training using joint alignment. While, as in section~\ref{sec:MultiAPRMethod}, the other methods presented here have trained each channel independently, this approach only prompts the trainer for alignment cues based on data from one channel. This means that the relative alignments between channels $c$ and spots $j$ remain intact. Data associated with each channel can be stored independently as previously but each template will now be of similar length and will require slightly longer templates to account for impulses arriving prior to those of the alignment channel (channel 1 $c=1$ for all tests conducted).
+Figure~\ref{fig:trainingSystem3.pdf} shows the multichannel APR system training using joint alignment. While, as in section~\ref{sec:MultiAPRMethod}, the other methods presented here have trained each channel independently, this approach only prompts the trainer for alignment cues based on data from one channel. This means that the relative alignments between channels $c$ and spots $j$ remain intact. Data associated with each channel can be stored independently as previously but each template will now be of similar length and will require slightly longer templates to account for impulses arriving prior to those of the alignment channel (channel 1 $c=1$ for all tests conducted).
 
 \begin{figure} %trainingSystem3.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -213,7 +214,7 @@ Figure~\ref{fig:trainingSystem3.pdf} shows the multi channel APR system training
 
 \section{Method}\label{sec:MultiAPRMethod}
 \subsection{System setup}\label{sec:MultiAPRSystem}
-To evaluate the performance of the algorithms a multi channel setup was assembled. Figure~\ref{fig:MultiAPRsystem.pdf} shows a diagram of the system. The legend to the right indicates the elements in the diagram the numbers to the left of each microphone and active spot is the channel/microphone and active spot/template number respectively used henceforth. The surface used in this system is the same as shown in Figure~\ref{fig:Pad} but different active spots, or trained spots, have been chosen.
+To evaluate the performance of the algorithms a multichannel setup was assembled. Figure~\ref{fig:MultiAPRsystem.pdf} shows a diagram of the system. The legend to the right indicates the elements in the diagram the numbers to the left of each microphone and active spot is the channel/microphone and active spot/template number respectively used henceforth. The surface used in this system is the same as shown in Figure~\ref{fig:Pad} but different active spots, or trained spots, have been chosen.
 
 \begin{figure} %MultiAPRsystem.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -269,7 +270,7 @@ All data was recorded as PCM 16 bit audio data sampled at 48 kHz. The noisy test
 \end{figure}
 
 \subsection{Approaches}
-While the underlying theory behind the multi channel APR system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
+While the underlying theory behind the multichannel APR system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
 
 As mentioned previously the multichannel approach will be compared to the standard single channel approach (\approachN{app:IndiChan}). The single channel PCA method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single channel results will be processed and the unique mode (\approachN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachN{app:IndiChanMedian}) for each test $q$.
 
@@ -279,7 +280,7 @@ Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multichannel impl
 p(j|y) = \argmax{j} \prod^C \underset{n_0}{\max} p(y|j,n_o,c).
 \end{equation}
 
-This approach attempts to remedy the naive multi channel approach by making an assumption. It is assumed that while a template may not perfectly fit an impulse associated with a different template, it will still have its maximum excitation when aligned correctly with the pulse. This enables a \emph{post hoc} pseudo alignment of the templates. This approach is included to remedy the naive multi channel approach.
+This approach attempts to remedy the naive multichannel approach by making an assumption. It is assumed that while a template may not perfectly fit an impulse associated with a different template, it will still have its maximum excitation when aligned correctly with the pulse. This enables a \emph{post hoc} pseudo alignment of the templates. This approach is included to remedy the naive multichannel approach.
 
 Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is presented (\approachN{app:Multi}). Here the ToF information is inherently retained assuming that the relative channel alignments in the testing system is kept constant between training and testing. While a template for a single channel may score well with wrong testing data when combined with templates for other channels the effect should be blurred in time while a correct classification will have a set of matching template in addition to matching ToF information.
 
@@ -354,6 +355,8 @@ Approaches \ref{app:IndiChanMode} and \ref{app:IndiChanMedian} were presented as
 The highest correct classification results, for both the clean and the noisy tests, were achieved with the multichannel approach (\ref{app:Multi}) with combined alignment. While in the clean test this method managed results identical to results from to channel 1 from Approach~\ref{app:IndiChan}, in the noisy test the multichannel approach (\ref{app:Multi}) managed slightly better performance, underlining that this approach can be better than the best of its constituent parts, and that the results suggest that the performance is unaffected by substantial environmental noise. It is reiterated that the individual channels in Approach~\ref{app:IndiChan} are not to be considered competing approaches individually since no objective weight is applied to these channels \emph{a priori}. 
 
 \section{Conclusions}
+
+%Mention possibility to implement with other sensors... not microphones. (gyroscopes, accelerometers)
 
 %Further work
 \subsection{Possible future work}
