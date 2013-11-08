@@ -30,6 +30,7 @@
 \fi
 
 \usepackage{amssymb,amsmath}
+\usepackage{datetime}
 \usepackage[pdftex]{graphicx}
 \usepackage{fancyhdr}
 \usepackage{eucal}
@@ -46,6 +47,7 @@
 \usepackage{fixltx2e}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage[abs]{overpic}
 
 %Chapter style settings
 \cxset{jens}
@@ -232,6 +234,9 @@
   \null\vfill
 \end{alwayssingle}}
 
+
+
+
 % DEDICATION
 %
 % The dedication environment makes sure the dedication gets its
@@ -248,6 +253,32 @@
   \begin{quote} \begin{center}}
 {\end{center} \end{quote} \end{alwayssingle}}
 
+
+% DECLARATION
+%
+% The declaration environment puts a large, bold, centered
+% "Declaration" label at the top of the page. The declaration
+% themselves appear in a quote environment, i.e. tabbed in at both sides, and
+% on its own page.
+
+\newenvironment{declaration}
+{\pagestyle{empty}
+\begin{alwayssingle}
+\begin{center}
+\vspace*{1.5cm}
+{\Large \bfseries Declaration}
+\end{center}
+\vspace{0.5cm}
+\begin{quote}}
+{
+\vfill
+
+\vspace*{1.cm}
+\begin{overpic}[width=40mm]{Jens_signature}
+    \put(0,65){\mbox{\ddmmyyyydate\today}}
+    \put(0,50){\mbox{Cambridge, UK}}
+    \put(0,0){\mbox{\bfseries \JENC}}
+\end{overpic}\vspace*{1.5cm}\end{quote}\end{alwayssingle}}
 
 % ACKNOWLEDGEMENTS
 %

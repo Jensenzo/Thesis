@@ -39,6 +39,8 @@
 %\renewcommand{\submittedtext}{change the default text here if needed}
 \degree{Doctor of Philosophy}
 \degreedate{Degree date yet to be decided}
+\newcommand{\wordcount}{28280} %07/11/2013
+\newcommand{\figcount}{100} %07/11/2013
 
 % turn of those nasty overfull and underfull hboxes
 \hbadness=10000
@@ -69,7 +71,6 @@
 % and to remove DRAFT COPY ONLY appearing on the top of all pages comment out below line
 \watermark{DRAFT COPY ONLY}
 
-
 \maketitle
 
 %set the number of sectioning levels that get number and appear in the contents
@@ -77,13 +78,15 @@
 \setcounter{tocdepth}{3}
 
 \frontmatter
-%\include{Dedication/dedication}
-%\include{Acknowledgement/acknowledgement}
+
+\include{Declaration/declaration}
+\include{Dedication/dedication}
+\include{Acknowledgement/acknowledgement}
 %\include{Abstract/abstract}
 
 %\tableofcontents
 \listoffigures
-%\printnomenclature  %% Print the nomenclature
+\printnomenclature  %% Print the nomenclature
 %\addcontentsline{toc}{chapter}{Nomenclature}
 
 \mainmatter
