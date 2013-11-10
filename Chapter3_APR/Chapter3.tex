@@ -6,27 +6,24 @@
     \graphicspath{{Chapter3_APR/Chapter3Figs/EPS/}{Chapter3_APR/Chapter3Figs/}}
 \fi
 
-This chapter describes work undertaken with several waveform classification algorithms, specifically designed to detect and classify taps incident on a device containing a single microphone. The different models in the classification algorithms correspond to different tapping positions $j$ on the device, and the algorithms can hence be said to represent a new touch screen technology using acoustic pulse recognition. The work is specifically focussed on applications using a single sensor to attempt to tackle the difficult issue of the structural uncertainty and its effect on recorded waveforms without the aid of inter microphone time and intensity differences. It is although possible to extend the theory presented here to multiple microphones and thereby increase performance.
-This work has been the main focus of the research conducted the last 8 months and will, as a result, constitute a significant proportion of this report. The work undertaken on waveform classification has had a significant practical application component and where possible results and applications will be presented.
+This chapter describes work undertaken with several waveform classification algorithms, specifically designed to detect and classify taps incident on a device containing a single microphone. The different models in the classification algorithms correspond to different tapping positions $j$ on the device, and the algorithms can therefore be said to represent a new touch screen technology using Acoustic Pulse Recognition (APR). This chapter is specifically focussed on applications using a single sensor to attempt to tackle the difficult issue of the structural uncertainty and its effect on recorded waveforms without the aid of inter microphone time and intensity differences.
 
 Traditionally the given data in selection problems have been referred to as models. In the following section these models will occasionally be referred to as templates in the context of the specific models for this application.
 
 \section{Background}
-Modern touch screen devices have, generally speaking, 2 main attributes. Firstly they function without the need for any additional interfacing hardware and secondly they let a user interact directly with the data presented to the user. The methods introduced in the following sections attempts to reconcile these attributes with factors such as scalable deployment and low manufacturing and implementation costs through acoustic pulse recognition.
+Modern touch screen devices have, generally speaking, 2 main attributes. Firstly they function without the need for any additional interfacing hardware and secondly they let a user interact directly with the data presented to the user. The methods introduced in the following sections attempts to reconcile these attributes with factors such as scalable deployment and low manufacturing and implementation costs through APR.
 
-The underlying assumption of an acoustic pulse recognition system is that tapping on any spot, on the touch sensitive surface, creates a unique acoustical pulse, that this unique pulse is largely reproducible and that it is detectable. Figure~\ref{fig:twotwoSampleTap} shows a plot of 4 tap pulses recorded at 2 different spots on the device. It is seen from the plot that tapping in these two different locations produce noticeably different pulses and that the pulses from the same spot is, though slightly different in certain parts of the signal, still visibly similar. The 4 taps in Figure~\ref{fig:twotwoSampleTap} have been aligned to the onset of the tap.
+The underlying assumption of an APR system is that tapping on any spot, on the touch sensitive surface, creates a unique acoustical pulse, that this unique pulse is largely reproducible and that it is detectable. Figure~\ref{fig:twotwoSampleTap} shows a plot of 4 tap pulses recorded at 2 different spots on the device. It is seen from the plot that tapping in these two different locations produce noticeably different pulses and that the pulses from the same spot is, though slightly different in certain parts of the signal, still visibly similar. The 4 taps in Figure~\ref{fig:twotwoSampleTap} have been aligned to the onset of the tap.
 
-
-\begin{figure}[!htbp]
+\begin{figure}[t]
   \begin{center}
     \includegraphics[width=110mm]{twotwoSampleTap}
     \caption{Two taps recorded at both spot 1 and 12. Sampled at 44.1 kHz.}\label{fig:twotwoSampleTap}
   \end{center}
 \end{figure}
 
-
 %Maybe not use this paragraph... rewrite at least.
-Although Figure~\ref{fig:twotwoSampleTap} shows the scope of the variability in the pulses due to tapping spot, it is worth recognizing that this variability is fairly modest compared to the variability observed when comparing tapping pulses with data such as speech or even other percussive signals. It is also worth noting that some variability arises from certain environmental conditions, so the nature of the problem can be summed up as being one where certain variations are expected and others are used as the basis for classification.
+Although Figure~\ref{fig:twotwoSampleTap} shows the scope of the variability in the pulses due to impact site, it is worth recognizing that this variability is fairly modest compared to the variability observed when comparing tapping pulses with data such as speech or even other percussive signals. It is also worth noting that some variability arises from certain environmental conditions, so the nature of the problem can be summed up as being one where certain variations are expected and others are used as the basis for classification.
 
 \section{System}\label{sec:APRsystem}
 The system developed consists of a number of different elements that crudely can be divided into hardware and software. The hardware system can be considered as a testing rig for the algorithm and is designed to facilitate a single output black box type approach to the classification problem, where the black box represents a unknown complex vibrational system with certain transfer characteristics. These characteristics are assumed to be reproducible or time-invariant. Figure~\ref{fig:blackBox} represents such a system,
@@ -43,7 +40,7 @@ The system developed consists of a number of different elements that crudely can
 
 where $x^j$ can be considered some pulse on a spot $j$ known by the user, while $y$ is the output of the black box as seen by the classification algorithm oblivious to the origin of the tap $j$.
 
-Two pieces of hardware were produced to achieve these characteristics. Firstly a mobile phone implementation of the algorithm was considered and an actual mobile phone handset was acquired and modified to allow for external analogue monitoring of the internal microphone. The mobile chosen for this application was a Samsung SGH-M150, which can be seen in Figure~\ref{fig:phone}. This device was chosen based on its ability to be easily modified to allow for external interfacing the microphone. Additionally a grid of $J = 12$ points was added to the screen area as reference points for tapping.
+Two pieces of hardware were produced to achieve these characteristics. Firstly a mobile phone implementation of the algorithm was considered and an actual mobile phone handset was acquired and modified to allow for external analogue monitoring of the internal microphone. The mobile phone chosen for this application was a Samsung SGH-M150, which can be seen in Figure~\ref{fig:phone}. This device was chosen based on its ability to be easily modified to allow for external interfacing the microphone. Additionally a grid of $J = 12$ points was added to the screen area as reference points for tapping.
 
 \begin{figure}[!]
 \centering
@@ -539,7 +536,7 @@ Although no quantifiable results of the performance of the interpolated training
 
 The algorithms presented in this report as part of the first year of the PhD, has shown promising performance. The multi-component approach to the classification algorithm has shown to provide robustness in light of uncertainty in the use of tapping tools and in fact provide better performance if allowed to train on varied data. The multi-component approach to acoustic pulse recognition has consistently outperformed the ML and MAP methods also presented in this report.
 
-A range of possible extensions to the models and algorithms have been identified in the literature, and new ideas and extensions have been outlined and included in the time plan for the further research. Further studies into the nature of the variations observed in tapping data will provide further inspiration on extensions combined with the extensions outlined in the time plan should provide a suitable PhD project. 
+A range of possible extensions to the models and algorithms have been identified in the literature, and new ideas and extensions have been outlined and included in the time plan for the further research. Further studies into the nature of the variations observed in tapping data will provide further inspiration on extensions combined with the extensions outlined in the time plan should provide a suitable PhD project.
 
 \subsection{Possible future work}
 
@@ -549,4 +546,4 @@ A range of possible extensions to the models and algorithms have been identified
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End:
+%%% End: 
