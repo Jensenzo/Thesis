@@ -5,6 +5,9 @@
 \backcite {US8233353}{{1}{1}{chapter.1}}
 \backcite {TouchSystems2006}{{2}{1.1.1}{subsection.1.1.1}}
 \backcite {US7411581}{{2}{1.1.1}{subsection.1.1.1}}
-\backcite {US7411581}{{2}{1.1.1}{figure.1.1}}
-\backcite {BS-1387-1998}{{13}{B.1}{section.B.1}}
-\backcite {Campeanu2005}{{13}{B.2}{section.B.2}}
+\backcite {US7411581}{{2}{1.1.1}{figure.caption.3}}
+\backcite {Mallat1999}{{14}{A.1}{equation.A.1.1}}
+\backcite {Heisenberg1927}{{15}{A.1}{equation.A.1.4}}
+\backcite {Mallat1999}{{15}{A.1}{equation.A.1.4}}
+\backcite {Mallat1999}{{15}{A.2}{equation.A.2.5}}
+\backcite {Mallat1999}{{16}{A.2}{equation.A.2.11}}
