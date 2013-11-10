@@ -140,7 +140,7 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
 
 \section{Training}\label{sec:MultiAPRTraining}
 %describe the different training schemes employed
-The training of the templates for the multi-channel APR system proceeds similarly to the single-channel APR PCA based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In all tests conducted the number of PCA components used was $I = 8$. 
+The training of the templates for the multi-channel APR system proceeds similarly to the single-channel APR PCA based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In all tests conducted the number of PCA components used was $I = 8$.
 
 In this chapter a number of different methods will be compared, while these will be described in more detail in section~\ref{sec:MultiAPRMethod}, the training for these models will be outlined below.
 
@@ -254,7 +254,7 @@ All data was recorded as PCM 16 bit audio data sampled at 48 kHz. The noisy test
   \centering
   \centerline{\includegraphics[width=11cm]{NoiseCompare1}}%10
   %\vspace{.5cm}
-  \centerline{(a) Microphone 1}\medskip
+  \centerline{(a) Microphone 1 }\medskip
 \end{minipage}
 \begin{minipage}[b]{1.0\linewidth}
   \centering
@@ -266,7 +266,7 @@ All data was recorded as PCM 16 bit audio data sampled at 48 kHz. The noisy test
  %\vspace{1.5cm}
   \centerline{(b) Microphone 2}\medskip
 \end{minipage}
-\caption{Examples of audio signal in clean and noisy conditions for (a) Microphone 1 and (b) Microphone 2.}
+\caption{Examples of audio signal (waveform) in clean and noisy conditions for (a) Microphone 1 and (b) Microphone 2.}
 \label{fig:NoisyMicSignalsCompare}
 \end{figure}
 
@@ -355,13 +355,13 @@ Approaches \ref{app:IndiChanMode} and \ref{app:IndiChanMedian} were presented as
 
 The highest correct classification results, for both the clean and the noisy tests, were achieved with the multi-channel approach (\ref{app:Multi}) with combined alignment. While in the clean test this method managed results identical to results from to channel 1 from Approach~\ref{app:IndiChan}, in the noisy test the multi-channel approach (\ref{app:Multi}) managed slightly better performance, underlining that this approach can be better than the best of its constituent parts, and that the results suggest that the performance is unaffected by substantial environmental noise. It is reiterated that the individual channels in Approach~\ref{app:IndiChan} are not to be considered competing approaches individually since no objective weight is applied to these channels \emph{a priori}.
 
-%more general implementation discussions 
+%more general implementation discussions
 
 
 \section{Conclusions}
-The results presented in this chapter showed a significant improvement in detection performance of the multi-channel APR system over a single-channel equivalent. In addition the full multi-channel approach (\ref{app:Multi}) outperformed other presented methods which also used the available channel data. For the data and scenario tested, the multi-channel approach (\ref{app:Multi}) appeared unaffected by loud environmental noise, while all other methods tested saw decreased classification accuracy. 
+The results presented in this chapter showed a significant improvement in detection performance of the multi-channel APR system over a single-channel equivalent. In addition the full multi-channel approach (\ref{app:Multi}) outperformed other presented methods which also used the available channel data. For the data and scenario tested, the multi-channel approach (\ref{app:Multi}) appeared unaffected by loud environmental noise, while all other methods tested saw decreased classification accuracy.
 
-While the devices tested in this and the previous chapter have been of moderate sizes, it is not unimaginable that the APR systems presented could be applied to even larger devices such as walls or tables. Increasing the physical dimensions of the device would generally reduce the energy in the pulses as the impact site moved away from the transducer thereby decreasing the SNR. In a multi-channel system, transducers could be distributed evenly around the surface edge maintaining high SNR for at least some channels. Models/templates with channels of low SNR could during training easily be registered and be removed from consideration during classification essentially defaulting to the ignorant prior for that channel-template combination. 
+While the devices tested in this and the previous chapter have been of moderate sizes, it is not unimaginable that the APR systems presented could be applied to even larger devices such as walls or tables. Increasing the physical dimensions of the device would generally reduce the energy in the pulses as the impact site moved away from the transducer thereby decreasing the SNR. In a multi-channel system, transducers could be distributed evenly around the surface edge maintaining high SNR for at least some channels. Models/templates with channels of low SNR could during training easily be registered and be removed from consideration during classification essentially defaulting to the ignorant prior for that channel-template combination.
 
 %computational concerns X*C only (plus slightly longer templates)
 Although the multi-channel approach (\ref{app:Multi}) in general requires slightly longer templates to capture the alignment of the models the computational cost of the multi-channel approach is a simple linear scaling with the number of channels $C$ making the formal big-``O'' complexity identical to that of the single-channel approach.
@@ -377,7 +377,7 @@ While the assumption of uncorrelated noise in the system holds for some cases, s
 
 
 %Mention possibility to implement with other sensors... not microphones. (gyroscopes, accelerometers)
-To further evaluate the combined effect of the PCA based classification approach presented in chapter~\ref{ch:APR} and the multi-channel approach presented in this chapter, an additional testing approach could be devised that purely attempts to classify the testing data based on ToF information. 
+To further evaluate the combined effect of the PCA based classification approach presented in chapter~\ref{ch:APR} and the multi-channel approach presented in this chapter, an additional testing approach could be devised that purely attempts to classify the testing data based on ToF information.
 
 % ------------------------------------------------------------------------
 
