@@ -1,7 +1,7 @@
 \chapter{Acoustic Pulse Recognition System}\label{ch:APR}
 
 \ifpdf
-    \graphicspath{{Chapter3_APR/Chapter3Figs/PNG/}{Chapter3_APR/Chapter3Figs/PDF/}{Chapter3_APR/Chapter3Figs/}}
+    \graphicspath{{Chapter3_APR/Chapter3Figs/PNG/}{Chapter3_APR/Chapter3Figs/PDF/}{Chapter3_APR/Chapter3Figs/}{Chapter3_APR/Chapter3Figs/PDF/}{Chapter3_APR/Chapter3Figs/Kamplitude/}}
 \else
     \graphicspath{{Chapter3_APR/Chapter3Figs/EPS/}{Chapter3_APR/Chapter3Figs/}}
 \fi
@@ -346,6 +346,9 @@ As with the previous method, the log-likelihood is calculated
 \end{equation}
 
 and maximized over the $J$ different templates, similar to equation~(\ref{eq:MLdefinition}).
+
+\section{Amplitude variable Gaussian Process model}
+\todo{Insert section}
 
 \section{Training}\label{sec:APRtraining}
 In order to be able to deploy the above mentioned models, the templates needed in the models needs to be created. The term ``training'' is here used to refer to the process of creating the matrices $t^j(n_0)$ and $t^j_i(n_0)$ containing the $J$ models and $I$ components, the covariance matrix $C^j_\Theta$ and the mean $\mu^j_\Theta$.
