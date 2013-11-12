@@ -273,9 +273,9 @@ All data was recorded as PCM 16 bit audio data sampled at 48 kHz. The noisy test
 \subsection{Approaches}
 While the underlying theory behind the multi-channel APR system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
 
-As mentioned previously the multi-channel approach will be compared to the standard single-channel approach (\approachN{app:IndiChan}). The single-channel PCA method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single-channel results will be processed and the unique mode (\approachN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachN{app:IndiChanMedian}) for each test $q$.
+As mentioned previously the multi-channel approach will be compared to the standard single-channel approach (\approachChFourN{app:IndiChan}). The single-channel PCA method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single-channel results will be processed and the unique mode (\approachChFourN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachChFourN{app:IndiChanMedian}) for each test $q$.
 
-Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multi-channel implementation (\approachN{app:MultiNaive}). Here the channels were not aligned and the detection likelihoods were combined as described in equation~\ref{eq:MLdefinition2_c}. While this approach clearly fails to take advantage of the inherent ToF information it may serve as a control to evaluate the effect of ToF. In addition to this approach the maximum detection likelihood for each channel $c$ are combined and the class corresponding the combined largest excitation is chosen (\approachN{app:MultiNaiveMax}). In other words:
+Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multi-channel implementation (\approachChFourN{app:MultiNaive}). Here the channels were not aligned and the detection likelihoods were combined as described in equation~\ref{eq:MLdefinition2_c}. While this approach clearly fails to take advantage of the inherent ToF information it may serve as a control to evaluate the effect of ToF. In addition to this approach the maximum detection likelihood for each channel $c$ are combined and the class corresponding the combined largest excitation is chosen (\approachChFourN{app:MultiNaiveMax}). In other words:
 
 \begin{equation}\label{eq:jointprob3_c}
 p(j|y) = \argmax{j} \prod^C \underset{n_0}{\max} p(y|j,n_o,c).
@@ -283,7 +283,7 @@ p(j|y) = \argmax{j} \prod^C \underset{n_0}{\max} p(y|j,n_o,c).
 
 This approach attempts to remedy the naive multi-channel approach by making an assumption. It is assumed that while a template may not perfectly fit an pulse associated with a different template, it will still have its maximum excitation when aligned correctly with the pulse. This enables a \emph{post hoc} pseudo alignment of the templates. This approach is included to remedy the naive multi-channel approach.
 
-Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is presented (\approachN{app:Multi}). Here the ToF information is inherently retained assuming that the relative channel alignments in the testing system is kept constant between training and testing. While a template for a single-channel may score well with wrong testing data when combined with templates for other channels the effect should be blurred in time while a correct classification will have a set of matching template in addition to matching ToF information.
+Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is presented (\approachChFourN{app:Multi}). Here the ToF information is inherently retained assuming that the relative channel alignments in the testing system is kept constant between training and testing. While a template for a single-channel may score well with wrong testing data when combined with templates for other channels the effect should be blurred in time while a correct classification will have a set of matching template in addition to matching ToF information.
 
 \section{Results}\label{sec:MultiAPRResults}
 \subsection{ToF example}
@@ -308,16 +308,16 @@ Classification results for the multi-channel classification test are presented i
 \caption{Multi-channel classification results}
 \label{tab:multiAPRresults}
 \begin{tabular}{|c|l|c|c|c|}\hline
-Approach \#             & Approach description        & \% correct    & \% wrong  & \% missed  \\ \hline
-\ref{app:IndiChan}      & Individual channels         & 89 \%         & 11 \%     & 0 \%       \\
-                        &  - mic 1 $c = 1$            & 99 \%         & 1 \%      & 0 \%       \\
-                        &  - mic 2 $c = 2$            & 77 \%         & 23 \%     & 0 \%       \\
-                        &  - mic 3 $c = 3$            & 90 \%         & 10 \%     & 0 \%       \\
-\ref{app:IndiChanMode}  & Individual channels (mode)  & 92 \%         & 5 \%      & 3 \%       \\
-\ref{app:IndiChanMedian}& Individual channels (median)& 92 \%         & 8 \%      & 0 \%       \\
-\ref{app:MultiNaive}    & Multi-channel Independent    & 75 \%         & 25 \%     & 0 \%       \\
-\ref{app:MultiNaiveMax} & Multi-channel Max Probability& 94 \%         & 6 \%      & 0 \%       \\
-\ref{app:Multi}         & Multi-channel Joint          & 99 \%         & 1 \%      & 0 \%       \\ \hline
+Approach \#             & Approach description          & \% correct    & \% wrong  & \% missed  \\ \hline
+\ref{app:IndiChan}      & Individual channels           & 89            & 11        & 0          \\
+                        &  - mic 1 $c = 1$              & 99            & 1         & 0          \\
+                        &  - mic 2 $c = 2$              & 77            & 23        & 0          \\
+                        &  - mic 3 $c = 3$              & 90            & 10        & 0          \\
+\ref{app:IndiChanMode}  & Individual channels (mode)    & 92            & 5         & 3          \\
+\ref{app:IndiChanMedian}& Individual channels (median)  & 92            & 8         & 0          \\
+\ref{app:MultiNaive}    & Multi-channel Independent     & 75            & 25        & 0          \\
+\ref{app:MultiNaiveMax} & Multi-channel Max Probability & 94            & 6         & 0          \\
+\ref{app:Multi}         & Multi-channel Joint           & 99            & 1         & 0          \\ \hline
 \end{tabular}\end{center}\end{table}
 
 The results for individual channels from Approach \ref{app:IndiChanMode} has been presented in Table~\ref{tab:multiAPRresults}. The Individually trained and tested channels approach correct classification result of $89\%$ is an average of the results from all channels. It should be noted that the individual channels are not proposed as classification methods in their own right, since all channels should be considered of equal weight. The individual channels are only presented here for transparency and to underline that Approach~\ref{app:IndiChan} was run on all test files individually.
@@ -330,16 +330,16 @@ In Table~\ref{tab:multiAPRresultsNoise} the results from at slightly smaller $Q=
 \caption{Multi-channel classification results in noisy environment.}
 \label{tab:multiAPRresultsNoise}
 \begin{tabular}{|c|l|c|c|c|}\hline
-Approach \#             & Approach description        & \% correct    & \% wrong  & \% missed  \\ \hline
-\ref{app:IndiChan}      & Individual channels         & 83 \%         & 17 \%     & 0 \%       \\
-                        &  - mic 1 $c = 1$            & 98 \%         & 2 \%      & 0 \%       \\
-                        &  - mic 2 $c = 2$            & 78 \%         & 22 \%     & 0 \%       \\
-                        &  - mic 3 $c = 3$            & 73 \%         & 27 \%     & 0 \%       \\
-\ref{app:IndiChanMode}  & Individual channels (mode)  & 87 \%         & 7 \%      & 7 \%       \\
-\ref{app:IndiChanMedian}& Individual channels (median)& 89 \%         & 11 \%     & 0 \%       \\
-\ref{app:MultiNaive}    & Multi-channel Independent    & 51 \%         & 49 \%     & 0 \%       \\
-\ref{app:MultiNaiveMax} & Multi-channel Max Probability& 84 \%         & 16 \%     & 0 \%       \\
-\ref{app:Multi}         & Multi-channel Joint          & 100 \%        & 0 \%      & 0 \%       \\ \hline
+Approach \#             & Approach description          & \% correct    & \% wrong  & \%  missed  \\ \hline
+\ref{app:IndiChan}      & Individual channels           & 83            & 17        & 0           \\
+                        &  - mic 1 $c = 1$              & 98            & 2         & 0           \\
+                        &  - mic 2 $c = 2$              & 78            & 22        & 0           \\
+                        &  - mic 3 $c = 3$              & 73            & 27        & 0           \\
+\ref{app:IndiChanMode}  & Individual channels (mode)    & 87            & 7         & 7           \\
+\ref{app:IndiChanMedian}& Individual channels (median)  & 89            & 11        & 0           \\
+\ref{app:MultiNaive}    & Multi-channel Independent     & 51            & 49        & 0           \\
+\ref{app:MultiNaiveMax} & Multi-channel Max Probability & 84            & 16        & 0           \\
+\ref{app:Multi}         & Multi-channel Joint           & 100           & 0         & 0           \\ \hline
 \end{tabular}\end{center}\end{table}
 
 

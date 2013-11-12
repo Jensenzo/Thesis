@@ -181,7 +181,7 @@ z = \frac{1}{\sqrt{2 \pi}\phi \sigma_v \sigma_\theta}\textrm{exp}\left[-\frac{1}
 where $\phi = \hat{\sigma}^{-2}_\theta = \frac{t^j(n_0)^Tt^j(n_0)}{\sigma_v^2} + \frac{1}{\sigma_\theta^2}$. Remembering equation (\ref{eq:MLmargin2}) where $p(y|j,n_0) = z$ the probability of the data $y$ conditional on the model $j$ and the time shift $n_0$ is now known and can be referred to as the likelihood of the model $j$. An estimate of the model present in the data can be found by inspecting the likelihood function over the range of models. This method is called the Maximum Likelihood estimate or ML estimate, and is given by:
 
 \begin{equation}\label{eq:MLdefinition}
-j_{ML} = \arg\max_j p(y|j,n_0).
+j_{ML} = \argmax{j} p(y|j,n_0).
 \end{equation}
 
 It is often useful to consider the log-likelihood rather than the likelihood due to computational complexity inherent in the exponential function. It is worth noting that the log-likelihood and the likelihood gives the same estimate since log is a monotonic transformation.
@@ -197,7 +197,7 @@ where several other monotonic elements can be eliminated for simplicity.
 Another useful statistic to consider is the Maximum \emph{A Posterior} (MAP) estimate of the model $j$. The MAP estimate is given by:
 
 \begin{equation}\label{eq:MAPdefinition}
-j_{MAP} = \arg\max_j p(y|j,n_0)p(j,n_0).
+j_{MAP} = \argmax{j} p(y|j,n_0)p(j,n_0).
 \end{equation}
 
 
@@ -326,7 +326,7 @@ z &=& \frac{\left|\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\righ
 \end{eqnarray}}
 Substituting $\hat{\mu}_\Theta$ from equation~(\ref{eq:prod4}) and doing some simplification, gives:
 {\setlength\arraycolsep{2pt}
-\begin{eqnarray}\label{eq:z2}
+\begin{eqnarray}\label{eq:z25}
 z &=& \frac{1}{(2\pi)^{\frac{n}{2}} |\textbf{t}^T\textbf{t}+\sigma_v^2C_\Theta^{-1}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \times {}\\\nonumber
 & &\frac{\textrm{exp}\Bigg[-\frac{1}{2}\Bigg(- 2 \Theta^T\left(\frac{\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) +  \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg]}{\textrm{exp}\left[-\frac{1}{2}\left(- 2\Theta^T\left(\frac{\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right)  + \left(\left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)^T\right)^{-1}\left(\frac{\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right)^T\left(\frac{\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) \right)\right]}\\\nonumber{}\\\nonumber
 &=& \frac{1}{(2\pi)^{\frac{n}{2}} |\Phi|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}}\times \frac{\textrm{exp}\left[-\frac{1}{2\sigma_v^2}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty\right)\right]}{\textrm{exp}\left[-\frac{1}{2\sigma_v^2}\left(\left(\Phi^T\right)^{-1}\Lambda^T\Lambda \right)\right]}\\\nonumber{}\\\nonumber
@@ -341,9 +341,10 @@ where:
 
 As with the previous method, the log-likelihood is calculated
 
-\begin{equation}\label{eq:loglikeli}
-\log{p(y|j)} = - \frac{n}{2}\log{2 \pi}- \frac{1}{2}\log{|\Phi|} - \frac{1}{2}\log{|C_\Theta|} - \frac{1}{2\sigma^2_v}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right)
-\end{equation}
+\begin{equation}\begin{split}\label{eq:loglikeli}
+\log{p(y|j)} = &- \frac{n}{2}\log{2 \pi}- \frac{1}{2}\log{|\Phi|} - \frac{1}{2}\log{|C_\Theta|} \\
+&- \frac{1}{2\sigma^2_v}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right),
+\end{split}\end{equation}
 
 and maximized over the $J$ different templates, similar to equation~(\ref{eq:MLdefinition}).
 
