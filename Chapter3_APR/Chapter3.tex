@@ -63,11 +63,11 @@ The second part of the system is the software. Figure~\ref{fig:system} shows a s
     \includegraphics[width=110mm]{system.pdf}
     \caption{Block diagram of detection system. The display displays an intensity map of likelihoods superimposed on the device, as described in the extension to the ML and MAP methods.}\label{fig:system}
 \begin{picture}(0,0)
-\put(-136,226){Microphone}
-\put(-57,166){DSP}
-\put(72,191){Display}
-\put(50,351){Tapping pulse}
-\put(-72,230){\vector(2,1){25}}
+\put(-136,239){Microphone}
+\put(-57,179){DSP}
+\put(72,204){Display}
+\put(50,364){Tapping pulse}
+\put(-72,243){\vector(2,1){25}}
 \end{picture}
 \end{figure}
 
@@ -178,7 +178,7 @@ Substituting in values for $\hat{\sigma}^2_\theta$ and $\hat{\mu}_\theta$ from e
 z = \frac{1}{\sqrt{2 \pi}\phi \sigma_v \sigma_\theta}\textrm{exp}\left[-\frac{1}{2}\left(\frac{y^T y}{\sigma^2_v}+\frac{\mu_\theta^2}{\sigma_\theta^2} - \frac{\left(\frac{y^T t^j(n_0)}{\sigma_v^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right)^2}{\phi}\right)\right],
 \end{equation}
 
-where $\phi = \hat{\sigma}^{-2}_\theta = \frac{t^j(n_0)^Tt^j(n_0)}{\sigma_v^2} + \frac{1}{\sigma_\theta^2}$. Remembering equation (\ref{eq:MLmargin2}) where $p(y|j,n_0) = z$ the probability of the data $y$ conditional on the model $j$ and the time shift $n_0$ is now known and can be referred to as the likelihood of the model $j$. An estimate of the model present in the data can be found by inspecting the likelihood function over the range of models. This method is called the Maximum Likelihood estimate or ML estimate, and is given by:
+where $\phi = \hat{\sigma}^{-2}_\theta = \frac{t^j(n_0)^Tt^j(n_0)}{\sigma_v^2} + \frac{1}{\sigma_\theta^2}$. Remembering equation (\ref{eq:MLmargin2}) \linebreak[0]where \linebreak[0]$p(y|j,n_0) = z$ the probability of the data $y$ conditional on the model $j$ and the time shift $n_0$ is now known and can be referred to as the likelihood of the model $j$. An estimate of the model present in the data can be found by inspecting the likelihood function over the range of models. This method is called the Maximum Likelihood estimate or ML estimate, and is given by:
 
 \begin{equation}\label{eq:MLdefinition}
 j_{ML} = \argmax{j} p(y|j,n_0).
@@ -220,7 +220,7 @@ It appears that the temperature has a dramatic effect on the mean template and a
 Figure~\ref{fig:testingSystemPlot} shows a block diagram of the implementation of the use/testing stage of the algorithm. The diagram shows how a tap $y$ incident on the tapping device is picked up by the microphone on the device and transmitted to a computer. Within the computer the algorithm calculates the statistics, as outlined below, utilizing data from the training stage of the algorithm. The statistics of the signal is then evaluated and the most probable class or spot is displayed to the user unless the models do not yield a sufficiently high probability, as determined by a threshold, in which case no tap will be registered.
 
 \subsection{Model and theory}
-A standard linear instantaneous model is considered where observations $y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
+A standard linear instantaneous model is considered where observations \linebreak[0]$y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
 
 \begin{equation}\label{eq:mod1}
 y = \sum_{i=1}^{I} \theta_i^j t_i^j(n_0) + v,
@@ -348,8 +348,58 @@ As with the previous method, the log-likelihood is calculated
 
 and maximized over the $J$ different templates, similar to equation~(\ref{eq:MLdefinition}).
 
-\section{Amplitude variable Gaussian Process model}
-\todo{Insert section}
+\section{Amplitude variable PCA model}\label{sec:KamplitudeModel}
+
+To account for linear scaling of the signal $x$, a modified PCA model is constructed. While the $\theta$ parameter of the PCA approach assumes that each pulse is a combination of a set of components observed during training, the strength of impact on the surface will translate into an increased amplitude of the pulse waveform. The aim of the variable amplitude model is to separate out this scale as a random variable $K$.
+
+Recalling the standard multi-variate PCA based approach with mean $\mu$ (see equation \ref{eq:model1}), we had that
+
+\begin{equation}\label{eq:K_PCAmodel}
+y = \sum^I_{i=1} \theta^j_i t^j_i(n_0) + \mu^j(n_0) + v.
+\end{equation}
+
+For $K$ a vector of scalar amplitudes for the combined instantaneous linear combination, we can write,
+
+\begin{equation}\label{eq:Kmodel}
+y = \sum^L_{l=1} \sum^I_{i=1} K^j_l \theta^j_i t^j_i(n_0) + K^j_l \mu^j(n_0) + v.
+\end{equation}
+
+Here $K^j_l$ is the $l$th of $L$ scaling amplitudes for the $j$th template.
+
+Considering previously equation~\ref{eq:iidnoise}, we can now model the signal $x$ as:
+
+\begin{equation}\label{eq:GP2}
+    x_{j,n,K} \sim \mathcal{N}(K_j \mu_{j,n} ,K_j^2 \sigma_{j,n}^2),
+\end{equation}
+
+where $K_j$ is a random variable describing the linear scaling of the model.
+
+In equation~\ref{eq:MLmargin} the continuous component scaling factor $\theta$ was marginalized out to give $p(y|j,n_0)$. In much the same way the likelihood can be estimated by marginalization of the conditional probability of the data $y$ given the discrete scaling $K$, template number $j$ and the time shift $n_0$, over $K$, so that:
+
+\begin{equation}\label{eq:MLmarginK}
+p(y|j,n_0)=\sum_{l=1}^L p(y|j, n_0, K^j_l) p(K^j_l),
+\end{equation}
+
+%The likelihood can now be described as being:
+%\begin{equation}\label{eq:likelihoodK1}
+%p(y|j,n,K) = \frac{1}{\sqrt{2 \pi \sigma_{j,n}^2 K_j^2 \sigma_{v, n}^2}} \exp{\left( -\frac{\left( x - K_j \mu_{j,n}\right)^2}{2\sigma_{j,n}^2 K_j^2 \sigma_{v}^2} \right)}.
+%\end{equation}
+
+and the distribution of $p(K_j)$ could be estimated as a discrete point-mass \linebreak[0](positive-valued) inverse-gamma distribution or simply sampled at a training stage for each class $j$. In this case $p(K_j)$ is assumed to be discrete and equation~\ref{eq:MLmarginK} is a finite sum of weighted Gaussian terms, in the continuous cases the integral could be computed using Mote Carlo integration approximated using discrete summation.
+
+Proceeding with the steps from equation~\ref{eq:probybeta} - \ref{eq:z25}, the log-likelihood is calculated
+
+\begin{equation}\label{eq:loglikeliK}\begin{split}
+\log{p(y|j,n,\theta,K)} = &- \frac{n}{2}\log{2 \pi}- \frac{1}{2}\log{|\Phi|} - \frac{1}{2}\log{|C_\Theta|} \\
+& -\frac{1}{2\sigma^2_v}\left(\sigma_v^2K^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right),
+\end{split}\end{equation}
+
+where
+\begin{eqnarray}
+\label{eq:z3K}
+\Phi &=& K^2 \textbf{t}^T\textbf{t} + \sigma_v^2C_\Theta^{-1} \qquad \textrm{and}\\\nonumber
+\Lambda &=& K \textbf{t}^Ty + \sigma_v^2K^2\mu_\Theta C_\Theta^{-1}.
+\end{eqnarray}
 
 \section{Training}\label{sec:APRtraining}
 In order to be able to deploy the above mentioned models, the templates needed in the models needs to be created. The term ``training'' is here used to refer to the process of creating the matrices $t^j(n_0)$ and $t^j_i(n_0)$ containing the $J$ models and $I$ components, the covariance matrix $C^j_\Theta$ and the mean $\mu^j_\Theta$.
@@ -406,6 +456,16 @@ Figure~\ref{fig:trainingsytemRotate} shows a block diagram of the implementation
 \caption{Block diagram of training stage of algorithm.}\label{fig:trainingsytemRotate}
 \end{figure}
 
+\subsection{Amplitude variable PCA model}
+
+In addition to the parameters required for the standard PCA model, the amplitude variable model requires information about the scaling parameter $K$. Here we propose to sample $K^j = [K^j_{l=1}, \ldots , K^j_{l=L}]$, from the aligned training pulses recorded. Figure~\ref{fig:amplitudeProbMass.pdf} shows an example of the sampled probability mass functions used for three different models $j$. While $K_j$ is a discrete scaling vector for each model $j$ Figure~\ref{fig:amplitudeProbMass.pdf} shows continuous smoothed functions to better illustrate some of the variety in the models and to be able to plot them together. Each scaling vector $K^j$ comprises $L=100$ scales.
+
+\begin{figure}
+\centering
+  \includegraphics[width=110mm]{amplitudeProbMass.pdf}\\
+  \caption{Kernel smoothed discrete probability mass function of 3 different spots for microphone 1.}\label{fig:amplitudeProbMass.pdf}
+\end{figure}
+
 \subsection{Sparse training extension}\label{sec:APRspareTraining}
 The methods outlined above requires labeled training data for each model in the classifier. Since this is entirely manageable to obtain this data for low resolution implementation of the pulse recognition system, obtaining this data on a larger device with a greater resolution can become cumbersome and time consuming. This extension of the standard training method for the ML and MAP methods enables detection of points outside the training grid at a scalable resolution.
 
@@ -417,7 +477,7 @@ For a number of tapping spots evenly distributed on a line, the interpolated tem
 t = t_0 + \left(x - x_0\right) \frac{t_{1} - t^j}{x_1 - x_0},
 \end{equation}
 
-where $t_0$ and $t_1$ is the template at the position $x_0$and $x_1$ respectively and $x_0 < x < x_1$.
+where $t_0$ and $t_1$ is the template at the position $x_0$and $x_1$ respectively and \linebreak[0]$x_0 < x < x_1$.
 
 An example of the a section of the waveforms resulting from this interpolation can be seen in Figure~\ref{fig:InterpData}. Here the thick lines represent the templates computed from data while the thin lines are interpolated templates. The linearly varying color, between red and black of the thin lines, shows the relative distance of the template position $x$ in this example.
 
@@ -441,8 +501,9 @@ The benefit of a representation like Figure~\ref{fig:templatesAligned} is that s
 
 The standard 6 by 5 spot resolution on the wooden board can be expanded to 51 by 41 spots simply by interpolating 9 templates between each trained spot row-wise and then doing the same for all 41 columns. The running of the detection algorithm will proceed as before although at a substantially slower rate.
 
-\section{Results}\label{sec:results}
-In this section the empirical evaluations of the methods mentioned above will be presented. To test the algorithms, two sets of data is needed; a training set $D^1$ and a testing set $D^2$. The training set is used in the training stage of the algorithm, as mentioned above, and the testing data is essentially the data that the algorithm attempts to model and classify. In an attempt to evaluate the algorithms' robustness to variations, two different sets of training and testing data is used. One set is recorded using a stylus to tap on the device, $D^1_S$ and $D^2_S$, and the second set is tapped using a finger nail, $D^1_N$ and $D^2_N$. Although it might be informative to use the same data for the training and testing stage, in this test the two sets are independently recorded, in identical conditions, which means that there in total are 4 data sets $D^1_S$, $D^2_S$, $D^1_N$ and $D^2_N$, which will be used to test the algorithms in various combinations to give a picture of the performance of the algorithms.
+\section{Methods}
+\subsection{Performance and comparison of ML, MAP and PCA methods}
+To test the algorithms, two sets of data is needed; a training set $D^1$ and a testing set $D^2$. The training set is used in the training stage of the algorithm, as mentioned above, and the testing data is essentially the data that the algorithm attempts to model and classify. In an attempt to evaluate the algorithms' robustness to variations, two different sets of training and testing data were used. One set was recorded using a stylus to tap on the device, $D^1_S$ and $D^2_S$, and the second set was tapped using a finger nail, $D^1_N$ and $D^2_N$. Although it might be informative to use the same data for the training and testing stage, in this test the two sets were independently recorded, in identical conditions, which means that there in total are 4 data sets $D^1_S$, $D^2_S$, $D^1_N$ and $D^2_N$, which will be used to test the algorithms in various combinations to give a picture of the performance of the algorithms. Figure~\ref{fig:tapSN} shows tapping of surface of the device with a stylus and with a fingernail.
 
 \begin{figure}[!]
 \centering
@@ -451,6 +512,21 @@ In this section the empirical evaluations of the methods mentioned above will be
 \end{figure}
 
 Each set of training data contains approximately 70 taps at each spot on the device totalling approximately $70 \times 12 = 840$ taps tapped with varying force. To estimate the performance of the algorithm given certain criteria there are 3 outcomes of a test. The tap may be correctly classified, misclassified (classified as any of the 11 other spots) or it may avoid detection entirely and hence be classified as a missed detection $j=0$. The ratio of these 3 outcomes may vary with a large number of parameters within the algorithm such as various thresholds for detection or classification, template length, filtering or number of PCs used under training, so the performance of the algorithm will always be presented in relation to a varying parameter. It is worth noting that all data used in the production of these results have been high-pass filtered at with a cut-off frequency of 441 Hz. The effect of this filtering has not exhaustively been investigated, but provides visually a ``cleaner'' signal, and does not appear to harm the performance.
+
+As well as evaluating the classification performance of some of the algorithms presented above, the effect of varying various parameters of the models, such as component number and template length, is also explored.
+
+\subsection{Amplitude variable model}
+The amplitude variable PCA, henceforth known as K-PCA, model presented in section~\ref{sec:KamplitudeModel} will be compared to the standard PCA approach from section~\ref{sec:APRpca} to gauge the advantage gained by adding the additional $K$ scaling factor to the model.
+
+The data used for this comparison will be the same set outlined in section~\ref{sec:MultiAPRMethod} and comprises a 9 spot model trained on a wooden board. The two methods will be compared based on three different data channels/microphones each at different locations and in two different environment. Figure~\ref{fig:NoisyMicSignalsCompare} shows an example of the audio waveform for the two different environment for two of the three channels. A total of 79 audio segments from the relatively noiseless environment and 48 from the noisy environment were used. Each segment contained a single pulse from a random spot on the surface. Details of the system can be found in appendix~\ref{ap:MultiAPRsystem}.
+
+The templates used in the comparison were identical in all other aspects than the parameters $K$ and $p(K)$. For the varying number of scale levels $L$ numbers were chosen so that $K$ and $p(K)$ could simply be decimated and $p(K)$ re-scaled.
+
+For each method and for each environment an average of the performance of the three channels/microphones will be presented where as the raw data for all channels can be found in appendix~\ref{ap:KPCAresults}. The K-PCA was tested with a variety of discrete scaling parameters $L$ from 1 to 100.
+
+\section{Results}\label{sec:results}
+\subsection{ML, MAP and PCA methods}
+In this section the empirical evaluations of the methods mentioned above will be presented. 
 
 Figure~\ref{fig:PCAperform} shows the performance of the PCA type algorithm using the training data $D^1_S$ and the testing data $D^2_S$. The figure gives an idea of how the performance changes with changing number of components $q$ used in the templates. Figure~\ref{fig:PCAperform} clearly shows that the rate of correct classification is beyond 90\% down to 2 components whereafter it drops of sharply to below 10 \%. It is noted that the performance drops to around 8\% which is exactly what would be expected by a random guess or the prior knowledge $p(j)= \frac{1}{J}$. A decrease in performance is detectable from 4 components and down, whereas the performance for 5 components and more appears constant.
 
@@ -516,12 +592,30 @@ Figure~\ref{fig:PCAMLMAPperform} gives an overview of the performance of the dif
 \end{picture}
 \end{figure}
 
+\subsection{Sparse training extension}
+
 A selected run of the sparse training extension, for the ML algorithm, has given a result presented in Figure~\ref{fig:padPlot}. The intensity map shows the highest probability near the spot actually tapped, which is between spot 7 and 8. Figure~\ref{fig:padPlot} also reveals other areas of high probability. It is stressed that this run is a selected run of the algorithm and the performance is not consistently of this standard, although the Figure~\ref{fig:padPlot} does provide a good representation of the algorithm when it is working, with several areas of high probability being a common feature.
 
 \begin{figure}[!]
 \centering
 \includegraphics[width=150mm]{padPlot.pdf}
 \caption{Intensity map of model probabilities. Black dots represent trained tapping spots, as seen on Figure~\ref{fig:Pad}. }\label{fig:padPlot}
+\end{figure}
+
+\subsection{Variable amplitude PCA model (K-PCA)}
+
+The results from a comparison between the standard PCA and the K-PCA classification algorithms are presented in Figure~\ref{fig:performanceCompareKPCAPCA.pdf}. Figure~\ref{fig:performanceCompareKPCAPCA.pdf}(a) and (b) shows the results from testing clean data and the noisy data respectively. For the 9 spot model the random chance result is shown as a dashed line well below all performance results. The performance of K-PCA appear less affected by the noisy environment than the standard approach with a mean decrease in accuracy of about 3 percentage points (pp) as opposed to a decrease of 6 pp for the standard PCA approach. A complete list of results used in Figure~\ref{fig:performanceCompareKPCAPCA.pdf} can be found in appendix~\ref{ap:KPCAresults}.
+
+\begin{figure} %performanceCompareKPCAPCA.pdf
+\begin{minipage}[b]{1.0\linewidth}
+  \centering
+  \centerline{\includegraphics[width=13cm]{performanceCompareKPCAPCA.pdf}
+  \begin{picture}(0,0)
+\put(-335,295){(a)}
+\put(-335,145){(b)}
+\end{picture}}
+\end{minipage}
+\caption{Comparison of PCA and K-PCA (variable amplitude PCA model) methods with varying discrete scaling values $L$. (a) on clean data, (b) on noisy data.)}\label{fig:performanceCompareKPCAPCA.pdf}
 \end{figure}
 
 \section{Discussion}
@@ -536,13 +630,21 @@ Figure~\ref{fig:PCAMLMAPperform} gives a definitive insight into the relative pe
 
 Although no quantifiable results of the performance of the interpolated training algorithm exist, preliminary tests show that the system is able to detect some off- grid points with relative success in certain very specific regions of the board, but for the most part the results are fairly random. It is thought that this performance is due to problems with either alignment or more erratic and unpredictable pulses arising from certain regions. The common feature of multiple high probability regions observed in Figure~\ref{fig:padPlot} is more than likely due to symmetry in the mechanical structure being reflected in the vibrational characteristics of the device. The issue of the structural symmetry is thought to specifically be an issue on the wooden board due to its mechanical uniformity, although the intensity map does generally show the correct tapping position with higher probabilities than the other peaks created by symmetry.
 
-\section{Conclusions}
+The proposed variable amplitude modification to the PCA algorithm (K-PCA) has shown in Figure~\ref{fig:performanceCompareKPCAPCA.pdf} to outperform the standard PCA approach and is consistently more resilient to the noisy environment. The results also showed that while the method performed significantly worse than PCA with a single amplitude scale ($L=1$) the classification performance overtook PCA by $L=5$. Above $L=20$ no discernable performance increase noted. While not specifically measured, it was noted during testing that the K-PCA method was computationally intensive in relation to PCA. Preliminary profiling suggests that this was predominantly due to linear factors associated with the number of scales $L$ and could potentially be overcome with computational and parallel optimization. 
 
-The algorithms presented in this report as part of the first year of the PhD, has shown promising performance. The multi-component approach to the classification algorithm has shown to provide robustness in light of uncertainty in the use of tapping tools and in fact provide better performance if allowed to train on varied data. The multi-component approach to acoustic pulse recognition has consistently outperformed the ML and MAP methods also presented in this report.
+\section{Conclusions}
+%Generally rewrite conclusions
+The algorithms presented in this report as part of the first year of the PhD, has shown promising performance. The multi-component approach to the classification algorithm has shown to provide robustness in light of uncertainty in the use of tapping tools and in fact provide better performance if allowed to train on varied data. The multi-component approach to acoustic pulse recognition has consistently outperformed the ML and MAP methods also presented here.
 
 A range of possible extensions to the models and algorithms have been identified in the literature, and new ideas and extensions have been outlined and included in the time plan for the further research. Further studies into the nature of the variations observed in tapping data will provide further inspiration on extensions combined with the extensions outlined in the time plan should provide a suitable PhD project.
 
 \subsection{Possible future work}
+
+% Improve and extend Sparse Training to PCA
+
+% Focus more of the additional work on the K-PCA method and evaluate missed detections and general sensitivity.
+
+% Perform tonal pre processing
 
 % ------------------------------------------------------------------------
 
