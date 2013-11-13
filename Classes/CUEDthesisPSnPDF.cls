@@ -42,6 +42,7 @@
 \usepackage{ifthen}
 \usepackage{ifpdf}
 \usepackage{pgf}
+\usepackage{multirow}
 \usepackage{StyleFiles/chapterx}
 \usepackage{color}
 \usepackage{fixltx2e}

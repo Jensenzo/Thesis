@@ -1,0 +1,43 @@
+\chapter{Amplitude variable PCA results}\label{ap:KPCAresults}
+Table~\ref{tab:KAPRresultsClean} and \ref{tab:KAPRresultsNoisy} presents all collected data from the comparison between the standard PCA classification method and the amplitude variable PCA method (K-PCA). The average results are presented in Figure~\ref{fig:performanceCompareKPCAPCA.pdf}(a) and \ref{fig:performanceCompareKPCAPCA.pdf}(b) for the clean data and noisy data tests respectively. It is noted that a total of 79 clean samples and 48 noisy samples were tested. The three microphones/channels refer to independently trained and tested data and so the tests can be considered to be over $3 \times 79$ and $3 \times 48$ samples for the clean and noisy case respectively. 
+
+\def\baselinestretch{1.2}
+% Clean data
+\begin{table}[!b]\begin{center}
+\caption{Correct \% results for amplitude variable classification method with clean data.}
+\label{tab:KAPRresultsClean}
+\begin{tabular}{|l|l|c|c|c|c|c|c|}\cline{1-3}
+\multirow{4}{*}{Standard PCA}   & Average           & 89        & \multicolumn{5}{c}{ } \\ \cline{2-3}
+                                & - mic 1 $c = 1$   & 99        & \multicolumn{5}{c}{ } \\
+                                & - mic 2 $c = 2$   & 77        & \multicolumn{5}{c}{ } \\
+                                & - mic 3 $c = 3$   & 90        & \multicolumn{5}{c}{ } \\ \hline
+                                &                   & L=1       & L=5   & L=10  & L=20  & L=50  & L=100 \\ \hline
+\multirow{4}{*}{K amplitude PCA}& Average           & 51        & 90    & 91    & 93    & 94    & 94    \\ \cline{2-8}
+                                & - mic 1 $c = 1$   & 62        & 100   & 100   & 100   & 100   & 100   \\
+                                & - mic 2 $c = 2$   & 52        & 82    & 82    & 85    & 85    & 85    \\
+                                & - mic 3 $c = 3$   & 41        & 87    & 91    & 95    & 96    & 96    \\ \hline
+\end{tabular}\end{center}\end{table}
+
+
+% Noisy data
+\begin{table}[t]\begin{center}
+\caption{Correct \% results for amplitude variable classification method with noisy data.}
+\label{tab:KAPRresultsNoisy}
+\begin{tabular}{|l|l|c|c|c|c|c|c|}\cline{1-3}
+\multirow{4}{*}{Standard PCA}   & Average           & 83        & \multicolumn{5}{c}{ } \\ \cline{2-3}
+                                & - mic 1 $c = 1$   & 98        & \multicolumn{5}{c}{ } \\
+                                & - mic 2 $c = 2$   & 78        & \multicolumn{5}{c}{ } \\
+                                & - mic 3 $c = 3$   & 73        & \multicolumn{5}{c}{ } \\ \hline
+                                &                   & L=1       & L=5   & L=10  & L=20  & L=50  & L=100 \\ \hline
+\multirow{4}{*}{K amplitude PCA}& Average           & 44        & 87    & 90    & 92    & 91    & 90    \\ \cline{2-8}
+                                & - mic 1 $c = 1$   & 62        & 100   & 100   & 100   & 100   & 100   \\
+                                & - mic 2 $c = 2$   & 40        & 80    & 84    & 84    & 84    & 84    \\
+                                & - mic 3 $c = 3$   & 31        & 82    & 87    & 91    & 89    & 87    \\ \hline
+\end{tabular}\end{center}\end{table}
+
+% ------------------------------------------------------------------------
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:
