@@ -574,6 +574,7 @@ These methods all appear to have been applied indiscriminately to the data seque
 
 Realizing the power of both linear and non-linear approaches to non-stationary noise detection and restoration, a range of \emph{hybrid} approaches arose\cite{Nieminen1987a}\cite{Lee1985} \cite{Heinonen1987}. A Modified Trimmed Mean (MTM) filter, was found to outperform a standard median filter in the task of preserving naturally sharp edged in signals\cite{Lee1985}. The MTM filter quite simply replaces values of a frame with the average of a subframe selected around the outer frame's median value\cite{Lee1985}. An FIR Median Hybrid (FMH) filter was designed with the aim of outperforming the standard median filter computationally. The FMH filter was found to perform similarly the the standard median filter\cite{Heinonen1987}. Lastly the Adaptive Median Hybrid (AMH) filters, proposed in \cite{Nieminen1987a}, employ multiple substructures which was considered ``ideal for processing of signals with statistics which change abruptly''. The theory is that at least one of the substructures will have adapted to a local change in the signal characteristics, whereas short non-stationary changes will be omitted. For the examples presented, this approach conserved sharp local changes while a comparable Least Means Squares (LMS) filter did not\cite{Nieminen1987a}.
 
+From a computational perspective median filters involve a sequence of searching and sorting steps and despite dedicated hardware for these operations these procedures are generally computationally intensive\cite{Kundu1984}. A generalised mean implementation for black and white photos showed similar, and in some cases better, performance to the median filter while maintaining a distinct computational advantage\cite{Kundu1984}.
 
 %Lee: L and M filters + useful modification: MTM filter
 % "combine properties of both the linear and median filters"
@@ -598,8 +599,37 @@ Realizing the power of both linear and non-linear approaches to non-stationary n
 % Non-linear, minimum or maximum of neighborhood based on dark or bright spot. (Alajlan based on Windyga, good explanation of Windyga in Alajlan)
 In the field of image processing the median filter is still an integral part in most state-of-the-art impulsive noise filters\cite{Alajlan2004}. Other popular non-linear methods employed have been the maximum-minimum method\cite{Xu1998} and the peak-and-valley filter\cite{Windyga2001} and a modified maximum-minimum approach\cite{Alajlan2004} which aims apply a maximum-minimum approach to selected samples only. All these non-linear approaches were found to have similar performance but with median filter bearing a higher computational cost\cite{Alajlan2004}.
 
+% waveform substitution schemes
+%\cite{Goodman1986}\cite{Wasem1988}\cite{Niediwiecki2001}
+A more direct and heuristic approach to waveform and audio restoration of longer gaps is found in waveform substitution\cite{Goodman1986} or ``smart copying''\cite{Niediwiecki2001}. An audio segment immediately prior to a corruption is used as a template for finding a segment earlier in the segment which matches it. It is assumed that what follows the best match for the template will be a good substitute for the corrupted segment. Given that speech signals ``display quasi-stationary intervals''\cite{Goodman1986} this algorithm produces feasibly looking results given that the corruption does not straddle regions with high-energy voiced speed, low-level unvoiced speech or silence\cite{Goodman1986}. Waveform substitution has been confirmed through several objective listening tests to have ``satisfactory'' results\cite{Niediwiecki2001}. In addition the method excels by being computationally simple\cite{Niediwiecki2001}. 
+
+%pitch detection
+An extension of the basic waveform substitution algorithm an additional pitch detection extension was proposed. If a pitch estimate is available the pitch period prior to the corruption may be reproduced throughout the corruption\cite{Goodman1986}. No direct results were presented to quantify the performance of this addition but a later publication ranks a pitch waveform replication algorithm as the producing the highest quality results based on subjective tests\cite{Wasem1988}. In this test the method was compared with a simple silence insertion and packet repetition algorithms suffering from obviously audible discontinuities\cite{Goodman1986} in addition to one and two-sided waveform substitution algorithms\cite{Goodman1986}. It was noted that while the pitch waveform replicator produced the highest quality results it was not the most computationally complex nor did it produce the longest delays of the tested algorithms\cite{Wasem1988}. 
+
 %literature review
 \subsection{Linear approaches}
+%Skip
+% Band limited extrapolation/band-limited interpolation
+%\cite{Papoulis1975}\cite{Ferreira2001}
+
+In speech signals a popular and successful method of interpolation is the autoregressive (AR) approach\cite{Vaseghi1988thesis}\cite{Godsill1998book}. An early approach using this method demonstrated that this method produced satisfactory results for specifically speech signals, based on both objective and subjective results, and furthermore established the feasibility of real-time implementation of such methods\cite{Janssen1986}. Independent development applied the methods to audio restoration applications\cite{Vaseghi1988thesis}\cite{Vaseghi1990}.
+
+Later extensions provided a least squares (LS) a maximum \emph{a posteriori} (MAP) interpretation of AR the model\cite{Godsill1998book}. In general many authors have considered linear predictive coding (LPC) and AR models for audio and speech data\cite{Vaseghi1990}\cite{Czyzewski1995}\cite{Godsill1998}
+
+%Vaseghi thesis!
+
+% and AR-based interpolators
+\cite{Godsill1998book} \cite{Vaseghi1988thesis} \cite{Janssen1986}
+
+
+
+% AR
+\cite{Janssen1986}
+% P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002. \cite{Esquef2002a}
+%|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects (DAFx-03), pp. 18-23 London, UK, September 8-11, 2003.
+\cite{Esquef2003}
+
+
 % LSE estimates with LPC model. Long term correlation structure
 \cite{Vaseghi1990}
 
@@ -613,28 +643,12 @@ In the field of image processing the median filter is still an integral part in 
 %nature of glottal excitation and provides better estimates
 %than the existing method."
 
-%Vaseghi thesis!
 
 
-%KUNDA, A.: â€˜Applications of a two dimensional generalised mean
-%filtering for removal of impulsive noise from imagesâ€™, IEEE 7rans.,
-%ASP-23, (6), 1984, pp. 552-557
-\cite{Kundu1984}
-%Weighted mean, black and white photos, very simple!
-%
 
 
-% AR
-\cite{Janssen1986}
-% P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002. \cite{Esquef2002a}
-%|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects (DAFx-03), pp. 18-23 London, UK, September 8-11, 2003.
-\cite{Esquef2003}
 
-% Band limited extrapolation/band-limited interpolation
-\cite{Papoulis1975}\cite{Ferreira2001}
 
-% waveform substitution schemes
-\cite{Goodman1986} \cite{Niediwiecki2001}
 
 % interpolators based on sinusoidal modeling
 \cite{Maher1994}\cite{Godsill1998book}
@@ -642,8 +656,7 @@ In the field of image processing the median filter is still an integral part in 
 % subband methods
 \cite{Montresor1991} \cite{Cocchi2001}
 
-% and AR-based interpolators
-\cite{Godsill1998book} \cite{Vaseghi1988thesis} \cite{Janssen1986}
+
 
 %Low frequency pulse corruption:
 %|P. A. A. Esquef, L. W. P. Biscainho, and V. Välimäki, "An Efficient Algorithm for the Restoration of Audio Signals Corrupted with Low-Frequency Pulses", Journal of the Audio Engineering Society, vol. 51, no. 6, pp. 502-517, June 2003
