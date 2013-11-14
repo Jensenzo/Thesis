@@ -792,8 +792,18 @@ Results presented in this and the preceding chapter shows that a successful dete
 
 %% Future research
 \subsection{Possible future work}
-%- Investigate this discrepancy between perceivability and nuisance for artificial and natural noise
 %- For a multi-channel system, use pulse ques to guide restoration
+\subsubsection{Multi-channel extension}
+Future work proposed in the detection chapter (\ref{ch:TransientNoiseDetection}) featured the use of multiple channels for detection. With additional channels restoration performance could feasibly also be increased in a variety of ways depending on the implementation of the additional channels. Assuming that additional channels could be considered reference sources for either the pulse or the speech could provide valuable cues in relation to tonal components of relevance and noise-related components. A simple restoration approach could simply involve subtraction, possibly given some alteration, of the channels, which could, in the case of a good speech reference, form the basis of an alternative to the pre processing separation stage.
+
+\subsubsection{Modified LSAR restoration algorithms}
+Based on the work presented in \cite{Esquef2006} sequential implementations of the energy adjusted LSAR algorithms could form the basis of better sounding restoration algorithms for the residual component of the signal.
+
+\subsubsection{Correct detection verification}
+Post restoration a comparison of the restored and original signal should reveal a significant decrease in maximum MSE or other objective metric. This in turn could provide a useful way of confirming that a detection was in fact caused by a noise pulse and therefore justified.
+
+%- Investigate this discrepancy between perceivability and nuisance for artificial and natural noise
+
 
 % ------------------------------------------------------------------------
 
