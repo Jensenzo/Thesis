@@ -526,7 +526,7 @@ For each method and for each environment an average of the performance of the th
 
 \section{Results}\label{sec:results}
 \subsection{ML, MAP and PCA methods}
-In this section the empirical evaluations of the methods mentioned above will be presented. 
+In this section the empirical evaluations of the methods mentioned above will be presented.
 
 Figure~\ref{fig:PCAperform} shows the performance of the PCA type algorithm using the training data $D^1_S$ and the testing data $D^2_S$. The figure gives an idea of how the performance changes with changing number of components $q$ used in the templates. Figure~\ref{fig:PCAperform} clearly shows that the rate of correct classification is beyond 90\% down to 2 components whereafter it drops of sharply to below 10 \%. It is noted that the performance drops to around 8\% which is exactly what would be expected by a random guess or the prior knowledge $p(j)= \frac{1}{J}$. A decrease in performance is detectable from 4 components and down, whereas the performance for 5 components and more appears constant.
 
@@ -630,22 +630,32 @@ Figure~\ref{fig:PCAMLMAPperform} gives a definitive insight into the relative pe
 
 Although no quantifiable results of the performance of the interpolated training algorithm exist, preliminary tests show that the system is able to detect some off- grid points with relative success in certain very specific regions of the board, but for the most part the results are fairly random. It is thought that this performance is due to problems with either alignment or more erratic and unpredictable pulses arising from certain regions. The common feature of multiple high probability regions observed in Figure~\ref{fig:padPlot} is more than likely due to symmetry in the mechanical structure being reflected in the vibrational characteristics of the device. The issue of the structural symmetry is thought to specifically be an issue on the wooden board due to its mechanical uniformity, although the intensity map does generally show the correct tapping position with higher probabilities than the other peaks created by symmetry.
 
-The proposed variable amplitude modification to the PCA algorithm (K-PCA) has shown in Figure~\ref{fig:performanceCompareKPCAPCA.pdf} to outperform the standard PCA approach and is consistently more resilient to the noisy environment. The results also showed that while the method performed significantly worse than PCA with a single amplitude scale ($L=1$) the classification performance overtook PCA by $L=5$. Above $L=20$ no discernable performance increase noted. While not specifically measured, it was noted during testing that the K-PCA method was computationally intensive in relation to PCA. Preliminary profiling suggests that this was predominantly due to linear factors associated with the number of scales $L$ and could potentially be overcome with computational and parallel optimization. 
+The proposed variable amplitude modification to the PCA algorithm (K-PCA) has shown in Figure~\ref{fig:performanceCompareKPCAPCA.pdf} to outperform the standard PCA approach and is consistently more resilient to the noisy environment. The results also showed that while the method performed significantly worse than PCA with a single amplitude scale ($L=1$) the classification performance overtook PCA by $L=5$. Above $L=20$ no discernable performance increase noted. While no formal results are presented, it was noted during testing that the K-PCA method was computationally intensive in relation to PCA. Preliminary profiling suggests that this was due to linear factors associated with the number of scales $L$ making the K-PCA algorithm with $L=20$ approximately 20 times slower. For the other approaches tested the computational time were all comparable.
 
 \section{Conclusions}
-%Generally rewrite conclusions
-The algorithms presented in this report as part of the first year of the PhD, has shown promising performance. The multi-component approach to the classification algorithm has shown to provide robustness in light of uncertainty in the use of tapping tools and in fact provide better performance if allowed to train on varied data. The multi-component approach to acoustic pulse recognition has consistently outperformed the ML and MAP methods also presented here.
+%rewriten
+From the results presented in this chapter it is clear that it is possible to implement a system as proposed. All algorithms proposed outperform random chance by a margin and give false classifications in less than 10\% of the tests in ideal situations. For tangible primary interface technology a classification rate of 100\% or near 100\% should necessarily be required in addition to higher active spot resolution and stronger resilience to environmental and tapping types. While the requirements for a direct touch-screen replacement might be out of reach for this current implementation, it is possible to either let the technology serve as an off-the-screen touch augmentation, or perhaps in classification applications on recorded data where post-hoc training is possible. 
 
-A range of possible extensions to the models and algorithms have been identified in the literature, and new ideas and extensions have been outlined and included in the time plan for the further research. Further studies into the nature of the variations observed in tapping data will provide further inspiration on extensions combined with the extensions outlined in the time plan should provide a suitable PhD project.
+%difficult situations
+Despite reduced correct classification rates on highly variable testing and training data for the case of the MAP and ML algorithms, Figure~\ref{fig:PCAMLMAPperform}(a) and (c) showed that the PCA algorithm increased its performance with a larger training and testing basis as hypothesised. For the unfamiliar testing data in Figure~\ref{fig:PCAMLMAPperform}(b) the PCA algorithm did although perform similarly to the other algorithms.
+
+For large a large number of models $J$ a manual training task quickly becomes laborious and a high resolution touch interface, similar to current touchscreen technologies, requires the implementation of the sparse training extension. Early results show that some interpolation between discrete points is possible but due to the homogeneous nature of the surface used, competing feasible classes may have been more numerous than with a less homogeneous material. This could on the other hand increase the difficulty of interpolation between spots for the ML and MAP approaches.
+
+Computational constraints on implementation of multiple models/spots $J$ or amplitude scales $L$ in the case of K-PCA could in part be mitigated by computational optimization realizing that all added complexity is parallelizable.
 
 \subsection{Possible future work}
-
+% Better PCA component choices
 % Improve and extend Sparse Training to PCA
+\subsubsection{Sparse Training applied to PCA and common PCA components}
+The preliminary study of the sparse training extension showed that this approach is possible with even the simplest interpolation approaches. A study into the extent to which individual components in the PCA approach vary over a surface could lead to a straight forward PCA implementation of the sparse training approach. While this first approach assumes that equivalent components are identifiable at neighbouring active spots, it might be easier to achieve this goal by drawing the random components from an ensemble of the entire training set data (i.e. from all models) and then identifying their contribution in each model. This would have the additional advantage of compressing the training data needed and possibly also provide a different approach to filtering out non-essential components for classification.
 
 % Focus more of the additional work on the K-PCA method and evaluate missed detections and general sensitivity.
+\subsubsection{Additional K-PCA evaluation}
+While the PCA algorithm represents the best approach that was extensively tested in this chapter, the K-PCA did outperform PCA on pure classification performance. While the underlying K-PCA model does at least theoretically model pulses of varying amplitudes it is also possible that this added flexibility will have increased the model's response to other kinds of noise. Further studies should focus on comparing the two algorithms's general sensitivity to establish a margin between correct and false detections. Given dedicated detection algorithms proposed here and later in this work, this specific margin might although not be of ultimate importance.
 
 % Perform tonal pre processing
-
+\subsubsection{Separation pre-processing stage}
+Figure~\ref{fig:performanceCompareKPCAPCA.pdf} provided a clear indication that the noisy environment made the classification scenario more difficult. In light of this it is possible that the separation pre processing stage developed in section~\ref{sec:WPseparation} could provide improved resilience to music and speech which is well modeled in this fashion. Removing spurious tonal components may even increase classification performance by removing more general standing waves within the device in question.
 % ------------------------------------------------------------------------
 
 
