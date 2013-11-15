@@ -233,9 +233,8 @@ in which the $d$-dimensional observations vector \textbf{t} is related to a corr
 
 \cite{Lawrence2005} presents an extended PPCA model based on the work of \cite{Tipping1999} termed Dual Probabilistic PCA (DPPCA). The DPPCA method can, through Gaussian processes, nonlinearize the linear mappings from the embedded space and hence provide new probabilistic approach to visualizing and modeling of high dimensional data.
 
-\subsection{Multichannel APR}
-White paper \cite{TouchSystems2006}
-Patent family \cite{US7411581}
+\todo{ADD new stuff}
+\cite{Burke2013}
 
 \section{Detection}\label{sec:LitRev_Detection}
 Any restoration of transient noise events presupposes complete knowledge of the position of the corruption. In practice this information is unknown \emph{a priori} and a detection procedure must be employed to ascertain the timing of the corruptions. As noted in this section, a large number of different approaches to transient noise detection has been studied, and since there are as many types of transient noise as there are data that can be corrupted by it, the detection methods range from simple \emph{ad hoc} filtering approaches to more complicated model based approaches.
@@ -334,6 +333,10 @@ where $\lambda, -1 < \lambda < 1$, is a warping parameter which, if chosen appro
 
 Warped digital filters have a range of advantages in that they can be designed to model the human auditory system as well as other physical systems\cite{Karjalainen1997}. In \cite{Esquef2002} the authors note that for auditory models the warping factor $\lambda$ tend to be positive while for click detection negative warping factors appeared to perform best. It was also noted that pulse detection using WLP came at a computational cost and was therefore not suited for real time implementations. As in \cite{Godsill1998book} the authors of \cite{Esquef2002} only considered pulses with duration of $<1 ms$, for which the WLP based method performs well. This is largely believed to be caused by spectral characteristics also exploited in \cite{Kasparis1993}\cite{US6795559}, although the signals in \cite{Esquef2002} were not exclusively corrupted speech data and can therefore not be assumed to be spectrally sparse at high frequencies.
 
+
+%|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects (DAFx-03), pp. 18-23 London, UK, September 8-11, 2003.
+
+Warped-based methods evaluated via objective measures have although been found to only be advantageous for lower model orders while only being as good as conventional schemes otherwise\cite{Esquef2003}\cite{Esquef2003a}. Furthermore it is reported that warped-based methods increase the number of floating-point operations by around 77\%\cite{Esquef2003}.
 \subsection{Frequency methods}
 Others have attempted to use the STFT as a basis for detection \cite{Czyzewski1995}\cite{Subramanya2007}\cite{Sugiyama2007} causing problems such as loss of temporal resolution of detections at moderate frame sizes, loss of spectral resolution for smaller frame size and computational inefficiency using extensive overlapping of frames. The authors of \cite{Subramanya2007} propose an algorithm for detection of keystroke noise on laptop computers and recognise the temporal and spectral variability in the noise pulses causes methods based on noise models and stationarity assumptions to perform poorly. Instead the authors propose to exploit the ``smoothness in speech signals present across time'' and the relative spectral sparsity of speech signals compared to keystroke noise pulses with a simple linear predictive model across each frequency bin. Their model assumes that
 
@@ -354,6 +357,7 @@ F_t = - \frac{1}{2} \sum_k \frac{1}{\sigma^2_{tk}} \left( S\left(k,t\right) - \s
 where $C_{tk}$ is a constant.
 \subsection{Hidden Markov Model (HMM)}
 \todo{Add information about the HMM and Viterbi in particular}
+\cite{Rabiner1989}\cite{Viterbi1967}\cite{Forney1973}
 
 \subsubsection{Time-Frequency processing}
 Since the object of interest in our detection efforts is inherently transient and therefore localised in time, it is a significant shortcoming of classic Fourier analysis that it provides no such temporal information. The basics of time-frequency processing is the correlation of a signal with a family of waveforms that are well concentrated in time as well as in frequency\cite{Mallat1999} also called \emph{time-frequency atoms}\cite{Gabor1946}. The popular STFT used in numerous applications dates back to 1946 and the introduction of the windowed Fourier atoms to measure the ``frequency variations'' of sound. Given the real and symmetric window
@@ -505,7 +509,7 @@ Figure~\ref{fig:LitRev_DWTtree.pdf} shows a three level wavelet decomposition.
 \label{fig:LitRev_DWTtree.pdf}
 \end{figure}
 
-The multi-resolution properties of the wavelet transform has made the Wavelet transform popular in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands\cite{Sinha1993}\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Tzanetakis2001}\linebreak[0]\cite{Zurera2001}\linebreak[0]\cite{Lin2005}\cite{Nongpiur2008}. Equally the computational efficiency of the discrete wavelet transform is cited\cite{Kadambe1992} as a significant advantage over the FFT with an $O(N)$ complexity compared to\linebreak[0] $O(N\mathrm{log}(N)$ for FFT\cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}. Several authors propose wavelets used as a bases for audio classification applications\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005} and report that a specific advantage of the wavelet basis is its compact representation compared to the time domain signal which decreases processing delay/cost\cite{Lambrou1998}.
+The multi-resolution properties of the wavelet transform has made the Wavelet transform popular in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands\cite{Sinha1993}\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Biscainho2000}\linebreak[0]\cite{Tzanetakis2001}\linebreak[0]\cite{Zurera2001}\cite{Lin2005}\cite{Nongpiur2008}. Equally the computational efficiency of the discrete wavelet transform is cited\cite{Kadambe1992} as a significant advantage over the FFT with an $O(N)$ complexity compared to\linebreak[0] $O(N\mathrm{log}(N)$ for FFT\cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}. Several authors propose wavelets used as a bases for audio classification applications\cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005} and report that a specific advantage of the wavelet basis is its compact representation compared to the time domain signal which decreases processing delay/cost\cite{Lambrou1998}.
 
 An early wavelet based click detection algorithm proposes to detect clicks by analysing the wavelet coefficients of the signal for discontinuities\cite{Czyzewski1995}. The authors apply a neural network algorithm to robustly detect and classify pulses although the authors note that the required training stage is both ``a complex and time-consuming procedure''. While not explicitly discussed the authors appear to be targeting extremely short time pulses of the order of 1 or 2 samples, or what they call ``parazite impulses''.
 
@@ -530,14 +534,14 @@ In a recent study comparing the WPT to other spectrum estimation techniques it w
 
 The authors of \cite{He2008} developed a psychoacoustic model based around the WPT and found that not only was the WPT computationally more efficient than a Fourier transform-based alternative but it also provided a better spectral resolution. For psychoacoustic applications it was found that the generalization of the DWT yielded a better approximation of the critical bands employed\cite{Carnero1999}\cite{He2008} compared to similar DWT based models\cite{Sinha1993}\cite{Zurera2001}.
 
-\todo{Add literature review on HMM?}
+%\todo{Add literature review on HMM?}
 
 \section{Restoration}\label{sec:LitRev_Restoration}
 The restoration of corrupted speech and audio samples by a localised degradation, also referred to as clicks or noise pulses, has inspired much research and many approaches. Corruptions can generally be seen to have varying severity. Clicks and pulses have traditionally been treated as completely corrupted or essentially missing samples transforming the restoration task into one of interpolation of missing samples\cite{Tukey1974}\cite{Tukey1977}\cite{Godsill1998book}.
 
 An exhaustive review of the methods employed in the field up until the year of publishing in 1992 can be found in \cite{Veldhuis1992}. A summary of relevant methods and more recent methods are provided in this section. While the focus of this thesis is the interpolation of audio segments, as with the detection task, some methods or related approaches can be found in the field of image restoration of localised corruptions or other 1 and 2 dimensional implementations.
 
-\subsection{Nonlinear approaches}
+\subsection{Nonlinear approaches}\label{sec:LitRev_RestorationNonLin}
 As noted in section~\ref{sec:LitRevDetMedianFilts}, a classic pulse detection approach in both audio and image processing has been by median filtering. Equally, many of the approaches mentioned previously employ median based approaches for restoring the detected pulses\cite{Tukey1974}\cite{Lee1985}\cite{Heinonen1985}\cite{Heinonen1987}\cite{Maekivirta1991}\cite{Kasparis1993}\cite{Alajlan2004}. In \cite{Bovik1983} it was shown that the optimal Order Statistics Filter (OSF) tends towards a median filter as the noise becomes increasingly impulsive, and that in particular the median filter is effective when the pulse length is less than half the median window size\cite{Alajlan2004}.
 
 Much of the early work on nonlinear digital smoothing followed the original proposed algorithm by Tukey\cite{Tukey1974}. Following this publication the algorithm, in combination with linear filtering, was applied to speech signals and was found to perform reasonably\cite{Rabiner1975}. The authors noted that the median filter alone, although successful in the preservation of sharp discontinuities not associated with noise, failed to provide sufficient smoothing and was therefore paired with a simple 3-point linear filter. In addition the authors described a double smoothing algorithm which attempted to isolate noisy segments and re-subtract them.
@@ -606,68 +610,24 @@ A more direct and heuristic approach to waveform and audio restoration of longer
 %pitch detection
 An extension of the basic waveform substitution algorithm an additional pitch detection extension was proposed. If a pitch estimate is available the pitch period prior to the corruption may be reproduced throughout the corruption\cite{Goodman1986}. No direct results were presented to quantify the performance of this addition but a later publication ranks a pitch waveform replication algorithm as the producing the highest quality results based on subjective tests\cite{Wasem1988}. In this test the method was compared with a simple silence insertion and packet repetition algorithms suffering from obviously audible discontinuities\cite{Goodman1986} in addition to one and two-sided waveform substitution algorithms\cite{Goodman1986}. It was noted that while the pitch waveform replicator produced the highest quality results it was not the most computationally complex nor did it produce the longest delays of the tested algorithms\cite{Wasem1988}. 
 
-%literature review
-\subsection{Linear approaches}
+A similar heuristic pitch based approach proposes to model speech as a series of spectral peak tracks that are ``born'' and ``die'' employing the short time Fourier transform (STFT)\cite{Maher1994}. First proposed be \cite{McAulay1986} this method has since then been referred to as MQ representation (after the authors' names) and been applied to the task of speech interpolation\cite{Maher1994}. Many other authors have applied sinusoidal models for speech modeling in a variety of applications\cite{Godsill1998book}\cite{Vera-Candeas2003}\cite{Wells2006} which attempts in some cases to generalize the glottal excitation model in speech\cite{McAulay1986}. 
+%other sinusoidal based approaches
+
+% P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002. \cite{Esquef2002a}
+
+\subsection{Linear approaches}\label{sec:LitRev_RestorationLin}
 %Skip
 % Band limited extrapolation/band-limited interpolation
 %\cite{Papoulis1975}\cite{Ferreira2001}
 
-In speech signals a popular and successful method of interpolation is the autoregressive (AR) approach\cite{Vaseghi1988thesis}\cite{Godsill1998book}. An early approach using this method demonstrated that this method produced satisfactory results for specifically speech signals, based on both objective and subjective results, and furthermore established the feasibility of real-time implementation of such methods\cite{Janssen1986}. Independent development applied the methods to audio restoration applications\cite{Vaseghi1988thesis}\cite{Vaseghi1990}.
+In speech signals a popular and successful method of interpolation is the autoregressive (AR) approach\cite{Vaseghi1988thesis}\cite{Godsill1998book}\cite{Kauppinen2002b}. An early approach using this method demonstrated that this method produced satisfactory results for specifically speech signals, based on both objective and subjective results, and furthermore established the feasibility of real-time implementation of such methods\cite{Janssen1986}. Independent development applied the methods to audio restoration applications\cite{Vaseghi1988thesis}\cite{Vaseghi1990}.
 
-Later extensions provided a least squares (LS) a maximum \emph{a posteriori} (MAP) interpretation of AR the model\cite{Godsill1998book}. In general many authors have considered linear predictive coding (LPC) and AR models for audio and speech data\cite{Vaseghi1990}\cite{Czyzewski1995}\cite{Godsill1998}
+Typically longer stretches of audio interpolation has been difficult applications for AR models\cite{Veldhuis1992}\cite{Kauppinen2002b}, but modified AR based models have been applied to the pure extrapolation problem with some success to longer gaps\cite{Kauppinen2002b}. The basic AR models, and later least squares (LS) AR extensions\cite{Godsill1998book}, have also been paired with synthesis filters designed to excite the AR model to achieve longer gap extrapolation with lower model orders\cite{Esquef2006}. This method achieves comparable perceptual quality to higher order AR models given significantly lower model complexity\cite{Esquef2006}.
 
-%Vaseghi thesis!
-
-% and AR-based interpolators
-\cite{Godsill1998book} \cite{Vaseghi1988thesis} \cite{Janssen1986}
-
-
-
-% AR
-\cite{Janssen1986}
-% P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002. \cite{Esquef2002a}
-%|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects (DAFx-03), pp. 18-23 London, UK, September 8-11, 2003.
-\cite{Esquef2003}
-
-
-% LSE estimates with LPC model. Long term correlation structure
-\cite{Vaseghi1990}
-
-
-
-% LPC and maybe more (meta analysis)
-\cite{Czyzewski1995}
-
-%\cite{Vaseghi1990}: LPC. "An interpolation algorithm was
-%described that takes advantage of the quasi-periodic
-%nature of glottal excitation and provides better estimates
-%than the existing method."
-
-
-
-
-
-
-
-
-% interpolators based on sinusoidal modeling
-\cite{Maher1994}\cite{Godsill1998book}
-
-% subband methods
-\cite{Montresor1991} \cite{Cocchi2001}
-
-
-
-%Low frequency pulse corruption:
-%|P. A. A. Esquef, L. W. P. Biscainho, and V. Välimäki, "An Efficient Algorithm for the Restoration of Audio Signals Corrupted with Low-Frequency Pulses", Journal of the Audio Engineering Society, vol. 51, no. 6, pp. 502-517, June 2003
-\cite{Esquef2003a}
-
-%Wavelet Shrinkage:
-%|L. W. P. Biscainho, F. P. Freeland, P. A. A. Esquef, and P. S. R. Diniz, "Wavelet Shrinkage De-noising Applied to Real Audio Signals under Perceptual Evaluation," in Proc. X European Signal Processing Conf. (EUSIPCO 2000), pp. 2061-2064, Tampere, Finland, September 2000.
-\cite{Biscainho2000}
+In general many authors have considered linear predictive coding (LPC) and AR models for audio and speech data\cite{Vaseghi1990}\cite{Czyzewski1995}\cite{Godsill1998}. A more comprehensive review of AR, LPC and warped-based methods were covered in section~\ref{sec:LitRevAR} from the perspective of modeling speech and audio in the detection application.
 
 %An Efficient Model-Based Method for Reconstruction of Audio Signals Across Long Gaps
-\cite{Esquef2006} (based on \cite{Kauppinen2002a})
+%\cite{Esquef2006} (based on \cite{Kauppinen2002a} and \cite{Kauppinen2002b})
 % The use of a maximally-decimated filterbank renders easier
 %the interpolation task within a subband. This is due to the decreased
 %number of resonance modes to be modeled, allowing
@@ -682,7 +642,29 @@ Later extensions provided a least squares (LS) a maximum \emph{a posteriori} (MA
 %to solve for the unknown samples within a given gap
 %[15]. In the ideal case of a null modeling error, the resulting interpolated
 %signal would be determined mainly by the impulse
-%response of the AR model.
+%response of the AR model.%
+
+
+%\cite{Vaseghi1990}: LPC. "An interpolation algorithm was
+%described that takes advantage of the quasi-periodic
+%nature of glottal excitation and provides better estimates
+%than the existing method."
+
+% interpolators based on sinusoidal modeling
+%\cite{Maher1994}\cite{Godsill1998book}
+
+% subband methods
+%\cite{Montresor1991} \cite{Cocchi2001}
+
+%Low frequency pulse corruption:
+%|P. A. A. Esquef, L. W. P. Biscainho, and V. Välimäki, "An Efficient Algorithm for the Restoration of Audio Signals Corrupted with Low-Frequency Pulses", Journal of the Audio Engineering Society, vol. 51, no. 6, pp. 502-517, June 2003
+%\cite{Esquef2003a}
+
+%Wavelet Shrinkage:
+%|L. W. P. Biscainho, F. P. Freeland, P. A. A. Esquef, and P. S. R. Diniz, "Wavelet Shrinkage De-noising Applied to Real Audio Signals under Perceptual Evaluation," in Proc. X European Signal Processing Conf. (EUSIPCO 2000), pp. 2061-2064, Tampere, Finland, September 2000.
+%\cite{Biscainho2000}
+
+%
 
 %\subsection{Median filtering}
 
@@ -693,7 +675,7 @@ Later extensions provided a least squares (LS) a maximum \emph{a posteriori} (MA
 % A comprehensive review of restoration methods can be found in \cite{Veldhuis1992}
 
 %\section{Residual Restoration}
-A variety of restoration algorithms have been tested for the restoration of the residual audio component. Based on the nature of the detection algorithm, the restoration step can be done either on the wavelet coefficients or on the time series data.
+%A variety of restoration algorithms have been tested for the restoration of the residual audio component. Based on the nature of the detection algorithm, the restoration step can be done either on the wavelet coefficients or on the time series data.
 
 \todo{something more}
 
