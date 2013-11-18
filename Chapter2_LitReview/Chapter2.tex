@@ -361,8 +361,50 @@ F_t = - \frac{1}{2} \sum_k \frac{1}{\sigma^2_{tk}} \left( S\left(k,t\right) - \s
 where $C_{tk}$ is a constant.
 
 \subsection{Hidden Markov Model (HMM)}
-\todo{Add information about the HMM and Viterbi in particular}
-\cite{Rabiner1989}\cite{Viterbi1967}\cite{Forney1973}
+While some detection algorithms quite simply base detections on magnitudes of some parameter\cite{Subramanya2007}\cite{Sugiyama2007} in some situations it may be advantageous to attempt to model, probabilistically, the evolution of a sequence of hidden states. For this application the hidden Markov model (HMM) is considered effective\cite{Rabiner1989}\cite{Xu2005}.
+
+It is beyond the scope of this work to give a comprehensive introduction to HMM but particularly this source \cite{Rabiner1989} is a good introduction to HMM in the field of speech processing.
+
+%Viterbi
+The Viterbi algorithm, first proposed in 1967\cite{Viterbi1967}, is a recursive optimal solution to the problem of estimating the state sequence of a discrete-time finite-state Markov process\cite{Forney1973}. Originally developed as a method for decoding convolutional codes 
+from language identification \cite{Nagarajan2004}
+
+
+
+Given an observation of a sequence $y \in \{y_1,\ldots,y_K\}$ the Viterbi algorithm's goal is to find the most probable sequence of states $S \in \{S_0,\ldots,S_K \}$ given these observations assuming the successive Markov state probabilities $Pr(S_{k-1} \rightarrow S_{k})$ as well as the output probabilities $p(y_k | S_{k-1} \rightarrow S_{k})$ are mutually independent for $k$. The likelihood function for the path from $k=1$ to $k=K$ is given by
+
+\begin{equation}\label{eq:viterbiLitRev}
+L = \prod_{k=1}^K Pr(S_{k-1} \rightarrow S_{k}) p(y_k | S_{k-1} \rightarrow S_{k}).
+\end{equation}
+
+Typically the the logarithm is here considered due to computational concerns:
+\begin{equation}\label{eq:viterbiLitRev2}
+\log{\left(L\right)} = \sum_{k=1}^K m(y_k ; S_{k-1}, S_{k}),
+\end{equation}
+
+where $m$ is the \emph{branch metric} between two states $S_{k-1}, S_{k}$ defined as
+
+\begin{equation}\label{eq:viterbiLitRev3}
+m(y_k ; S_{k-1}, S_{k}) = \log{\left( Pr(S_{k-1} \rightarrow S_{k}) \right)} + \log{\left( p(y_k | S_{k-1} \rightarrow S_{k}) \right)}. 
+\end{equation}
+
+The maximum \emph{state metric} $M_K(S^i)$ over all paths leading from the origin to the $i$th state and $K$th node $S_K^i$ is defined as 
+
+\begin{equation}\label{eq:viterbiLitRev4}
+M_K(S^i) = \max \left{ \sum_{k=1}^{k-1} m(y_k ; S_{k-1}, S_{k}) + m(y_K ; S_{K-1}, S_{K}^i)\right},
+\end{equation}
+
+for all paths $S_0,\ldots, S_{K-1}$.
+To maximize this sum you can simply maximize the first $K-1$ terms for each state $S^j_{K-1}$ at the (K-1)th node, and then maximize the sum of this and the $K$th term over all states $S_{K-1}$. In other words:
+
+\begin{eqnarray}\label{eq:viterbiLitRev5}
+M_K(S^i) &=& \max \left{ M_{K-1}(S^i) + m(y_K ; S_{K-1}^j, S_{K}^i)\right}, \\ \nonumber
+& & S_{K-1}^j,
+\end{eqnarray}
+which is the expression at the heart of the Viterbi algorithm.\cite{Viterbi2006}
+
+%\todo{Add information about the HMM and Viterbi in particular}
+%\cite{Rabiner1989}\cite{Viterbi1967}\cite{Forney1973}
 
 \subsubsection{Time-Frequency processing}
 Since the object of interest in our detection efforts is inherently transient and therefore localised in time, it is a significant shortcoming of classic Fourier analysis that it provides no such temporal information. The basics of time-frequency processing is the correlation of a signal with a family of waveforms that are well concentrated in time as well as in frequency\cite{Mallat1999} also called \emph{time-frequency atoms}\cite{Gabor1946}. The popular STFT used in numerous applications dates back to 1946 and the introduction of the windowed Fourier atoms to measure the ``frequency variations'' of sound. Given the real and symmetric window
@@ -608,12 +650,12 @@ In the field of image processing the median filter is still an integral part in 
 
 % waveform substitution schemes
 %\cite{Goodman1986}\cite{Wasem1988}\cite{Niediwiecki2001}
-A more direct and heuristic approach to waveform and audio restoration of longer gaps is found in waveform substitution\cite{Goodman1986} or ``smart copying''\cite{Niediwiecki2001}. An audio segment immediately prior to a corruption is used as a template for finding a segment earlier in the segment which matches it. It is assumed that what follows the best match for the template will be a good substitute for the corrupted segment. Given that speech signals ``display quasi-stationary intervals''\cite{Goodman1986} this algorithm produces feasibly looking results given that the corruption does not straddle regions with high-energy voiced speed, low-level unvoiced speech or silence\cite{Goodman1986}. Waveform substitution has been confirmed through several objective listening tests to have ``satisfactory'' results\cite{Niediwiecki2001}. In addition the method excels by being computationally simple\cite{Niediwiecki2001}. 
+A more direct and heuristic approach to waveform and audio restoration of longer gaps is found in waveform substitution\cite{Goodman1986} or ``smart copying''\cite{Niediwiecki2001}. An audio segment immediately prior to a corruption is used as a template for finding a segment earlier in the segment which matches it. It is assumed that what follows the best match for the template will be a good substitute for the corrupted segment. Given that speech signals ``display quasi-stationary intervals''\cite{Goodman1986} this algorithm produces feasibly looking results given that the corruption does not straddle regions with high-energy voiced speed, low-level unvoiced speech or silence\cite{Goodman1986}. Waveform substitution has been confirmed through several objective listening tests to have ``satisfactory'' results\cite{Niediwiecki2001}. In addition the method excels by being computationally simple\cite{Niediwiecki2001}.
 
 %pitch detection
-An extension of the basic waveform substitution algorithm an additional pitch detection extension was proposed. If a pitch estimate is available the pitch period prior to the corruption may be reproduced throughout the corruption\cite{Goodman1986}. No direct results were presented to quantify the performance of this addition but a later publication ranks a pitch waveform replication algorithm as the producing the highest quality results based on subjective tests\cite{Wasem1988}. In this test the method was compared with a simple silence insertion and packet repetition algorithms suffering from obviously audible discontinuities\cite{Goodman1986} in addition to one and two-sided waveform substitution algorithms\cite{Goodman1986}. It was noted that while the pitch waveform replicator produced the highest quality results it was not the most computationally complex nor did it produce the longest delays of the tested algorithms\cite{Wasem1988}. 
+An extension of the basic waveform substitution algorithm an additional pitch detection extension was proposed. If a pitch estimate is available the pitch period prior to the corruption may be reproduced throughout the corruption\cite{Goodman1986}. No direct results were presented to quantify the performance of this addition but a later publication ranks a pitch waveform replication algorithm as the producing the highest quality results based on subjective tests\cite{Wasem1988}. In this test the method was compared with a simple silence insertion and packet repetition algorithms suffering from obviously audible discontinuities\cite{Goodman1986} in addition to one and two-sided waveform substitution algorithms\cite{Goodman1986}. It was noted that while the pitch waveform replicator produced the highest quality results it was not the most computationally complex nor did it produce the longest delays of the tested algorithms\cite{Wasem1988}.
 
-A similar heuristic pitch based approach proposes to model speech as a series of spectral peak tracks that are ``born'' and ``die'' employing the short time Fourier transform (STFT)\cite{Maher1994}. First proposed be \cite{McAulay1986} this method has since then been referred to as MQ representation (after the authors' names) and been applied to the task of speech interpolation\cite{Maher1994}. Many other authors have applied sinusoidal models for speech modeling in a variety of applications\cite{Godsill1998book}\cite{Vera-Candeas2003}\cite{Wells2006} which attempts in some cases to generalize the glottal excitation model in speech\cite{McAulay1986}. 
+A similar heuristic pitch based approach proposes to model speech as a series of spectral peak tracks that are ``born'' and ``die'' employing the short time Fourier transform (STFT)\cite{Maher1994}. First proposed be \cite{McAulay1986} this method has since then been referred to as MQ representation (after the authors' names) and been applied to the task of speech interpolation\cite{Maher1994}. Many other authors have applied sinusoidal models for speech modeling in a variety of applications\cite{Godsill1998book}\cite{Vera-Candeas2003}\cite{Wells2006} which attempts in some cases to generalize the glottal excitation model in speech\cite{McAulay1986}.
 %other sinusoidal based approaches
 
 % P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002. \cite{Esquef2002a}
