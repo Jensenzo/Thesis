@@ -10,82 +10,82 @@ The literature review presented in this chapter is split into three major sectio
 
 %Not JUST classification. Also some other stuff (needs to be removed)
 \section{Classification}\label{sec:LitRev_Classification}
-\subsection{Computational auditory scene analysis (CASA)}
-The computational auditory scene analysis (CASA) approach to source separation attempts to mimic the auditory scene analyzing (ASA) capabilities of the brain by computational means. \cite{Wang2006} state: ``One may define the CASA problem as the challenge of constructing a machine learning system that achieves human performance in ASA''. In an attempt to make CASA systems more \emph{biologically relevant} many CASA systems limit their scope to either monaural or binaural input signals and hence replicating the ASA problem where only the signal from the two ears are present.
-
-More specifically CASA solutions aim to identify certain auditory object, such as characterizing note objects in terms of harmonicity, correlated modulation, duration of sinusoidal partials and common onset, and arranging these into streams using psycho-acoustic cues\citep{Ellis1996}. Proximity of time-frequency objects within the audio mixture can cause problems for CASA whereas ASA is able to retain a reasonable degree of separation of sources. These shortcomings of CASA have thus been the focus of much research. Examples of this is the integration of evidence derived from multiple grouping principles at several levels of abstraction\citep{Godsmark1999}, matching of timbre features learned on solo excerpts \citep{Kashino1998},\citep{Kinoshita1999},\citep{Eggink2003} (based on a Gaussian mixture model (GMM) classifier). More recently the overlap probability of frequency components has been introduced to improve algorithm performance\citep{Sakuraba2003}.
-
-CASA methods still suffer from a few drawbacks though. The brain's own ASA system is able to localize sources in a natural acoustic environment through what is known as the \emph{precedence effect}. In environments where a sound is reflected multiple times before reaching the listener, the brain is able to give \emph{precedence} to early arrival of sounds, such as the direct sound, and hence evaluate the true location of the sound. This precedence rule between grouping cues can be hard to assess \citep{Wang2006}, which is also why current methods are restricted to non-reverberant mixtures \citep{Vincent2006}.
-
-In the recent paper, \cite{Shao2010}, the authors present a CASA system for separating speech signals in the presence of other speech or noise. Their approach proceeds by tracking time-frequency units across time frames in 2 different stages. Firstly they use harmonicity to segregate the voiced portions of individual sources for each time frame using multipitch tracking. Secondly the time-frequency units are grouped across the time frames by utilizing knowledge from the speaker characteristics. The system proposed in \cite{Shao2010} mainly focusses on features such as onset/offset and periodicity which are not specific necessarily specific to the target source or even speech and as such this system works well for a variety of speech separation cases with a variety of noise scenarios.
-
-\subsection{Independent Component Analysis (ICA)}
-One of the most widely known and used methods for blind source separation (BSS) is independent component analysis (ICA). ICA proposes to separate a multivariate signals into additive subcomponents supposing the mutual statistical independence of the non-Gaussian source signals. For $M$ observations and $N$ sources it is a requirement for ICA to work that $M\geq N$.
-In general ICA can be defined as the linear transformation $\textrm{\textbf{A}}$ of observed data $\textrm{\textbf{x}} = [x_1,\ldots,x_M]$
-
-\begin{equation}\label{eq:ICA1}
-    \textrm{\textbf{x}} = \textrm{\textbf{A}}\textrm{\textbf{s}}
-\end{equation}
-
-where $\textrm{\textbf{s}}  = [s_1,\ldots,s_N]$ is the separated sources or components \citep{Virtanen2007}.
-
-Traditionally $\textrm{\textbf{A}}$ would then be referred to as the mixing matrix. The source signals $\textrm{\textbf{s}}$ can feasibly be recovered using $\textrm{\textbf{s}} = \textrm{\textbf{A}}^{-1}\textrm{\textbf{x}}$  with $\textrm{\textbf{A}}$ the invertible matrix.  $\textrm{\textbf{A}}^{-1}$ is then called the un-mixing matrix \citep{Smaragdis1998}.
-
-A very popular implementation of the ICA method is the FastICA algorithm as proposed in \cite{Hyvarinen1999}. Often mixture models are modeled as \emph{convolutive} and hence solving for the mixing matrix \textbf{A} in the time-domain will require labor-intensive convolution while some methods propose solutions to the inherent permutation problem for the frequency domain equivalent of the FastICA \citep{Mitianoudis2003}. It has been reported that this approach has also produced good separation results.
-
-A more recent paper \citep{Douglas2007} presents two spatio-temporal extensions to the FastICA method and reports significant improvements over previous methods when applied to multichannel recordings of two- and three-source speech mixtures in a room environment. It was also noted that this proposed method was simple, fast and did not require parameter tuning in order to obtain good separation performance.
-
-\subsubsection{Convolutive mixtures}
-Due to extensive filtering imposed upon real world signals by their environment and propagation delays, instantaneous mixtures are rarely encountered. Most real world mixtures tend to be of convolved mixtures \citep{Smaragdis1998}.
-
-Consider again the model from equation~(\ref{eq:ICA1}) but this time consider a mixture $\textrm{\textbf{x}}$ recorded in a real environment where the mixture can be approximated by a convolutive mixture of the source signals in the time domain,
-
-\begin{equation}\label{eq:ICA2}
-    \textrm{\textbf{x}}(t) = \textrm{\textbf{A}}(t) \ast\textrm{\textbf{s}}(t).
-\end{equation}
-
-Applying the Fourier transform (FT) yields:
-\begin{equation}\label{eq:ICA3}
-   \hat{ \textrm{\textbf{x}}}(\omega) = \hat{\textrm{\textbf{A}}}(\omega)\hat{\textrm{\textbf{s}}}(\omega),
-\end{equation}
-where $\hat{ \textrm{\textbf{x}}}(\omega), \hat{\textrm{\textbf{A}}}(\omega)$ and $\hat{\textrm{\textbf{s}}}(\omega)$ are the FT of $\textrm{\textbf{x}}(\omega), \textrm{\textbf{A}}(\omega)$ and $\textrm{\textbf{s}}(\omega)$ respectively \citep{Ikeda1999}.
-
-It is noted that if $\textrm{\textbf{A}}$ in equation~(\ref{eq:ICA1}) is seen as a matrix of FIR filters instead of scalars, the resulting multiplication will be equivalent to convolution and the notation will be consistent. This notation is called FIR algebra notation \citep{Lambert1996}.
-
-This time-frequency approach to ICA has been proposed by a variety of authors \citep{Lee1998},\citep{Ikeda1999},\citep{Smaragdis1998} and specifically \cite{Ikeda1999} has been successful in dealing with the inherent arbitrary scaling and permutation problems of the ICA approach applied in a frequency domain context \citep{Zhang2007}.
-
-The recent paper \cite{Zhang2007} attempts to avoid the whitening of outputs which plagues conventional implementations of ICA for convolutive mixtures by enforcing pairwise independence rather than mutual independence. This approach is based on the findings that for blind separation the two are generally equivalent.
-%better ending here?
-
-\subsection{Independent Subspace Analysis (ISA)}
-Independent subspace analysis (ISA) is based on ICA but relaxes the constraints $M\geq N$ and the statistical independence of source signals. In practice ISA is a generalization of ICA in the sense that instead of requiring statistical independence between components ISA requires statistical independence between groups of components. ISA can also been described as multidimensional independent component analysis and hence the independent components are required to be of the same dimension $k$. In the case where $k = 1$, ISA is equivalent to ICA \citep{Theis2006}. Despite this relaxing of restrictions of the ICA approach implementations of ISA has still been restricted by fixed group sizes or semi-parametric models. An even more general approach has been proposed which introduces the concept of irreducible independent components and give an identifiability result for this general, parameter-free model together with an arbitrary subspace size algorithm \citep{Theis2006}.
-
-A previous study managed to implement ISA models for audio source separation and introduced the \emph{ixegram} as a measure space for grouping independent basis components \citep{Casey2000}. The separation and grouping results from this experiment suggest that the technique can perform separation of source signals without parametric model fitting or prior knowledge of the composition of input data.
-
-\subsection{Non-Negative Matrix Factorisation (NMF)}
-Since the concept of non-negative matrix factorization (NMF) was introduced independently by \cite{Paatero1997} and \cite{Lee1999} the method has gained some popularity within the field of polyphonic transcription and the source separation field \citep{Smaragdis2003},\citep{Smaragdis2004}. NMF was originally proposed as an alternative to $k$-means clustering and principal component analysis (PCA) for data analysis and compression.
-The original formulation of NMF starts with a non-negative $M\times N$ matrix $\textrm{\textbf{V}} \in \mathbb{R}^{\geq 0,M\times N}$ where the goal is to approximate $\textrm{\textbf{V}}$ as a product of two non-negative matrices so that
-
-\begin{equation}\label{eq:nmf1}
-    \textrm{\textbf{V}} \approx \textrm{\textbf{W}}\textrm{\textbf{H}}
-\end{equation}
-where $\textrm{\textbf{W}} \in \mathbb{R}^{\geq 0,M\times R}$, $\textrm{\textbf{H}} \in \mathbb{R}^{\geq 0,R\times N}$ and $R \leq M$ such that the error of reconstruction is minimized \citep{Smaragdis2004}.
-
-Good results have generally been reported for extraction of percussive sounds in mono recordings, but for low intensity sounds the algorithms generally perform worse and suffer from distortion and lost information inherent in the mixing and analysis process \citep{Smaragdis2004}. Other results have shown NMF to consistently obtain better separation results than ISA and ICA \citep{Virtanen2007}.
-
-\subsection{Hierarchical Bayesian Models}
-
-The task in Bayesian source separation is to infer $N$ source signals $s_{k,n} \equiv \textrm{\textbf{s}}$ given $M$ observed signals $x_{k,m} \equiv \textrm{\textbf{x}}$, where $n=[1,\ldots,N]$ and $m=[1,\ldots,M]$. Here $k=[1,\ldots,K]$ is an index which may correspond to time or to expansion coefficient of the sources in a linear transform domain. A Hierarchical Bayesian Model for the inference of the source signals can hence be formulated as
-
-\begin{equation}\label{eq:hbm1}
-    p(\textrm{\textbf{s}}|\textrm{\textbf{x}}) = \frac{1}{Z_x}\int p(\textrm{\textbf{x}}|\textrm{\textbf{s}},\Theta_m)p(\textrm{\textbf{s}}|\Theta_p)p(\Theta_p)p(\Theta_m)d\Theta_m d\Theta_p.
-\end{equation}
-
-Here the conditional distribution is characterized by the conditional distribution $p(\textrm{\textbf{x}}|\textrm{\textbf{s}},\Theta_m)$, where $\Theta_m$ denotes the collection of mixing parameters such as the mixing matrix, observation noise and variance, etc. and the prior term $p(\textrm{\textbf{s}}|\Theta_p)$ describes the sources via their own prior parameters $\Theta_p$ \citep{Cemgil2007}.
-
-It is worth noting that there is a considerable computational cost associated with a full Bayesian inference, via MCMC or variational Bayes (VB) for Bayesian source separation. Good results were reported in a study attempting Bayesian source separation using an MCMC approach to inference \citep{Fevotte2006}. Also, the authors of this study point out the computational burden of the MCMC approach compared to the alternative expectation maximisation (EM) approach. It was although also noticed that the EM approach was far more sensitive to mixing matrix initialization and hence less robust. The Gibbs sampler described in this paper was implemented as part of the review of this paper. Although the implementation was problematic due to the inherent indeterminacy on gain, the approach provided good results to noisy linear mixtures of sources.
-
-The recent paper \cite{Cemgil2007} describes a hybrid approach where a general linear instantaneous model, which might be noisy and underdetermined, is tackled using a Student $t$ distribution to model the source prior. Both the Gibbs sampler and VB method were studied as a method for inference. Both these methods are algorithmically similar but by employing a hybrid method the authors managed to combine the speed of the variational approach with the robustness of the Gibbs sampler \citep{Cemgil2007}.
+%\subsection{Computational auditory scene analysis (CASA)}
+%The computational auditory scene analysis (CASA) approach to source separation attempts to mimic the auditory scene analyzing (ASA) capabilities of the brain by computational means. \cite{Wang2006} state: ``One may define the CASA problem as the challenge of constructing a machine learning system that achieves human performance in ASA''. In an attempt to make CASA systems more \emph{biologically relevant} many CASA systems limit their scope to either monaural or binaural input signals and hence replicating the ASA problem where only the signal from the two ears are present.
+%
+%More specifically CASA solutions aim to identify certain auditory object, such as characterizing note objects in terms of harmonicity, correlated modulation, duration of sinusoidal partials and common onset, and arranging these into streams using psycho-acoustic cues\citep{Ellis1996}. Proximity of time-frequency objects within the audio mixture can cause problems for CASA whereas ASA is able to retain a reasonable degree of separation of sources. These shortcomings of CASA have thus been the focus of much research. Examples of this is the integration of evidence derived from multiple grouping principles at several levels of abstraction\citep{Godsmark1999}, matching of timbre features learned on solo excerpts \citep{Kashino1998},\citep{Kinoshita1999},\citep{Eggink2003} (based on a Gaussian mixture model (GMM) classifier). More recently the overlap probability of frequency components has been introduced to improve algorithm performance\citep{Sakuraba2003}.
+%
+%CASA methods still suffer from a few drawbacks though. The brain's own ASA system is able to localize sources in a natural acoustic environment through what is known as the \emph{precedence effect}. In environments where a sound is reflected multiple times before reaching the listener, the brain is able to give \emph{precedence} to early arrival of sounds, such as the direct sound, and hence evaluate the true location of the sound. This precedence rule between grouping cues can be hard to assess \citep{Wang2006}, which is also why current methods are restricted to non-reverberant mixtures \citep{Vincent2006}.
+%
+%In the recent paper, \cite{Shao2010}, the authors present a CASA system for separating speech signals in the presence of other speech or noise. Their approach proceeds by tracking time-frequency units across time frames in 2 different stages. Firstly they use harmonicity to segregate the voiced portions of individual sources for each time frame using multipitch tracking. Secondly the time-frequency units are grouped across the time frames by utilizing knowledge from the speaker characteristics. The system proposed in \cite{Shao2010} mainly focusses on features such as onset/offset and periodicity which are not specific necessarily specific to the target source or even speech and as such this system works well for a variety of speech separation cases with a variety of noise scenarios.
+%
+%\subsection{Independent Component Analysis (ICA)}
+%One of the most widely known and used methods for blind source separation (BSS) is independent component analysis (ICA). ICA proposes to separate a multivariate signals into additive subcomponents supposing the mutual statistical independence of the non-Gaussian source signals. For $M$ observations and $N$ sources it is a requirement for ICA to work that $M\geq N$.
+%In general ICA can be defined as the linear transformation $\textrm{\textbf{A}}$ of observed data $\textrm{\textbf{x}} = [x_1,\ldots,x_M]$
+%
+%\begin{equation}\label{eq:ICA1}
+%    \textrm{\textbf{x}} = \textrm{\textbf{A}}\textrm{\textbf{s}}
+%\end{equation}
+%
+%where $\textrm{\textbf{s}}  = [s_1,\ldots,s_N]$ is the separated sources or components \citep{Virtanen2007}.
+%
+%Traditionally $\textrm{\textbf{A}}$ would then be referred to as the mixing matrix. The source signals $\textrm{\textbf{s}}$ can feasibly be recovered using $\textrm{\textbf{s}} = \textrm{\textbf{A}}^{-1}\textrm{\textbf{x}}$  with $\textrm{\textbf{A}}$ the invertible matrix.  $\textrm{\textbf{A}}^{-1}$ is then called the un-mixing matrix \citep{Smaragdis1998}.
+%
+%A very popular implementation of the ICA method is the FastICA algorithm as proposed in \cite{Hyvarinen1999}. Often mixture models are modeled as \emph{convolutive} and hence solving for the mixing matrix \textbf{A} in the time-domain will require labor-intensive convolution while some methods propose solutions to the inherent permutation problem for the frequency domain equivalent of the FastICA \citep{Mitianoudis2003}. It has been reported that this approach has also produced good separation results.
+%
+%A more recent paper \citep{Douglas2007} presents two spatio-temporal extensions to the FastICA method and reports significant improvements over previous methods when applied to multichannel recordings of two- and three-source speech mixtures in a room environment. It was also noted that this proposed method was simple, fast and did not require parameter tuning in order to obtain good separation performance.
+%
+%\subsubsection{Convolutive mixtures}
+%Due to extensive filtering imposed upon real world signals by their environment and propagation delays, instantaneous mixtures are rarely encountered. Most real world mixtures tend to be of convolved mixtures \citep{Smaragdis1998}.
+%
+%Consider again the model from equation~(\ref{eq:ICA1}) but this time consider a mixture $\textrm{\textbf{x}}$ recorded in a real environment where the mixture can be approximated by a convolutive mixture of the source signals in the time domain,
+%
+%\begin{equation}\label{eq:ICA2}
+%    \textrm{\textbf{x}}(t) = \textrm{\textbf{A}}(t) \ast\textrm{\textbf{s}}(t).
+%\end{equation}
+%
+%Applying the Fourier transform (FT) yields:
+%\begin{equation}\label{eq:ICA3}
+%   \hat{ \textrm{\textbf{x}}}(\omega) = \hat{\textrm{\textbf{A}}}(\omega)\hat{\textrm{\textbf{s}}}(\omega),
+%\end{equation}
+%where $\hat{ \textrm{\textbf{x}}}(\omega), \hat{\textrm{\textbf{A}}}(\omega)$ and $\hat{\textrm{\textbf{s}}}(\omega)$ are the FT of $\textrm{\textbf{x}}(\omega), \textrm{\textbf{A}}(\omega)$ and $\textrm{\textbf{s}}(\omega)$ respectively \citep{Ikeda1999}.
+%
+%It is noted that if $\textrm{\textbf{A}}$ in equation~(\ref{eq:ICA1}) is seen as a matrix of FIR filters instead of scalars, the resulting multiplication will be equivalent to convolution and the notation will be consistent. This notation is called FIR algebra notation \citep{Lambert1996}.
+%
+%This time-frequency approach to ICA has been proposed by a variety of authors \citep{Lee1998},\citep{Ikeda1999},\citep{Smaragdis1998} and specifically \cite{Ikeda1999} has been successful in dealing with the inherent arbitrary scaling and permutation problems of the ICA approach applied in a frequency domain context \citep{Zhang2007}.
+%
+%The recent paper \cite{Zhang2007} attempts to avoid the whitening of outputs which plagues conventional implementations of ICA for convolutive mixtures by enforcing pairwise independence rather than mutual independence. This approach is based on the findings that for blind separation the two are generally equivalent.
+%%better ending here?
+%
+%\subsection{Independent Subspace Analysis (ISA)}
+%Independent subspace analysis (ISA) is based on ICA but relaxes the constraints $M\geq N$ and the statistical independence of source signals. In practice ISA is a generalization of ICA in the sense that instead of requiring statistical independence between components ISA requires statistical independence between groups of components. ISA can also been described as multidimensional independent component analysis and hence the independent components are required to be of the same dimension $k$. In the case where $k = 1$, ISA is equivalent to ICA \citep{Theis2006}. Despite this relaxing of restrictions of the ICA approach implementations of ISA has still been restricted by fixed group sizes or semi-parametric models. An even more general approach has been proposed which introduces the concept of irreducible independent components and give an identifiability result for this general, parameter-free model together with an arbitrary subspace size algorithm \citep{Theis2006}.
+%
+%A previous study managed to implement ISA models for audio source separation and introduced the \emph{ixegram} as a measure space for grouping independent basis components \citep{Casey2000}. The separation and grouping results from this experiment suggest that the technique can perform separation of source signals without parametric model fitting or prior knowledge of the composition of input data.
+%
+%\subsection{Non-Negative Matrix Factorisation (NMF)}
+%Since the concept of non-negative matrix factorization (NMF) was introduced independently by \cite{Paatero1997} and \cite{Lee1999} the method has gained some popularity within the field of polyphonic transcription and the source separation field \citep{Smaragdis2003},\citep{Smaragdis2004}. NMF was originally proposed as an alternative to $k$-means clustering and principal component analysis (PCA) for data analysis and compression.
+%The original formulation of NMF starts with a non-negative $M\times N$ matrix $\textrm{\textbf{V}} \in \mathbb{R}^{\geq 0,M\times N}$ where the goal is to approximate $\textrm{\textbf{V}}$ as a product of two non-negative matrices so that
+%
+%\begin{equation}\label{eq:nmf1}
+%    \textrm{\textbf{V}} \approx \textrm{\textbf{W}}\textrm{\textbf{H}}
+%\end{equation}
+%where $\textrm{\textbf{W}} \in \mathbb{R}^{\geq 0,M\times R}$, $\textrm{\textbf{H}} \in \mathbb{R}^{\geq 0,R\times N}$ and $R \leq M$ such that the error of reconstruction is minimized \citep{Smaragdis2004}.
+%
+%Good results have generally been reported for extraction of percussive sounds in mono recordings, but for low intensity sounds the algorithms generally perform worse and suffer from distortion and lost information inherent in the mixing and analysis process \citep{Smaragdis2004}. Other results have shown NMF to consistently obtain better separation results than ISA and ICA \citep{Virtanen2007}.
+%
+%\subsection{Hierarchical Bayesian Models}
+%
+%The task in Bayesian source separation is to infer $N$ source signals $s_{k,n} \equiv \textrm{\textbf{s}}$ given $M$ observed signals $x_{k,m} \equiv \textrm{\textbf{x}}$, where $n=[1,\ldots,N]$ and $m=[1,\ldots,M]$. Here $k=[1,\ldots,K]$ is an index which may correspond to time or to expansion coefficient of the sources in a linear transform domain. A Hierarchical Bayesian Model for the inference of the source signals can hence be formulated as
+%
+%\begin{equation}\label{eq:hbm1}
+%    p(\textrm{\textbf{s}}|\textrm{\textbf{x}}) = \frac{1}{Z_x}\int p(\textrm{\textbf{x}}|\textrm{\textbf{s}},\Theta_m)p(\textrm{\textbf{s}}|\Theta_p)p(\Theta_p)p(\Theta_m)d\Theta_m d\Theta_p.
+%\end{equation}
+%
+%Here the conditional distribution is characterized by the conditional distribution $p(\textrm{\textbf{x}}|\textrm{\textbf{s}},\Theta_m)$, where $\Theta_m$ denotes the collection of mixing parameters such as the mixing matrix, observation noise and variance, etc. and the prior term $p(\textrm{\textbf{s}}|\Theta_p)$ describes the sources via their own prior parameters $\Theta_p$ \citep{Cemgil2007}.
+%
+%It is worth noting that there is a considerable computational cost associated with a full Bayesian inference, via MCMC or variational Bayes (VB) for Bayesian source separation. Good results were reported in a study attempting Bayesian source separation using an MCMC approach to inference \citep{Fevotte2006}. Also, the authors of this study point out the computational burden of the MCMC approach compared to the alternative expectation maximisation (EM) approach. It was although also noticed that the EM approach was far more sensitive to mixing matrix initialization and hence less robust. The Gibbs sampler described in this paper was implemented as part of the review of this paper. Although the implementation was problematic due to the inherent indeterminacy on gain, the approach provided good results to noisy linear mixtures of sources.
+%
+%The recent paper \cite{Cemgil2007} describes a hybrid approach where a general linear instantaneous model, which might be noisy and underdetermined, is tackled using a Student $t$ distribution to model the source prior. Both the Gibbs sampler and VB method were studied as a method for inference. Both these methods are algorithmically similar but by employing a hybrid method the authors managed to combine the speed of the variational approach with the robustness of the Gibbs sampler \citep{Cemgil2007}.
 
 \subsection{Audio classification}
 This section contains a brief review of the methods typically employed in the field of audio classification. Classification features and classifiers are covered somewhat independently since, in many cases, they can be combined according to the particular application.
