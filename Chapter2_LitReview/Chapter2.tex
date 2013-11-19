@@ -88,32 +88,34 @@ It is worth noting that there is a considerable computational cost associated wi
 The recent paper \cite{Cemgil2007} describes a hybrid approach where a general linear instantaneous model, which might be noisy and underdetermined, is tackled using a Student $t$ distribution to model the source prior. Both the Gibbs sampler and VB method were studied as a method for inference. Both these methods are algorithmically similar but by employing a hybrid method the authors managed to combine the speed of the variational approach with the robustness of the Gibbs sampler \citep{Cemgil2007}.
 
 \subsection{TBC}
-\todo{general classification lit rev}
-
-
-
-A variety of different features have been proposed for audio classification but features are mainly centered around the distinction between music, speech, silence and background noise. Zero-crossing rate (ZCR) has been reported as a useful feature for a variety of audio signals although again mainly used in speech/music classification algorithms\cite{Lu2002}. 
-
-%HZCRR
-\cite{Lu2001}
-\cite{Gouyon2000}
+A variety of different features have been proposed for audio classification but features are mainly centered around the distinction between music, speech, silence and background noise. Zero-crossing rate (ZCR) has been reported as a useful feature for a variety of audio signals although again mainly used in speech/music classification algorithms\cite{Lu2002}. ZCR is defined as the number of time-domain zero-crossings within a frame in the signal. Typically this number is divided by the number of samples within this frame. This feature is a popular feature used in music information retrieval and speech recognition\cite{Saraceno1997}\cite{Scheirer1997}\cite{Gouyou2000}. ZCR is also a feature commonly used in voice activity detectors (VAD) along with energy based detectors\cite{Sangwan2002}.
 
 %SF (spectral flux)
 Spectral flux (SF) compares the power spectrum of neighbouring audio frames in an effort to measure how quickly the spectrum fluctuates. Typically this is done by calculating the Euclidian distance between two normalised spectral coefficients\cite{Wang2012}.
-\cite{Lu2001}\cite{Wang2012}
+%\cite{Lu2001}\cite{Wang2012}
 
+%NFR (Noise frame ratio)
+The last audio feature presented here is the noise frame ration (NFR) metric. This features classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The NFR is then the ratio between noisy frames and non-noisy frames in the audio segment\cite{Lu2002}\cite{Jiang2000}. 
+
+Many other features have been proposed and used successfully throughout the literature. Other features include: An exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyou2000}.
 %LSTER (low short-time energy ratio)
-\cite{Lu2001}
+%\cite{Lu2001}
 
 %KNN 
-\cite{Lu2001}
+%\cite{Lu2001}
 
 %LSP VQ
-\cite{Lu2001}
+%\cite{Lu2001}
 
-In the area of audio classification a couple of classifiers are commonly used. The Gaussian mixture model (GMM) classifier assumes that each class pdf is comprised of a specific number of multidimensional Gaussian distributions. Iterative expectation maximization (EM) can now be used to estimate parameters of the each Gaussian component and the mixture weights\cite{Tzanetakis2002}. K nearest neighbors (K-NN) is a non-parametric classifier where samples are classified according to the majority of its K nearest neighbors\cite{Lu2001}. Both of these classifiers have performed similarly to humans in genre classification applications\cite{Tzanetakis2002} and in speech/music classification/segmentation applications K-NN has given total accuracy rates over 96\% using a variety of features such as ZCR, SF and NFR among others\cite{Lu2002}.
+In the area of audio classification a couple of classifiers are commonly used. The Gaussian mixture model (GMM) classifier assumes that each class pdf is comprised of a specific number of multidimensional Gaussian distributions. Iterative expectation maximization (EM) can now be used to estimate parameters of the each Gaussian component and the mixture weights\cite{Tzanetakis2002}. K nearest neighbors (K-NN) is a non-parametric classifier where samples are classified according to the majority of its K nearest neighbors\cite{Lu2001}. Both of these classifiers have performed similarly to humans in genre classification applications\cite{Tzanetakis2002} and in speech/music classification/segmentation applications K-NN has given total accuracy rates over 96\% using a variety of features such as ZCR, SF and NFR among others\cite{Lu2002}. Hidden Markov model (HMM) classifiers have also been employed where the HMM is trained using Maximum Likelihood (ML) based on a training sequence\cite{Kimber1997}\cite{Xiong2003}\cite{Burke2013}. A classification algorithm employed in the context of HMM was the Viterbi algorithm which is covered in more detail later in this chapter\cite{Kimber1997}\cite{Burke2013}.
+A comprehensive introduction to various pattern recognition methods can be found in \cite{Duda2001}.
 
-%A comprehensive introduction to various pattern recognition methods can be found in \cite{Duda2001}.
+A study of 143 classification features for general audio data found that MFCC and linear prediction coefficients (LPC) provided ``much better classification accuracy'' compared to spectral features\cite{Li2001}. This was concluded irrespective of the number of audio categories desired. 
+%hidden Markov model-based (HMM-based) classifiers 
+% - http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB8
+% - http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB9
+%neural network-based classifiers http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB4
+%decision trees, http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB8
 
 \subsection{Principal Component Analysis (PCA)}
 The central idea of PCA is to reduce the number of dimensions of a set of data consisting of possibly correlated variables to a smaller number of uncorrelated variables. This operation is achieved by transforming to a set of uncorrelated variables, principal components (PCs), which are ordered so the first PC retain most of the variability and each succeeding component accounts for as much of the remaining variability as possible.
@@ -255,9 +257,7 @@ Although not specifically a PCA approach, \cite{Honkela2005} presents an approac
 where $\textbf{x}(t)$ are the observations at time $t$, $\text{s}(t)$ are the sources, $\textbf{n}(t)$ the noise and $f()$ the function which maps the sources to the observation space. In \cite{Lappalainen2000} the authors compare their approach favorably to previously suggested models for representing data with nonlinear coordinate systems, and they especially focus on their methods applicability in high dimensional applications.
 
 %*** Check for more recent papers by MacKay ***
-
-\todo{ADD new stuff}
-\cite{Burke2013}
+Very recent work has compared a range of multilinear function factorisation techniques for feature extraction for classification applications\cite{Burke2013}. The comparison was performed on a variety of data types including speaker recognition from spoken vowels. The article confirms previously presented results and emphasises the advantage and simplicity of the factorisation techniques in question in relation to HMMs and the associated training required. The authors found that canonical variates (CV) and PCA generally produced features with the greatest separability of the ones tested but neither reportedly performed well for the audio application. Specifically it was found in \cite{Burke2013} that the PCA produced features of poor separability somewhat in contrast to \cite{Raychaudhuri2000}. This could potentially be due to the stacking, or lack thereof, employed by the authors. It is also noted that while PCA features, per definition, are ordered according to ``principality'', CV features require additional training\cite{Burke2013}.
 
 \subsection{Probabilistic PCA (PPCA)}
 One of the notable features of the above derived definition of the PCA is the lack of a probabilistic model for the observed data. \cite{Tipping1999} proposes a latent variable model for determining the principal axis of observed data which is closely related to factor analysis. This model utilizes a Maximum Likelihood (ML) estimator to estimate the parameters of the latent variable model. This model is commonly known as a factor analysis model where the relationship is linear:
