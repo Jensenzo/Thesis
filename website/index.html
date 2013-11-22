@@ -35,25 +35,124 @@
                         <p>This page is meant to offer additional audio material associated with the submission of my doctoral thesis on the 29th of November 2013 at the University of Cambridge, Department of Engineering. The audio files presented below are examples of restoration performance of the keyboard stroke detection and restoration algorithm.</p>
                     </header>
                     <section>
-                        <h2>article section h2</h2>
-                        <p>hello123.wav</p>
-						<audio src="audio/hello123.wav" controls preload></audio>
+                        <h2>Separation algorithm</h2>
+                        <p></p>
+						<table border="0">
+							<tr>
+								<td width="250px">Original</td>
+								<td><audio src="audio/hello123.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Residual</td>
+								<td><audio src="audio/Separation/Residual_Example.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Tonal</td>
+								<td><audio src="audio/Separation/Tonal_Example.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Tonal (Low pass filtered)</td>
+								<td><audio src="audio/Separation/Tonal_Example_LoPassFiltered.wav" controls preload></audio></td>
+							</tr>
+						</table>
                     </section>
                     <section>
-                        <h2>article section h2</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
+                        <h1>Restoration algorithms</h1>
+					</section>
+                    <section>
+						<h3>Simple noise restorer</h3>
+						<p></p>
+						<table border="0">
+							<tr>
+								<td width="250px">Original</td>
+								<td><audio src="audio/hello123.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration example</td>
+								<td><audio src="audio/Restoration/SimpleNoiseRestore/SimpleNoiseRestore-wavelet-hello123-recon.wav" controls preload></audio></td>
+							</tr>
+						</table>
+                    </section>
+					<section>
+						<h3>Scaling restorer</h3>
+						<p></p>
+						<table border="0">
+							<tr>
+								<td width="250px">Original</td>
+								<td><audio src="audio/hello123.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration example</td>
+								<td><audio src="audio/Restoration/ScaleRestore/ScaleRestore-wavelet-hello123-recon.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration example</br>(without tonal restoration)</td>
+								<td><audio src="audio/Restoration/ScaleRestore/ScaleRestore-wavelet-hello123-recon_noTonalRestore.wav" controls preload></audio></td>
+							</tr>
+						</table>
+                    </section>
+					<section>
+						<h3>Filtered noise restorer</h3>
+						<p>Example 1:</p>
+						<table border="0">
+							<tr>
+								<td width="250px">Original</td>
+								<td><audio src="audio/hello123.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration (time waveform)</td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-waveform-hello123-recon.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration (wavelet)</td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-hello123-recon.wav" controls preload></audio></td>
+							</tr>
+						</table>
+						
+						<p>Example 2:</p>
+						<table border="0">
+							<tr>
+								<td width="250px">Original</td>
+								<td><audio src="audio/sickness.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration (wavelet)</td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration (wavelet)</br>No future tonal reconstruction</td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon-NoPostTonalRecon.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration (wavelet)</br>No tonal reconstruction</td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon-NoTonalRecon.wav" controls preload></audio></td>
+							</tr>
+						</table>
+						
+                    </section>
+					<section>
+						<h3>LSAR restorer</h3>
+						<p></p>
+						<table border="0">
+							<tr>
+								<td width="250px">Original</td>
+								<td><audio src="audio/hello123.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration (time-waveform)</td>
+								<td><audio src="audio/Restoration/LSAR/LSAR-waveform-hello123-recon.wav" controls preload></audio></td>
+							</tr>
+							<tr>
+								<td>Restoration (wavelet)</td>
+								<td><audio src="audio/Restoration/LSAR/LSAR-wavelet-hello123-recon.wav" controls preload></audio></td>
+							</tr>
+						</table>
                     </section>
                     <footer>
-                        <h3>article footer h3</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor.</p>
+                        <h3></h3>
+                        <p></p>
                     </footer>
                 </article>
-
-                <aside>
-                    <h3>aside</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices.</p>
-                </aside>
-
             </div> <!-- #main -->
         </div> <!-- #main-container -->
 
