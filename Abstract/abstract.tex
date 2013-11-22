@@ -1,19 +1,17 @@
 
 % Thesis Abstract -----------------------------------------------------
 
-
-%\begin{abstractslong}    %uncommenting this line, gives a different abstract heading
 %\begin{abstracts}        %this creates the heading for the abstract page
 \begin{thesissummary}
 Impact related audio pulses are a frequent, and mostly undesirable, occurrence on many modern integrated devices. This thesis has explored two aspects of these pulses in real-time audio streams. Firstly a functional view of pulses that aimed to localise impact sites of touch events solely based on a single audio stream. This work is framed as a proposed touchscreen interface. Secondly, the pulses were considered noise and a real-time single-channel detection and restoration system was constructed for a telecommunication application.
 
 Results showed that it is possible, using a large aligned ensemble of training pulses and PCA factorisation, to accurately and robustly estimate the origin of impact sites on a device. It was also found that the use of PCA enabled acceptance of a higher degree of variability within individual spots. Results also showed that pulses could successfully be modelled as linear scalings of a combination of components, yielding increased performance. A generalised multi-channel implementation further increased performance of the system. It was also found that the wavelet basis is accurately able to detect transient noise pulses with high temporal accuracy. False detection rates were compared with competing methods on a large corpus of data and the proposed model perform similarly or better. Furthermore it was found that real-time interpolation of missing data was possible directly on the wavelet coefficients. These results were verified with both objective perceptual models, standard error metrics and subjective listening tests.
 
-
+The findings presented in this work enables a new and simpler implementation of touch activated hardware, with minimal or no additional hardware requirements. In general this method enables classification of minute changes in audio pulses while accepting variety presented to the algorithm during a training stage. A pulse detection and restoration algorithm was also developed that can be implemented in real-time communication systems requiring no training while improving improved sound quality in the presence of transient noise.
 
 \end{thesissummary}
 %\end{abstracts}
-%\end{abstractslong}
+
 
 
 % ----------------------------------------------------------------------

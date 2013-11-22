@@ -338,13 +338,15 @@
 
 \newenvironment{thesissummary} {\begin{alwayssingle}
 \pagestyle{summary}
-  \begin{center}
-  \vspace*{1.0cm}%1.5cm
+  \begin{center}%\def\baselinestretch{1}
+  \vspace*{0.0cm}%1.5cm
   {\Large \bfseries  Summary}
   \end{center}
   \vspace{0.0cm}%0.5cm
-   \begin{quote}}
-{\end{quote}\end{alwayssingle}}
+   %\begin{quote}}
+   }
+%{\end{quote}\end{alwayssingle}}
+{\end{alwayssingle}}
 
 %The abstractlong environment puts a large, bold, centered "Abstract" label at
 %the top of the page. The abstract itself does not appears in a quote
