@@ -178,10 +178,18 @@
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0pt}
 \addtolength{\headheight}{0.5pt}
+
+\fancypagestyle{summary}{
+\fancyhf{}
+
+\rhead{{\bfseries {\@title}}\\ {\JENC}}
+\renewcommand{\headrulewidth}{0pt}
+}
 \fancypagestyle{plain}{
   \fancyhead{}
   \renewcommand{\headrulewidth}{0pt}
 }
+
 
 \newcommand{\submittedtext}{{A thesis submitted for the degree of}}
 %
@@ -325,6 +333,16 @@
   {\Large \bfseries  Abstract}
   \end{center}
   \vspace{0.5cm}
+   \begin{quote}}
+{\end{quote}\end{alwayssingle}}
+
+\newenvironment{thesissummary} {\begin{alwayssingle}
+\pagestyle{summary}
+  \begin{center}
+  \vspace*{1.0cm}%1.5cm
+  {\Large \bfseries  Summary}
+  \end{center}
+  \vspace{0.0cm}%0.5cm
    \begin{quote}}
 {\end{quote}\end{alwayssingle}}
 
