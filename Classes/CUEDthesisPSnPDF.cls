@@ -4,7 +4,7 @@
 % Version 1.0 released 15/07/2002
 %-------------------------- identification ---------------------
 %\NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{CUEDthesisPSnPDF}[2003/01/11 v1.2 CUED thesis class]
+\ProvidesClass{CUEDthesisPSnPDF}[2013/24/11 v1.3 CUED thesis class]
 %-------------------------- initial code -----------------------
 
 %If you want to use a Report style document then uncomment the following 3 lines and comment the below 8 book style lines:

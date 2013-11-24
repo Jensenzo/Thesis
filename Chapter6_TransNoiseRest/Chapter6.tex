@@ -549,13 +549,13 @@ A frame based MSE is also used in this chapter to give a temporal representation
 
 It is important to stress that the MSE does not give a measure of the perceptibility of an error but just a numeric indication of the magnitude of this error. While a phase shift might be imperceptible to the listener it could potentially give a significant MSE response, while low amplitude noise modulated in phase with a signal could potentially be clearly audible while resulting in only a minor MSE response. For impulsive noise with a large magnitude in relation to the underlying signal it does provide sparse visual reference for evaluating impulsive noise and the reconstruction of corrupted samples and it is to that extent the MSE is primarily used in this chapter.
 
-\todo{Will I even use PSNR?}
-The Peak Signal to Noise Ration (PSNR) is a measure of the maximum possible power of a signal in relation to the power of a corrupting noise, and is defined as
-
-\begin{equation}\label{eq:PSNRdef}
-\textrm{PSNR} = 20 \log_{10} \left( \frac{\textrm{MAX}_\textrm{I}}{\sqrt{\textrm{MSE}}} \right),
-\end{equation}
-where MSE\textsubscript{I} is the maximum possible value for a sample.
+%\todo{Will I even use PSNR?}
+%The Peak Signal to Noise Ration (PSNR) is a measure of the maximum possible power of a signal in relation to the power of a corrupting noise, and is defined as
+%
+%\begin{equation}\label{eq:PSNRdef}
+%\textrm{PSNR} = 20 \log_{10} \left( \frac{\textrm{MAX}_\textrm{I}}{\sqrt{\textrm{MSE}}} \right),
+%\end{equation}
+%where MSE\textsubscript{I} is the maximum possible value for a sample.
 
 
 \section{Results}
@@ -701,19 +701,19 @@ Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\re
 \end{figure}
 
 %Peak SNR PSNR (maybe not needed)
-The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak SNR calculations. As with the max MSE measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak SNR measures, with sets 2 and 4 in this case showing no improvement as opposed to some improvement in sets 6 and 11. Overall the average improvement for the 4 tested signals is 1.8 dB.
-
-\begin{table}\begin{center}
-\caption{Peak SNR results for test sets 2, 4, 6 and 11.}
-\label{tab:PeakSNR}
-\begin{tabular}{|l|c|c|c|c|c|}\hline
-                    % file 3    & file 2    & file 1    & file 4
-                    & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
-  Reconstruction    & 29.5 dB   & 40.3 dB   & 38.9 dB   & 40.7 dB   & 37.4 dB   \\
-  Original          & 30.4 dB   & 40.6 dB   & 33.5 dB   & 37.6 dB   & 35.5 dB   \\ \hline
-  Difference        & -0.9 dB   & -0.3 dB   & 5.4  dB   & 3.1  dB   & 1.8  dB   \\
-  \hline
-\end{tabular}\end{center}\end{table}
+%The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak SNR calculations. As with the max MSE measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak SNR measures, with sets 2 and 4 in this case showing no improvement as opposed to some improvement in sets 6 and 11. Overall the average improvement for the 4 tested signals is 1.8 dB.
+%
+%\begin{table}\begin{center}
+%\caption{Peak SNR results for test sets 2, 4, 6 and 11.}
+%\label{tab:PeakSNR}
+%\begin{tabular}{|l|c|c|c|c|c|}\hline
+%                    % file 3    & file 2    & file 1    & file 4
+%                    & set 2     & set 4     & set 6     & set 11    & Mean      \\ \hline
+%  Reconstruction    & 29.5 dB   & 40.3 dB   & 38.9 dB   & 40.7 dB   & 37.4 dB   \\
+%  Original          & 30.4 dB   & 40.6 dB   & 33.5 dB   & 37.6 dB   & 35.5 dB   \\ \hline
+%  Difference        & -0.9 dB   & -0.3 dB   & 5.4  dB   & 3.1  dB   & 1.8  dB   \\
+%  \hline
+%\end{tabular}\end{center}\end{table}
 
 \subsection{Waveforms of reconstructions}
 A selection of waveforms are in this section represented to visualise the performance of the reconstruction algorithms' performance. While not adequate for an evaluation of the varies algorithms' performance general trends may be visible and the shape of the envelope may give an indication of the naturalness of the amplitude. Figure~\ref{fig:RestoredExamplesComparison} shows a comparison of the filtered noise and the LSAR reconstruction algorithms. In this example the basic high pass filtering tonal restoration is applied to the examples.
@@ -778,7 +778,7 @@ Contrary to the subjective results, the selected testing sets from the subjectiv
 Consider the more general MSE and max MSE measure, the reconstructed segments also show consistent improvements. The max MSE was decreased by just under 0.3 on average with improvement differences ranging from over 0.1 to 0.4. The framewise MSE results, in Figure~\ref{fig:MSEexampleSet11.pdf} and \ref{fig:MSEexampleSet11Zoom.pdf}, also show these relative improvements throughout a corruption. It is although noted that MSE does not give any indication of perceptibility of errors and also penalises phase shifts which may in many cases be imperceptible to human listeners. On the other hand, MSE, and max MSE in particular, is particularly sensitive to impulsive noise primarily seen in this application.
 
 % Discuss PSNR results
-\todo{Include PSNR discussion if included in final version.}
+%\todo{Include PSNR discussion if included in final version.}
 
 %note that tonal noise (especially low frequency bumps) might not be a big nuisance. Possibly due to them not overlapping in spectrum with speech and the low frequency bumps being clearly audible (actually they are mutually exclusive statements).
 Despite broadly improved objective measures following detection and reconstruction, the subjective test revealed that restored audio segments were not preferred by some of the listeners. Although as a whole slightly in favor of the restored segments, the subjects in this test were split in their preference in all but a few of the testing sets. It is beyond the scope of this discussion to delve deeper into the psychoacoustic basis of these results, but it is noted that great care should be taken when applying reconstructive algorithms within speech signals, and perhaps audio signals in general, since artificially introduced artifacts may cause more of a disturbance than the original noise source. Equally these results underline the importance of subjective measurements for restoration algorithms since objective perceptive measures are not able to distinguish between noise that may be deemed \emph{natural} or \emph{expected} by the user and which sounds may be deemed \emph{unnatural} and \emph{unexpected}.
@@ -801,12 +801,8 @@ Based on the work presented in \cite{Esquef2006} sequential implementations of t
 
 \subsubsection{Correct detection verification}
 Post restoration a comparison of the restored and original signal should reveal a significant decrease in maximum MSE or other objective metric. This in turn could provide a useful way of confirming that a detection was in fact caused by a noise pulse and therefore justified.
-
 %- Investigate this discrepancy between perceivability and nuisance for artificial and natural noise
-
-
 % ------------------------------------------------------------------------
-
 
 %%% Local Variables:
 %%% mode: latex
