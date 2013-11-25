@@ -22,7 +22,7 @@
 
         <div class="header-container">
             <header class="wrapper clearfix">
-                <h1 class="title">Thesis wedsite title</h1>
+                <h1 class="title">Supporting material for PhD thesis</h1>
             </header>
         </div>
 
@@ -33,6 +33,7 @@
                     <header>
                         <h1>Supporting material</h1>
                         <p>This page is meant to offer additional audio material associated with the submission of my doctoral thesis on the 29th of November 2013 at the University of Cambridge, Department of Engineering. The audio files presented below are examples of restoration performance of the keyboard stroke detection and restoration algorithm.</p>
+						<p>Please note that Internet Explorer will not be able to play these files. Use Google Chrome or Firefox.</p>
 						<p>Newest thesis draft: <a href="pdf/thesis_draft24_11_13.pdf">24/11/2013</a></p>
 				    </header>
                     <section>
@@ -98,15 +99,15 @@
 						<table border="0">
 							<tr>
 								<td width="250px">Original</td>
-								<td><audio src="audio/hello123.wav" controls preload></audio></td>
+								<td><audio src="audio/hello123.wav" type="audio/wav" controls preload ></audio></td>
 							</tr>
 							<tr>
 								<td>Restoration (time waveform)</td>
-								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-waveform-hello123-recon.wav" controls preload></audio></td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-waveform-hello123-recon.wav" type="audio/wav" controls preload></audio></td>
 							</tr>
 							<tr>
 								<td>Restoration (wavelet)</td>
-								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-hello123-recon.wav" controls preload></audio></td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-hello123-recon.wav" type="audio/wav" controls preload></audio></td>
 							</tr>
 						</table>
 						
@@ -118,15 +119,15 @@
 							</tr>
 							<tr>
 								<td>Restoration (wavelet)</td>
-								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon.wav" controls preload></audio></td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon.wav" type="audio/wav" controls preload></audio></td>
 							</tr>
 							<tr>
 								<td>Restoration (wavelet)</br>No future tonal reconstruction</td>
-								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon-NoPostTonalRecon.wav" controls preload></audio></td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon-NoPostTonalRecon.wav" type="audio/wav" controls preload></audio></td>
 							</tr>
 							<tr>
 								<td>Restoration (wavelet)</br>No tonal reconstruction</td>
-								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon-NoTonalRecon.wav" controls preload></audio></td>
+								<td><audio src="audio/Restoration/FilterNoise/FilterNoise-wavelet-sickness-recon-NoTonalRecon.wav" type="audio/wav" controls preload></audio></td>
 							</tr>
 						</table>
 						
@@ -137,15 +138,15 @@
 						<table border="0">
 							<tr>
 								<td width="250px">Original</td>
-								<td><audio src="audio/hello123.wav" controls preload></audio></td>
+								<td><audio src="audio/hello123.wav" type="audio/wav" controls preload></audio></td>
 							</tr>
 							<tr>
 								<td>Restoration (time-waveform)</td>
-								<td><audio src="audio/Restoration/LSAR/LSAR-waveform-hello123-recon.wav" controls preload></audio></td>
+								<td><audio src="audio/Restoration/LSAR/LSAR-waveform-hello123-recon.wav" type="audio/wav" controls preload></audio></td>
 							</tr>
 							<tr>
 								<td>Restoration (wavelet)</td>
-								<td><audio src="audio/Restoration/LSAR/LSAR-wavelet-hello123-recon.wav" controls preload></audio></td>
+								<td><audio src="audio/Restoration/LSAR/LSAR-wavelet-hello123-recon.wav" type="audio/wav" controls preload></audio></td>
 							</tr>
 						</table>
                     </section>
@@ -159,7 +160,7 @@
 
         <div class="footer-container">
             <footer class="wrapper">
-                <h3>footer</h3>
+                <p>Visit my profile website <a href="http://jensenzo.com">here</a></p>
             </footer>
         </div>
 
@@ -167,12 +168,15 @@
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
 
         <script src="js/main.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src='//www.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
+  ga('create', 'UA-43175205-2', 'jensenzo.com');
+  ga('send', 'pageview');
+
+</script>
     </body>
 </html>

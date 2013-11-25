@@ -11,6 +11,7 @@
 ENTRY
   { address
     author
+    assignee
     booktitle
     chapter
     edition
@@ -781,12 +782,45 @@ FUNCTION {phdthesis}
   format.btitle "title" output.check
   new.block
   "PhD thesis" format.thesis.type output.nonnull
-  school "school" output.check
-  address output
   format.date "year" output.check
   new.block
   note output
   fin.entry
+}
+
+%FUNCTION {patent}
+%{ output.bibitem
+%  assignee output.check
+%  new.block
+%  format.date "year" output.check
+%  new.block
+%  "Patent Identifier No. " number output.check
+%  new.block
+%  nationality output.check
+%  address output
+%  format.date "year" output.check
+%  new.block
+%  note output
+%  fin.entry
+%}
+
+FUNCTION {patent}
+{ output.bibitem
+  assignee output
+  format.title "title" output.check
+  blank.sep
+  format.date "year" output.check
+  "Patent Identifier No. " output.nonull
+  format.patentnumber number * output
+  note output
+  fin.entry
+}
+
+FUNCTION {format.patentnumber}
+{ number empty$
+    { "" }
+    { "U.S. Patent~" number * }
+  if$
 }
 
 FUNCTION {dphilthesis}
@@ -907,6 +941,12 @@ MACRO {ieeetc} {"IEEE Transactions on Computers"}
 
 MACRO {ieeetcad}
  {"IEEE Transactions on Computer-Aided Design of Integrated Circuits"}
+
+MACRO {icassp}
+ {"IEEE International Conference on Acoustics, Speech, and Signal Processing"}
+
+MACRO {waspaa}
+ {"IEEE Workshop on Applications of Signal Processing to Audio and Acoustics"}
 
 MACRO {ipl} {"Information Processing Letters"}
 

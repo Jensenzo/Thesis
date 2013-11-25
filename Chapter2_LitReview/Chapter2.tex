@@ -90,7 +90,7 @@ The literature review presented in this chapter is split into three major sectio
 \subsection{Audio classification}
 This section contains a brief review of the methods typically employed in the field of audio classification. Classification features and classifiers are covered somewhat independently since, in many cases, they can be combined according to the particular application.
 
-A variety of different features have been proposed for audio classification but features are mainly centered around the distinction between music, speech, silence and background noise. Zero-crossing rate (ZCR) has been reported as a useful feature for a variety of audio signals although again mainly used in speech/music classification algorithms\cite{Lu2002}. ZCR is defined as the number of time-domain zero-crossings within a frame in the signal. Typically this number is divided by the number of samples within this frame. This feature is a popular feature used in music information retrieval and speech recognition\cite{Saraceno1997}\cite{Scheirer1997}\cite{Gouyou2000}. ZCR is also a feature commonly used in voice activity detectors (VAD) along with energy based detectors\cite{Sangwan2002}.
+A variety of different features have been proposed for audio classification but features are mainly centered around the distinction between music, speech, silence and background noise. Zero-crossing rate (ZCR) has been reported as a useful feature for a variety of audio signals although again mainly used in speech/music classification algorithms\cite{Lu2002}. ZCR is defined as the number of time-domain zero-crossings within a frame in the signal. Typically this number is divided by the number of samples within this frame. This feature is a popular feature used in music information retrieval and speech recognition\cite{Saraceno1997}\cite{Scheirer1997}\cite{Gouyon2000}. ZCR is also a feature commonly used in voice activity detectors (VAD) along with energy based detectors\cite{Sangwan2002}.
 
 %SF (spectral flux)
 Spectral flux (SF) compares the power spectrum of neighbouring audio frames in an effort to measure how quickly the spectrum fluctuates. Typically this is done by calculating the Euclidian distance between two normalised spectral coefficients\cite{Wang2012}.
@@ -99,7 +99,7 @@ Spectral flux (SF) compares the power spectrum of neighbouring audio frames in a
 %NFR (Noise frame ratio)
 The last audio feature presented here is the noise frame ration (NFR) metric. This features classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The NFR is then the ratio between noisy frames and non-noisy frames in the audio segment\cite{Lu2002}\cite{Jiang2000}. 
 
-Many other features have been proposed and used successfully throughout the literature. Other features include: An exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyou2000}.
+Many other features have been proposed and used successfully throughout the literature. Other features include: An exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyon2000}.
 %LSTER (low short-time energy ratio)
 %\cite{Lu2001}
 
