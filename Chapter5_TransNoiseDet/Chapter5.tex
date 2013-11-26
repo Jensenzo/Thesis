@@ -27,7 +27,7 @@ The number 2 pulse seen for every device in Figure~\ref{fig:TypingSPLKeyboards} 
 \begin{figure}[!] %TypingSPLKeyboards
 \centering
 \includegraphics[width=100mm]{TypingSPLKeyboards.png}
-\caption{SPL analysis of keyboard noise (time weighting: 2ms). Plot reproduced from \cite{Hauswirth2013}.}\label{fig:TypingSPLKeyboards}
+\caption{SPL analysis of keyboard noise (time weighting: 2ms). Plot reproduced with permission from \cite{Hauswirth2013}.}\label{fig:TypingSPLKeyboards}
 \end{figure}
 
 Figure~\ref{fig:TypingLoudnessKeyboards} shows the loudness of keyboard pulses versus time. Loudness is a representation of a human's perception of sound volume and is represented on a linear scale so that twice the loudness represents a listener perceiving the sound twice as loud. The figure shows that the desktop keyboard is perceived as being over twice as loud as a laptop keyboard. Desktop keyboards are traditionally optimised for typing comfort and tactile feedback while not having to consider the spacial constraints of laptop computers. In addition some keyboards are specifically designed to give the user audible feedback\cite{Hauswirth2013}.
@@ -35,7 +35,7 @@ Figure~\ref{fig:TypingLoudnessKeyboards} shows the loudness of keyboard pulses v
 \begin{figure}[!] %TypingLoudnessKeyboards
 \centering
 \includegraphics[width=100mm]{TypingLoudnessKeyboards.png}
-\caption{Loudness analysis of keyboard noise. Plot reproduced from \cite{Hauswirth2013}.}\label{fig:TypingLoudnessKeyboards}
+\caption{Loudness analysis of keyboard noise. Plot reproduced with permission from \cite{Hauswirth2013}.}\label{fig:TypingLoudnessKeyboards}
 \end{figure}
 
 In addition to the loudness, Figure~\ref{fig:TypingLoudnessKeyboards} also shows the 5\% percentile value as a single number in the diagram legend. This value indicated the value which the signal exceeds during 5\% of the examined time interval\cite{Hauswirth2013}. This number also reflects the fact that the desktop keyboards in general are perceived much more loudly than laptop keyboards so while laptop keyboards are of interest due to their mechanical connection and physical proximity to the microphone, desktop keyboards is clearly also a potential source of nuisance in telecommunication applications.
@@ -566,7 +566,7 @@ It was found that both the Wavelet and STFT based methods had 2 false detections
 \section{Discussion}\label{sec:WPdiscussion}
 \subsection{Separation algorithm}
 
-By visual inspection of Figures~\ref{fig:Separation_Residual_Example} through \ref{fig:SeparationWaveformExBig640.pdf} it is clear that the separation algorithm provides a reduction of speech while leaving transient noise events largely the same in the residual component. Audibly this effect is also clearly verified. Despite a distinct audible effect on the speech the tonal component alone manages a decreased maximum MSE from 5.2 to 3.2 as well as increasing the PSNR from 80.5 dB to 82 dB. While the maximum MSE is nearly halved in the tonal component of the signal, the original corruption site is still clearly visible in Figure~\ref{fig:SeparationError.pdf}. The original corruption is nearly inaudible in the tonal component and Figure~\ref{fig:SeparationErrorData.pdf} shows in more detail the waveform of the corruption site. The MSE might still be significant in Figure~\ref{fig:SeparationError.pdf} but Figure~\ref{fig:SeparationErrorData.pdf} reveals that this might mainly be due to phase shifts around the corruption site with am inaudible effect.
+By visual inspection of Figures~\ref{fig:Separation_Residual_Example} through \ref{fig:SeparationWaveformExBig640.pdf} it is clear that the separation algorithm provides a reduction of speech while leaving transient noise events largely the same in the residual component. Audibly this effect is also clearly verified\footnote{Listen to separation examples on \siteURL.}. Despite a distinct audible effect on the speech the tonal component alone manages a decreased maximum MSE from 5.2 to 3.2 as well as increasing the PSNR from 80.5 dB to 82 dB. While the maximum MSE is nearly halved in the tonal component of the signal, the original corruption site is still clearly visible in Figure~\ref{fig:SeparationError.pdf}. The original corruption is nearly inaudible in the tonal component and Figure~\ref{fig:SeparationErrorData.pdf} shows in more detail the waveform of the corruption site. The MSE might still be significant in Figure~\ref{fig:SeparationError.pdf} but Figure~\ref{fig:SeparationErrorData.pdf} reveals that this might mainly be due to phase shifts around the corruption site with am inaudible effect.
 
 \subsection{Detection algorithms}
 Two different, but related, detection algorithms have been presented in this chapter; the noise burst model algorithm and the AR filtering algorithm. These two have been compared to two other approaches; the UKD algorithm\cite{Subramanya2007} and a median filter algorithm. While the median filter algorithm provides a benchmark for one of the simplest approaches previously used for similar applications, the UKD algorithm represents the best alternative in the literature.
