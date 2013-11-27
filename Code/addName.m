@@ -20,7 +20,15 @@ for nf = 1:Nfor
                 end
             end
         else
-            newNameStr = [newNameStr, ' ' upper(fullstops{nffs}(1)), '.'];
+            %Test if name is double barreled
+            dash = strfind(fullstops{nffs},'-');
+            if length(dash) > 1
+                error(['More than one "-" in the name: ' fullstops{nffs}])
+            elseif dash %if there is a dash
+                newNameStr = [newNameStr, ' ', upper(fullstops{nffs}(1)), '.-' upper(fullstops{nffs}(dash+1)), '.'];
+            else
+                newNameStr = [newNameStr, ' ', upper(fullstops{nffs}(1)), '.'];
+            end
         end
     end
 end

@@ -1,10 +1,16 @@
-gitDir = 'E:\GitHub\Thesis\References\';
+% gitDir = 'E:\GitHub'; %Home PC
+% dbDir = 'E:\Dropbox\My Dropbox'; %Home PC
 
-bibSrc = 'E:\Dropbox\My Dropbox\KeystrokeRemovalShare\papers\bibGoogle.bib';
-bibSrcOut = [gitDir 'bibGoogle.bib'];
+gitDir = 'C:\Users\jenc2\Documents\GitHub'; %Work PC
+dbDir = 'D:\Dropbox'; %Work PC
+svnDir = 'D:'; %Work PC
 
-% bibSrc = 'E:\Repos\References\bib.bib';
-% bibSrcOut = [gitDir 'references_FirstYear.bib'];
+% bibSrc = [dbDir '\KeystrokeRemovalShare\papers\bibGoogle.bib'];
+% bibSrcOut = [gitDir '\Thesis\References\bibGoogle.bib'];
+
+bibSrc = [svnDir '\Repos\References\bib.bib'];
+bibSrcOut = [gitDir '\Thesis\References\references_FirstYear.bib'];
+
 % bibSrc = 'bibTest.bib';
 % bibSrcOut = 'bibTestOut.bib';
 
@@ -44,6 +50,21 @@ while ischar(tline)
                 %test for comma
                 names{n} = strrep(names{n},char(9),' ');
                 commaPlace = strfind(names{n},',');
+                %test if a comma is preceded by "~" (which indicates a
+                %double barrel-related hack
+                delcP = [];
+                for cP = 1:numel(commaPlace)
+                    if length(names{n}) > commaPlace(cP) %tests if comma is not the last character in the name
+                        if strcmp(names{n}(commaPlace(cP)+1),'~')
+                            delcP = cP;
+                            break
+                        end
+                    else
+                        error(['Comma as the last character in the name?: ', names{n}])
+                    end
+                end
+                commaPlace(delcP) = [];
+                
                 if commaPlace %if the name already has a comma
                     if length(commaPlace) > 2
                         error(['Something went wrong with the name: ' names{n}])
