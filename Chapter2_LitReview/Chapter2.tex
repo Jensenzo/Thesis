@@ -6,7 +6,7 @@
     \graphicspath{{Chapter2_LitReview/Chapter2Figs/EPS/}{Chapter2_LitReview/Chapter2Figs/}}
 \fi
 
-The literature review presented in this chapter is split into three major sections. Classification, Detection and Restoration. These sections contain the literature review that formed that basis of the different chapters of this document. The classification section will cover literature reviewed for the work undertaken in chapters~\ref{ch:APR} and \ref{ch:MultichannelAPR} while the detection and restoration sections will cover work undertaken in chapters~\ref{ch:TransientNoiseDetection} and \ref{ch:TransientNoiseRestoration}.
+The literature review presented in this chapter is split into three major sections: Classification, Detection and Restoration. These sections contain the literature review that formes the basis of the different chapters of this thesis. The classification section will cover literature reviewed for the work undertaken in chapters~\ref{ch:APR} and \ref{ch:MultichannelAPR} while the detection and restoration sections will cover work undertaken in chapters~\ref{ch:TransientNoiseDetection} and \ref{ch:TransientNoiseRestoration}.
 
 %Not JUST classification. Also some other stuff (needs to be removed)
 \section{Classification}\label{sec:LitRev_Classification}
@@ -97,9 +97,9 @@ Spectral flux (SF) compares the power spectrum of neighbouring audio frames in a
 %\cite{Lu2001}\cite{Wang2012}
 
 %NFR (Noise frame ratio)
-The last audio feature presented here is the noise frame ration (NFR) metric. This features classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The NFR is then the ratio between noisy frames and non-noisy frames in the audio segment\cite{Lu2002}\cite{Jiang2000}.
+The last audio feature presented here is the noise frame ratio (NFR) metric. This feature classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The NFR is then the ratio between noisy frames and non-noisy frames in the audio segment\cite{Lu2002}\cite{Jiang2000}.
 
-Many other features have been proposed and used successfully throughout the literature. Other features include: An exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyon2000}.
+Many other features have been proposed and used successfully throughout the literature. An exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyon2000}.
 %LSTER (low short-time energy ratio)
 %\cite{Lu2001}
 
@@ -109,7 +109,9 @@ Many other features have been proposed and used successfully throughout the lite
 %LSP VQ
 %\cite{Lu2001}
 
-In the area of audio classification a couple of classifiers are commonly used. The Gaussian mixture model (GMM) classifier assumes that each class pdf is comprised of a specific number of multidimensional Gaussian distributions. Iterative expectation maximization (EM) can now be used to estimate parameters of the each Gaussian component and the mixture weights\cite{Tzanetakis2002}. K nearest neighbors (K-NN) is a non-parametric classifier where samples are classified according to the majority of its K nearest neighbors\cite{Lu2001}. Both of these classifiers have performed similarly to humans in genre classification applications\cite{Tzanetakis2002} and in speech/music classification/segmentation applications K-NN has given total accuracy rates over 96\% using a variety of features such as ZCR, SF and NFR among others\cite{Lu2002}. Hidden Markov model (HMM) classifiers have also been employed where the HMM is trained using maximum likelihood (ML) based on a training sequence\cite{Kimber1997}\cite{Xiong2003}\cite{Burke2013}. A classification algorithm employed in the context of HMM was the Viterbi algorithm which is covered in more detail later in this chapter\cite{Kimber1997}\cite{Burke2013}.
+In the area of audio classification a range of classifiers has been proposed. The most commonly used ones are discussed here. 
+
+The Gaussian mixture model (GMM) classifier assumes that each class pdf is comprised of a specific number of multidimensional Gaussian distributions. Iterative expectation maximization (EM) can now be used to estimate parameters of the each Gaussian component and the mixture weights\cite{Tzanetakis2002}. K nearest neighbors (K-NN) is a non-parametric classifier where samples are classified according to the majority of its K nearest neighbors\cite{Lu2001}. Both of these classifiers have performed similarly to humans in genre classification applications\cite{Tzanetakis2002} and in speech/music classification/segmentation applications K-NN has given total accuracy rates over 96\% using a variety of features such as ZCR, SF and NFR among others\cite{Lu2002}. Hidden Markov model (HMM) classifiers have also been employed where the HMM is trained using maximum likelihood (ML) based on a training sequence\cite{Kimber1997}\cite{Xiong2003}\cite{Burke2013}. A classification algorithm employed in the context of HMM was the Viterbi algorithm which is covered in more detail later in this chapter\cite{Kimber1997}\cite{Burke2013}.
 A comprehensive introduction to various pattern recognition methods can be found in \cite{Duda2001}.
 
 A study of 143 classification features for general audio data found that MFCC and linear prediction coefficients (LPC) provided ``much better classification accuracy'' compared to spectral features\cite{Li2001}. This was concluded irrespective of the number of audio categories desired.
@@ -131,7 +133,7 @@ Take $\textrm{\textbf{x}}$ to be a vector of $p$ random variables where the vari
 is the first PC where ${}^T$ denotes a transposed matrix.
 Now, find the linear function $\boldsymbol\alpha_2^T \textrm{\textbf{x}}$ of $\textrm{\textbf{x}}$ uncorrelated with $\boldsymbol\alpha_1^T \textrm{\textbf{x}}$ which again maximizes the variance, and so on, so that the $k$th PC $\boldsymbol\alpha_k^T \textrm{\textbf{x}}$ maximizes the variances while being uncorrelated to $\boldsymbol\alpha_1^T \textrm{\textbf{x}}, \boldsymbol\alpha_2^T \textrm{\textbf{x}}, \ldots, \boldsymbol\alpha_{k-1}^T \textrm{\textbf{x}}$. For a reduction of dimensionality it is hoped that most of the variability of $\textrm{\textbf{x}}$ is accounted for by $q$ PCs where $q<<p$ \citep[chap. 1]{Jolliffe1986}.
 
-A more common transform into uncorrelated basis functions is the discrete Fourier transform (DFT) or FT which decomposes a signal into a set of uncorrelated or orthogonal (in the statistical sense) complex exponentials of the form $e^{i\omega t}$. The transform described above can therefore be seen as a generalization of the DFT for random processes, where the decomposed uncorrelated basis functions are real random signals rather than complex exponentials \citep[chap. 4.6]{Therrien1992}.
+A more common transform into uncorrelated basis functions is the discrete Fourier transform (DFT) or FT which approximately decomposes a signal into a set of uncorrelated or orthogonal (in the statistical sense) complex exponentials of the form $e^{i\omega t}$. The transform described above can therefore be seen as a generalization of the DFT for random processes, where the decomposed uncorrelated basis functions are real random signals rather than complex exponentials \citep[chap. 4.6]{Therrien1992}.
 
 \subsection{Simple PCA Examples}
 
@@ -143,7 +145,7 @@ Figure~\ref{fig:30observations} gives a plot of 30 observations of two highly co
   \end{center}
 \end{figure}
 
-It is also seen in Figure~\ref{fig:30observations} that neither of the two variables are zero mean. To apply PCA the mean of both variables must be subtracted. Figure~\ref{fig:30observationsBar} shows the two variables with their means subtracted.
+It is also seen in Figure~\ref{fig:30observations} that neither of the two variables have a mean of zero. To apply PCA the mean of both variables must be subtracted. Figure~\ref{fig:30observationsBar} shows the two variables with their means subtracted.
 \begin{figure}[!]
   \begin{center}
     \includegraphics[width=260px]{30observationsBar.pdf}
@@ -197,7 +199,7 @@ The eigenvector with the highest corresponding eigenvalue is the PC. Ordering th
   \end{center}
 \end{figure}
 
-It is noticed that this transform, who's results are displayed in Figure~\ref{fig:30observationsBarEig}, do not actually reduce the dimensionality of the data since $q=p$ and hence all information is preserved. By making $q<p$ the dimensionality is reduced and less significant data is discarded. Since it is noticed from equation~(\ref{eq:eigValues}) that $\lambda_1$ is much larger than $\lambda_2$, and hence $\boldsymbol\alpha_1$ is a far more significant component in the data than $\boldsymbol\alpha_2$, one could feasibly define the feature vector as $\hat{\boldsymbol\alpha} = \boldsymbol\alpha_1$. Figure~\ref{fig:30observationsFinal} shows the result of a transformation of the 30 observations for this scenario where $q=1$. The data has been transformed back into $x_1$ and $x_2$ and the original means of the data has been reapplied.
+It is noticed that this transform, with results displayed in Figure~\ref{fig:30observationsBarTrans}, do not actually reduce the dimensionality of the data since $q=p$ and hence all information is preserved. By making $q<p$ the dimensionality is reduced and less significant data is discarded. Since it is noticed from equation~(\ref{eq:eigValues}) that $\lambda_1$ is much larger than $\lambda_2$, and hence $\boldsymbol\alpha_1$ is a far more significant component in the data than $\boldsymbol\alpha_2$, one could feasibly define the feature vector as $\hat{\boldsymbol\alpha} = \boldsymbol\alpha_1$. Figure~\ref{fig:30observationsFinal} shows the result of a transformation of the 30 observations for this scenario where $q=1$. The data has been transformed back into $x_1$ and $x_2$ and the original means of the data has been reapplied.
 
 \begin{figure}[!]
   \begin{center}
@@ -293,10 +295,10 @@ Since transient noise events often exhibit a sudden fast change in the signal, o
 While autoregressive (AR) methods have been used in other fields for detection and restoration of transient noise events \cite{Arakawa1986} these methods were generally pioneered in the field of audio processing in \cite{Vaseghi1988thesis}\cite{Vaseghi1988}\cite{Vaseghi1990}. AR methods are today the basis for many pulse detection algorithms in audio applications\cite{Karjalainen1997}\cite{Esquef2000}\cite{Haermae2000}\cite{Esquef2002}\cite{Kauppinen2002}\cite{Wolfe2005}\cite{Subramanya2007}. The AR method proceeds by considering a sub-frame of the audio data $x_t$ for $ t = \{ 1, \ldots, N \}$. Assuming the data is drawn from a short-term stationary AR process:
 
 \begin{equation}\label{eq:ARmodel}
-x_t = \sum_{i=1}^P a_i x_{n-i} + e_t,
+x_t = \sum_{i=1}^P a_i x_{n-i} + ge_t,
 \end{equation}
 
-where $e_t$ is the prediction error (or excitation signal) and $\mathbf{a} = \{a_1,\ldots,a_P\}$ is the AR coefficients of order $P$. The transient nature of the impulsive noise pulses will most likely lead to very large prediction errors if an attempt is made to predict its values with previous values of $x_t$. It follows that if an inverse AR filter is applied to an AR signal segment corrupted with transient noise events $y_t$, the prediction error $e_t = y_t - \sum_{i=1}^P a_i y_{n-i}$ is expected to be large when noise events are present while remaining low at other times\cite{Godsill1998book}.
+where $e_t$ is the prediction error (or excitation signal), $g$ is the excitation gain and $\mathbf{a} = \{a_1,\ldots,a_P\}$ is the AR coefficients of order $P$. The transient nature of the impulsive noise pulses will most likely lead to very large prediction errors if an attempt is made to predict its values with previous values of $x_t$. It follows that if an inverse AR filter is applied to an AR signal segment corrupted with transient noise events $y_t$, the prediction error $e_t = y_t - \sum_{i=1}^P a_i y_{n-i}$ is expected to be large when noise events are present while remaining low at other times\cite{Godsill1998book}.
 
 In \cite{Vaseghi1990} the authors find that linear prediction systems, or AR process, are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''. This realisation is used to separate out the residual of the LPC model effectively leaving the excitation noise in addition to the transient noise events, similarly to the pre-processing step of the favored approach in \cite{Kauppinen2002}.
 
@@ -310,11 +312,11 @@ and assuming that the speech signal can be modelled with a linear prediction mod
 \begin{equation}\label{eq:Vaseghi1990_4}
 x_n = \sum^P_{k=1} a_k x_{n-k} +ge_n,
 \end{equation}
-where $\mathbf{a}$ is the LPC parameters, $e_n$ is the excitation signal and $g$ is the linear prediction system's gain. The excitation signal can either be noise-like or a mixture of noise and some quasi periodic train of pulses. White noise is considered a good excitation signal for speech modelling\cite{Vaseghi1990}.
+where $\mathbf{a}$ is the LPC parameters, $e_n$ is the excitation signal and $g$ is the linear prediction system's gain. The excitation signal can either be noise-like or a mixture of noise and some quasi periodic train of pulses. White noise can be considered as a basic excitation signal for speech modelling\cite{Vaseghi1990}.
 
 Equation~\ref{eq:Vaseghi1990_1} can now be rewritten
 \begin{equation}\label{eq:Vaseghi1990_5}
-y_n = \sum^P_{k=1} a_k x_{n-k} + e_n + d_n.
+y_n = \sum^P_{k=1} a_k x_{n-k} + ge_n + d_n.
 \end{equation}
 
 With an estimate for the LPC parameters $\mathbf{\hat{a}}$, the noisy signal $y_n$ can be written as the noisy excitation signal $v_n$
@@ -328,29 +330,29 @@ With an estimate for the LPC parameters $\mathbf{\hat{a}}$, the noisy signal $y_
 where $a_k$ is the error in the LPC parameter vector estimate. Equation~\ref{eq:Vaseghi1990_6} can now be rewritten
 
 \begin{equation}\label{eq:Vaseghi1990_7}
-v_n = e_n + d_h - \sum^P+{k=1} \hat{a}_k d_{n-k} + \sum^P_{k=1} \tilde{a}_k x_{n-k}.
+v_n = e_n + d_h - \sum^P_{k=1} \hat{a}_k d_{n-k} + \sum^P_{k=1} \tilde{a}_k x_{n-k}.
 \end{equation}
 
-The three elements that contribute to the noise in the excitation sequence estimate is therefore the impulsive disturbance $d_n$, the past noise samples $p$ and the inflation in the variance of the the residual signal due to the error parameter estimate\cite{Vaseghi1990}.
+The three elements that contribute to the noise in the excitation sequence estimate is the impulsive disturbance $d_n$, the past $p$ noise samples and the inflation in the variance of the the residual signal due to the error parameter estimate\cite{Vaseghi1990}.
 %\todo{maybe more sources for the separation?}
 
 Since the transient noise pulses are transformed to a scaled version of the pulse response of the inverse LPC filter, and since experimental results conducted by \cite{Vaseghi1990} shows the amplitude of the excitation signal is in the order of $10^{-1}$ to $10^{-4}$ the detection task is greatly simplified. The authors of \cite{Godsill1998} note that the disadvantages with the approach outlined in \cite{Vaseghi1990} is the inability to detect small pulses in the presence of much larger disturbances as well as the introduction of distortion for certain signals. In \cite{Godsill1998} the pulse detection problem is put in a Bayesian framework and extended to non-Gaussian noise pulses.
 
 An adaptation to the basic AR detection method in \cite{Vaseghi1988} uses a matched filter approach to detect transient noise events. The matched filter approach proceeds by considering the transient noise event as the signal and the AR data as the coloured additive noise\cite{Godsill1998book}. An inherent problem with the matched filter is its dependence on training. Other methods in the literature model impulsive noise as non-Gaussian heavy-tailed distributions whereof the $\alpha$-stable distribution is particularly popular \cite{Tsihrintzis1997}\cite{Coates2002}. According to \cite{Nikias1995} $\alpha$-stable distributions are good for modeling many types of impulsive noise (including atmospheric and underwater acoustic noise). While the sub-Gaussians methods in \cite{Tsihrintzis1997}\cite{Coates2002} appear to perform well on certain kinds of impulsive noise it is questionable whether they could perform in a real time application with high pulse variability and high sample rates.
 
-Figure~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} compares the output of 4 basic detections schemes discussed up until now. The data presented in Figure~\ref{fig:LitRev_DetectCompare}(a) and Figure~\ref{fig:LitRev_DetectCompare2}(a) is speech data corrupted with keyboard tapping noise sampled at 44.1 kHz. Each primary tapping pulse has been marked as ``Ground Truth'' although secondary pulses can also be seen. Comparing the matched filter (b) and AR prediction error (c) methods in Figures~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} it is noted that the matched filter produces a more smeared response while, in some cases, picking out more subtle pulses\cite{Godsill1998book}, e.g. 3rd marked pulse in Figure~\ref{fig:LitRev_DetectCompare}. The median filtered (d) and the high pass-filtered (HP) (e) signal produce nearly identical results. These results are also superior in that they increase the margin between lowest correct detection and the highest false detection is larger than for the AR prediction error (c) and potentially the matched filter (b). It is also noted that both me median and HP filtered signals pick up a faint secondary pulse just beyond the 6th confirmed pulse in Figure~\ref{fig:LitRev_DetectCompare}. For the matched filter (b) response this pulse is obscured due to temporal smearing. As will be discussed at a later point this secondary detection is typically associated with the lifting of a keyboard key and should therefore not be considered as a potential false detection.
+Figure~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} compares the output of 4 basic detections schemes discussed up until now. The data presented in Figure~\ref{fig:LitRev_DetectCompare}(a) and Figure~\ref{fig:LitRev_DetectCompare2}(a) is speech data corrupted with keyboard tapping noise sampled at 44.1 kHz. Each primary tapping pulse has been marked as ``Ground Truth'' although secondary pulses can also be seen. Comparing the matched filter (b) and AR prediction error (c) methods in Figures~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} it is noted that the matched filter produces a more smeared response while, in some cases, picking out more subtle pulses\cite{Godsill1998book}, e.g. 3rd marked pulse in Figure~\ref{fig:LitRev_DetectCompare}. The median filtered (d) and the high pass-filtered (HP) (e) signal produce nearly identical results. These results are also superior in that they increase the margin between lowest correct detection and the highest false detection is larger than for the AR prediction error (c) and potentially the matched filter (b). It is also noted that both the median and HP filtered signals pick up a faint secondary pulse just beyond the 6th confirmed pulse in Figure~\ref{fig:LitRev_DetectCompare}. For the matched filter (b) response this pulse is obscured due to temporal smearing. As will be discussed at a later point this secondary detection is typically associated with the lifting of a keyboard key and should therefore not be considered as a potential false detection.
 
 \begin{figure}[!] %LitRev_DetectCompare
 \centering
-\includegraphics[width=130mm]{LitRev_DetectCompare.pdf}
-\caption{Pulse detection comparison, (a) Speech data with 6 primary keystroke pulses sampled at 44.1 kHz, (b) absolute value matched filter detector output, (c) absolute value of AR filter prediction error output, (d) absolute value of median filter prediction error, and (e) absolute value of high pass filtered data with crossover frequency 9.6 kHz.}
+\includegraphics[width=130mm]{LitRev_DetectCompareNew.png}
+\caption{Pulse detection comparison, (a) Speech data with 6 primary keystroke pulses sampled at 44.1 kHz, (b) absolute value matched filter detector output, (c) absolute value of AR filter prediction error output with buffer size 1024 samples and order 100, (d) absolute value of median filter prediction error, and (e) absolute value of high pass filtered data with crossover frequency 9.6 kHz.}
 \label{fig:LitRev_DetectCompare}
 \end{figure}
 
 \begin{figure}[!] %LitRev_DetectCompare2
 \centering
-\includegraphics[width=130mm]{LitRev_DetectCompare2.pdf}
-\caption{Pulse detection comparison, (a) Speech data with 2 primary keystroke pulses sampled at 44.1 kHz, (b) absolute value matched filter detector output, (c) absolute value of AR filter prediction error output, (d) absolute value of median filter prediction error, and (e) absolute value of high pass filtered data with crossover frequency 9.6 kHz.}
+\includegraphics[width=130mm]{LitRev_DetectCompare2New.png}
+\caption{Pulse detection comparison, (a) Speech data with 2 primary keystroke pulses sampled at 44.1 kHz, (b) absolute value matched filter detector output, (c) absolute value of AR filter prediction error output with buffer size 1024 samples and order 100, (d) absolute value of median filter prediction error, and (e) absolute value of high pass filtered data with crossover frequency 9.6 kHz.}
 \label{fig:LitRev_DetectCompare2}
 \end{figure}
 
@@ -394,7 +396,7 @@ where $C_{tk}$ is a constant.
 \subsection{Hidden Markov model (HMM)}
 While some detection algorithms quite simply base detections on magnitudes of some parameter\cite{Subramanya2007}\cite{Sugiyama2007} in some situations it may be advantageous to attempt to model, probabilistically, the evolution of a sequence of hidden states. For this application the hidden Markov model (HMM) is considered effective\cite{Rabiner1989}\cite{Xu2005}.
 
-It is beyond the scope of this work to give a comprehensive introduction to HMM but particularly this source \cite{Rabiner1989} is a good introduction to HMM in the field of speech processing.
+It is beyond the scope of this work to give a comprehensive introduction to HMM but \cite{Rabiner1989} provides a comprehensive introduction to HMM in the field of speech processing.
 
 %Viterbi
 The Viterbi algorithm, first proposed in 1967\cite{Viterbi1967}, is a recursive optimal solution to the problem of estimating the state sequence of a discrete-time finite-state Markov process\cite{Forney1973}. Originally developed as a method for decoding convolutional codes
@@ -406,7 +408,8 @@ Given an observation of a sequence $y \in \{y_1,\ldots,y_K\}$ the Viterbi algori
 L = \prod_{k=1}^K Pr(S_{k-1} \rightarrow S_{k}) p(y_k | S_{k-1} \rightarrow S_{k}).
 \end{equation}
 
-Typically the the logarithm is here considered due to computational concerns:
+Typically the the logarithm is here considered due to computational efficiency.
+
 \begin{equation}\label{eq:viterbiLitRev2}
 \log{\left(L\right)} = \sum_{k=1}^K m(y_k ; S_{k-1}, S_{k}),
 \end{equation}
@@ -436,6 +439,7 @@ which is the expression at the heart of the Viterbi algorithm\cite{Viterbi2006}.
 %\cite{Rabiner1989}\cite{Viterbi1967}\cite{Forney1973}
 
 \subsubsection{Time-Frequency processing}
+%The basics of time-frequency processing is the correlation of a .... %Simon made a mark over "is" in this sentence
 Since the object of interest in our detection efforts is inherently transient and therefore localised in time, it is a significant shortcoming of classic Fourier analysis that it provides no such temporal information. The basics of time-frequency processing is the correlation of a signal with a family of waveforms that are well concentrated in time as well as in frequency\cite{Mallat1999} also called \emph{time-frequency atoms}\cite{Gabor1946}. The popular STFT used in numerous applications dates back to 1946 and the introduction of the windowed Fourier atoms to measure the ``frequency variations'' of sound. Given the real and symmetric window
 
 \begin{equation}\label{eq:Mallat1999}
@@ -650,7 +654,7 @@ These methods all appear to have been applied indiscriminately to the data seque
 %and detection of impulsive type interference using adaptive median
 %hybrid filterâ€™. IEEE Proc. ICASSP 1987, pp. 117-120.
 
-Realizing the power of both linear and non-linear approaches to non-stationary noise detection and restoration, a range of \emph{hybrid} approaches arose\cite{Nieminen1987a}\cite{Lee1985} \cite{Heinonen1987}. A modified trimmed mean (MTM) filter, was found to outperform a standard median filter in the task of preserving naturally sharp edged in signals\cite{Lee1985}. The MTM filter quite simply replaces values of a frame with the average of a subframe selected around the outer frame's median value\cite{Lee1985}. An FIR median hybrid (FMH) filter was designed with the aim of outperforming the standard median filter computationally. The FMH filter was found to perform similarly the the standard median filter\cite{Heinonen1987}. Lastly the adaptive median hybrid (AMH) filters, proposed in \cite{Nieminen1987a}, employ multiple substructures which was considered ``ideal for processing of signals with statistics which change abruptly''. The theory is that at least one of the substructures will have adapted to a local change in the signal characteristics, whereas short non-stationary changes will be omitted. For the examples presented, this approach conserved sharp local changes while a comparable Least Means Squares (LMS) filter did not\cite{Nieminen1987a}.
+Realizing the power of both linear and non-linear approaches to non-stationary noise detection and restoration, a range of \emph{hybrid} approaches arose\cite{Nieminen1987a}\cite{Lee1985}\cite{Heinonen1987}. A modified trimmed mean (MTM) filter, was found to outperform a standard median filter in the task of preserving naturally sharp edged in signals\cite{Lee1985}. The MTM filter quite simply replaces values of a frame with the average of a subframe selected around the outer frame's median value\cite{Lee1985}. An FIR median hybrid (FMH) filter was designed with the aim of outperforming the standard median filter computationally. The FMH filter was found to perform similarly the the standard median filter\cite{Heinonen1987}. Lastly the adaptive median hybrid (AMH) filters, proposed in \cite{Nieminen1987a}, employ multiple substructures which was considered ``ideal for processing of signals with statistics which change abruptly''. The theory is that at least one of the substructures will have adapted to a local change in the signal characteristics, whereas short non-stationary changes will be omitted. For the examples presented, this approach conserved sharp local changes while a comparable Least Means Squares (LMS) filter did not\cite{Nieminen1987a}.
 
 From a computational perspective median filters involve a sequence of searching and sorting steps and despite dedicated hardware for these operations these procedures are generally computationally intensive\cite{Kundu1984}. A generalised mean implementation for black and white photos showed similar, and in some cases better, performance to the median filter while maintaining a distinct computational advantage\cite{Kundu1984}.
 
