@@ -16,6 +16,25 @@ The work presented here will consider two aspects of impact related audio pulses
 \emph{Is it possible to accurately infer the origin of a device-interaction solely based on the audible pulse generated from the interaction?}
 This question will be considered primarily from the perspective of a single-channel input and will focus on methods that are computationally realizable in a real-time scenario. The problem will also be generalized to multiple channels. The problem will be framed as a touchscreen implementation and will be referred to as acoustic pulse recognition (APR). The performance of the methods developed will be compared and contrasted and various practical concerns associated with the particular application will be discussed.
 
+An example of a pulse associated with the interaction with a device is shown in Figure~\ref{fig:singleSampleTap.png}. This pulses is recorded from a standard mobile phone (more details in section~\ref{sec:APRsystem}), and the majority of the pulses has decayed after approximately 7 ms.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=110mm]{singleSampleTap.png}
+    \caption{A sample pulse from a mobile phone. Sampled at 44.1 kHz.}\label{fig:singleSampleTap.png}
+  \end{center}
+\end{figure}
+
+A successful application of a classification algorithm relies on the similarity of pulses from identical impact sites and dissimilarity from those from other sites. Figure~\ref{fig:twotwoSampleTap.png} shows an example of four pulses: two from one spot (blue) and two from a different spot (red). It is clearly seen in Figure~\ref{fig:twotwoSampleTap.png} that while the blue pulses are nearly identical their waveforms are vastly different to that of the red pulses. This observation is, as noted, integral to a successful classification algorithm based on this data. In this example all pulse-onsets have been aligned to the same point.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=110mm]{twotwoSampleTap.png}
+    \caption{Two sets of two sample pulses recorded a two different spots on the mobile phone. Sampled at 44.1 kHz.}\label{fig:twotwoSampleTap.png}
+  \end{center}
+\end{figure}
+
+While Figure~\ref{fig:twotwoSampleTap.png} shows data obtained in an ideal scenario, pulses will vary greatly depending on factors such as temperature, how the device is suspended and with what it is impacted. The work undertaken in chapters~\ref{ch:APR} and~\ref{ch:MultichannelAPR} will seek to apply this classification algorithm as a real world touch surface application.
 
 % Summary of literature
 %A range of applications have been proposed that utilise multiple microphones to implement a touchscreen interface\cite{US8174547}\cite{US8233353}\cite{TouchSystems2006}\cite{US7411581}\cite{WO2006108443}. The functional elements of these methods all rely on their being multiple sources and so the single-channel implementation of the APR system is radically different and should therefor be considered a significant contribution. Not only does the single-channel implementation of the APR system allow for lower hardware cost for integration, it also enables post-hoc integration in system without multiple accessible microphones which currently still is the majority of devices. Work presented in chapter~\ref{ch:APR} is also presented in \cite{Christensen2011} and \cite{US20110316784}.
