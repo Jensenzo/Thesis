@@ -109,10 +109,10 @@ as the expression for a non-informative prior. This ignorant prior can be modifi
 The likelihood can be expressed as the marginalization of the conditional probability of the data $y$ given the scaling $\theta$, template number $j$ and the time shift $n_0$, over $\theta$, so that:
 
 \begin{equation}\label{eq:MLmargin}
-p(y|j,n_0)=\int_\theta p(y|\theta, j, n_0) p(\theta) d\theta,
+p(y|j,n_0)=\int_\theta p(y|\theta, j, n_0) p(\theta|j,n_0) d\theta,
 \end{equation}
 
-where the product of the two normal distributions $p(y|\theta, j, n_0)$ and $p(\theta)$, can be expressed as a third unnormalized normal distribution and a normalizing constant $z$.
+where the product of the two normal distributions $p(y|\theta, j, n_0)$ and $pp(\theta|j,n_0)$, can be expressed as a third unnormalized normal distribution and a normalizing constant $z$.
 
 \begin{equation}\label{eq:MLprod1}
 \mathcal{N}_y(\theta t^j(n_0),\sigma_v^2)\cdot\mathcal{N}_\theta(\mu_\theta,\sigma^2_\theta) = z \times \mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta),
@@ -234,12 +234,12 @@ where $t_i^j(n_0)$ is the $j$th template, $j \in \{1, \ldots ,J\}$, for $I$ inde
 
 and Gaussian noise to model background interference:
 
-\begin{equation}\label{eq:noise}
+\begin{equation}\label{eq:noisePCA}
 v_n \stackrel{i.i.d.}{\sim} \mathcal{N}(0,\sigma_{v,n}^2).
 \end{equation}
 
 Considering this model in matrix notation:
-\begin{equation}\label{eq:mod2}
+\begin{equation}\label{eq:mod2PCA}
 y = \textbf{t}\Theta + \textbf{v}.
 \end{equation}
 
@@ -257,7 +257,7 @@ p(y|j) &=& \int_\Theta p(y,\Theta|j) d\Theta \\
 \label{eq:marg1} &=& \int_\Theta p(y|\Theta,j)p(\Theta|j) d\Theta.
 \end{eqnarray}
 
-Given (\ref{eq:noise}) and (\ref{eq:mod2}), the probability $p(y|\Theta)$ can be expressed as:
+Given (\ref{eq:noisePCA}) and (\ref{eq:mod2PCA}), the probability $p(y|\Theta)$ can be expressed as:
 
 \begin{equation}\label{eq:probybeta}
 p(y|\Theta,j) = \mathcal{N}_y(\textbf{t}\Theta,\sigma_v^2\textbf{I}),
@@ -352,40 +352,40 @@ and maximized over the $J$ different templates, similar to equation~(\ref{eq:MLd
 
 To account for linear scaling of the signal $x$, a modified PCA model is constructed. While the $\theta$ parameter of the PCA approach assumes that each pulse is a combination of a set of components observed during training, the strength of impact on the surface will translate into an increased amplitude of the pulse waveform. The aim of the variable amplitude model is to separate out this scale as a random variable $K$.
 
-Recalling the standard multi-variate PCA based approach with mean $\mu$ (see equation \ref{eq:model1}), we had that
+Recalling the standard multi-variate PCA based approach with mean $\mu$ zero (see equation \ref{eq:model1}), we had that
 
 \begin{equation}\label{eq:K_PCAmodel}
-y = \sum^I_{i=1} \theta^j_i t^j_i(n_0) + \mu^j(n_0) + v.
+y = \sum^I_{i=1} \theta^j_i t^j_i(n_0) + v.
 \end{equation}
 
 For $K$ a vector of scalar amplitudes for the combined instantaneous linear combination, we can write,
 
 \begin{equation}\label{eq:Kmodel}
-y = \sum^L_{l=1} \sum^I_{i=1} K^j_l \theta^j_i t^j_i(n_0) + K^j_l \mu^j(n_0) + v.
+y = \sum^I_{i=1} K^j \theta^j_i t^j_i(n_0) + v.
 \end{equation}
 
-Here $K^j_l$ is the $l$th of $L$ scaling amplitudes for the $j$th template.
+Here $K^j$ is the scaling amplitude for the $j$th template.
 
-Considering previously equation~\ref{eq:noise}, we can now model the signal $x$ as:
+Considering previously equation~\ref{eq:noisePCA}, we can now model the signal $y$ as:
 
 \begin{equation}\label{eq:GP2}
-    x_{j,n,K} \sim \mathcal{N}(K_j \mu_{j,n} ,K_j^2 \sigma_{j,n}^2),
+    p(y|j,n,K) = \mathcal{N}_y(K^j \theta^j t^j ,K_j^2 \sigma_{j,n}^2),
 \end{equation}
 
 where $K_j$ is a random variable describing the linear scaling of the model.
 
-In equation~\ref{eq:MLmargin} the continuous component scaling factor $\theta$ was marginalized out to give $p(y|j,n_0)$. In much the same way the likelihood can be estimated by marginalization of the conditional probability of the data $y$ given the discrete scaling $K$, template number $j$ and the time shift $n_0$, over $K$, so that:
+In equation~\ref{eq:MLmargin} the continuous component scaling factor $\theta$ was marginalized out to give $p(y|j,n_0)$. In much the same way the likelihood can be estimated by evaluation of the joint probability of the data $y$ given the discrete scaling $K$, template number $j$ and the time shift $n_0$, over $K$, so that:
 
 \begin{equation}\label{eq:MLmarginK}
-p(y|j,n_0)=\sum_{l=1}^L p(y|j, n_0, K^j_l) p(K^j_l),
+p(y|j,n_0)=\sum_{l=1}^L p(y|j, n_0, K^j_l) p(K^j_l| l, j),
 \end{equation}
 
-%The likelihood can now be described as being:
-%\begin{equation}\label{eq:likelihoodK1}
-%p(y|j,n,K) = \frac{1}{\sqrt{2 \pi \sigma_{j,n}^2 K_j^2 \sigma_{v, n}^2}} \exp{\left( -\frac{\left( x - K_j \mu_{j,n}\right)^2}{2\sigma_{j,n}^2 K_j^2 \sigma_{v}^2} \right)}.
-%\end{equation}
+The likelihood can now be described as being:
+\begin{equation}\label{eq:likelihoodK1}
+p(y|j,n,K) = \frac{1}{\sqrt{2 \pi \sigma_{j,n}^2 K_j^2 \sigma_{v, n}^2}} \exp{\left( -\frac{\left( x - K_j \mu_{j,n}\right)^2}{2\sigma_{j,n}^2 K_j^2 \sigma_{v}^2} \right)}.
+\end{equation}
 
-and the distribution of $p(K_j)$ could be estimated as a discrete point-mass \linebreak[0](positive-valued) inverse-gamma distribution or simply sampled at a training stage for each class $j$. In this case $p(K_j)$ is assumed to be discrete and equation~\ref{eq:MLmarginK} is a finite sum of weighted Gaussian terms, in the continuous cases the integral could be computed using Mote Carlo integration approximated using discrete summation.
+and the distribution of $p(K_j)$ could be estimated as a discrete point-mass \linebreak[0](positive-valued) inverse-gamma distribution or simply sampled at a training stage for each class $j$. In this case $p(K_j)$ is assumed to be discrete and equation~\ref{eq:MLmarginK} is a finite sum of weighted Gaussian terms, in the continuous cases the integral could be computed using Monte Carlo integration approximated using discrete summation.
 
 Proceeding with the steps from equation~\ref{eq:probybeta} - \ref{eq:z25}, the log-likelihood is calculated
 
