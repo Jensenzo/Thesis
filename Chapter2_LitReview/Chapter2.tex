@@ -97,13 +97,13 @@ Spectral flux (SF) compares the power spectrum of neighbouring audio frames in a
 %\cite{Lu2001}\cite{Wang2012}
 
 %NFR (Noise frame ratio)
-The last audio feature presented here is the noise frame ration (NFR) metric. This features classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The NFR is then the ratio between noisy frames and non-noisy frames in the audio segment\cite{Lu2002}\cite{Jiang2000}. 
+The last audio feature presented here is the noise frame ration (NFR) metric. This features classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The NFR is then the ratio between noisy frames and non-noisy frames in the audio segment\cite{Lu2002}\cite{Jiang2000}.
 
 Many other features have been proposed and used successfully throughout the literature. Other features include: An exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyon2000}.
 %LSTER (low short-time energy ratio)
 %\cite{Lu2001}
 
-%KNN 
+%KNN
 %\cite{Lu2001}
 
 %LSP VQ
@@ -112,8 +112,8 @@ Many other features have been proposed and used successfully throughout the lite
 In the area of audio classification a couple of classifiers are commonly used. The Gaussian mixture model (GMM) classifier assumes that each class pdf is comprised of a specific number of multidimensional Gaussian distributions. Iterative expectation maximization (EM) can now be used to estimate parameters of the each Gaussian component and the mixture weights\cite{Tzanetakis2002}. K nearest neighbors (K-NN) is a non-parametric classifier where samples are classified according to the majority of its K nearest neighbors\cite{Lu2001}. Both of these classifiers have performed similarly to humans in genre classification applications\cite{Tzanetakis2002} and in speech/music classification/segmentation applications K-NN has given total accuracy rates over 96\% using a variety of features such as ZCR, SF and NFR among others\cite{Lu2002}. Hidden Markov model (HMM) classifiers have also been employed where the HMM is trained using maximum likelihood (ML) based on a training sequence\cite{Kimber1997}\cite{Xiong2003}\cite{Burke2013}. A classification algorithm employed in the context of HMM was the Viterbi algorithm which is covered in more detail later in this chapter\cite{Kimber1997}\cite{Burke2013}.
 A comprehensive introduction to various pattern recognition methods can be found in \cite{Duda2001}.
 
-A study of 143 classification features for general audio data found that MFCC and linear prediction coefficients (LPC) provided ``much better classification accuracy'' compared to spectral features\cite{Li2001}. This was concluded irrespective of the number of audio categories desired. 
-%hidden Markov model-based (HMM-based) classifiers 
+A study of 143 classification features for general audio data found that MFCC and linear prediction coefficients (LPC) provided ``much better classification accuracy'' compared to spectral features\cite{Li2001}. This was concluded irrespective of the number of audio categories desired.
+%hidden Markov model-based (HMM-based) classifiers
 % - http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB8
 % - http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB9
 %neural network-based classifiers http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB4
@@ -208,35 +208,35 @@ It is noticed that this transform, who's results are displayed in Figure~\ref{fi
 
 It is clearly seen how the data resembles that of Figure~\ref{fig:30observations} although some of the variability has been lost in the dimensional reduction.
 
-\subsubsection{Eigenfaces}
-A popular application of PCA is the so called \emph{eigenfaces}\cite{Sirovich1987}\cite{Turk1991}\cite{Zaeri2006}. \emph{Eigenfaces} are essentially eigenvectors derived from the covariance matrix of a high dimensional vector space or ensemble of individual pictures. The idea of \emph{eigenpictures} was originally developed by \cite{Sirovich1987} were the authors repeatedly draw parallels between how humans recognize facial features and their own computational method. Although the \emph{eigenpictures} were not formerly used for facial recognition until \cite{Turk1991}, where the term \emph{eigenfaces} was first coined, \cite{Sirovich1987} hypothesises that perhaps humans compartmentalize faces and treat different features individually. This assertion is rooted first in the observation that humans are able to store and recognize enormous numbers of faces and secondly, that since recognition is apparently instantaneous it is conceivable that we do it by some efficient method, possibly similar to low dimensional methods. It is for example noted that ``(...) fewer than 100 \emph{eigenpictures} are necessary to fit a picture.'' and ``fewer than 100 dimensions are needed to provide likeness.''.
-
-The method used in \cite{Sirovich1987} uses photographs of 115 male undergraduates faces. These pictures were then digitized to a 128 by 128 pixel image and manually aligned. Figure~\ref{fig:Sirovich1987-3} shows a figure of 3 cropped images. The left image is the average face based on the ensemble, the middle is a sample face and right image that sample faces departure from the ensemble average or the samples \emph{caricature}. All pictures presented in this section are reproduced from the original paper \cite{Sirovich1987} where none of the pictures have been filtered to eliminate the high frequencies produced by digitization.
-
-\begin{figure}[!]
-  \begin{center}
-    \includegraphics[width=410px]{Sirovich1987-3.pdf}
-    \caption{Cropped faces: left, the average; middle, a sample face; right, its caricature.}\label{fig:Sirovich1987-3}
-  \end{center}
-\end{figure}
-
-The covariance matrix of the aligned ensemble is now calculated and all the \emph{eigenpictures} determined. Figure~\ref{fig:Sirovich1987-4} shows the first 8 of these \emph{eigenpictures} going from the top left frame, moving right and ending on the bottom right frame with the 8th \emph{eigenpicture}.
-
-\begin{figure}[!]
-  \begin{center}
-    \includegraphics[width=270px]{Sirovich1987-4.pdf}
-    \caption{First 8 \emph{eigenpictures} starting at upper left, moving to the right, and ending at lower right.}\label{fig:Sirovich1987-4}
-  \end{center}
-\end{figure}
-
-Figure~\ref{fig:Sirovich1987-5} shows the approximate reproduction of the sample face from Figure~\ref{fig:Sirovich1987-3} reproduced using 10, 20, 30 and 40 components.
-
-\begin{figure}[!]
-  \begin{center}
-    \includegraphics[width=270px]{Sirovich1987-5.pdf}
-    \caption{Approximation of the original picture (middle picture of Figure~\ref{fig:Sirovich1987-3}) using 10, 20, 30 and 40 \emph{eigenpictures}.}\label{fig:Sirovich1987-5}
-  \end{center}
-\end{figure}
+%\subsubsection{Eigenfaces}
+%A popular application of PCA is the so called \emph{eigenfaces}\cite{Sirovich1987}\cite{Turk1991}\cite{Zaeri2006}. \emph{Eigenfaces} are essentially eigenvectors derived from the covariance matrix of a high dimensional vector space or ensemble of individual pictures. The idea of \emph{eigenpictures} was originally developed by \cite{Sirovich1987} were the authors repeatedly draw parallels between how humans recognize facial features and their own computational method. Although the \emph{eigenpictures} were not formerly used for facial recognition until \cite{Turk1991}, where the term \emph{eigenfaces} was first coined, \cite{Sirovich1987} hypothesises that perhaps humans compartmentalize faces and treat different features individually. This assertion is rooted first in the observation that humans are able to store and recognize enormous numbers of faces and secondly, that since recognition is apparently instantaneous it is conceivable that we do it by some efficient method, possibly similar to low dimensional methods. It is for example noted that ``(...) fewer than 100 \emph{eigenpictures} are necessary to fit a picture.'' and ``fewer than 100 dimensions are needed to provide likeness.''.
+%
+%The method used in \cite{Sirovich1987} uses photographs of 115 male undergraduates faces. These pictures were then digitized to a 128 by 128 pixel image and manually aligned. Figure~\ref{fig:Sirovich1987-3} shows a figure of 3 cropped images. The left image is the average face based on the ensemble, the middle is a sample face and right image that sample faces departure from the ensemble average or the samples \emph{caricature}. All pictures presented in this section are reproduced from the original paper \cite{Sirovich1987} where none of the pictures have been filtered to eliminate the high frequencies produced by digitization.
+%
+%\begin{figure}[!]
+%  \begin{center}
+%    \includegraphics[width=410px]{Sirovich1987-3.pdf}
+%    \caption{Cropped faces: left, the average; middle, a sample face; right, its caricature.}\label{fig:Sirovich1987-3}
+%  \end{center}
+%\end{figure}
+%
+%The covariance matrix of the aligned ensemble is now calculated and all the \emph{eigenpictures} determined. Figure~\ref{fig:Sirovich1987-4} shows the first 8 of these \emph{eigenpictures} going from the top left frame, moving right and ending on the bottom right frame with the 8th \emph{eigenpicture}.
+%
+%\begin{figure}[!]
+%  \begin{center}
+%    \includegraphics[width=270px]{Sirovich1987-4.pdf}
+%    \caption{First 8 \emph{eigenpictures} starting at upper left, moving to the right, and ending at lower right.}\label{fig:Sirovich1987-4}
+%  \end{center}
+%\end{figure}
+%
+%Figure~\ref{fig:Sirovich1987-5} shows the approximate reproduction of the sample face from Figure~\ref{fig:Sirovich1987-3} reproduced using 10, 20, 30 and 40 components.
+%
+%\begin{figure}[!]
+%  \begin{center}
+%    \includegraphics[width=270px]{Sirovich1987-5.pdf}
+%    \caption{Approximation of the original picture (middle picture of Figure~\ref{fig:Sirovich1987-3}) using 10, 20, 30 and 40 \emph{eigenpictures}.}\label{fig:Sirovich1987-5}
+%  \end{center}
+%\end{figure}
 
 \subsubsection{In the literature}
 As mentioned previously, one of the main applications of PCA is dimensionality reduction which has rendered it useful in a variety of compression applications\citep{Vasilescu2003}\cite{Alexa2000}\cite{Zaeri2006}. Within the image compression community \citep{Vasilescu2003} the focus on PCs has been useful in dimensionality reduction, and more specifically it has been widely applied as a way of representing animations of 3D geometric shapes. \cite{Alexa2000} presented an ``easy and adaptive lossy compression'' algorithm which provided compression of animation sequences with a factor of 1:100 accepting loss in animation accuracy. Another approach to animation compression is presented in \cite{Karni2004} where PCA is combined with Linear Prediction Coding (LPC) to individually focus on spatial and the resulting temporal components respectively.
@@ -338,7 +338,7 @@ Since the transient noise pulses are transformed to a scaled version of the puls
 
 An adaptation to the basic AR detection method in \cite{Vaseghi1988} uses a matched filter approach to detect transient noise events. The matched filter approach proceeds by considering the transient noise event as the signal and the AR data as the coloured additive noise\cite{Godsill1998book}. An inherent problem with the matched filter is its dependence on training. Other methods in the literature model impulsive noise as non-Gaussian heavy-tailed distributions whereof the $\alpha$-stable distribution is particularly popular \cite{Tsihrintzis1997}\cite{Coates2002}. According to \cite{Nikias1995} $\alpha$-stable distributions are good for modeling many types of impulsive noise (including atmospheric and underwater acoustic noise). While the sub-Gaussians methods in \cite{Tsihrintzis1997}\cite{Coates2002} appear to perform well on certain kinds of impulsive noise it is questionable whether they could perform in a real time application with high pulse variability and high sample rates.
 
-Figure~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} compares the output of 4 basic detections schemes discussed up until now. The data presented in Figure~\ref{fig:LitRev_DetectCompare}(a) and Figure~\ref{fig:LitRev_DetectCompare2}(a) is speech data corrupted with keyboard tapping noise sampled at 44.1 kHz. Each primary tapping pulse has been marked as ``Ground Truth'' although secondary pulses can also be seen. Comparing the matched filter (b) and AR prediction error (c) methods in Figures~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} it is noted that the matched filter produces a more smeared response while, in some cases, picking out more subtle pulses\cite{Godsill1998book}, e.g. 3rd marked pulse in Figure~\ref{fig:LitRev_DetectCompare}. The median filtered (d) and the high pass-filtered (HP) (e) signal produce nearly identical results. These results are also superior in that they increase the margin between lowest correct detection and the highest false detection is larger than for the AR prediction error (c) and potentially the matched filter (b). It is also noted that both me median and HP filtered signals pick up a faint secondary pulse just beyond the 6th confirmed pulse in Figure~\ref{fig:LitRev_DetectCompare}. For the matched filter (b) response this pulse is obscured due to temporal smearing. As will be discussed at a later point this secondary detection is typically associated with the lifting of a keyboard key and should therefor not be considered as a potential false detection.
+Figure~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} compares the output of 4 basic detections schemes discussed up until now. The data presented in Figure~\ref{fig:LitRev_DetectCompare}(a) and Figure~\ref{fig:LitRev_DetectCompare2}(a) is speech data corrupted with keyboard tapping noise sampled at 44.1 kHz. Each primary tapping pulse has been marked as ``Ground Truth'' although secondary pulses can also be seen. Comparing the matched filter (b) and AR prediction error (c) methods in Figures~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} it is noted that the matched filter produces a more smeared response while, in some cases, picking out more subtle pulses\cite{Godsill1998book}, e.g. 3rd marked pulse in Figure~\ref{fig:LitRev_DetectCompare}. The median filtered (d) and the high pass-filtered (HP) (e) signal produce nearly identical results. These results are also superior in that they increase the margin between lowest correct detection and the highest false detection is larger than for the AR prediction error (c) and potentially the matched filter (b). It is also noted that both me median and HP filtered signals pick up a faint secondary pulse just beyond the 6th confirmed pulse in Figure~\ref{fig:LitRev_DetectCompare}. For the matched filter (b) response this pulse is obscured due to temporal smearing. As will be discussed at a later point this secondary detection is typically associated with the lifting of a keyboard key and should therefore not be considered as a potential false detection.
 
 \begin{figure}[!] %LitRev_DetectCompare
 \centering
@@ -753,7 +753,7 @@ In general many authors have considered linear predictive coding (LPC) and AR mo
 
 %\todo{something more}
 
-
+\section{Chapter summary}
 
 % ------------------------------------------------------------------------
 
