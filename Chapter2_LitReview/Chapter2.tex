@@ -754,6 +754,18 @@ In general many authors have considered linear predictive coding (LPC) and AR mo
 %\todo{something more}
 
 \section{Chapter summary}
+This chapter has aimed to summarise the relevant literature associated with the applications, techniques and theory presented throughout this thesis.
+ 
+A range of applications have previously been proposed for the APR application which all utilise multiple microphones to implement a touchscreen interface\cite{US8174547}\cite{US8233353}\cite{TouchSystems2006}\cite{US7411581}\cite{WO2006108443}. While a few different approaches are taken the functional elements of these methods all rely on there being multiple sources.
+
+In \cite{Burke2013} a survey of factorisation methods found PCA to be an effective approach to feature extraction for classification applications, and in \cite{Tipping1999} PCA was put into a probabilistic framework with probabilistic PCA (PPCA).  
+
+For the keystroke removal application a couple of articles have suggested similar systems\cite{Subramanya2007}\cite{Sugiyama2007}\cite{Abramson2007}. \cite{Subramanya2007} and \cite{Sugiyama2007} propose algorithms specifically for the keyboard stroke detection and removal application. All of these methods rely on STFT as a basis for detection using features such as the shape of and change of the power spectrum\cite{Sugiyama2007}, AR estimation error\cite{Subramanya2007}\cite{Kauppinen2002} or a Bayesian speech estimator\cite{Abramson2007}. In \cite{Godsill1998book} various AR based detection methods are proposed and it was found that pairing the AR model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \cite{Vaseghi1990} the authors find that AR processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''.
+
+Restoration approaches applicable to longer gaps ranged from heuristic waveform substitution methods\cite{Goodman1986}\cite{Niediwiecki2001}, pitch based methods modeling speech as spectral peak tracks\cite{Maher1994}\cite{McAulay1986} to AR interpolators\cite{Esquef2006} based on a least squares adaption of the AR process\cite{Godsill1998book}.
+%synthesis filters designed to excite the AR model to achieve longer gap extrapolation with lower model orders\cite{Esquef2006}
+
+
 
 % ------------------------------------------------------------------------
 
