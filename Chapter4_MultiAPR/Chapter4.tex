@@ -37,7 +37,7 @@ Consider a tap on a surface which generates an pulse and thereby an acoustic wav
 \label{fig:ToFexample.pdf}
 \end{figure}
 
-No timing or localisation information can be inferred from a single microphone where as a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than 3 microphones are required to locate the origin of a tap on a 2 dimensional plane\cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system.
+No timing or localisation information can be inferred from a single microphone where as a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than three microphones are required to locate the origin of a tap on a 2 dimensional plane using ToF alone\cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system.
 
 %Discuss time of flight (ToF) (and sample rates/size tradeoff)
 For constant phase velocity $c$ in a specific material and time difference $\Delta t$ the spatial difference between microphones $\Delta d$ can be calculated with a basic equation of motion,
@@ -103,40 +103,40 @@ Considering this model in matrix notation:
 y_c = \textbf{t}_c\Theta_c + \textbf{v}_c.
 \end{equation}
 
-Bayes' theorem can now be used to evaluate the joint probability of $\textbf{y}$ and $\Theta$ as
+Bayes' theorem can now be used to evaluate the joint probability of $y_c$ and $\Theta$ as
 
 \begin{equation}\label{eq:bayes1_c}
-p(\textbf{y},\Theta | j, c) = p(\textbf{y}|\Theta,j,c)p(\Theta | j,c).
+p(y_c,\Theta_c | j, c) = p(y_c|\Theta_c,j,c)p(\Theta_c | j,c).
 \end{equation}
 
-Since the goal is to evaluate the probability of each data reading $\textbf{y}$ given a particular position/model $j$, the dependency of $\Theta$ can be marginalized out,
+Since the goal is to evaluate the probability of each data reading $y_c$ given a particular position/model $j$, the dependency of $\Theta$ can be marginalized out,
 
 \begin{eqnarray}\nonumber
-p(\textbf{y}|j) &=& \int_\Theta p(\textbf{y},\Theta|j) d\Theta \\
-\label{eq:marg1_c} &=& \int_\Theta p(\textbf{y}|\Theta,j)p(\Theta|j) d\Theta.
+p(y_c|j) &=& \int_{\Theta_c} p(y_c,\Theta_c|j) d\Theta \\
+\label{eq:marg1_c} &=& \int_{\Theta_c} p(y_c|\Theta_c,j)p(\Theta_c|j) d\Theta.
 \end{eqnarray}
 
 As with the single-channel method, see equation~\ref{eq:loglikeli}, the log-likelihood is calculated
 
 \begin{equation}\label{eq:loglikeli_c}\begin{split}
-\log{p(y_c|j)} = &- \frac{n}{2}\log{2 \pi}- \frac{1}{2}\log{|\Phi_c|} - \frac{1}{2}\log{|C_{\Theta,c}|} \\
-& -\frac{1}{2\sigma^2_{v,c}}\left(\sigma_{v,c}^2\mu_\Theta^TC_{\Theta,c}^{-1}\mu_{\Theta,c} + y_c^Ty_c- \left(\Phi_c^T\right)^{-1}\Lambda_c^T\Lambda_c\right).
+\log{p(y_c|j)} = &- \frac{n}{2}\log{2 \pi}- \frac{1}{2}\log{|\Phi_c|} - \frac{1}{2}\log{|C_{\Theta_c}|} \\
+& -\frac{1}{2\sigma^2_{v,c}}\left(\sigma_{v,c}^2\mu_\Theta^TC_{\Theta_c}^{-1}\mu_{\Theta_c} + y_c^Ty_c- \left(\Phi_c^T\right)^{-1}\Lambda_c^T\Lambda_c\right).
 \end{split}\end{equation}
 
 Since the channels are considered independent of each other we have that
 
 \begin{equation}\label{eq:jointprob_c}
-p(\textbf{y} | j) = \prod^C p(\textbf{y} | j, c).
+p(y_c | j) = \prod^C p(y_c | j, c).
 \end{equation}
 
 Similar to equation~\ref{eq:MLdefinition}, the Maximum Likelihood (ML) estimator can be expressed as
 
 \begin{equation}\label{eq:MLdefinition_c}
-p(j |\textbf{y}) = \argmax{j} \prod^C p(y|j,n_0,c),
+p(j |y_c) = \argmax{j} \prod^C p(y_c|j,n_0,c),
 \end{equation}
 
 \begin{equation}\label{eq:MLdefinition2_c}
-\log{\left( p(j |\textbf{y})\right)} = \argmax{j} \sum^C \log{\left( p(y|j,n_0,c) \right)}.
+\log{\left( p(j |y_c)\right)} = \argmax{j} \sum^C \log{\left( p(y_c|j,n_0,c) \right)}.
 \end{equation}
 
 \section{Training}\label{sec:MultiAPRTraining}
@@ -279,7 +279,7 @@ As mentioned previously the multi-channel approach will be compared to the stand
 Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multi-channel implementation (\approachChFourN{app:MultiNaive}). Here the channels were not aligned and the detection likelihoods were combined as described in equation~\ref{eq:MLdefinition2_c}. While this approach clearly fails to take advantage of the inherent ToF information it may serve as a control to evaluate the effect of ToF. In addition to this approach the maximum detection likelihood for each channel $c$ are combined and the class corresponding the combined largest excitation is chosen (\approachChFourN{app:MultiNaiveMax}). In other words:
 
 \begin{equation}\label{eq:jointprob3_c}
-p(j|y) = \argmax{j} \prod^C \underset{n_0}{\max} p(y|j,n_o,c).
+p(j|y) = \argmax{j} \prod^C \underset{n_0}{\max} p(y_c|j,n_o,c).
 \end{equation}
 
 This approach attempts to remedy the naive multi-channel approach by making an assumption. It is assumed that while a template may not perfectly fit an pulse associated with a different template, it will still have its maximum excitation when aligned correctly with the pulse. This enables a \emph{post hoc} pseudo alignment of the templates. This approach is included to remedy the naive multi-channel approach.
@@ -370,10 +370,10 @@ Although the multi-channel approach (\ref{app:Multi}) in general requires slight
 %Further work
 \subsection{Possible future work}
 %correlate noise
-While the assumption of uncorrelated noise in the system holds for some cases, such as faint localised and own-noise, more significant noise, such as the background music used or speech, would be correlated across channels. Extending the proposed model to incorporate correlated noise might further increase the robustness of the model to false detections or false classifications. 
+While the assumption of uncorrelated noise in the system holds for some cases, such as faint localised and own-noise, more significant noise, such as the background music used or speech, would be correlated across channels. Extending the proposed model to incorporate correlated noise might further increase the robustness of the model to false detections or false classifications.
 
 %Correlate \theta in a channel internally
-Similar to further word presented in chapter~\ref{ch:APR} it may be possible to correlate components trained through different channels at the same spot or conversely correlate $\theta$. 
+Similar to further word presented in chapter~\ref{ch:APR} it may be possible to correlate components trained through different channels at the same spot or conversely correlate $\theta$.
 
 %The maximum log-likelihood value could have been consulted with a relative or absolute approach. It would also be possible to construct a quality metric based on the calculated statistics of the additional 6 classes not chosen by any of the channels.
 

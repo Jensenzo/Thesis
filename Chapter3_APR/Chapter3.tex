@@ -220,7 +220,7 @@ It appears that the temperature has a dramatic effect on the mean template and a
 Figure~\ref{fig:testingSystemPlot} shows a block diagram of the implementation of the use/testing stage of the algorithm. The diagram shows how a tap $y$ incident on the tapping device is picked up by the microphone on the device and transmitted to a computer. Within the computer the algorithm calculates the statistics, as outlined below, utilizing data from the training stage of the algorithm. The statistics of the signal is then evaluated and the most probable class or spot is displayed to the user unless the models do not yield a sufficiently high probability, as determined by a threshold, in which case no tap will be registered.
 
 \subsection{Model and theory}
-A standard linear instantaneous model is considered where observations \linebreak[0]$y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
+A standard linear instantaneous model is considered where\linebreak[0] observations \linebreak[0]$y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
 
 \begin{equation}\label{eq:mod1}
 y = \sum_{i=1}^{I} \theta_i^j t_i^j(n_0) + v,
@@ -257,7 +257,7 @@ p(y|j) &=& \int_\Theta p(y,\Theta|j) d\Theta \\
 \label{eq:marg1} &=& \int_\Theta p(y|\Theta,j)p(\Theta|j) d\Theta.
 \end{eqnarray}
 
-Given (\ref{eq:noisePCA}) and (\ref{eq:mod2PCA}), the probability $p(y|\Theta)$ can be expressed as:
+Given (\ref{eq:noisePCA}) and (\ref{eq:mod2PCA}), the probability $p(y|\Theta,j)$ can be expressed as:
 
 \begin{equation}\label{eq:probybeta}
 p(y|\Theta,j) = \mathcal{N}_y(\textbf{t}\Theta,\sigma_v^2\textbf{I}),
@@ -369,7 +369,7 @@ Here $K^j$ is the scaling amplitude for the $j$th template.
 Considering previously equation~\ref{eq:noisePCA}, we can now model the signal $y$ as:
 
 \begin{equation}\label{eq:GP2}
-    p(y|j,n,K) = \mathcal{N}_y(K^j \theta^j t^j ,K_j^2 \sigma_{j,n}^2),
+    p(y|j,n,K) = \mathcal{N}_y(K^j \theta^j t^j , \sigma_{j,n}^2),
 \end{equation}
 
 where $K_j$ is a random variable describing the linear scaling of the model.
@@ -377,32 +377,27 @@ where $K_j$ is a random variable describing the linear scaling of the model.
 In equation~\ref{eq:MLmargin} the continuous component scaling factor $\theta$ was marginalized out to give $p(y|j,n_0)$. In much the same way the likelihood can be estimated by evaluation of the joint probability of the data $y$ given the discrete scaling $K$, template number $j$ and the time shift $n_0$, over $K$, so that:
 
 \begin{equation}\label{eq:MLmarginK}
-p(y|j,n_0)=\sum_{l=1}^L p(y|j, n_0, K^j_l) p(K^j_l| l, j),
+p(y|j,n_0)=\sum_{l=1}^L p(y|j, n_0, K) p(K| l, j),
 \end{equation}
 
-The likelihood can now be described as being:
-\begin{equation}\label{eq:likelihoodK1}
-p(y|j,n,K) = \frac{1}{\sqrt{2 \pi \sigma_{j,n}^2 K_j^2 \sigma_{v, n}^2}} \exp{\left( -\frac{\left( x - K_j \mu_{j,n}\right)^2}{2\sigma_{j,n}^2 K_j^2 \sigma_{v}^2} \right)}.
-\end{equation}
+and the distribution of $p(K|j)$ could be estimated as a discrete point-mass \linebreak[0](positive-valued) inverse-gamma distribution or simply sampled at a training stage for each class $j$. In this case $p(K|j)$ is assumed to be discrete and equation~\ref{eq:MLmarginK} is a finite sum of weighted Gaussian terms, in the continuous cases the integral could be computed using Monte Carlo integration approximated using discrete summation.
 
-and the distribution of $p(K_j)$ could be estimated as a discrete point-mass \linebreak[0](positive-valued) inverse-gamma distribution or simply sampled at a training stage for each class $j$. In this case $p(K_j)$ is assumed to be discrete and equation~\ref{eq:MLmarginK} is a finite sum of weighted Gaussian terms, in the continuous cases the integral could be computed using Monte Carlo integration approximated using discrete summation.
-
-Proceeding with the steps from equation~\ref{eq:probybeta} - \ref{eq:z25}, the log-likelihood is calculated
+Proceeding with the steps from equation~\ref{eq:marg2} - \ref{eq:z25} (the full derivations are available in Appendix~\ref{ap:AppDeriv}, the log-likelihood is calculated
 
 \begin{equation}\label{eq:loglikeliK}\begin{split}
 \log{p(y|j,n,\theta,K)} = &- \frac{n}{2}\log{2 \pi}- \frac{1}{2}\log{|\Phi|} - \frac{1}{2}\log{|C_\Theta|} \\
-& -\frac{1}{2\sigma^2_v}\left(\sigma_v^2K^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right),
+& -\frac{1}{2\sigma^2_v}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right),
 \end{split}\end{equation}
 
 where
 \begin{eqnarray}
 \label{eq:z3K}
 \Phi &=& K^2 \textbf{t}^T\textbf{t} + \sigma_v^2C_\Theta^{-1} \qquad \textrm{and}\\\nonumber
-\Lambda &=& K \textbf{t}^Ty + \sigma_v^2K^2\mu_\Theta C_\Theta^{-1}.
+\Lambda &=& K \textbf{t}^Ty + \sigma_v^2\mu_\Theta C_\Theta^{-1}.
 \end{eqnarray}
 
 \section{Training}\label{sec:APRtraining}
-In order to be able to deploy the above mentioned models, the templates needed in the models needs to be created. The term ``training'' is here used to refer to the process of creating the matrices $t^j(n_0)$ and $t^j_i(n_0)$ containing the $J$ models and $I$ components, the covariance matrix $C^j_\Theta$ and the mean $\mu^j_\Theta$.
+In order to be able to deploy the above mentioned models, the templates needed in the models must be created. The term ``training'' is here used to refer to the process of creating the matrices $t^j(n_0)$ and $t^j_i(n_0)$ containing the $J$ models and $I$ components, the covariance matrix $C^j_\Theta$ and the mean $\mu^j_\Theta$.
 
 To train a template for a spot, a large quantity of tapping data is recorded from the device and stored. This tapping data is labeled, that is, the spot which was tapped to create the tapping pulse is known and the tapping data is divided into separate streams depending on this label. To pick out the individual taps from the audio stream, a representative tap is manually chosen from each stream and used as the coefficients in a correlation detector, the results of which is used to determine the alignment of the individual taps in the audio stream. Figure~\ref{fig:correlationDetect} shows a short audio stream of taps where the red dots indicated detected taps.
 
@@ -458,7 +453,7 @@ Figure~\ref{fig:trainingsytemRotate} shows a block diagram of the implementation
 
 \subsection{Amplitude variable PCA model}
 
-In addition to the parameters required for the standard PCA model, the amplitude variable model requires information about the scaling parameter $K$. Here we propose to sample $K^j = [K^j_{l=1}, \ldots , K^j_{l=L}]$, from the aligned training pulses recorded. Figure~\ref{fig:amplitudeProbMass.pdf} shows an example of the sampled probability mass functions used for three different models $j$. While $K_j$ is a discrete scaling vector for each model $j$ Figure~\ref{fig:amplitudeProbMass.pdf} shows continuous smoothed functions to better illustrate some of the variety in the models and to be able to plot them together. Each scaling vector $K^j$ comprises $L=100$ scales.
+In addition to the parameters required for the standard PCA model, the amplitude variable model requires information about the scaling parameter $K$. Here we propose to sample $K^j = [K^j_{l=1}, \ldots , K^j_{l=L}]$, from the aligned training pulses recorded. Figure~\ref{fig:amplitudeProbMass.pdf} shows an example of the sampled probability mass functions used for three different models $j$. While $K^j$ is a discrete scaling vector for each model $j$ Figure~\ref{fig:amplitudeProbMass.pdf} shows continuous smoothed functions to better illustrate some of the variety in the models and to be able to plot them together. Each scaling vector $K^j$ comprises $L=100$ scales.
 
 \begin{figure}
 \centering
@@ -618,6 +613,8 @@ The results from a comparison between the standard PCA and the K-PCA classificat
 \caption{Comparison of PCA and K-PCA (variable amplitude PCA model) methods with varying discrete scaling values $L$. (a) on clean data, (b) on noisy data.)}\label{fig:performanceCompareKPCAPCA.pdf}
 \end{figure}
 
+Computationally the case for $L=1$ should be identical to that of the standard PCA approach although Figure~\ref{fig:performanceCompareKPCAPCA.pdf} clearly shows a significant performance drop for this case. To maintain consistent performance only one set of templates were trained for this experiment and that included the case for $L=100$. The additional results gathered for lower number of scales $L$ are achieved by decimating the vector containing the values for the $p(K^j)$ and normalizing. At $L=1$ only one scaling value was chosen from $p(K^j)$ and while it was chosen in a similar fashion to the other trials of varying $L$ for $L=1$ this was the initial and lowest scale resulting in poor performance. This dip in performance should only be considered a feature of the consistent testing system and in practice K-PCA for $L=1$ should be considered identical to the standard PCA.
+
 \section{Discussion}
 
 The results from the previous section enables one to make a range of assertions about the relative performance of the different algorithms in various conditions. It is for example noticed in Figure~\ref{fig:PCAperform}, \ref{fig:PCAperformNail} and \ref{fig:PCAMLMAPperform} that the performance of the PCA varies greatly by including 2 rather than 1 components in the template set. It is also noted from Figure~\ref{fig:PCAperform} and \ref{fig:MLperform} that with only 2 components, $q=2$, the PCA easily outperforms the ML (and MAP) method but with only 1 component, $q=1$, the performance of the PCA drops to $p(j)$. Although both the ML and PCA are equivalent from the viewpoint of the detection for $q=1$, it is clear that there performance is not. In the case of $q=1$ what separates the two algorithms are how the template $t^j(n_0)$ is derived. It appears that the mean template is more effective in classifying pulses than the PC is. The most likely explanation for this behavior is that the PC of one of the taps is a sufficiently broad interpretation of the tap that it results in a high likelihood in each case and hence ``wins'' each classification. This hypothesis is further supported by the performance for $q=1$ in Figure~\ref{fig:PCAperform_SN-SN}, where the ratio between missed detections and misclassifications is entirely different with an overwhelming number of missed detections to misclassifications. In this case, with this training data, the PC was clearly a much less likely fit to the testing data.
@@ -662,4 +659,4 @@ Figure~\ref{fig:performanceCompareKPCAPCA.pdf} provided a clear indication that 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End: 
+%%% End:

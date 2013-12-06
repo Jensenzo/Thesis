@@ -1,0 +1,151 @@
+\chapter{Derivations}\label{ap:AppDeriv}
+
+\section{K-PCA derivations}\label{sec:KPCAderiv}
+A standard linear instantaneous model is considered where observations \linebreak[0]$y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
+
+\begin{equation}\label{eq:mod1_KPCA}
+y = \sum^I_{i=1} K^j \theta^j_i t^j_i(n_0) + v,
+\end{equation}
+
+where $K^j$ is a vector of scaling values for the $j$th template, $t_i^j(n_0)$ the $j$th template, $j \in \{1, \ldots ,J\}$, for $I$ independent components and $\theta_i^j$ is the amplitude of the $j$th spot and $i$th component. In this section the model has been assumed to be of zero mean $\mu^j(n_0) =0$ although this assumption could easily be avoided by adding it to the model. Take $\theta_i^j$ to be a random variable, $\Theta^j = [\theta_1^j,\ldots,\theta_I^j]^T$, describing the scale of each template component $i$ where
+
+\begin{equation}\label{eq:theta_KPCA}
+\Theta^j \sim \mathcal{N}(\mu_{\Theta}^j,C_{\Theta}^j),
+\end{equation}
+
+and Gaussian noise to model background interference:
+
+\begin{equation}\label{eq:noise_KPCA}
+v_n \stackrel{i.i.d.}{\sim} \mathcal{N}(0,\sigma_{v,n}^2).
+\end{equation}
+
+Considering this model in matrix notation:
+\begin{equation}\label{eq:mod2_KPCA}
+y = K\textbf{t}\Theta + \textbf{v}.
+\end{equation}
+
+For simplicity the matrices $K^j$, $\textbf{t}^j(n_0)$ and $\Theta^j$ will from now on be referred to as simply $K$, $\textbf{t}$ and $\Theta$ respectively.
+Bayes' theorem can now be used to evaluate the joint probability of $y$ and $\Theta$ as
+
+\begin{equation}\label{eq:bayes1_KPCA}
+p(y,\Theta | j, K) = p(y|\Theta,j, K)p(\Theta | j, K).
+\end{equation}
+
+Since the goal is to evaluate the probability of each data reading $y$ given a particular position/model $j$ and amplitude scaling $K$, the dependency of $\Theta$ can be marginalized out,
+
+\begin{eqnarray}\nonumber
+p(y|j, K) &=& \int_\Theta p(y,\Theta|j, K) d\Theta \\
+\label{eq:marg1_KPCA} &=& \int_\Theta p(y|\Theta,j, K)p(\Theta|j, K) d\Theta.
+\end{eqnarray}
+
+Given (\ref{eq:noise_KPCA}) and (\ref{eq:mod2_KPCA}), the probability $p(y|\Theta,j, K)$ can be expressed as:
+
+\begin{equation}\label{eq:probybeta_KPCA}
+p(y|\Theta,j, K) = \mathcal{N}_y(K\textbf{t}\Theta,\sigma_v^2\textbf{I}),
+\end{equation}
+where $\textbf{I}$ is the identity matrix.
+Now (\ref{eq:marg1_KPCA}) can be written as:
+
+\begin{equation}\label{eq:marg2_KPCA}
+p(y|j, K) = \int_\Theta \mathcal{N}_y(K\textbf{t}\Theta,\sigma_v^2 \textbf{I})\times\mathcal{N}_\Theta(\mu_\Theta,C_\Theta) d\Theta
+\end{equation}
+
+The product of two normal distributions is another normal distribution and since this resulting normal distribution is no longer normalized a normalizing constant $z$ is added:
+
+\begin{equation}\label{eq:prod1_KPCA}
+\mathcal{N}_y(K\textbf{t}\Theta,\sigma_v^2 \textbf{I})\cdot\mathcal{N}_\Theta(\mu_\Theta,C_\Theta) = z \times \mathcal{N}_\Theta(\hat{C}_\Theta,\hat{\mu}_\Theta)
+\end{equation}
+
+Since:
+\begin{equation}\label{eq:marg3_KPCA}
+\int_\Theta \mathcal{N}_\Theta(\hat{C}_\Theta,\hat{\mu}_\Theta) d\Theta = 1,
+\end{equation}
+we have that:
+\begin{equation}\label{eq:marg4_KPCA}
+p(y|j, K) = z \times \int_\Theta \mathcal{N}_\Theta(\hat{C}_\Theta,\hat{\mu}_\Theta) d\Theta = z.
+\end{equation}
+
+To evaluate $z$ the l.h.s. of equation (\ref{eq:prod1_KPCA}) is expanded
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}
+\label{eq:prod2_KPCA} & & \mathcal{N}_y(K\textbf{t}\Theta,\sigma_v^2 \textbf{I})\times\mathcal{N}_\Theta(\mu_\Theta,C_\Theta) = \\\nonumber
+& & \qquad \frac{1}{(2\pi)^{\frac{n}{2}} |\sigma_v^2\textbf{I}|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2}(y - K\textbf{t}\Theta)^T(\sigma_v^2 \textbf{I})^{-1}(y - K\textbf{t}\Theta)\right] \times {} \\\nonumber
+& & \qquad \frac{1}{(2\pi)^{\frac{n}{2}}|C_\Theta|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2}(\Theta - \mu_\Theta)^TC_\Theta^{-1}(\Theta - \mu_\Theta)\right] \\\nonumber
+& & \quad= \frac{1}{(2\pi)^n |\sigma_v^2\textbf{I}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \textrm{exp}\bigg[-\frac{\textbf{I}}{2\sigma_v^2}\left(y^Ty+K^2\Theta^T\textbf{t}^T\textbf{t}\Theta - 2 K\Theta^T\textbf{t}y\right) - {} \\\nonumber
+& & \qquad \frac{1}{2C_\Theta} \left(\Theta^T\Theta + \mu_\Theta^T\mu_\Theta - 2 \Theta^T\mu_\Theta\right) \bigg] \\\nonumber
+& & \quad = \frac{1}{(2\pi)^n |\sigma_v^2\textbf{I}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \textrm{exp}\Bigg[-\frac{1}{2}\Bigg(\Theta^T\left(\frac{K^2\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\Theta - 2 \Theta^T\left(\frac{K\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) + {}\\\nonumber
+& & \qquad \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg].
+\end{eqnarray}}
+The r.h.s. of equation (\ref{eq:prod1_KPCA}) is also expanded,
+
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}
+\label{eq:prod3_KPCA} & & z \times \mathcal{N}_\Theta(\hat{C}_\Theta,\hat{\mu}_\Theta) \\\nonumber
+& & \quad = z\frac{1}{(2\pi)^{\frac{n}{2}} |\hat{C}_\Theta|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2}\left(\Theta - \hat{\mu}_\Theta\right)^T\hat{C}_\Theta^{-1}\left(\Theta - \hat{\mu}_\Theta\right)\right] \\\nonumber
+& & \quad = z\frac{1}{(2\pi)^{\frac{n}{2}} |\hat{C}_\Theta|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2}\left(\Theta^T\hat{C}_\Theta^{-1}\Theta + \hat{\mu}_\Theta^T\hat{C}_\Theta^{-1}\hat{\mu}_\Theta - 2\Theta^T\hat{C}_\Theta^{-1}\hat{\mu}_\Theta\right)\right],
+\end{eqnarray}}
+and by inspection and comparison between equation (\ref{eq:prod2_KPCA}) and (\ref{eq:prod3_KPCA}) it is found that:
+
+\begin{eqnarray}
+\label{eq:prod4_KPCA}
+\hat{C}_\Theta &=& \left(\frac{K^2\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)^{-1} \qquad \textrm{and}\\\nonumber
+\hat{\mu}_\Theta &=& \left(\frac{K\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right)\hat{C}_\Theta.
+\end{eqnarray}
+
+Equation (\ref{eq:prod2_KPCA}) and (\ref{eq:prod4_KPCA}) are equated and the normalizing constant $z$ is isolated.
+
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}\label{eq:z1_KPCA}
+z &=& \frac{(2\pi)^{\frac{n}{2}}\left|\hat{C}_\Theta\right|^{\frac{1}{2}} }{(2\pi)^n |\sigma_v^2\textbf{I}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \times {}\\\nonumber
+& &\frac{\textrm{exp}\Bigg[-\frac{1}{2}\Bigg(\Theta^T\left(\frac{K^2\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\Theta - 2 \Theta^T\left(\frac{K\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) + \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg]}{\textrm{exp}\left[-\frac{1}{2}\left(\Theta^T\hat{C}_\Theta^{-1}\Theta - 2\Theta^T\hat{C}_\Theta^{-1}\hat{\mu}_\Theta + \hat{\mu}_\Theta^T\hat{C}_\Theta^{-1}\hat{\mu}_\Theta \right)\right]}.
+\end{eqnarray}}
+Substituting $\hat{C}_\Theta$ from equation~(\ref{eq:prod4_KPCA}) and doing some simplification, gives:
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}\label{eq:z2_KPCA}
+z &=& \frac{\left|\frac{K^2\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right|^{-\frac{1}{2}}}{(2\pi)^{\frac{n}{2}} |\sigma_v^2\textbf{I}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \times {}\\\nonumber
+& &\frac{\textrm{exp}\Bigg[-\frac{1}{2}\Bigg(\Theta^T\left(\frac{\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\Theta - 2 \Theta^T\left(K\frac{\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) +  \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg]}{\textrm{exp}\left[-\frac{1}{2}\left(\Theta^T \left(\frac{K^2\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\Theta  - 2\Theta^T\left(\frac{K^2\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\hat{\mu}_\Theta  + \hat{\mu}_\Theta^T\left(\frac{K^2\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)\hat{\mu}_\Theta \right)\right]}
+\end{eqnarray}}
+Substituting $\hat{\mu}_\Theta$ from equation~(\ref{eq:prod4_KPCA}) and doing some simplification, gives:
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}\label{eq:z25_KPCA}
+z &=& \frac{1}{(2\pi)^{\frac{n}{2}} |K^2\textbf{t}^T\textbf{t}+\sigma_v^2C_\Theta^{-1}|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}} \times {}\\\nonumber
+& &\frac{\textrm{exp}\Bigg[-\frac{1}{2}\Bigg(- 2 \Theta^T\left(\frac{K\textbf{t}y}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) +  \mu_\Theta^TC_\Theta^{-1}\mu_\Theta + \frac{y^Ty}{\sigma_v^2}\Bigg)\Bigg]}{\textrm{exp}\left[-\frac{1}{2}\left(- 2\Theta^T\left(\frac{K\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right)  + \left(\left(\frac{K^2\textbf{t}^T\textbf{t}}{\sigma_v^2} + C_\Theta^{-1}\right)^T\right)^{-1}\left(\frac{K\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right)^T\left(\frac{K\textbf{t}^Ty}{\sigma_v^2} + \frac{\mu_\Theta}{C_\Theta}\right) \right)\right]}\\\nonumber{}\\\nonumber
+&=& \frac{1}{(2\pi)^{\frac{n}{2}} |\Phi|^{\frac{1}{2}} |C_\Theta|^{\frac{1}{2}}}\times \frac{\textrm{exp}\left[-\frac{1}{2\sigma_v^2}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty\right)\right]}{\textrm{exp}\left[-\frac{1}{2\sigma_v^2}\left(\left(\Phi^T\right)^{-1}\Lambda^T\Lambda \right)\right]}\\\nonumber{}\\\nonumber
+&=& \frac{1}{(2\pi)^{\frac{n}{2}} |\Phi|^{\frac{1}{2}}|C_\Theta|^{\frac{1}{2}}} \textrm{exp}\left[-\frac{1}{2\sigma_v^2}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right)\right],
+\end{eqnarray}}
+where:
+\begin{eqnarray}
+\label{eq:z3_KPCA}
+\Phi &=& K^2\textbf{t}^T\textbf{t} + \sigma_v^2C_\Theta^{-1} \qquad \textrm{and}\\\nonumber
+\Lambda &=& K\textbf{t}^Ty + \sigma_v^2\mu_\Theta C_\Theta^{-1}.
+\end{eqnarray}
+
+As with the previous method, the log-likelihood is calculated
+
+\begin{equation}\begin{split}\label{eq:loglikeli_KPCA}
+\log{p(y|j,K)} = &- \frac{n}{2}\log{2 \pi}- \frac{1}{2}\log{|\Phi|} - \frac{1}{2}\log{|C_\Theta|} \\
+&- \frac{1}{2\sigma^2_v}\left(\sigma_v^2\mu_\Theta^TC_\Theta^{-1}\mu_\Theta + y^Ty- \left(\Phi^T\right)^{-1}\Lambda^T\Lambda\right).
+\end{split}\end{equation}
+
+Given the discrete scaling $K$, template number $j$ and the time shift $n_0$, the joint probability over $K$, can be evaluated so that:
+
+\begin{equation}\label{eq:MLmarginK_KPCA}
+p(y|j,n_0)=\sum_{l=1}^L p(y|j, n_0, K) p(K| l, j).
+\end{equation}
+
+Given $p(y|j,n_0)$ the maximum likelihood estimate for the template $j$ can now be calculated
+
+\begin{equation}\label{eq:MLdefinition_KPCA}
+j_{ML} = \argmax{j} p(y|j,n_0).
+\end{equation}
+
+%\section{Multi-channel derivations}
+
+
+
+% ------------------------------------------------------------------------
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:
