@@ -7,21 +7,21 @@
 \fi
 
 %Introduction to multi-channel APR
-While a key aspect of the basic single-channel Acoustic Pulse Recognition (APR) system was founded in the breath of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and specifically multiple microphones. Laptop computers, tablets and mobile phones frequently employ multiple microphones for noise cancellation\cite{Habets2013}\cite{Habets2012}, echo cancelation\cite{US7925007} and localisation applications\cite{US8174547}\cite{US8233353}.
+While a key aspect of the basic single-channel Acoustic Pulse Recognition (APR) system was founded in the breath of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and more specifically multiple microphones. Laptop computers, tablets and mobile phones frequently employ multiple microphones for noise cancellation\cite{Habets2013}\cite{Habets2012}, echo cancelation\cite{US7925007} and localisation applications\cite{US8174547}\cite{US8233353}.
 
 In this chapter the APR system is generalised to multiple channels and results are provided to quantify the multi-channel APR system's performance in relation to a single-channel equivalent.
 
 %outline of chapter
-This chapter will begin outlining the background for the multi-channel APR system in relation to the previously discussed single-channel system. The theory behind the generalised theory will be presented after which the training procedures required will be discussed in relation to the approach taken in section~\ref{sec:APRtraining}. The method used for the evaluation of the work is outlined after which the results, discussion and conclusions are presented.
+The background for the multi-channel APR system in relation to the previously discussed single-channel system is presented first and is followed by the generalised theory, after which the training procedures required will be discussed in relation to the approach taken in section~\ref{sec:APRtraining}. The method used for the evaluation of the work is outlined followed by the results, discussion and conclusions.
 
 \section{Background}
 %Discuss and outline the advantages of multiple channels in a physical detection application
-Chapter~\ref{ch:APR} described the theory and application of a single-channel APR system. This system relied on the presence of a single transducer in or on the device for the APR application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanically noise in the device. Multiple channels enable theoretically improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same expected results. This is particularly an advantage when the additional available channels are designed to specifically be a reference source discounting either some noise source (say background noise) or the target source (say speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise.
+Chapter~\ref{ch:APR} described the theory and application of a single-channel APR system which relied on the presence of a single transducer in or on the device for the APR application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanical noise in the device. Multiple channels enable, theoretically, improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same expected results. This is particularly an advantageous when the additional available channels are designed to specifically be a reference source discounting either some noise source (eg. background noise) or the target source (eg. speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise. Secondly multiple channels allow for utilisation of the timings of the detections between channels as discussed in more detail below.
 
-\subsection{Time of Flight (ToF)}
-A second advantage of the multi-channel system is the main functional component of previous multi-channel APR systems\cite{TouchSystems2006}\cite{US7411581}. Time of Flight (ToF) or Time Delay of Arrival (TDA) or the relative time of arrival of, especially transient, events at uniquely placed receiving transducers gives an additional indication of the origin of a pulse.
+\subsection{Time of flight (ToF)}
+The second advantage of the multi-channel system is the main functional component of previous multi-channel APR systems\cite{TouchSystems2006}\cite{US7411581}. Time of flight (ToF), time delay of arrival (TDA) or the relative time of arrival of, especially transient, events at uniquely placed receiving transducers gives an indication of the origin of a pulse.
 
-Consider a tap on a surface which generates an pulse and thereby an acoustic wavefront propagating radially outwards from the point of impact. The array of microphones embedded in the surface will receive the wavefront at different times relative to their distance from the point of impact and the phase velocity. Figure~\ref{fig:ToFexample.pdf} shows an example of a surface with a wavefront's propagation and 3 microphones' relative position within the propagation pattern.
+A tap on a surface generates a pulse and thereby an acoustic wavefront propagating radially outwards from the point of impact. The array of microphones embedded in the surface receive the wavefront at different times relative to their distance from the point of impact and the phase velocity. Figure~\ref{fig:ToFexample.pdf} shows an example of a surface with a wavefront's propagation and 3 microphones' relative position within the propagation pattern.
 
 \begin{figure} %ToFexample.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -37,7 +37,7 @@ Consider a tap on a surface which generates an pulse and thereby an acoustic wav
 \label{fig:ToFexample.pdf}
 \end{figure}
 
-No timing or localisation information can be inferred from a single microphone where as a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than three microphones are required to locate the origin of a tap on a 2 dimensional plane using ToF alone\cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system.
+No timing or localisation information can be inferred from a single microphone however a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than three microphones are required to locate the origin of a tap on a 2 dimensional plane using ToF alone\cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system.
 
 %Discuss time of flight (ToF) (and sample rates/size tradeoff)
 For constant phase velocity $c$ in a specific material and time difference $\Delta t$ the spatial difference between microphones $\Delta d$ can be calculated with a basic equation of motion,
@@ -46,7 +46,7 @@ For constant phase velocity $c$ in a specific material and time difference $\Del
 \Delta d  = c \Delta t.
 \end{equation}
 
-For a digital system sampled at sampling rate $f_s$, time difference is equivalent to $\Delta t = \Delta S/f_s$ where $S$ is the a number of samples and $t$ and sampling rate is measured in seconds and samples per second respectively.
+For a digital system sampled at sampling rate $f_s$, time difference is equivalent to $\Delta t = \Delta S/f_s$ where $S$ is the number of samples and $t$ the sampling rate is measured in seconds and samples per second respectively.
 
 The positional difference $\Delta d$ can now be calculated from the sample difference $\Delta S$ between two events as,
 
@@ -60,7 +60,7 @@ For the minimum sampling rate $f_s$ needed to detect any spatial difference $\De
 f_s  \geq \frac{c}{\Delta d}.
 \end{equation}
 
-Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} shows an example of 3 waveforms from 3 different microphones embedded in a surface. Various points on the waveforms have been affixed with data tags to allow for a comparison of their relative arrival times. In this example the absolute distance in the surface from the microphones to the impact site was 30, 10 and 20 cm for microphones 1, 2 and 3 respectively. It is important to note that so far it has been the first arrivals that have been of primary concern for the positioning of signals, but Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} also shows other waveform elements related to the surface geometry. Microphone 3 provides a clear secondary negative peak at sample number 45. This secondary peak quite likely corresponds to a reflected (non direct) pulse arriving slightly delayed to the direct pulse due to the longer path travelled.
+Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} show an example of 3 waveforms from 3 different microphones embedded in a surface. Various points on the waveforms have been affixed with data tags to allow for a comparison of their relative arrival times. In this example the absolute distance in the surface from the microphones to the impact site was 30, 10 and 20 cm for microphones 1, 2 and 3 respectively. It is important to note that so far it has been the first arrivals that have been of primary concern for the positioning of signals, but Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} also shows other waveform elements related to the surface geometry. Microphone 3 provides a clear secondary negative peak at sample number 45. This secondary peak quite likely corresponds to a reflected (non direct) pulse arriving slightly delayed to the direct pulse due to the longer path travelled.
 
 \begin{figure} %MultiSourceExampleAnnoSpot9.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -191,7 +191,7 @@ An initial implementation of the multi-channel system training is shown in Figur
 \label{fig:trainingSystem2.pdf}
 \end{figure}
 
-Figure~\ref{fig:trainingSystem3.pdf} shows the multi-channel APR system training using joint alignment. While, as in section~\ref{sec:MultiAPRMethod}, the other methods presented here have trained each channel independently, this approach only prompts the trainer for alignment cues based on data from one channel. This means that the relative alignments between channels $c$ and spots $j$ remain intact. Data associated with each channel can be stored independently as previously but each template will now be of similar length and will require slightly longer templates to account for pulses arriving prior to those of the alignment channel (channel 1 $c=1$ for all tests conducted).
+Figure~\ref{fig:trainingSystem3.pdf} shows the multi-channel APR system training using joint alignment. While, as in section~\ref{sec:MultiAPRMethod}, the other methods presented here have trained each channel independently, this approach only prompts the trainer for alignment cues based on data from one channel. This means that the relative alignments between channels $c$ and spots $j$ remain intact. Data associated with each channel can be stored independently, as previously, but each template will now be of similar length and will require slightly longer templates to account for pulses arriving prior to those of the alignment channel (channel 1 $c=1$ for all tests conducted).
 
 \begin{figure} %trainingSystem3.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -248,7 +248,7 @@ Training data for the $J=9$ models, see Figure~\ref{fig:MultiAPRsystem.pdf}, con
 %tests Q for q=1 to q=Q
 Two data sets were used for testing in this chapter, one without noise and one with noise. The noiseless set consisted of $Q=79$ testing taps and the noisy set consisted of $Q=45$ taps both were randomly distributed over the $J=9$ active spots. Each set of testing taps $q$ was comprised of $C=3$ channels. Each $Q \times C$ tapping pulse was separated into separate audio files of approximately 2 seconds length.
 
-All data was recorded as PCM 16 bit audio data sampled at 48 kHz. The noisy testing sets were recorded with loud music playing in the background. Figure~\ref{fig:NoisyMicSignalsCompare} shows an example of an pulse recorded in a clean and in a noisy environment for microphone 1, Figure~\ref{fig:NoisyMicSignalsCompare}(a), and for microphone 2, Figure~\ref{fig:NoisyMicSignalsCompare}(b). It is clearly noted that the signal from microphone 2 is less affected by the acoustic noise. This mixture of more and less noise sensitive microphones emulates the real world scenario of devices with noise or signal reference microphones for noise reduction algorithms.
+All data was recorded as PCM 16 bit audio data sampled at 48 kHz. The noisy testing sets were recorded with loud music playing in the background. Figure~\ref{fig:NoisyMicSignalsCompare} shows an example of a pulse recorded in a clean and in a noisy environment for microphone 1, Figure~\ref{fig:NoisyMicSignalsCompare}(a), and for microphone 2, Figure~\ref{fig:NoisyMicSignalsCompare}(b). It is clearly noted that the signal from microphone 2 is less affected by the acoustic noise. This mixture of more and less noise sensitive microphones emulates the real world scenario of devices with noise or signal reference microphones for noise reduction algorithms.
 
 \begin{figure}[t]
 \begin{minipage}[b]{1.0\linewidth}
@@ -272,7 +272,7 @@ All data was recorded as PCM 16 bit audio data sampled at 48 kHz. The noisy test
 \end{figure}
 
 \subsection{Approaches}
-While the underlying theory behind the multi-channel APR system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
+While the underlying theory behind the multi-channel APR system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of the decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
 
 As mentioned previously the multi-channel approach will be compared to the standard single-channel approach (\approachChFourN{app:IndiChan}). The single-channel PCA method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single-channel results will be processed and the unique mode (\approachChFourN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachChFourN{app:IndiChanMedian}) for each test $q$.
 
