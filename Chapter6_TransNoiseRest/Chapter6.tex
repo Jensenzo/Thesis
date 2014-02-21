@@ -6,9 +6,9 @@
     \graphicspath{{Chapter6_TransNoiseRest/Chapter6Figs/EPS/}{Chapter6_TransNoiseRest/Chapter6Figs/}}
 \fi
 
-As mentioned previously, the keyboard stroke removal algorithm can roughly be divided into two. Chapter~\ref{ch:TransientNoiseDetection} dealt with the task of detecting keyboard stroke noise and calculating the corruptions extent. Based on analysis of the data it was also concluded that while a model based approach could perform well on isolated keyboard stroke examples tuning it for more general cases would be difficult. This chapter will explore the second, and final step, of the keyboard stroke removal system and focus on the restoration of the corrupted samples of the audio sequence. While the complete removal of all localised transient noise is the ultimate goal of this chapter, any significant reduction in audibility or subjective nuisance will also be acceptable and so this chapter will also include a subject study of the restoration quality.
+As mentioned previously, the keyboard stroke removal algorithm can roughly be divided into two. Chapter~\ref{ch:TransientNoiseDetection} dealt with the task of detecting keyboard stroke noise and calculating the corruptions extent. Based on analysis of the data it was also concluded that while a model based approach could perform well on isolated keyboard stroke examples, tuning it for more general cases would be difficult. This chapter will explore the second, and final step, of the keyboard stroke removal system and focus on the restoration of the corrupted samples of the audio sequence. While the complete removal of all localised transient noise is the ultimate goal of this chapter, any significant reduction in audibility or subjective nuisance will also be acceptable and so this chapter will also include a subject study of the restoration quality.
 
-In this chapter a variety of methods will be explored. While the preferred detection algorithm from Chapter~\ref{ch:TransientNoiseDetection} was the AR filter method, the noise burst model lent itself to an interesting restoration model based on the noise burst assumption, which will also be explored in this chapter. Restoration examples are available on \siteURL~as a reference.
+In this chapter a variety of methods will be explored. While the preferred detection algorithm from Chapter~\ref{ch:TransientNoiseDetection} was the AR filter method, the noise burst model lent itself to an interesting restoration model based on the noise burst assumption, which will also be explored in this chapter. Audio examples of restorations are available on \siteURL~as a reference.
 
 %structure of chapter
 The residual algorithms presented in this chapter are split into two. The first section deals with the restoration of the residual components, while the following section explores restoration of the tonal components. Section~\ref{sec:AlgStatement} pulls all the parts of the algorithm together and outlines the important connections of the system. Section~\ref{sec:RestorationMethods} presents the methods and metrics used in the results section following it, and results are discussed and concluded in sections~\ref{sec:RestorationDiscussion} and~\ref{sec:RestorationResults} respectively.
@@ -18,7 +18,7 @@ Based on the pre processing stage from equation~\ref{eq:modelgeneral} the restor
 
 The second part of this section will focus on restoring and removing spurious tonal components caused by the keyboard stroke. Certain keyboard types in particular were found to produce noise pulses with more tonal components than others, and in particular loud strokes on the keyboard were found to exacerbate this issue. The methods developed in this part of the chapter will largely be of a heuristic nature.
 
-%The restoration of the sparse residual component can be formulated as follows. %This doesn't belong here 
+%The restoration of the sparse residual component can be formulated as follows. %This doesn't belong here
 In this chapter the detection state is presumed known and will be treated as a binary vector $\boldsymbol{i}$ containing a high value $i_t = 1$ for a detection and a low value $i_t = 0$ for no detection. Consider an audio segment $\boldsymbol{x}$ of length $N$ with a corrupted section starting at sample $m$ and of length $l$. The corrupted sequence can now be described as 3 separate sections with the unknown section being $\boldsymbol{x_{(i)}} = [x_m,x_{m+1},\ldots,x_{m+l-1}]$, the known section before and after the corruption respectively $\boldsymbol{x}_{\boldsymbol{-(i)}a} = [x_1,x_{2},\ldots,x_{m-1}]$ and $\boldsymbol{x}_{\boldsymbol{-(i)}b} = [x_{m+1},x_{m+2},\ldots,x_{N}]$. The total sequence is therefore
 
 \begin{equation}\label{eq:RestBasicModel}
@@ -27,7 +27,7 @@ In this chapter the detection state is presumed known and will be treated as a b
 
 
 \subsection{Noise insertion}
-The simplest restoration algorithm proposed in this chapter features a simple method for replacing corrupted samples with random noise.
+The simplest restoration algorithm proposed in this chapter features a method for replacing corrupted samples with random noise.
 
 Consider the wavelet coefficients from a decomposition following the detection stage. Similar to equation~\ref{eq:RestBasicModel} we have for the wavelet coefficients that
 \begin{equation}\label{eq:RestBasicModelWavelet1}
@@ -109,7 +109,7 @@ Figure~\ref{fig:ResultsNoiseInsertionFiltering.pdf} shows an example of the nois
 
 \subsection{Burst scaling}
 A different restoration approach can be derived from the noise burst detection method proposed in section~\ref{sec:WPdetectionNB}.
-Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was assumed that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
+Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was is that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
 
 A Bayesian approach proceeds by estimating $p(\boldsymbol{v}_n | \boldsymbol{w}_n, i_n)$. Using Bayes' rule we get that
 
@@ -132,7 +132,7 @@ p(v_n | \boldsymbol{w}_n, i_n = 1) \propto \mathcal{N}\left({(C_v + \Lambda)^{-1
 %\frac{\boldsymbol{w}_n}{\Lambda}\right).
 In this case where both the background noise $v_n$ and the noise burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices).
 
-An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScaled.pdf}. The reference variance for the wavelet coefficient sets $C_v$ is taken over a 5 second sequence. The pulse variance $\Lambda$ is a trained value which might vary from session to session, but for the restoration stage here the first 150 samples of the detected pulse is used.
+An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScaled.pdf}. The reference variance for the wavelet coefficient sets $C_v$ is taken over a 5 second sequence. The pulse variance $\Lambda$ is a trained value which might vary from session to session, but for the restoration stage here the first 150 samples of the detected pulse are used.
 
 \begin{figure} %ResultsScaled.pdf
 \centering
@@ -184,7 +184,7 @@ The excitation vector $\mathbf{e}$ can be expressed as
   \mathbf{e} = \mathbf{A}\mathbf{x},
 \end{equation}
 
-where $\mathbf{X}$, the data vector, can be reexpressed in terms of corrupted and uncorrupted, or known $\mathbf{K}$ and unknown $\mathbf{U}$), samples
+where $\mathbf{X}$, the data vector, can be re-expressed in terms of corrupted and uncorrupted, or known $\mathbf{K}$ and unknown $\mathbf{U}$, samples
 
 \begin{align}\label{eq:LSAR2}
   \mathbf{e} = & \mathbf{A} (\mathbf{U}\mathbf{x}_{\mathbf{(i)}} + \mathbf{K}\mathbf{x}_{\mathbf{-(i)}}) \\
@@ -203,7 +203,7 @@ The Least Squares (LS) interpolator is obtained as the interpolated data vector 
   \mathbf{x}^{\mathrm{LS}}_{\mathbf{(i)}} = \argmin{\mathbf{x}_{\mathbf{(i)}}} \{ E \}.
 \end{equation}
 
-$E$ can expanded and differentiated to find its minimum:
+$E$ can be expanded and differentiated to find its minimum:
 
 \begin{align}\label{eq:LSAR5}
   E = & \mathbf{e}^T\mathbf{e} \\
@@ -217,7 +217,7 @@ Solving for $\mathbf{x}_{\mathbf{(i)}}$ we have that:
   \mathbf{x}^{\mathrm{LS}}_{\mathbf{(i)}} = - (\mathbf{A}_{\mathbf{(i)}}^T \mathbf{A}_{\mathbf{(i)}} )^{-1}\mathbf{A}_{\mathbf{(i)}}^T\mathbf{A}_{\mathbf{-(i)}}\mathbf{x}_{\mathbf{-(i)}}
 \end{equation}
 
-An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:RestoredLSARExample}(a) and (b), where 2 different sets of Wavelet coefficients have had an pulse detection restored. Both examples are of audio sampled at 16kHz and coefficients are from a Wavelet decomposition done to the third level. Figure~\ref{fig:RestoredLSARExample}(a) uses the same detection example as the previous examples while  Figure~\ref{fig:RestoredLSARExample}(b) shows a restoration example, from the same audio sequence, which showcases more of the algorithms restoration abilities.
+An example of the LSAR interpolation algorithm is shown in Figure~\ref{fig:RestoredLSARExample}(a) and (b), where 2 different sets of Wavelet coefficients have had a pulse detection restored. Both examples are of audio sampled at 16kHz and coefficients are from a Wavelet decomposition done to the third level. Figure~\ref{fig:RestoredLSARExample}(a) uses the same detection example as the previous examples while  Figure~\ref{fig:RestoredLSARExample}(b) shows a restoration example, from the same audio sequence, which showcases more of the algorithms restoration abilities.
 
 \begin{figure}
 \begin{minipage}[b]{1.0\linewidth}
