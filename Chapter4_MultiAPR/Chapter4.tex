@@ -126,17 +126,17 @@ As with the single-channel method, see equation~\ref{eq:loglikeli}, the log-like
 Since the channels are considered independent of each other we have that
 
 \begin{equation}\label{eq:jointprob_c}
-p(y_c | j) = \prod^C p(y_c | j, c).
+p(\textbf{y} | j) = \prod^C p(y_c | j, c).
 \end{equation}
 
 Similar to equation~\ref{eq:MLdefinition}, the Maximum Likelihood (ML) estimator can be expressed as
 
 \begin{equation}\label{eq:MLdefinition_c}
-p(j |y_c) = \argmax{j} \prod^C p(y_c|j,n_0,c),
+p(j |\textbf{y}) = \argmax{j} \prod^C p(y_c|j,n_0,c),
 \end{equation}
 
 \begin{equation}\label{eq:MLdefinition2_c}
-\log{\left( p(j |y_c)\right)} = \argmax{j} \sum^C \log{\left( p(y_c|j,n_0,c) \right)}.
+\log{\left( p(j |\textbf{y})\right)} = \argmax{j} \sum^C \log{\left( p(y_c|j,n_0,c) \right)}.
 \end{equation}
 
 \section{Training}\label{sec:MultiAPRTraining}
@@ -279,7 +279,7 @@ As mentioned previously the multi-channel approach will be compared to the stand
 Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multi-channel implementation (\approachChFourN{app:MultiNaive}). Here the channels were not aligned and the detection likelihoods were combined as described in equation~\ref{eq:MLdefinition2_c}. While this approach clearly fails to take advantage of the inherent ToF information it may serve as a control to evaluate the effect of ToF. In addition to this approach the maximum detection likelihood for each channel $c$ are combined and the class corresponding the combined largest excitation is chosen (\approachChFourN{app:MultiNaiveMax}). In other words:
 
 \begin{equation}\label{eq:jointprob3_c}
-p(j|y) = \argmax{j} \prod^C \underset{n_0}{\max} p(y_c|j,n_o,c).
+p(j|\textbf{y}) = \argmax{j} \prod^C \underset{n_0}{\max} p(y_c|j,n_o,c).
 \end{equation}
 
 This approach attempts to remedy the naive multi-channel approach by making an assumption. It is assumed that while a template may not perfectly fit a pulse associated with a different template, it will still have its maximum excitation when aligned correctly with the pulse. This enables a \emph{post hoc} pseudo alignment of the templates. This approach is included to remedy the naive multi-channel approach.
