@@ -378,14 +378,13 @@ where $K_j$ is a random variable describing the linear scaling of the model.
 
 In equation~\ref{eq:MLmargin} the continuous component scaling factor $\theta$ was marginalised out to give $p(y|j,n_0)$. In much the same way the likelihood can be estimated by evaluation of the joint probability of the data $y$ given a discrete scaling $K$, template number $j$ and the time shift $n_0$, over $K$.
 
-For the discretely sampled distribution of $K$ $p(K)$ such that
+For $K$ $p(K)$ is now considered to be a discretely sampled distribution such that
 
 \begin{equation}\label{eq:pkldefine}
 Pr\left\{K = k_l\right\} = p_{K,l},
 \end{equation}
 
 for the $l = 1:L$ samples of $p(K)$.
-
 
 The sampling of $p(K)$ can now be expressed as
 \begin{equation}\label{eq:sampledK}
@@ -396,10 +395,10 @@ and the signal $y$ can now be modeled as
 
 \begin{eqnarray}\label{eq:MLmarginK}
 p(y|j,n_0) &=& \int \sum_{l=1}^L p(y|j, n_0, K=k_l) p^j_{K,l} \delta \left(K - k_l\right) dK\\
-&=& \sum_{l=1}^L p(y|j, n_0, K=k_l) p^j_{K,l} 
+&=& \sum_{l=1}^L p(y|j, n_0, K=k_l) p^j_{K,l}. 
 \end{eqnarray}
 
-and the distribution of $p(K|j)$ could be estimated as a discrete point-mass \linebreak[0](positive-valued) inverse-gamma distribution or simply sampled at a training stage for each class $j$. In this case $p(K|j)$ is assumed to be discrete and equation~\ref{eq:MLmarginK} is a finite sum of weighted Gaussian terms. In the continuous cases the integral could be computed using Monte Carlo integration approximated using discrete summation.
+The distribution of $p(K|j)$ could be estimated as a discrete point-mass \linebreak[0](positive-valued) inverse-gamma distribution or simply sampled at a training stage for each class $j$. In this case $p(K|j)$ is assumed to be discrete and equation~\ref{eq:MLmarginK} is a finite sum of weighted Gaussian terms. In the continuous cases the integral could be computed using Monte Carlo integration approximated using discrete summation.
 
 Proceeding with the steps from equation~\ref{eq:marg2} - \ref{eq:z25} (the full derivations are available in Appendix~\ref{ap:AppDeriv}, the log-likelihood is calculated
 
