@@ -31,12 +31,17 @@ A noise pulse detection and restoration system for the telecommunication applica
 
 \section{Summary of contributions}
 \begin{itemize}
-  \item %Robust single channel acoustic pulse recognition (APR) system. Using Bayesian extension of probabilistic PCA real time classification 
-  \item %Sparse training extension for simplified training and increased resolution
-  \item %Multi channel extension
-  \item %Real time wavelet based single channel pulse detection and restoration algorithm for real time telecommunication systems.
-  \item %Tonal pre processing stage to separate voiced audio segments for restoration
-  \item 
+%Robust single channel acoustic pulse recognition (APR) system. Using Bayesian extension of probabilistic PCA real time classification
+  \item In chapter~\ref{ch:APR} a new multivariate probabilistic approach to Acoustic Pulse Recognition (APR) for tangible interface applications was presented. This model uses Principle Component Analysis (PCA) in a Bayesian framework to classify tapping pulses with a high degree of variability and was realisable within a real time application. It was found that this model, achieves a higher robustness to pulse variability than simpler template matching methods, specifically when allowed to train on data containing high variability.
+%Sparse training extension for simplified training and increased resolution  
+  \item To computationally increase the APR system's resolution beyond the scope of the trained spots, a sparse training extension was hypothesised and a simplistic version was implemented.
+%Multi channel extension          
+  \item The single channel multivariate system from chapter~\ref{ch:APR} was generalised to multiple channels in chapter~\ref{ch:MultichannelAPR}. While several multi channel APR systems have been developed, the multi channel extension provided here allows for any number of different sensors located inside or outside of the device to be used and builds on the same probabilistic PCA system as for the single channel implementation but was shown to significantly improve its classification rate.
+%Real time wavelet based single channel pulse detection and restoration algorithm for real time telecommunication systems.      
+  \item In chapter~\ref{ch:TransientNoiseDetection} two pulse detection systems were designed for a real time digital telecommunication system targeting keyboard noise pulses. Both methods uses, as a pre-processing stage, a Fourier basis to extract voiced resonances from the audio signal, leaving a sparse residual noisy signal that contains mainly transient noise information. The first method then proceeds to model and process the Wavelet Packet Transform (WPT) decomposition of the residual audio signal using a switched noise model, in an attempt to detect outlying transient noise events. This method treats the unobserved detection state for transients as a binary Hidden Markov Model (HMM) in order to model both the temporal and scale cohesion observed to be a property of the transient noise events.
+  \item A second detection algorithm was developed, using the same pre-processing stage mentioned above, and detects pulses by calculating the joint prediction error across the wavelet scales using a simple AR filter. Both methods presented in chapter~\ref{ch:TransientNoiseDetection} provide pulse detection abilities in real time communication systems with high temporal accuracy and with false detection rates comparable to, or better than, competing methods while requiring a minimum of forward knowledge.
+%Restoration
+  \item Building on the detection state computed in chapter~\ref{ch:TransientNoiseDetection}, chapter~\ref{ch:TransientNoiseRestoration} introduces a range of restoration algorithms of the residual and the tonal components to complete the pulse detection and suppression system. While the restoration of the residual components are done using a range of known filtering, LSAR and noise insertion approaches the proposed tonal restoration algorithm uses a range of heuristic operations to remove newly introduced tonal components and rescale rapidly changing magnitudes based on historical data as well the expected extent of corruptions. Objective measures and preliminary subjective listening study confirm that a slight decrease in nuisance from the pulses was achieved.
 \end{itemize}
 
 
