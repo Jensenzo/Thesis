@@ -76,9 +76,7 @@ Suppose that each data reading $y = [y_0, \ldots , y_{N-1}]^T $ is modeled by th
 \begin{equation}\label{eq:MLmod1}
 y = \theta^j t^j(n_0) + v,
 \end{equation}
-
-where $t$ is a set of $J$ templates from $J$ different spots so that $t^j(n_0)$ is then the $j$th template, $j \in \{1, \ldots ,J\}$ shifted to time $n_0$ and $\theta$ is taken to be a random variable describing the scaling of the template.
-
+where $t$ is a set of $J$ templates, of length $M$, from $J$ different spots so that $t^j(n_0)$ is then the $j$th template, $j \in \{1, \ldots ,J\}$ shifted to time $n_0$ and $\theta$ is taken to be a random variable describing the scaling of the template.
 \begin{equation}\label{eq:MLtheta}
 \theta^j \sim \mathcal{N}(\mu^j_{\theta},\sigma_{\theta,j}^2),
 \end{equation}
@@ -89,11 +87,11 @@ where $v$ is the independent and identically distributed (i.i.d.) Gaussian noise
 v_n \stackrel{i.i.d.}{\sim} \mathcal{N}(0,\sigma^2).
 \end{equation}
 
-The templates $t^j(n_0)$ for which their alignment $n_0$ and length makes them exceed the length of available data $N$, the templates are zero-padded.
+Templates $t^j(n_0)$ for which the alignment $n_0$ and length makes them exceed the length of available data $N$, are zero-padded.
 
 Henceforth the scaling factor $j$th $\theta^j$ and template $t^j(n_0)$ will be referred to respectively as $\theta$ and $t$ for simplicity.
 
-To evaluate which, if any, of the templates that are present in the data and when they are observed we need to evaluate the probability of the template number $j$ and the time shift $n_0$ given the received data $y$ which can be described as $p(j,n_0|y)$.
+To evaluate which, if any, of the templates are present in the data and when they are observed we need to evaluate the probability of the template number $j$ and the time shift $n_0$ given the received data $y$ which can be described as $p(j,n_0|y)$.
 
 Using Bayes' theorem it is found that:
 
@@ -117,9 +115,9 @@ p(y|j,n_0)=\int_\theta p(y|\theta, j, n_0) p(\theta|j,n_0) d\theta,
 where the product of the two normal distributions $p(y|\theta, j, n_0)$ and $p(\theta|j,n_0)$, can be expressed as a third unnormalised normal distribution and a normalising constant $z$.
 
 \begin{equation}\label{eq:MLprod1}
-\mathcal{N}_y(\theta t,\sigma^2)\cdot\mathcal{N}_\theta(\mu_\theta,\sigma^2_\theta) = z \times \mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta),
+\mathcal{N}_y(\theta t,\sigma^2 \textbf{I})\cdot\mathcal{N}_\theta(\mu_\theta,\sigma^2_\theta) = z \times \mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta),
 \end{equation}
-where $\mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}_\theta^2)$ is the third normal distribution which is the only element on the r.h.s. which is dependent on $\theta$,
+where $\textbf{I}$ is the appropriate $M \times M$ identity matrix and $\mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}_\theta^2)$ is the third normal distribution which is the only element on the r.h.s. which is dependent on $\theta$,
 
 \begin{equation}\label{eq:MLtheta2}
 \mathcal{N}_\theta(\mu_\theta,\sigma^2_\theta) = \frac{1}{\sqrt{2 \pi \sigma_\theta^2}} \textrm{exp}\left[-\frac{\left(\theta - \mu_\theta\right)^2}{2\sigma_\theta^2}\right],
@@ -128,13 +126,13 @@ where $\mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}_\theta^2)$ is the third 
 and
 
 \begin{equation}\label{eq:MLnoise2}
-\mathcal{N}_y(\theta t,\sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \textrm{exp}\left[-\frac{\left(y - \theta t\right)^2}{2\sigma^2}\right].
+\mathcal{N}_y(\theta t,\sigma^2 \textbf{I}) = \frac{1}{\left(2 \pi\right)^{\frac{M}{2}\sigma}} \textrm{exp}\left[-\frac{\left(y - \theta t\right)^T\left(y - \theta t\right)}{2\sigma^2}\right].
 \end{equation}
 
 It is now possible to write the marginalisation in equation (\ref{eq:MLmargin}) as:
 
 \begin{equation}\label{eq:MLmargin2}
-p(y|j,n_0)=\int_\theta \mathcal{N}_y(\theta t,\sigma^2)\cdot\mathcal{N}_\theta(\mu_\theta,\sigma^2_\theta) d\theta = z \int_\theta \mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta) d\theta = z,
+p(y|j,n_0)=\int_\theta \mathcal{N}_y(\theta t,\sigma^2 \textbf{I})\cdot\mathcal{N}_\theta(\mu_\theta,\sigma^2_\theta) d\theta = z \int_\theta \mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta) d\theta = z,
 \end{equation}
 
 since $\int_\theta \mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta) d\theta = 1$.
@@ -142,9 +140,9 @@ since $\int_\theta \mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta) d\
 To evaluate $\hat{\sigma}^2_\theta$ and $\hat{\mu}_\theta$, the l.h.s. of equation (\ref{eq:MLprod1}) must be expanded,
 
 \begin{eqnarray}\label{eq:MLprod3}
-& & \mathcal{N}_y(\theta t,\sigma^2)\cdot\mathcal{N}_\Theta(\mu_\theta,\sigma^2_\theta) \\\nonumber{}\\\nonumber
-& & \quad = \frac{1}{2\pi \sigma \sigma_\theta} \textrm{exp}\left[-\frac{1}{2}\left(\frac{y^Ty +\theta^2t^Tt-2\theta y^T t}{\sigma^2}+\frac{\theta^2 + \mu^2_\theta-2\theta\mu_\theta}{\sigma_\theta^2}\right)\right]\\\nonumber{}\\\nonumber
-& & \quad = \frac{1}{2\pi \sigma \sigma_\theta} \textrm{exp}\left[-\frac{1}{2}\left(\theta^2 \left(\frac{1}{\sigma_\theta^2}+\frac{t^T t}{\sigma^2}\right) - 2\theta\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right) + \frac{y^Ty}{\sigma^2} +\frac{\mu_\theta^2}{\sigma_\theta^2}\right)\right].
+& & \mathcal{N}_y(\theta t,\sigma^2 \textbf{I})\cdot\mathcal{N}_\theta(\mu_\theta,\sigma^2_\theta) \\\nonumber{}\\\nonumber
+& & \quad = \frac{1}{\left(2\pi\right)^{\frac{M+1}{2}} \sigma \sigma_\theta} \textrm{exp}\left[-\frac{1}{2}\left(\frac{y^Ty +\theta^2t^Tt-2\theta y^T t}{\sigma^2}+\frac{\theta^2 + \mu^2_\theta-2\theta\mu_\theta}{\sigma_\theta^2}\right)\right]\\\nonumber{}\\\nonumber
+& & \quad = \frac{1}{\left(2\pi\right)^{\frac{M+1}{2}} \sigma \sigma_\theta} \textrm{exp}\left[-\frac{1}{2}\left(\theta^2 \left(\frac{1}{\sigma_\theta^2}+\frac{t^T t}{\sigma^2}\right) - 2\theta\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right) + \frac{y^Ty}{\sigma^2} +\frac{\mu_\theta^2}{\sigma_\theta^2}\right)\right].
 \end{eqnarray}
 
 Expanding the r.h.s. of equation (\ref{eq:MLprod1}) gives
@@ -165,19 +163,19 @@ By observation between equation (\ref{eq:MLprod3}) and (\ref{eq:MLprod4}) it is 
 From equation (\ref{eq:MLprod1}) we have that,
 
 \begin{equation}\label{eq:MLprod2}
-z = \frac{\mathcal{N}_y(\theta t^j,\sigma^2)\cdot\mathcal{N}_\Theta(\mu_\theta,\sigma^2_\theta)}{\mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta)}
+z = \frac{\mathcal{N}_y(\theta t^j,\sigma^2)\cdot\mathcal{N}_\theta(\mu_\theta,\sigma^2_\theta)}{\mathcal{N}_\theta(\hat{\mu}_\theta,\hat{\sigma}^2_\theta)}
 \end{equation}
 
 and substituting in equation (\ref{eq:MLprod3}) and (\ref{eq:MLprod4}):
 
 \begin{eqnarray}\label{eq:MLprod6}
-z &=& \frac{\frac{1}{2\pi \sigma \sigma_\theta} \textrm{exp}\left[-\frac{1}{2}\left(\theta^2 \left(\frac{1}{\sigma_\theta^2}+\frac{t^T t}{\sigma^2}\right) - 2\theta\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right) + \frac{y^T y}{\sigma^2} +\frac{\mu_\theta^2}{\sigma_\theta^2}\right)\right]}{\frac{1}{\sqrt{2 \pi}\hat{\sigma}_\theta}\textrm{exp}\left[-\frac{1}{2}\left(\theta^2\frac{1}{\hat{\sigma}^2_\theta} - 2\theta\frac{\hat{\mu}_\theta}{\hat{\sigma}^2_\theta} + \frac{\hat{\mu}_\theta^2}{\hat{\sigma}^2_\theta}  \right)\right]}.
+z &=& \frac{\frac{1}{\left(2\pi\right)^{\frac{M+1}{2}} \sigma \sigma_\theta} \textrm{exp}\left[-\frac{1}{2}\left(\theta^2 \left(\frac{1}{\sigma_\theta^2}+\frac{t^T t}{\sigma^2}\right) - 2\theta\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right) + \frac{y^T y}{\sigma^2} +\frac{\mu_\theta^2}{\sigma_\theta^2}\right)\right]}{\frac{1}{\sqrt{2 \pi}\hat{\sigma}_\theta}\textrm{exp}\left[-\frac{1}{2}\left(\theta^2\frac{1}{\hat{\sigma}^2_\theta} - 2\theta\frac{\hat{\mu}_\theta}{\hat{\sigma}^2_\theta} + \frac{\hat{\mu}_\theta^2}{\hat{\sigma}^2_\theta}  \right)\right]}.
 \end{eqnarray}
 
 Substituting in values for $\hat{\sigma}^2_\theta$ and $\hat{\mu}_\theta$ from equation (\ref{eq:MLprod5}), and with a bit of rewriting equation (\ref{eq:MLprod6}) reduces to:
 
 \begin{equation}\label{eq:MLprod7}
-z = \frac{1}{\sqrt{2 \pi}\phi \sigma \sigma_\theta}\textrm{exp}\left[-\frac{1}{2}\left(\frac{y^T y}{\sigma^2}+\frac{\mu_\theta^2}{\sigma_\theta^2} - \frac{\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right)^2}{\phi}\right)\right],
+z = \frac{1}{\left(2 \pi\right)^{\frac{M}{2}}\phi \sigma \sigma_\theta}\textrm{exp}\left[-\frac{1}{2}\left(\frac{y^T y}{\sigma^2}+\frac{\mu_\theta^2}{\sigma_\theta^2} - \frac{\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right)^2}{\phi}\right)\right],
 \end{equation}
 
 where $\phi = \hat{\sigma}^{-2}_\theta = \frac{t^Tt}{\sigma^2} + \frac{1}{\sigma_\theta^2}$. Remembering equation (\ref{eq:MLmargin2}) \linebreak[0]where \linebreak[0]$p(y|j,n_0) = z$, the probability of the data $y$ conditional on the model $j$ and the time shift $n_0$ is now known and can be referred to as the likelihood of the model $j$. An estimate of the model present in the data can be found by inspecting the likelihood function over the range of models. This method is called the maximum likelihood estimate or ML estimate, and is given by:
@@ -191,10 +189,10 @@ It is often useful to consider the log-likelihood rather than the likelihood due
 The log-likelihood is found to be:
 
 \begin{equation}\label{eq:MLloglikelihood}
-\log{p(y|j,n_0)} = -\frac{\log{2\pi}}{2} - \log{\phi} - \log{\sigma} -\log{\sigma_\theta} - \frac{y^T y}{2\sigma^2} -\frac{\mu^2_\theta}{2\sigma^2_\theta} + \frac{\left(\frac{y^T t}{\sigma^2}-\frac{\mu_\theta}{\sigma^2_\theta}\right)^2}{2\phi},
+\log{p(y|j,n_0)} = -\frac{M\log{2\pi}}{2} - 0.5\log{\phi} - \log{\sigma} -\log{\sigma_\theta} - \frac{y^T y}{2\sigma^2} -\frac{\mu^2_\theta}{2\sigma^2_\theta} + \frac{\left(\frac{y^T t}{\sigma^2}-\frac{\mu_\theta}{\sigma^2_\theta}\right)^2}{2\phi},
 \end{equation}
 
-where several other monotonic elements can be eliminated for simplicity.
+where several other constant elements can be eliminated for simplicity.
 
 Another useful statistic to consider is the Maximum \emph{A Posterior} (MAP) estimate of the model $j$. The MAP estimate is given by:
 
@@ -395,7 +393,7 @@ and the signal $y$ can now be modeled as
 
 \begin{eqnarray}\label{eq:MLmarginK}
 p(y|j,n_0) &=& \int \sum_{l=1}^L p(y|j, n_0, K=k_l) p^j_{K,l} \delta \left(K - k_l\right) dK\\
-&=& \sum_{l=1}^L p(y|j, n_0, K=k_l) p^j_{K,l}. 
+&=& \sum_{l=1}^L p(y|j, n_0, K=k_l) p^j_{K,l}.
 \end{eqnarray}
 
 The distribution of $p(K|j)$ could be estimated as a discrete point-mass \linebreak[0](positive-valued) inverse-gamma distribution or simply sampled at a training stage for each class $j$. In this case $p(K|j)$ is assumed to be discrete and equation~\ref{eq:MLmarginK} is a finite sum of weighted Gaussian terms. In the continuous cases the integral could be computed using Monte Carlo integration approximated using discrete summation.
