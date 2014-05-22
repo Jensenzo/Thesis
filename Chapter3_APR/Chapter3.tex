@@ -76,7 +76,7 @@ Suppose that each data reading $y = [y_0, \ldots , y_{N-1}]^T $ is modeled by th
 \begin{equation}\label{eq:MLmod1}
 y = \theta^j t^j(n_0) + v,
 \end{equation}
-where $t$ is a set of $J$ templates, of length $M$, from $J$ different spots so that $t^j(n_0)$ is then the $j$th template, $j \in \{1, \ldots ,J\}$ shifted to time $n_0$ and $\theta$ is taken to be a random variable describing the scaling of the template.
+where $t$ is a set of $J$ templates, of length $M$, from $J$ different spots so that $t^j(n_0)$ is then the $j$th template, $j \in \{1, \ldots ,J\}$ shifted to time $n_0$ and $\theta$ is taken to be a random variable describing the scaling of the template. The prior on $\theta$ is assumed to be normal and independent across $j$.
 \begin{equation}\label{eq:MLtheta}
 \theta^j \sim \mathcal{N}(\mu^j_{\theta},\sigma_{\theta,j}^2),
 \end{equation}
@@ -87,9 +87,9 @@ where $v$ is the independent and identically distributed (i.i.d.) Gaussian noise
 v_n \stackrel{i.i.d.}{\sim} \mathcal{N}(0,\sigma^2).
 \end{equation}
 
-Templates $t^j(n_0)$ for which the alignment $n_0$ and length makes them exceed the length of available data $N$, are zero-padded.
+Templates $t^j(n_0)$ for which the alignment $n_0$ and length makes them exceed the length of available data $N$, are truncated.
 
-Henceforth the scaling factor $j$th $\theta^j$ and template $t^j(n_0)$ will be referred to respectively as $\theta$ and $t$ for simplicity.
+Henceforth the scaling factor $\theta^j$ and template $t^j(n_0)$ will be referred to respectively as $\theta$ and $t$ for simplicity.
 
 To evaluate which, if any, of the templates are present in the data and when they are observed we need to evaluate the probability of the template number $j$ and the time shift $n_0$ given the received data $y$ which can be described as $p(j,n_0|y)$.
 
@@ -184,7 +184,7 @@ where $\phi = \hat{\sigma}^{-2}_\theta = \frac{t^Tt}{\sigma^2} + \frac{1}{\sigma
 j_{ML} = \argmax{j} p(y|j,n_0).
 \end{equation}
 
-It is often useful to consider the log-likelihood rather than the likelihood due to computational complexity inherent in the exponential function. It is worth noting that the log-likelihood and the likelihood give the same estimate since log is a monotonic transformation.
+It is often useful to consider the log-likelihood rather than the likelihood due to machine accuracy considerations and the inherent the numerical properties of the exponential function. It is worth noting that the log-likelihood and the likelihood give the same estimate since log is a monotonic transformation.
 
 The log-likelihood is found to be:
 
@@ -220,7 +220,7 @@ It appears that temperature has a dramatic effect on the mean template and there
 Figure~\ref{fig:testingSystemPlot} shows a block diagram of the implementation of the use/testing stage of the algorithm. The diagram shows how a tap $y$ incident on the tapping device is picked up by the microphone on the device and transmitted to a computer. Within the computer the algorithm calculates the statistics, as outlined below, utilising data from the training stage of the algorithm. The statistics of the signal are then evaluated and the most probable class or spot is displayed to the user unless the models do not yield a sufficiently high probability, as determined by a threshold, in which case no tap will be registered.
 
 \subsection{Model and theory}
-A standard linear instantaneous model is considered where\linebreak[0] observations \linebreak[0]$y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
+A standard linear instantaneous model is considered where\linebreak[0] observations \linebreak[2]$y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
 
 \begin{equation}\label{eq:mod1}
 y = \sum_{i=1}^{I} \theta_i^j t_i^j(n_0) + v,

@@ -241,7 +241,7 @@ It is clear how the data resembles that of Figure~\ref{fig:30observations} altho
 %\end{figure}
 
 \subsubsection{In the literature}
-As mentioned previously, one of the main applications of PCA is dimensionality reduction which has rendered it useful in a variety of compression applications\citep{Vasilescu2003}\cite{Alexa2000}\cite{Zaeri2006}. Within the image compression community \citep{Vasilescu2003} the focus on PCs has been useful in dimensionality reduction, and more specifically it has been widely applied as a way of representing animations of 3D geometric shapes. \cite{Alexa2000} presented an ``easy and adaptive lossy compression'' algorithm which provided compression of animation sequences with a factor of 1:100 accepting loss in animation accuracy. Another approach to animation compression is presented in \cite{Karni2004} where PCA is combined with Linear Prediction Coding (LPC) to individually focus on spatial and the resulting temporal components respectively.
+As mentioned previously, one of the main applications of PCA is dimensionality reduction which has rendered it useful in a variety of compression applications\citep{Vasilescu2003}\cite{Alexa2000}\linebreak[2]\cite{Zaeri2006}. Within the image compression community \citep{Vasilescu2003} the focus on PCs has been useful in dimensionality reduction, and more specifically it has been widely applied as a way of representing animations of 3D geometric shapes. \cite{Alexa2000} presented an ``easy and adaptive lossy compression'' algorithm which provided compression of animation sequences with a factor of 1:100 accepting loss in animation accuracy. Another approach to animation compression is presented in \cite{Karni2004} where PCA is combined with Linear Prediction Coding (LPC) to individually focus on spatial and the resulting temporal components respectively.
 
 PCA has been adopted as a way to manage the enormous amounts of data produced by microarray experiments in genetics\cite{Raychaudhuri2000}\cite{Saidi2004}. It was found that most of the observable variation in the data could be accounted for in just two components with a rapidly falling eigenvalues\cite{Raychaudhuri2000}. In other words, PCA reduces the data to two data sets which capture most of the information\cite{Raychaudhuri2000}. Later research has highlighted some advantages in ICA over PCA for this application\cite{Saidi2004}. This approach has shown to be robust to significant noise levels, while ICA showed some domain specific feature extraction advantageous.
 
@@ -283,7 +283,7 @@ In a reconstruction algorithm it is important to focus our attention on audible 
 The simplest pulse detection algorithms exploit the relatively sparse nature of many audio, and in particular speech, signals above 9000 Hz in relation to impulsive noise which often exhibits a much smoother and wider frequency characteristics \cite{Subramanya2007}. In \cite{Kasparis1993} and \cite{US6795559} the authors preprocess their signals using a high-pass filter to target the impulsive noise.
 
 \subsection{Median filter methods}\label{sec:LitRevDetMedianFilts}
-A classic pulse noise detection (and restoration) scheme involves a median filter\cite{Tukey1974}\cite{Lee1985}\cite{Heinonen1985}\cite{Heinonen1987}\cite{Maekivirta1991}\cite{Kasparis1993}.
+A classic pulse noise detection (and restoration) scheme involves a median filter\cite{Tukey1974}\linebreak[2]\cite{Lee1985}\cite{Heinonen1985}\cite{Heinonen1987}\cite{Maekivirta1991}\cite{Kasparis1993}.
 %explain median filtering
 Median filtering for signal smoothing, first published in \cite{Tukey1974}, has, according to \cite{Brillinger2002}, some important characteristics in that they reduce ``spiky'' noise while preserving jump discontinuities (edges). In \cite{Lee1985} it is noted that the media filter has limited effect on non-impulsive noise and the authors propose a method for augmenting the median filter with a linear filter for added smoothing. This augmentation of the nonlinear media filter approach with a linear filtering approach has become a popular variation of median filtering process for impulsive noise detection and reduction spawning a variety of implementations \cite{Lee1985}\cite{Heinonen1985}\cite{Nieminen1987}\cite{Kasparis1993}\cite{Loveridge1995}. In \cite{Kauppinen2002} it was also noted that the pulse detection algorithm that performed best was the median filter preprocessed by a linear filter. In recent years median based algorithms such as weighted median (WM) filters \cite{Yin1996}\cite{Wang2010} and switching median filters \cite{Abreu1996}\cite{Chen2000}\cite{Chen2001}\cite{Lin2007} have seen a fair bit of attention although the focus of the implementations have almost exclusively been focused on image data.
 
@@ -382,7 +382,7 @@ Warped-based methods evaluated via objective measures have been found to only be
 S(k,t) = \sum_{m=1}^M \alpha_{km} S(k,t - \tau_m) + V(k,t),
 \end{equation}
 
-where, $S(k,t)$ represents the time-frequency component for $k$ and $t$, spectral and time index respectively, $\boldsymbol{\tau} = \left\{\tau_1, \ldots ,\tau_M \right\}$ defines the frames used, $\boldsymbol{\alpha}_k = \left\{\alpha_{k1},\ldots,\alpha_{kM} \right\}$ defines the weights used for the linear prediction, and $V(t,k)$ is some zero-mean Gaussian noise with variance $\sigma^2_{tk}$.
+where, $S(k,t)$ represents the time-frequency component for $k$ and $t$, spectral and time index respectively, $\boldsymbol{\tau} = \left\{\tau_1, \ldots ,\tau_M \right\}$ defines the frames used, \linebreak[2]$\boldsymbol{\alpha}_k = \left\{\alpha_{k1},\ldots,\alpha_{kM} \right\}$ defines the weights used for the linear prediction, and $V(t,k)$ is some zero-mean Gaussian noise with variance $\sigma^2_{tk}$.
 
 The authors of \cite{Subramanya2007} proceed to calculate the joint probability assuming independent frequency frames and eventually the log-likelihood $F_t$ will be
 
@@ -464,10 +464,26 @@ For the windowed Fourier transform the time spread $\sigma_t$ and frequency spre
 
 \begin{figure}[!] %LitRev_HeisenbergBox_STFT
 \centering
-\includegraphics[width=80mm]{LitRev_HeisenbergBox_STFT.png}
+\includegraphics[width=80mm]{LitRev_HeisenbergBox_STFT_2.png}
 \begin{picture}(0,0)
-%\put(-355,120){Frequency}
-%\put(-200,0){Time}
+\put(-235,170){$\omega$}
+\put(-235,122){$\gamma$}
+\put(-235,55){$\xi$}
+\put(-232,0){0}
+\put(-169,-4){$u$}
+\put(-67,-4){$v$}
+\put(-7,2){$t$}
+
+\put(-220,137){$|\hat{g}_{v,\gamma}(\omega)|$}
+\put(-220,35){$|\hat{g}_{u,\xi}(\omega)|$}
+
+\put(-169,75){$\sigma_t$}
+\put(-133,57){$\sigma_\omega$}
+\put(-150,20){$|g_{u,\xi}(t)|$}
+
+\put(-70,142){$\sigma_t$}
+\put(-32,122){$\sigma_\omega$}
+\put(-50,20){$|g_{v,\xi}(t)|$}
 \end{picture}
 \caption{An example of the Heisenberg box illustration and the inherent time-frequency resolution trade-off for the STFT.}
 \label{fig:LitRev_HeisenbergBox_STFT}
@@ -498,15 +514,30 @@ The energy spread of a wavelet time-frequency atom $\phi_{u,s}$ corresponds to a
 
 \begin{figure}[!] %LitRev_HeisenbergBox_wavelets
 \centering
-\includegraphics[width=80mm]{LitRev_HeisenbergBox_wavelets.png}
+\includegraphics[width=80mm]{LitRev_HeisenbergBox_wavelets_2.png}
 \begin{picture}(0,0)
-%\put(-355,120){Frequency}
-%\put(-200,0){Time}
+\put(-235,180){$\omega$}
+\put(-235,132){$\gamma$}
+\put(-235,65){$\xi$}
+\put(-232,10){0}
+\put(-169,-4){$u$}
+\put(-70,-4){$v$}
+\put(-7,10){$t$}
+
+\put(-220,140){$|\hat{g}_{v,\gamma}(\omega)|$}
+\put(-220,75){$|\hat{g}_{u,\xi}(\omega)|$}
+
+\put(-171,187){$\sigma_t$}
+\put(-147,132){$\sigma_\omega$}
+\put(-157,30){$|g_{u,\xi}(t)|$}
+
+\put(-70,85){$\sigma_t$}
+\put(-18,65){$\sigma_\omega$}
+\put(-50,30){$|g_{v,\xi}(t)|$}
 \end{picture}
 \caption{The Heisenberg boxes for the wavelet transform.}
 \label{fig:LitRev_HeisenbergBox_wavelets}
 \end{figure}
-
 The main difference between classic Fourier analysis and Wavelet analysis is that Wavelets are localised in both frequency and time whereas the Fourier transform is only localised in frequency. This leads to some significant advantages when considering data that is inherently transient. While the STFT does, to an extent, mimic the time localisation of the Wavelet Transform it does so at the cost of temporal resolution\cite{Mallat1999}. The trade-off between temporal and frequency resolution is illustrated in Figure~\ref{fig:LitRev_STFTlims} where two different temporal frame sizes are shown in relation to the resulting frequency resolution.
 
 %LitRev_STFTlims
@@ -609,7 +640,7 @@ The Wavelet Packet Transform (WPT) can be seen as a generalisation of the Wavele
 \label{fig:LitRev_WPTtree.pdf}
 \end{figure}
 
-In a recent study comparing the WPT to other spectrum estimation techniques it was generally found that the WPT ``operated well for all types of sources and its performances were comparable or at times even better than other existing \linebreak[0]approaches.''\cite{Ariananda2013}. In particular it was found that WPT performed well in reducing variance in the stop bands.
+In a recent study comparing the WPT to other spectrum estimation techniques it was generally found that the WPT ``operated well for all types of sources and its performances were comparable or at times even better than other existing \linebreak[0]approaches.''\linebreak[2]\cite{Ariananda2013}. In particular it was found that WPT performed well in reducing variance in the stop bands.
 
 The authors of \cite{He2008} developed a psychoacoustic model based around the WPT and found that not only was the WPT computationally more efficient than a Fourier transform-based alternative but it also provided a better spectral resolution. For psychoacoustic applications it was found that the generalization of the DWT yielded a better approximation of the critical bands employed\cite{Carnero1999}\cite{He2008} compared to similar DWT based models\cite{Sinha1993}\cite{Zurera2001}.
 
@@ -678,7 +709,7 @@ From a computational perspective, median filters involve a sequence of searching
 % data, interferences can be detected."
 
 % Non-linear, minimum or maximum of neighborhood based on dark or bright spot. (Alajlan based on Windyga, good explanation of Windyga in Alajlan)
-In the field of image processing the median filter is still an integral part in most state-of-the-art impulsive noise filters\cite{Alajlan2004}. Other popular non-linear methods employed have been the maximum-minimum method\cite{Xu1998}, the peak-and-valley filter\cite{Windyga2001} and a modified maximum-minimum approach\cite{Alajlan2004} which aims apply a maximum-minimum approach to selected samples only. All these non-linear approaches were found to have similar performance but with median filter bearing a higher computational cost\cite{Alajlan2004}.
+In the field of image processing the median filter is still an integral part in most state-of-the-art impulsive noise filters\cite{Alajlan2004}. Other popular non-linear methods employed have been the maximum-minimum method\cite{Xu1998}, the peak-and-valley filter\linebreak[2]\cite{Windyga2001} and a modified maximum-minimum approach\cite{Alajlan2004} which aims apply a maximum-minimum approach to selected samples only. All these non-linear approaches were found to have similar performance but with median filter bearing a higher computational cost\cite{Alajlan2004}.
 
 % waveform substitution schemes
 %\cite{Goodman1986}\cite{Wasem1988}\cite{Niediwiecki2001}
