@@ -48,12 +48,16 @@
 \hbadness=10000
 \hfuzz=50pt
 
+
 % Put all the style files you want in the directory StyleFiles and usepackage like this:
 \usepackage{StyleFiles/watermark}
+\usepackage[nomain,acronym,toc]{glossaries} % nomain, if you define glossaries in a file, and you use \include{INP-00-glossary}
+\include{Glossary/glossary}
+\makeglossaries
+\makeindex
 
 
 \begin{document}
-
 %\language{english}
 
 \renewcommand\baselinestretch{1.2}
@@ -86,10 +90,15 @@
 \include{Acknowledgement/acknowledgement}
 \include{Abstract/abstract}
 
+\printglossary[type=\acronymtype] % prints just the list of acronyms
+
 \tableofcontents
 %\listoffigures
+%\nomenclature{APR}{Acoustic Pulse Recognition}
 %\printnomenclature  %% Print the nomenclature
 %\addcontentsline{toc}{chapter}{Nomenclature}
+
+
 
 \mainmatter
 

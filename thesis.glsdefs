@@ -1,0 +1,30 @@
+\ifglsentryexists{apr}{}%
+{%
+\gls@defglossaryentry{apr}%
+{%
+name={APR},%
+sort={APR},%
+type={main},%
+first={Acoustic Pulse Recognition\glsspace (APR)},%
+firstplural={Acoustic Pulse Recognitions\glsspace (APRs)},%
+text={APR},%
+plural={APRs},%
+description={Acoustic Pulse Recognition},%
+descriptionplural={Acoustic Pulse Recognition\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Acoustic Pulse Recognition},%
+longplural={Acoustic Pulse Recognitions},%
+short={APR},%
+shortplural={APRs},%
+counter={page},%
+parent={},%
+%
+}%
+}%

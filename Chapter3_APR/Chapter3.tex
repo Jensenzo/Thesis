@@ -6,14 +6,14 @@
     \graphicspath{{Chapter3_APR/Chapter3Figs/EPS/}{Chapter3_APR/Chapter3Figs/}}
 \fi
 
-This chapter describes work undertaken with several waveform classification algorithms, specifically designed to detect and classify taps incident on a device containing a single microphone. The different models in the classification algorithms correspond to different tapping positions $j$ on the device, and the algorithms can therefore be said to represent a new touch screen technology using Acoustic Pulse Recognition (APR). This chapter is specifically focussed on applications using a single sensor to attempt to tackle the difficult issue of the structural uncertainty and its effect on recorded waveforms without the aid of inter microphone time and intensity differences.
+This chapter describes work undertaken with several waveform classification algorithms, specifically designed to detect and classify taps incident on a device containing a single microphone. The different models in the classification algorithms correspond to different tapping positions $j$ on the device, and the algorithms can therefore be said to represent a new touch screen technology using \gls{apr}. This chapter is specifically focussed on applications using a single sensor to attempt to tackle the difficult issue of the structural uncertainty and its effect on recorded waveforms without the aid of inter microphone time and intensity differences.
 
 Traditionally the given data in selection problems have been referred to as models. In the following section these models will occasionally be referred to as templates in the context of the specific models for this application.
 
 \section{Background}
-Modern touch screen devices have, generally speaking, 2 main attributes. Firstly they function without the need for any additional interfacing hardware and secondly they let a user interact directly with the data presented to the user. The methods introduced in the following sections attempt to reconcile these attributes with factors such as scalable deployment and low manufacturing, and implementation costs through APR.
+Modern touch screen devices have, generally speaking, 2 main attributes. Firstly they function without the need for any additional interfacing hardware and secondly they let a user interact directly with the data presented to the user. The methods introduced in the following sections attempt to reconcile these attributes with factors such as scalable deployment and low manufacturing, and implementation costs through \gls{apr}.
 
-The underlying assumption of an APR system is that tapping on any spot, on the touch sensitive surface, creates a unique acoustical pulse, that this unique pulse is largely reproducible and that it is detectable. Figure~\ref{fig:twotwoSampleTap} shows a plot of 4 tap pulses recorded at 2 different spots on the device. It is seen from the plot that tapping in these two different locations produce noticeably different pulses and that the pulses from the same spot is, though slightly different in certain parts of the signal, still visibly similar. The 4 taps in Figure~\ref{fig:twotwoSampleTap} have been aligned to the onset of the tap.
+The underlying assumption of an \gls{apr} system is that tapping on any spot, on the touch sensitive surface, creates a unique acoustical pulse, that this unique pulse is largely reproducible and that it is detectable. Figure~\ref{fig:twotwoSampleTap} shows a plot of 4 tap pulses recorded at 2 different spots on the device. It is seen from the plot that tapping in these two different locations produce noticeably different pulses and that the pulses from the same spot is, though slightly different in certain parts of the signal, still visibly similar. The 4 taps in Figure~\ref{fig:twotwoSampleTap} have been aligned to the onset of the tap.
 
 \begin{figure}[t]
   \begin{center}
@@ -54,12 +54,12 @@ A larger application of the same black box characteristics is a simple wooden bo
 \caption{Picture of wooden board with attached microphone to the back and 30 spot grid on the front.}\label{fig:Pad}
 \end{figure}
 
-The second part of the system is the software. Figure~\ref{fig:system} shows a simple block diagram representing the system where the bottom row is meant to represent the software system. The display on this figure represents the output from the interpolation extension to the ML and MAP methods, described later in the chapter. In this system definition, the hardware can be viewed as being the ``restricting'' factor while the software is the ``redeeming'' factor, and hence the attention is now turned to the models and algorithms of the system.
+The second part of the system is the software. Figure~\ref{fig:system} shows a simple block diagram representing the system where the bottom row is meant to represent the software system. The display on this figure represents the output from the interpolation extension to the \gls{ml} and \gls{map} methods, described later in the chapter. In this system definition, the hardware can be viewed as being the ``restricting'' factor while the software is the ``redeeming'' factor, and hence the attention is now turned to the models and algorithms of the system.
 
 \begin{figure}[!htbp]
   \centering
     \includegraphics[width=110mm]{system.pdf}
-    \caption{Block diagram of detection system. The display displays an intensity map of likelihoods superimposed on the device, as described in the extension to the ML and MAP methods.}\label{fig:system}
+    \caption{Block diagram of detection system. The display displays an intensity map of likelihoods superimposed on the device, as described in the extension to the \gls{ml} and \gls{map} methods.}\label{fig:system}
 \begin{picture}(0,0)
 \put(-136,239){Microphone}
 \put(-57,179){DSP}
@@ -178,7 +178,7 @@ Substituting in values for $\hat{\sigma}^2_\theta$ and $\hat{\mu}_\theta$ from e
 z = \frac{1}{\left(2 \pi\right)^{\frac{M}{2}}\phi \sigma \sigma_\theta}\textrm{exp}\left[-\frac{1}{2}\left(\frac{y^T y}{\sigma^2}+\frac{\mu_\theta^2}{\sigma_\theta^2} - \frac{\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right)^2}{\phi}\right)\right],
 \end{equation}
 
-where $\phi = \hat{\sigma}^{-2}_\theta = \frac{t^Tt}{\sigma^2} + \frac{1}{\sigma_\theta^2}$. Remembering equation (\ref{eq:MLmargin2}) \linebreak[0]where \linebreak[0]$p(y|j,n_0) = z$, the probability of the data $y$ conditional on the model $j$ and the time shift $n_0$ is now known and can be referred to as the likelihood of the model $j$. An estimate of the model present in the data can be found by inspecting the likelihood function over the range of models. This method is called the maximum likelihood estimate or ML estimate, and is given by:
+where $\phi = \hat{\sigma}^{-2}_\theta = \frac{t^Tt}{\sigma^2} + \frac{1}{\sigma_\theta^2}$. Remembering equation (\ref{eq:MLmargin2}) \linebreak[0]where \linebreak[0]$p(y|j,n_0) = z$, the probability of the data $y$ conditional on the model $j$ and the time shift $n_0$ is now known and can be referred to as the likelihood of the model $j$. An estimate of the model present in the data can be found by inspecting the likelihood function over the range of models. This method is called the maximum likelihood estimate or \gls{ml} estimate, and is given by:
 
 \begin{equation}\label{eq:MLdefinition}
 j_{ML} = \argmax{j} p(y|j,n_0).
@@ -194,7 +194,7 @@ The log-likelihood is found to be:
 
 where several other constant elements can be eliminated for simplicity.
 
-Another useful statistic to consider is the Maximum \emph{A Posterior} (MAP) estimate of the model $j$. The MAP estimate is given by:
+Another useful statistic to consider is the \gls{map} estimate of the model $j$. The \gls{map} estimate is given by:
 
 \begin{equation}\label{eq:MAPdefinition}
 j_{MAP} = \argmax{j} p(y|j,n_0)p(j,n_0).
@@ -202,14 +202,14 @@ j_{MAP} = \argmax{j} p(y|j,n_0)p(j,n_0).
 
 
 \section{PCA type method}\label{sec:APRpca}
-While the ML and MAP methods provide a simple and reasonably effective model selection algorithm, a range of environmental factors can impact upon the recorded pulse. Figure~\ref{fig:shiftOverTemperature} shows 6 different mean templates recorded at 6 different temperatures in the range of 19.5 to 34.4 $^\textrm{o}$C.
+While the \gls{ml} and \gls{map} methods provide a simple and reasonably effective model selection algorithm, a range of environmental factors can impact upon the recorded pulse. Figure~\ref{fig:shiftOverTemperature} shows 6 different mean templates recorded at 6 different temperatures in the range of 19.5 to 34.4 $^\textrm{o}$C.
 
 \begin{figure}[!]
 \centering
 \includegraphics[width=150mm]{shiftOverTemperature.png}
 \caption{6 different mean templates trained a 6 different temperatures on the same spot. Sampled at 44.1 kHz and aligned.}\label{fig:shiftOverTemperature}
 \end{figure}
-It appears that temperature has a dramatic effect on the mean template and therefore it seems questionable whether or not the previously described ML and MAP method would be able to cope with this level of variation. Pulse variability has also been detected when users hold the devices in different ways, have the device on a surface and tap with nails or different styluses. The PCA type method is an attempt at singling out significant components of the pulse that relate to the tapping position rather than the other factors mentioned above, and to record the variability within the significant components.
+It appears that temperature has a dramatic effect on the mean template and therefore it seems questionable whether or not the previously described \gls{ml} and \gls{map} method would be able to cope with this level of variation. Pulse variability has also been detected when users hold the devices in different ways, have the device on a surface and tap with nails or different styluses. The \gls{pca} type method is an attempt at singling out significant components of the pulse that relate to the tapping position rather than the other factors mentioned above, and to record the variability within the significant components.
 
 \begin{figure}[!]
 \centering
@@ -226,7 +226,7 @@ A standard linear instantaneous model is considered where\linebreak[0] observati
 y = \sum_{i=1}^{I} \theta_i^j t_i^j(n_0) + v,
 \end{equation}
 
-where $\theta_i^j$ is the amplitude of the $j$th spot and $i$th component. $t_i^j(n_0)$ is the $j$th template, $j \in \{1, \ldots ,J\}$, for $I$ independent components where the templates are $N \times 1$ principal component vectors derived from a PCA of training data, as explained in more detail in section~\ref{sec:APRtraining}.
+where $\theta_i^j$ is the amplitude of the $j$th spot and $i$th component. $t_i^j(n_0)$ is the $j$th template, $j \in \{1, \ldots ,J\}$, for $I$ independent components where the templates are $N \times 1$ principal component vectors derived from a \gls{pca} of training data, as explained in more detail in section~\ref{sec:APRtraining}.
 
 In this section the model has been assumed to be of zero mean $\mu^j(n_0) =0$ although this assumption could easily be avoided by adding the mean to the model as a variable to be estimated. Take $\theta_i^j$ to be a random variable, $\Theta^j = [\theta_1^j,\ldots,\theta_I^j]^T$, describing the scale of each template component $i$ where
 
@@ -352,9 +352,9 @@ and maximised over the $J$ different templates, similar to equation~(\ref{eq:MLd
 
 \section{Amplitude variable PCA model}\label{sec:KamplitudeModel}
 
-To account for linear scaling of the signal $x$, a modified PCA model is constructed. While the $\theta$ parameter of the PCA approach assumes that each pulse is a combination of a set of components observed during training, the strength of impact on the surface will translate into an increased amplitude of the pulse waveform. The aim of the variable amplitude model is to separate out this scale as a random variable $K$.
+To account for linear scaling of the signal $x$, a modified \gls{pca} model is constructed. While the $\theta$ parameter of the \gls{pca} approach assumes that each pulse is a combination of a set of components observed during training, the strength of impact on the surface will translate into an increased amplitude of the pulse waveform. The aim of the variable amplitude model is to separate out this scale as a random variable $K$.
 
-Recalling the standard multi-variate PCA based approach with mean $\mu$ zero (see equation \ref{eq:mod1}), we had
+Recalling the standard multi-variate \gls{pca} based approach with mean $\mu$ zero (see equation \ref{eq:mod1}), we had
 
 \begin{equation}\label{eq:K_PCAmodel}
 y = \sum^I_{i=1} \theta^j_i t^j_i(n_0) + v.
@@ -433,7 +433,7 @@ With all the taps in the audio stream detected it is now possible to align them 
 \caption{Two taps recorded at the same spot immediately after each other. Sampled at 44.1 kHz.}\label{fig:twoSampleTaps}
 \end{figure}
 
-Figure~\ref{fig:twoSampleTaps} shows a modest example of the variability that exist when tapping an object in seemingly the exact same manner. This variability is partly due to noise but bigger variations in the waveform are more likely caused by minute variations in tapping position, intensity and method. In an attempt to obtain a 1 dimensional model that represents a diverse selection of taps at the same spot for the ML and MAP method, the model is constructed as a mean of an ensemble of taps at this position. The mean template is manually trimmed to minimise data size and avoid excessive data that carries no useful information about the template. Figure~\ref{fig:alignedAndMean} shows a diverse set of aligned taps at a single point in blue and the corresponding mean in red.
+Figure~\ref{fig:twoSampleTaps} shows a modest example of the variability that exist when tapping an object in seemingly the exact same manner. This variability is partly due to noise but bigger variations in the waveform are more likely caused by minute variations in tapping position, intensity and method. In an attempt to obtain a 1 dimensional model that represents a diverse selection of taps at the same spot for the \gls{ml} and \gls{map} method, the model is constructed as a mean of an ensemble of taps at this position. The mean template is manually trimmed to minimise data size and avoid excessive data that carries no useful information about the template. Figure~\ref{fig:alignedAndMean} shows a diverse set of aligned taps at a single point in blue and the corresponding mean in red.
 
 \begin{figure}[!]
 \centering
@@ -443,7 +443,7 @@ Figure~\ref{fig:twoSampleTaps} shows a modest example of the variability that ex
 
 Due to the nature of this algorithm it is essential that it can be executed rapidly and in real time. To accomplish a rapid execution sub-calculations, independent of $y$, from equation (\ref{eq:MLloglikelihood}) have been pre-computed.
 
-The PCA type method requires a different type of template. Here the template is derived via a PCA of the covariance matrix derived from the aligned tapping data as described above.
+The \gls{pca} type method requires a different type of template. Here the template is derived via a \gls{pca} of the covariance matrix derived from the aligned tapping data as described above.
 
 First the mean and the covariance matrices for each spot $j$ are calculated:
 
@@ -471,7 +471,7 @@ Figure~\ref{fig:trainingsytemRotate} shows a block diagram of the implementation
 
 \subsection{Amplitude variable PCA model}
 
-In addition to the parameters required for the standard PCA model, the amplitude variable model requires information about the scaling parameter $K$. Here we propose to sample $K^j = [K^j_{l=1}, \ldots , K^j_{l=L}]$, from the aligned training pulses recorded. Figure~\ref{fig:amplitudeProbMass.pdf} shows an example of the sampled probability mass functions used for three different models $j$. While $K^j$ is a discrete scaling vector for each model $j$ Figure~\ref{fig:amplitudeProbMass.pdf} shows continuous smoothed functions to better illustrate some of the variety in the models and to be able to plot them together. Each scaling vector $K^j$ comprises $L=100$ scales.
+In addition to the parameters required for the standard \gls{pca} model, the amplitude variable model requires information about the scaling parameter $K$. Here we propose to sample $K^j = [K^j_{l=1}, \ldots , K^j_{l=L}]$, from the aligned training pulses recorded. Figure~\ref{fig:amplitudeProbMass.pdf} shows an example of the sampled probability mass functions used for three different models $j$. While $K^j$ is a discrete scaling vector for each model $j$ Figure~\ref{fig:amplitudeProbMass.pdf} shows continuous smoothed functions to better illustrate some of the variety in the models and to be able to plot them together. Each scaling vector $K^j$ comprises $L=100$ scales.
 
 \begin{figure}
 \centering
@@ -480,7 +480,7 @@ In addition to the parameters required for the standard PCA model, the amplitude
 \end{figure}
 
 \subsection{Sparse training extension}\label{sec:APRspareTraining}
-The methods outlined above require labeled training data for each model in the classifier. Since it is entirely manageable to obtain this data for low resolution implementation of the pulse recognition system, obtaining this data on a larger device with a greater resolution can become cumbersome and time consuming. This extension of the standard training method for the ML and MAP methods enables detection of points outside the training grid at a scalable resolution.
+The methods outlined above require labeled training data for each model in the classifier. Since it is entirely manageable to obtain this data for low resolution implementation of the pulse recognition system, obtaining this data on a larger device with a greater resolution can become cumbersome and time consuming. This extension of the standard training method for the \gls{ml} and \gls{map} methods enables detection of points outside the training grid at a scalable resolution.
 
 To achieve this extended resolution, the algorithm creates a linear interpolation between neighboring templates. The assumption is that the acoustic pulses vary relatively linearly between the two templates and hence it may be possible to estimate any template in between the two. Since the mobile phone, used for the previous implementation, undoubtedly is a very complicated vibrational system it was hypothesised that the solid wooden board might provide a more predictable vibrational system and hence a better implementation platform for the interpolation algorithm.
 
@@ -524,12 +524,12 @@ To test the algorithms, two sets of data are needed; a training set $D^1$ and a 
 \caption{To the left is an example of a tap with the stylus and to the right a tap with a fingernail.}\label{fig:tapSN}
 \end{figure}
 
-Each set of training data contains approximately 70 taps at each spot on the device totalling approximately $70 \times 12 = 840$ taps tapped with varying force. To estimate the performance of the algorithm given certain criteria there are 3 outcomes of a test. The tap may be correctly classified, misclassified (classified as any of the 11 other spots) or it may avoid detection entirely and hence be classified as a missed detection $j=0$. The ratio of these 3 outcomes may vary with a large number of parameters within the algorithm such as various thresholds for detection or classification, template length, filtering or number of PCs used under training, so the performance of the algorithm will always be presented in relation to a varying parameter. It is worth noting that all data used in the production of these results have been high-pass filtered with a cut-off frequency of 441 Hz. The effect of this filtering has not exhaustively been investigated, but provides a ``cleaner'' signal, visually, and does not appear to harm the performance.
+Each set of training data contains approximately 70 taps at each spot on the device totalling approximately $70 \times 12 = 840$ taps tapped with varying force. To estimate the performance of the algorithm given certain criteria there are 3 outcomes of a test. The tap may be correctly classified, misclassified (classified as any of the 11 other spots) or it may avoid detection entirely and hence be classified as a missed detection $j=0$. The ratio of these 3 outcomes may vary with a large number of parameters within the algorithm such as various thresholds for detection or classification, template length, filtering or number of principal components used under training, so the performance of the algorithm will always be presented in relation to a varying parameter. It is worth noting that all data used in the production of these results have been high-pass filtered with a cut-off frequency of 441 Hz. The effect of this filtering has not exhaustively been investigated, but provides a ``cleaner'' signal, visually, and does not appear to harm the performance.
 
 As well as evaluating the classification performance of some of the algorithms presented above, the effect of varying various parameters of the models, such as component number and template length, is also explored.
 
 \subsection{Amplitude variable model}
-The amplitude variable PCA, henceforth known as K-PCA, model presented in section~\ref{sec:KamplitudeModel} will be compared to the standard PCA approach from section~\ref{sec:APRpca} to gauge if there is an advantage gained by adding the additional $K$ scaling factor to the model.
+The amplitude variable PCA, henceforth known as K-PCA, model presented in section~\ref{sec:KamplitudeModel} will be compared to the standard \gls{pca}  approach from section~\ref{sec:APRpca} to gauge if there is an advantage gained by adding the additional $K$ scaling factor to the model.
 
 The data used for this comparison will be the same as that outlined in section~\ref{sec:MultiAPRMethod} and comprises a 9 spot model trained on a wooden board. The two methods will be compared based on three different data channels/microphones each at different locations and in two different environments. Figure~\ref{fig:NoisyMicSignalsCompare} shows an example of the audio waveform for the two different environments, for two of the three channels. A total of 79 audio segments from the relatively noiseless environment and 48 from the noisy environment were used. Each segment contained a single pulse from a random spot on the surface. Details of the system can be found in appendix~\ref{ap:MultiAPRsystem}.
 
@@ -541,12 +541,12 @@ For each method, and for each environment, an average of the performance of the 
 \subsection{ML, MAP and PCA methods}
 In this section the empirical evaluations of the methods mentioned above are presented.
 
-Figure~\ref{fig:PCAperform} shows the performance of the PCA type algorithm using the training data $D^1_S$ and the testing data $D^2_S$. The figure gives an idea of how the performance changes with the changing number of components, $q$, used in the templates. Figure~\ref{fig:PCAperform} clearly shows that the rate of correct classification is beyond 90\% down to 2 components whereafter it drops of sharply to below 10 \%. It is noted that the performance drops to around 8\% which is exactly what would be expected by a random guess or the prior knowledge $p(j)= \frac{1}{J}$. A decrease in performance is detectable from 4 components and down, whereas the performance for 5 components and more appears constant.
+Figure~\ref{fig:PCAperform} shows the performance of the \gls{pca} type algorithm using the training data $D^1_S$ and the testing data $D^2_S$. The figure gives an idea of how the performance changes with the changing number of components, $q$, used in the templates. Figure~\ref{fig:PCAperform} clearly shows that the rate of correct classification is beyond 90\% down to 2 components whereafter it drops of sharply to below 10 \%. It is noted that the performance drops to around 8\% which is exactly what would be expected by a random guess or the prior knowledge $p(j)= \frac{1}{J}$. A decrease in performance is detectable from 4 components and down, whereas the performance for 5 components and more appears constant.
 
 \begin{figure}[!] %PCA components S-S
 \centering
 \includegraphics[width=150mm]{PCAperform.pdf}
-\caption{Performance of the PCA type algorithm for different numbers of PCA components and with a template length $M=250$ samples. Training data: $D^1_S$, Testing data: $D^2_S$.}\label{fig:PCAperform}
+\caption{Performance of the \gls{pca} type algorithm for different numbers of \gls{pca} components and with a template length $M=250$ samples. Training data: $D^1_S$, Testing data: $D^2_S$.}\label{fig:PCAperform}
 \end{figure}
 
 In Figure~\ref{fig:PCAperformLength} the relation between performance and template length $M$ can be seen with a test conducted with the same data as the previous test. The performance of the algorithm appears unaffected by $M$ at template lengths above 150 samples although for $M<150$ the performance decreases dramatically and as with Figure~\ref{fig:PCAperform} appears to settle around $p(j)$. The ratio between missed detections and misclassifications appear to vary greatly at low values for $M$ though it is currently not certain why this occurs. It is worth mentioning that this ratio is purely determined by a threshold in the algorithm and can be fine tuned for desired outcome.
@@ -554,42 +554,42 @@ In Figure~\ref{fig:PCAperformLength} the relation between performance and templa
 \begin{figure}[!] %PCA length S-S
 \centering
 \includegraphics[width=150mm]{PCAperformLength.pdf}
-\caption{Performance of the PCA type algorithm for different values of template length $M$ for components $q=5$. Training data: $D^1_S$, Testing data: $D^2_S$,}\label{fig:PCAperformLength}
+\caption{Performance of the \gls{pca} type algorithm for different values of template length $M$ for components $q=5$. Training data: $D^1_S$, Testing data: $D^2_S$,}\label{fig:PCAperformLength}
 \end{figure}
 
-Figure~\ref{fig:MLperform} shows the performance of the ML based algorithm using training data $D^1_S$ and testing data $D^2_S$. This figure shows the effect of changing the template length $M$ on the detection performance. As in Figure~\ref{fig:PCAperformLength} the performance appears to peak and stay constant at $M>150$. With the PCA algorithm the performance appears to approach the prior probability of detection at $M<50$ which, in this case, is set as being uniform across the different spots $j$.
+Figure~\ref{fig:MLperform} shows the performance of the \gls{ml} based algorithm using training data $D^1_S$ and testing data $D^2_S$. This figure shows the effect of changing the template length $M$ on the detection performance. As in Figure~\ref{fig:PCAperformLength} the performance appears to peak and stay constant at $M>150$. With the \gls{pca} algorithm the performance appears to approach the prior probability of detection at $M<50$ which, in this case, is set as being uniform across the different spots $j$.
 
-Another feature of Figure~\ref{fig:MLperform} is the ratio of various detection results. Whereas the PCA type algorithm replaced correct classifications with misclassifications when the number of components fell below 5, the ML algorithm appears to miss the detection of the tap entirely. This difference in the two methods is caused by a difference in the threshold for a missed detection.
+Another feature of Figure~\ref{fig:MLperform} is the ratio of various detection results. Whereas the \gls{pca} type algorithm replaced correct classifications with misclassifications when the number of components fell below 5, the \gls{ml} algorithm appears to miss the detection of the tap entirely. This difference in the two methods is caused by a difference in the threshold for a missed detection.
 
 
 \begin{figure}[!] %ML length S-S
 \centering
 \includegraphics[width=150mm]{MLperform.pdf}
-\caption{Performance of the ML algorithm for different template sample lengths $M$ for components $q=5$. Training data: $D^1_S$, Testing data: $D^2_S$.}\label{fig:MLperform}
+\caption{Performance of the \gls{ml} algorithm for different template sample lengths $M$ for components $q=5$. Training data: $D^1_S$, Testing data: $D^2_S$.}\label{fig:MLperform}
 \end{figure}
 
-For completeness Figure~\ref{fig:MAPperformLength} has been included to show the performance of the MAP algorithm. The training and testing set up is identical to the previous evaluation of the ML algorithm and the performance appears to be almost identical.
+For completeness Figure~\ref{fig:MAPperformLength} has been included to show the performance of the \gls{map} algorithm. The training and testing set up is identical to the previous evaluation of the \gls{ml} algorithm and the performance appears to be almost identical.
 
 \begin{figure}[!] %MAP Length S-S
 \centering
 \includegraphics[width=150mm]{MAPperformLength.pdf}
-\caption{Performance of the MAP algorithm for different template sample lengths $M$ for components $q=5$. Training data: $D^1_S$, Testing data: $D^2_S$.}\label{fig:MAPperformLength}
+\caption{Performance of the \gls{map} algorithm for different template sample lengths $M$ for components $q=5$. Training data: $D^1_S$, Testing data: $D^2_S$.}\label{fig:MAPperformLength}
 \end{figure}
 
-Figure~\ref{fig:PCAperformNail} shows the performance of the PCA type algorithm with $q$ again varying from 1 to 10, with training data $D^1_S$ and testing data $D^2_N$. In other words, the algorithm is tested by tapping using a finger nail but trained using only a stylus. This test is conducted to evaluate the PCA type algorithms ability to cope with testing data significantly different to the training data, and more specifically to evaluate the effect on the performance in relation to the number of components included $q$. Figure~\ref{fig:PCAperformNail} shows a significantly reduced performance although the performance in relation to $q$ appears similar. For $q=1$ the performance still approaches $p(j)$.
+Figure~\ref{fig:PCAperformNail} shows the performance of the \gls{pca} type algorithm with $q$ again varying from 1 to 10, with training data $D^1_S$ and testing data $D^2_N$. In other words, the algorithm is tested by tapping using a finger nail but trained using only a stylus. This test is conducted to evaluate the \gls{pca} type algorithms ability to cope with testing data significantly different to the training data, and more specifically to evaluate the effect on the performance in relation to the number of components included $q$. Figure~\ref{fig:PCAperformNail} shows a significantly reduced performance although the performance in relation to $q$ appears similar. For $q=1$ the performance still approaches $p(j)$.
 
 \begin{figure}[!] %PCA components S-N
 \centering
 \includegraphics[width=150mm]{PCAperformNail.pdf}
-\caption{Performance of the PCA type algorithm for different numbers of PCA components and with a template length of $M=250$ samples. Data used to evaluate performance was tapped using finger nails rather than the stylus used for training. Training data: $D^1_S$, Testing data: $D^2_N$.}\label{fig:PCAperformNail}
+\caption{Performance of the \gls{pca} type algorithm for different numbers of \gls{pca} components and with a template length of $M=250$ samples. Data used to evaluate performance was tapped using finger nails rather than the stylus used for training. Training data: $D^1_S$, Testing data: $D^2_N$.}\label{fig:PCAperformNail}
 \end{figure}
 
-The motivation for developing the PCA type algorithm was to be able to model data with a high degree of variability. Figure~\ref{fig:PCAperform_SN-SN} shows the performance of the PCA type algorithm in relation to changing $q$ with training being done with both the stylus $D^1_S$ and finger nail data $D^1_N$. By training on both sets it was hypothesised that the increased variability in the training data would be mirrored in the components, enabling the algorithm to cope with an equally increased degree of variability during the testing stage. To simulate the increased variability during the testing stage this test was conducted using stylus $D^2_S$ and finger nail $D^2_N$ data as well. Data presented in Figure~\ref{fig:PCAperform_SN-SN} suggests that this is the case.
+The motivation for developing the \gls{pca} type algorithm was to be able to model data with a high degree of variability. Figure~\ref{fig:PCAperform_SN-SN} shows the performance of the \gls{pca} type algorithm in relation to changing $q$ with training being done with both the stylus $D^1_S$ and finger nail data $D^1_N$. By training on both sets it was hypothesised that the increased variability in the training data would be mirrored in the components, enabling the algorithm to cope with an equally increased degree of variability during the testing stage. To simulate the increased variability during the testing stage this test was conducted using stylus $D^2_S$ and finger nail $D^2_N$ data as well. Data presented in Figure~\ref{fig:PCAperform_SN-SN} suggests that this is the case.
 
 \begin{figure}[!] %PCA components SN-SN
 \centering
 \includegraphics[width=150mm]{PCAperform_SN-SN.pdf}
-\caption{Performance of the PCA type algorithm for different numbers of PCA components and with a template length $M=250$ samples. Training data: $D^1_S$ and $D^1_N$, Testing data: $D^2_S$ and $D^2_N$}\label{fig:PCAperform_SN-SN}
+\caption{Performance of the \gls{pca} type algorithm for different numbers of \gls{pca} components and with a template length $M=250$ samples. Training data: $D^1_S$ and $D^1_N$, Testing data: $D^2_S$ and $D^2_N$}\label{fig:PCAperform_SN-SN}
 \end{figure}
 
 Figure~\ref{fig:PCAMLMAPperform} gives an overview of the performance of the different algorithms with various data sets being used for testing and training. The specific data used for each test is noted on the figure itself. Please note that for all tests in Figure~\ref{fig:PCAMLMAPperform}, $M=250$ and $q=5$. These values were determined as sufficient in the previous tests detailed above.
@@ -607,7 +607,7 @@ Figure~\ref{fig:PCAMLMAPperform} gives an overview of the performance of the dif
 
 \subsection{Sparse training extension}
 
-A selected run of the sparse training extension, for the ML algorithm, has given the result presented in Figure~\ref{fig:padPlot}. The intensity map shows the highest probability near the spot actually tapped, which is between spot 7 and 8. Figure~\ref{fig:padPlot} also reveals other areas of high probability. It is stressed that this run is a selected run of the algorithm and the performance is not consistently of this standard, although Figure~\ref{fig:padPlot} does provide a good representation of the algorithm when it is working, with several areas of high probability being a common feature.
+A selected run of the sparse training extension, for the \gls{ml} algorithm, has given the result presented in Figure~\ref{fig:padPlot}. The intensity map shows the highest probability near the spot actually tapped, which is between spot 7 and 8. Figure~\ref{fig:padPlot} also reveals other areas of high probability. It is stressed that this run is a selected run of the algorithm and the performance is not consistently of this standard, although Figure~\ref{fig:padPlot} does provide a good representation of the algorithm when it is working, with several areas of high probability being a common feature.
 
 \begin{figure}[!]
 \centering
@@ -617,7 +617,7 @@ A selected run of the sparse training extension, for the ML algorithm, has given
 
 \subsection{Variable amplitude PCA model (K-PCA)}
 
-The results from a comparison between the standard PCA and the K-PCA classification algorithms are presented in Figure~\ref{fig:performanceCompareKPCAPCA.pdf}. Figure~\ref{fig:performanceCompareKPCAPCA.pdf}(a) and (b) show the results from testing clean data and the noisy data respectively. For the 9 spot model the random chance result is shown as a dashed line well below all performance results. The performance of K-PCA appear less affected by the noisy environment than the standard approach with a mean decrease in accuracy of about 3 percentage points (pp) as opposed to a decrease of 6 pp for the standard PCA approach. A complete list of results used in Figure~\ref{fig:performanceCompareKPCAPCA.pdf} can be found in appendix~\ref{ap:KPCAresults}.
+The results from a comparison between the standard \gls{pca} and the K-PCA classification algorithms are presented in Figure~\ref{fig:performanceCompareKPCAPCA.pdf}. Figure~\ref{fig:performanceCompareKPCAPCA.pdf}(a) and (b) show the results from testing clean data and the noisy data respectively. For the 9 spot model the random chance result is shown as a dashed line well below all performance results. The performance of K-PCA appear less affected by the noisy environment than the standard approach with a mean decrease in accuracy of about 3 percentage points (pp) as opposed to a decrease of 6 pp for the standard \gls{pca} approach. A complete list of results used in Figure~\ref{fig:performanceCompareKPCAPCA.pdf} can be found in appendix~\ref{ap:KPCAresults}.
 
 \begin{figure} %performanceCompareKPCAPCA.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -628,33 +628,33 @@ The results from a comparison between the standard PCA and the K-PCA classificat
 \put(-335,145){(b)}
 \end{picture}}
 \end{minipage}
-\caption{Comparison of PCA and K-PCA (variable amplitude PCA model) methods with varying discrete scaling values $L$. (a) on clean data, (b) on noisy data.)}\label{fig:performanceCompareKPCAPCA.pdf}
+\caption{Comparison of \gls{pca} and K-PCA (variable amplitude \gls{pca} model) methods with varying discrete scaling values $L$. (a) on clean data, (b) on noisy data.)}\label{fig:performanceCompareKPCAPCA.pdf}
 \end{figure}
 
-Computationally the case for $L=1$ should be identical to that of the standard PCA approach although Figure~\ref{fig:performanceCompareKPCAPCA.pdf} clearly shows a significant performance drop for this case. To maintain consistent performance only one set of templates were trained for this experiment and that included the case for $L=100$. The additional results gathered for lower number of scales $L$ are achieved by decimating the vector containing the values for the $p(K^j)$ and normalizing. At $L=1$ only one scaling value was chosen from $p(K^j)$ and while it was chosen in a similar fashion to the other trials of varying $L$ for $L=1$ this was the initial and lowest scale resulting in poor performance. This dip in performance should only be considered a feature of the consistent testing system and in practice K-PCA for $L=1$ should be considered identical to the standard PCA.
+Computationally the case for $L=1$ should be identical to that of the standard \gls{pca} approach although Figure~\ref{fig:performanceCompareKPCAPCA.pdf} clearly shows a significant performance drop for this case. To maintain consistent performance only one set of templates were trained for this experiment and that included the case for $L=100$. The additional results gathered for lower number of scales $L$ are achieved by decimating the vector containing the values for the $p(K^j)$ and normalizing. At $L=1$ only one scaling value was chosen from $p(K^j)$ and while it was chosen in a similar fashion to the other trials of varying $L$ for $L=1$ this was the initial and lowest scale resulting in poor performance. This dip in performance should only be considered a feature of the consistent testing system and in practice K-PCA for $L=1$ should be considered identical to the standard PCA.
 
 \section{Discussion}
 
-The results from the previous section enables a range of assertions to be made about the relative performance of the different algorithms in various conditions. It is, for example, noticed in Figures~\ref{fig:PCAperform}, \ref{fig:PCAperformNail} and \ref{fig:PCAMLMAPperform} that the performance of the PCA varies greatly by including 2 rather than 1 components in the template set. It is also noted from Figure~\ref{fig:PCAperform} and \ref{fig:MLperform} that with only 2 components, $q=2$, the PCA easily outperforms the ML (and MAP) method but with only 1 component, $q=1$, the performance of the PCA drops to $p(j)$. Although both the ML and PCA are equivalent from the viewpoint of the detection for $q=1$, it is clear that their performance is not. In the case of $q=1$ what separates the two algorithms is how the template $t$ is derived. It appears that the mean template is more effective in classifying pulses than the PC is. The most likely explanation for this behavior is that the PC of one of the taps is a sufficiently broad interpretation of the tap that results in a high likelihood in each case and hence ``wins'' each classification. This hypothesis is further supported by the performance for $q=1$ in Figure~\ref{fig:PCAperform_SN-SN}, where the ratio between missed detections and misclassifications is entirely different with an overwhelming number of missed detections to misclassifications. In this case, with this training data, the PC was clearly a much less likely fit to the testing data.
+The results from the previous section enables a range of assertions to be made about the relative performance of the different algorithms in various conditions. It is, for example, noticed in Figures~\ref{fig:PCAperform}, \ref{fig:PCAperformNail} and \ref{fig:PCAMLMAPperform} that the performance of the \gls{pca} varies greatly by including 2 rather than 1 components in the template set. It is also noted from Figure~\ref{fig:PCAperform} and \ref{fig:MLperform} that with only 2 components, $q=2$, the \gls{pca} easily outperforms the \gls{ml} (and MAP) method but with only 1 component, $q=1$, the performance of the \gls{pca} drops to $p(j)$. Although both the \gls{ml} and \gls{pca} are equivalent from the viewpoint of the detection for $q=1$, it is clear that their performance is not. In the case of $q=1$ what separates the two algorithms is how the template $t$ is derived. It appears that the mean template is more effective in classifying pulses than the PC is. The most likely explanation for this behavior is that the PC of one of the taps is a sufficiently broad interpretation of the tap that results in a high likelihood in each case and hence ``wins'' each classification. This hypothesis is further supported by the performance for $q=1$ in Figure~\ref{fig:PCAperform_SN-SN}, where the ratio between missed detections and misclassifications is entirely different with an overwhelming number of missed detections to misclassifications. In this case, with this training data, the PC was clearly a much less likely fit to the testing data.
 
-Figures~\ref{fig:PCAperformLength}, \ref{fig:MLperform} and \ref{fig:MAPperformLength} consistently suggest that the performance of all algorithms appear almost unaffected by template length $M$ for lengths $M\geq110$. The PCA algorithm performance appears to have a slight gradient up to $M=170$, although this might simply be due to the trimming of the aligned taps for one of the templates. Besides this slight difference, the change of template length $M$ appears to affect all methods in a similar manner.
+Figures~\ref{fig:PCAperformLength}, \ref{fig:MLperform} and \ref{fig:MAPperformLength} consistently suggest that the performance of all algorithms appear almost unaffected by template length $M$ for lengths $M\geq110$. The \gls{pca} algorithm performance appears to have a slight gradient up to $M=170$, although this might simply be due to the trimming of the aligned taps for one of the templates. Besides this slight difference, the change of template length $M$ appears to affect all methods in a similar manner.
 
-The PCA type algorithm was derived with the intention of creating a model being able to cope with a higher degree of variability than the ML and MAP methods. Although Figure~\ref{fig:PCAperformNail} shows relatively poor performance for different testing data to training data, it is worth noting that when the algorithm was allowed to train with data of higher variability, see Figure~\ref{fig:PCAperform_SN-SN}, a dramatic improvement was seen. This performance boost appears to even outperform the PCA with no merged data, see Figure~\ref{fig:PCAperform}, which might be explained by the increased training data which allows the derived components to be more robust to even minor variability that could potentially ``confuse'' the PCA.
+The \gls{pca} type algorithm was derived with the intention of creating a model being able to cope with a higher degree of variability than the \gls{ml} and \gls{map} methods. Although Figure~\ref{fig:PCAperformNail} shows relatively poor performance for different testing data to training data, it is worth noting that when the algorithm was allowed to train with data of higher variability, see Figure~\ref{fig:PCAperform_SN-SN}, a dramatic improvement was seen. This performance boost appears to even outperform the \gls{pca} with no merged data, see Figure~\ref{fig:PCAperform}, which might be explained by the increased training data which allows the derived components to be more robust to even minor variability that could potentially ``confuse'' the PCA.
 
-Figure~\ref{fig:PCAMLMAPperform} gives a definitive insight into the relative performance between all the algorithms in various conditions, and it is clear that the PCA algorithm has a significant performance edge, specifically when it comes to testing data with greater variability. Comparing graph a and c in Figure~\ref{fig:PCAMLMAPperform} it can be seen that the greater variability in the testing data affects the methods that use a mean template negatively. The increased variability results in mean templates that focus on some broader aspects of the data and more subtle variations are lost. It is again noticed that the PCA method performs better under these circumstances.
+Figure~\ref{fig:PCAMLMAPperform} gives a definitive insight into the relative performance between all the algorithms in various conditions, and it is clear that the \gls{pca} algorithm has a significant performance edge, specifically when it comes to testing data with greater variability. Comparing graph a and c in Figure~\ref{fig:PCAMLMAPperform} it can be seen that the greater variability in the testing data affects the methods that use a mean template negatively. The increased variability results in mean templates that focus on some broader aspects of the data and more subtle variations are lost. It is again noticed that the \gls{pca} method performs better under these circumstances.
 
 Although no quantifiable results of the performance of the interpolated training algorithm exist, preliminary tests show that the system is able to detect some off- grid points with relative success in certain very specific regions of the board, but for the most part the results are fairly random. It is thought that this is due to problems with either alignment or more erratic and unpredictable pulses arising from certain regions. The common feature of multiple high probability regions observed in Figure~\ref{fig:padPlot} is more than likely due to symmetry in the mechanical structure being reflected in the vibrational characteristics of the device. The issue of the structural symmetry is thought to be an issue specifically on the wooden board due to its mechanical uniformity. The intensity map does generally show the correct tapping position with higher probabilities than the other peaks created by symmetry.
 
-The proposed variable amplitude modification to the PCA algorithm (K-PCA) is shown in Figure~\ref{fig:performanceCompareKPCAPCA.pdf} to outperform the standard PCA approach and is consistently more resilient to the noisy environment. The results also showed that while the method performed significantly worse than PCA with a single amplitude scale ($L=1$) the classification performance overtook PCA by $L=5$. Above $L=20$ no discernable performance increase was noted. While no formal results are presented, during testing the K-PCA method was computationally intensive in relation to the PCA method. Preliminary profiling suggests that this was due to linear factors associated with the number of scales $L$ making the K-PCA algorithm with $L=20$ approximately 20 times slower. For the other approaches tested the computational times were all comparable.
+The proposed variable amplitude modification to the \gls{pca} algorithm (K-PCA) is shown in Figure~\ref{fig:performanceCompareKPCAPCA.pdf} to outperform the standard \gls{pca} approach and is consistently more resilient to the noisy environment. The results also showed that while the method performed significantly worse than \gls{pca} with a single amplitude scale ($L=1$) the classification performance overtook \gls{pca} by $L=5$. Above $L=20$ no discernable performance increase was noted. While no formal results are presented, during testing the K-PCA method was computationally intensive in relation to the \gls{pca} method. Preliminary profiling suggests that this was due to linear factors associated with the number of scales $L$ making the K-PCA algorithm with $L=20$ approximately 20 times slower. For the other approaches tested the computational times were all comparable.
 
 \section{Conclusions}
 %rewriten
-From the results presented in this chapter it is clear that it is possible to implement an APR system using a single input channel. All algorithms proposed outperformed random chance by a margin and gave false classifications in less than 10\% of the tests in ideal situations. For tangible primary interface technology a classification rate of 100\% or near 100\% is required in addition to higher active spot resolution and stronger resilience to environmental and tapping types. While the requirements for a direct touch-screen replacement might be out of reach for this current implementation, it is possible to either let the technology serve as an off-the-screen touch augmentation, or perhaps in classification applications on recorded data where post-hoc training is possible.
+From the results presented in this chapter it is clear that it is possible to implement an \gls{apr} system using a single input channel. All algorithms proposed outperformed random chance by a margin and gave false classifications in less than 10\% of the tests in ideal situations. For tangible primary interface technology a classification rate of 100\% or near 100\% is required in addition to higher active spot resolution and stronger resilience to environmental and tapping types. While the requirements for a direct touch-screen replacement might be out of reach for this current implementation, it is possible to either let the technology serve as an off-the-screen touch augmentation, or perhaps in classification applications on recorded data where post-hoc training is possible.
 
 %difficult situations
-Despite reduced correct classification rates on highly variable testing and training data for the case of the MAP and ML algorithms, Figures~\ref{fig:PCAMLMAPperform}(a) and (c) showed that the PCA algorithm increased its performance with a larger training and testing basis as hypothesised. For the unfamiliar testing data in Figure~\ref{fig:PCAMLMAPperform}(b) the PCA algorithm performed similarly to the other algorithms.
+Despite reduced correct classification rates on highly variable testing and training data for the case of the \gls{map} and \gls{ml} algorithms, Figures~\ref{fig:PCAMLMAPperform}(a) and (c) showed that the \gls{pca} algorithm increased its performance with a larger training and testing basis as hypothesised. For the unfamiliar testing data in Figure~\ref{fig:PCAMLMAPperform}(b) the \gls{pca} algorithm performed similarly to the other algorithms.
 
-For a large number of models $J$ a manual training task quickly becomes laborious and a high resolution touch interface, similar to current touchscreen technologies, requires the implementation of the sparse training extension. Early results show that some interpolation between discrete points is possible but due to the homogeneous nature of the surface used, competing feasible classes may have been more numerous than with a less homogeneous material. This could increase the difficulty of interpolation between spots for the ML and MAP approaches.
+For a large number of models $J$ a manual training task quickly becomes laborious and a high resolution touch interface, similar to current touchscreen technologies, requires the implementation of the sparse training extension. Early results show that some interpolation between discrete points is possible but due to the homogeneous nature of the surface used, competing feasible classes may have been more numerous than with a less homogeneous material. This could increase the difficulty of interpolation between spots for the \gls{ml} and \gls{map} approaches.
 
 Computational constraints on implementation of multiple models/spots $J$ or amplitude scales $L$ in the case of K-PCA could in part be mitigated by computational optimisation realising that all added complexity is parallelisable.
 
@@ -662,11 +662,11 @@ Computational constraints on implementation of multiple models/spots $J$ or ampl
 % Better PCA component choices
 % Improve and extend Sparse Training to PCA
 \subsubsection{Sparse Training applied to PCA and common PCA components}
-The preliminary study of the sparse training extension showed that this approach is possible with even the simplest interpolation approaches. A study into the extent to which individual components in the PCA approach vary over a surface could lead to a straight forward PCA implementation of the sparse training approach. While this first approach assumes that equivalent components are identifiable at neighbouring active spots, it might be easier to achieve this goal by drawing the random components from an ensemble of the entire training set data (i.e. from all models) and then identifying their contribution in each model. This would have the additional advantage of compressing the training data needed and possibly also provide a different approach to filtering out non-essential components for classification.
+The preliminary study of the sparse training extension showed that this approach is possible with even the simplest interpolation approaches. A study into the extent to which individual components in the \gls{pca} approach vary over a surface could lead to a straight forward \gls{pca} implementation of the sparse training approach. While this first approach assumes that equivalent components are identifiable at neighbouring active spots, it might be easier to achieve this goal by drawing the random components from an ensemble of the entire training set data (i.e. from all models) and then identifying their contribution in each model. This would have the additional advantage of compressing the training data needed and possibly also provide a different approach to filtering out non-essential components for classification.
 
 % Focus more of the additional work on the K-PCA method and evaluate missed detections and general sensitivity.
 \subsubsection{Additional K-PCA evaluation}
-While the PCA algorithm represents the best approach that was extensively tested in this chapter, the K-PCA did outperform PCA on pure classification performance. While the underlying K-PCA model does, at least theoretically, model pulses of varying amplitudes, it is also possible that this added flexibility increased the model's response to other kinds of noise. Further studies should focus on comparing the two algorithms' general sensitivity to establish a margin between correct and false detections. Given dedicated detection algorithms proposed here, and later in this work, this specific margin might not be of ultimate importance.
+While the \gls{pca} algorithm represents the best approach that was extensively tested in this chapter, the K-PCA did outperform \gls{pca} on pure classification performance. While the underlying K-PCA model does, at least theoretically, model pulses of varying amplitudes, it is also possible that this added flexibility increased the model's response to other kinds of noise. Further studies should focus on comparing the two algorithms' general sensitivity to establish a margin between correct and false detections. Given dedicated detection algorithms proposed here, and later in this work, this specific margin might not be of ultimate importance.
 
 % Perform tonal pre processing
 \subsubsection{Separation pre-processing stage}
