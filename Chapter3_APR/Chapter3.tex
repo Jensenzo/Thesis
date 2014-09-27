@@ -13,12 +13,12 @@ Traditionally the given data in selection problems have been referred to as mode
 \section{Background}
 Modern touch screen devices have, generally speaking, 2 main attributes. Firstly they function without the need for any additional interfacing hardware and secondly they let a user interact directly with the data presented to the user. The methods introduced in the following sections attempt to reconcile these attributes with factors such as scalable deployment and low manufacturing, and implementation costs through \gls{apr}.
 
-The underlying assumption of an \gls{apr} system is that tapping on any spot, on the touch sensitive surface, creates a unique acoustical pulse, that this unique pulse is largely reproducible and that it is detectable. Figure~\ref{fig:twotwoSampleTap} shows a plot of 4 tap pulses recorded at 2 different spots on the device. It is seen from the plot that tapping in these two different locations produce noticeably different pulses and that the pulses from the same spot is, though slightly different in certain parts of the signal, still visibly similar. The 4 taps in Figure~\ref{fig:twotwoSampleTap} have been aligned to the onset of the tap.
+The underlying assumption of an \gls{apr} system is that tapping on any spot, on the touch sensitive surface, creates a unique acoustical pulse, that this unique pulse is largely reproducible and that it is detectable. Figure~\ref{fig:twotwoSampleTap} shows a plot of 4 tap pulses recorded at 2 different spots on the device. It is seen from the plot that tapping in these two different locations produces noticeably different pulses and that the pulses from the same spot are, though slightly different in certain parts of the signal, still visibly similar. The 4 taps in Figure~\ref{fig:twotwoSampleTap} have been aligned to the onset of the tap.
 
 \begin{figure}[t]
   \begin{center}
     \includegraphics[width=110mm]{twotwoSampleTap}
-    \caption{Two taps recorded at both spot 2 and 12. Sampled at 44.1 kHz.}\label{fig:twotwoSampleTap}
+    \caption{Two taps recorded at both spot 2 and 12 (refer to Figure~\ref{fig:phoneDisplayNum} for spot location). Sampled at 44.1 kHz.}\label{fig:twotwoSampleTap}
   \end{center}
 \end{figure}
 
@@ -81,10 +81,10 @@ where $t$ is a set of $J$ templates, of length $M$, from $J$ different spots so 
 \theta^j \sim \mathcal{N}(\mu^j_{\theta},\sigma_{\theta,j}^2),
 \end{equation}
 
-where $v$ is the independent and identically distributed (i.i.d.) Gaussian noise, modeling the background interference.
+and $v$ is the independent and identically distributed (i.i.d.) Gaussian noise, modeling the background interference:
 
 \begin{equation}\label{eq:MLnoise}
-v_n \stackrel{i.i.d.}{\sim} \mathcal{N}(0,\sigma^2).
+v \stackrel{i.i.d.}{\sim} \mathcal{N}(0,\sigma^2).
 \end{equation}
 
 Templates $t^j(n_0)$ for which the alignment $n_0$ and length makes them exceed the length of available data $N$, are truncated.
@@ -172,7 +172,7 @@ and substituting in equation (\ref{eq:MLprod3}) and (\ref{eq:MLprod4}):
 z &=& \frac{\frac{1}{\left(2\pi\right)^{\frac{M+1}{2}} \sigma \sigma_\theta} \textrm{exp}\left[-\frac{1}{2}\left(\theta^2 \left(\frac{1}{\sigma_\theta^2}+\frac{t^T t}{\sigma^2}\right) - 2\theta\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right) + \frac{y^T y}{\sigma^2} +\frac{\mu_\theta^2}{\sigma_\theta^2}\right)\right]}{\frac{1}{\sqrt{2 \pi}\hat{\sigma}_\theta}\textrm{exp}\left[-\frac{1}{2}\left(\theta^2\frac{1}{\hat{\sigma}^2_\theta} - 2\theta\frac{\hat{\mu}_\theta}{\hat{\sigma}^2_\theta} + \frac{\hat{\mu}_\theta^2}{\hat{\sigma}^2_\theta}  \right)\right]}.
 \end{eqnarray}
 
-Substituting in values for $\hat{\sigma}^2_\theta$ and $\hat{\mu}_\theta$ from equation (\ref{eq:MLprod5}), and with a bit of rewriting equation (\ref{eq:MLprod6}) reduces to:
+Substituting in values for $\hat{\sigma}^2_\theta$ and $\hat{\mu}_\theta$ from equation (\ref{eq:MLprod5}), and with a bit of rewriting, equation (\ref{eq:MLprod6}) reduces to:
 
 \begin{equation}\label{eq:MLprod7}
 z = \frac{1}{\left(2 \pi\right)^{\frac{M}{2}}\phi \sigma \sigma_\theta}\textrm{exp}\left[-\frac{1}{2}\left(\frac{y^T y}{\sigma^2}+\frac{\mu_\theta^2}{\sigma_\theta^2} - \frac{\left(\frac{y^T t}{\sigma^2}+\frac{\mu_\theta}{\sigma_\theta^2}\right)^2}{\phi}\right)\right],
@@ -184,7 +184,7 @@ where $\phi = \hat{\sigma}^{-2}_\theta = \frac{t^Tt}{\sigma^2} + \frac{1}{\sigma
 j_{ML} = \argmax{j} p(y|j,n_0).
 \end{equation}
 
-It is often useful to consider the log-likelihood rather than the likelihood due to machine accuracy considerations and the inherent the numerical properties of the exponential function. It is worth noting that the log-likelihood and the likelihood give the same estimate since log is a monotonic transformation.
+It is often useful to consider the log-likelihood rather than the likelihood due to machine accuracy considerations and the inherent numerical properties of the exponential function. It is worth noting that the log-likelihood and the likelihood give the same estimate since log is a monotonic transformation.
 
 The log-likelihood is found to be:
 
@@ -286,7 +286,7 @@ we have:
 p(y|j) = z \times \int_\Theta \mathcal{N}_\Theta(\hat{\mu}_\Theta,\hat{C}_\Theta) d\Theta = z.
 \end{equation}
 
-To evaluate $z$ the l.h.s. of equation (\ref{eq:prod1}) is expanded
+To evaluate $z$, the l.h.s. of equation (\ref{eq:prod1}) is expanded
 {\setlength\arraycolsep{2pt}
 \begin{eqnarray}
 \label{eq:prod2} & & \mathcal{N}_y(\textbf{t}\Theta,\sigma^2 \textbf{I})\times\mathcal{N}_\Theta(\mu_\Theta,C_\Theta) = \\\nonumber
@@ -352,7 +352,7 @@ and maximised over the $J$ different templates, similar to equation~(\ref{eq:MLd
 
 \section{Amplitude variable PCA model}\label{sec:KamplitudeModel}
 
-To account for linear scaling of the signal $x$, a modified \gls{pca} model is constructed. While the $\theta$ parameter of the \gls{pca} approach assumes that each pulse is a combination of a set of components observed during training, the strength of impact on the surface will translate into an increased amplitude of the pulse waveform. The aim of the variable amplitude model is to separate out this scale as a random variable $K$.
+To account for linear scaling of the signal $x$, a modified \gls{pca} model is constructed. While the $\theta$ parameter of the \gls{pca} approach assumes that each pulse is a combination of a set of components observed during training, the strength of impact on the surface will translate into an increased amplitude of the pulse waveform. The aim of the variable amplitude model is to separate out this scale as a random variable $K$. In the basic \gls{pca} model the pulse amplitudes were represented in the $\theta$ parameter and in this model the amplitudes will be represented as $K$ and then subsequently normalized. 
 
 Recalling the standard multi-variate \gls{pca} based approach with mean $\mu$ zero (see equation \ref{eq:mod1}), we had
 
@@ -376,9 +376,9 @@ Considering previously equation~\ref{eq:probybeta}, we can now model the signal 
 
 where $K_j$ is a random variable describing the linear scaling of the model.
 
-In equation~\ref{eq:MLmargin} the continuous component scaling factor $\theta$ was marginalised out to give $p(y|j,n_0)$. In much the same way the likelihood can be estimated by evaluation of the joint probability of the data $y$ given a discrete scaling $K$, template number $j$ and the time shift $n_0$, over $K$.
+In equation~\ref{eq:MLmargin} the continuous component scaling factor $\theta$ was marginalised out to give $p(y|j,n_0)$. In much the same way, the likelihood can be estimated by evaluation of the joint probability of the data $y$ given a discrete scaling $K$, template number $j$ and the time shift $n_0$, over $K$.
 
-For $K$ $p(K)$ is now considered to be a discretely sampled distribution such that
+For $K$, $p(K)$ is now considered to be a discretely sampled distribution such that
 
 \begin{equation}\label{eq:pkldefine}
 Pr\left\{K = k_l\right\} = p_{K,l},
@@ -417,12 +417,12 @@ where
 \section{Training}\label{sec:APRtraining}
 In order to be able to deploy the above mentioned models, the templates needed in the models must be created. The term ``training'' is here used to refer to the process of creating the matrices $t$ and $t^j_i(n_0)$ containing the $J$ models and $I$ components, the covariance matrix $C^j_\Theta$ and the mean $\mu^j_\Theta$.
 
-To train a template for a spot, a large quantity of tapping data is recorded from the device and stored. This tapping data is labeled, that is, the spot which was tapped to create the tapping pulse is known and the tapping data is divided into separate streams depending on this label. To pick out the individual taps from the audio stream, a representative tap is manually chosen from each stream and used as the coefficients in a correlation detector, the results of which are used to determine the alignment of the individual taps in the audio stream. Figure~\ref{fig:correlationDetect} shows a short audio stream of taps where the red dots indicate detected taps.
+To train a template for a spot, a large quantity of tapping data is recorded from the device and stored. This tapping data is labeled, that is, the spot which was tapped to create the tapping pulse is known and the tapping data is divided into separate streams depending on this label. To pick out the individual taps from the audio stream, a representative tap is manually chosen from each stream and used as the coefficients in a correlation detector, the results of which are used to determine the alignment of the individual taps in the audio stream. A correlation detector, in this context, refers to a matched filter with a sample representative pulse used as the filter parameters with the output thresholded in some way. Figure~\ref{fig:correlationDetect} shows a short audio stream of taps where the red dots indicate detected taps.
 
 \begin{figure}[!]
 \centering
 \includegraphics[width=150mm]{correlationDetect.pdf}
-\caption{Output of correlation detection code). The plot shows the output of the matched filter using a manually picked pulse as a template and the red dots indicate detected taps via a simple thresholding.}\label{fig:correlationDetect}
+\caption{Output of correlation detection code. The plot shows the output of the matched filter using a manually picked pulse as a template and the red dots indicate detected taps via a simple thresholding.}\label{fig:correlationDetect}
 \end{figure}
 
 With all the taps in the audio stream detected it is now possible to align them for further processing.
@@ -433,7 +433,7 @@ With all the taps in the audio stream detected it is now possible to align them 
 \caption{Two taps recorded at the same spot immediately after each other. Sampled at 44.1 kHz.}\label{fig:twoSampleTaps}
 \end{figure}
 
-Figure~\ref{fig:twoSampleTaps} shows a modest example of the variability that exist when tapping an object in seemingly the exact same manner. This variability is partly due to noise but bigger variations in the waveform are more likely caused by minute variations in tapping position, intensity and method. In an attempt to obtain a 1 dimensional model that represents a diverse selection of taps at the same spot for the \gls{ml} and \gls{map} method, the model is constructed as a mean of an ensemble of taps at this position. The mean template is manually trimmed to minimise data size and avoid excessive data that carries no useful information about the template. Figure~\ref{fig:alignedAndMean} shows a diverse set of aligned taps at a single point in blue and the corresponding mean in red.
+Figure~\ref{fig:twoSampleTaps} shows a modest example of the variability that exists when tapping an object in seemingly the exact same manner. This variability is partly due to noise but bigger variations in the waveform are more likely caused by minute variations in tapping position, intensity and method. In an attempt to obtain a 1 dimensional model that represents a diverse selection of taps at the same spot for the \gls{ml} and \gls{map} method, the model is constructed as a mean of an ensemble of taps at this position. The mean template is manually trimmed to minimise data size and avoid excessive data that carries no useful information about the template. Figure~\ref{fig:alignedAndMean} shows a diverse set of aligned taps at a single point in blue and the corresponding mean in red.
 
 \begin{figure}[!]
 \centering
@@ -441,7 +441,7 @@ Figure~\ref{fig:twoSampleTaps} shows a modest example of the variability that ex
 \caption{Aligned taps with corresponding mean template superimposed on top. Sampled at 44.1 kHz.}\label{fig:alignedAndMean}
 \end{figure}
 
-Due to the nature of this algorithm it is essential that it can be executed rapidly and in real time. To accomplish a rapid execution sub-calculations, independent of $y$, from equation (\ref{eq:MLloglikelihood}) have been pre-computed.
+Due to the nature of this algorithm it is essential that it can be executed rapidly and in real time. To accomplish a rapid execution, sub-calculations, independent of $y$, from equation (\ref{eq:MLloglikelihood}) have been pre-computed.
 
 The \gls{pca} type method requires a different type of template. Here the template is derived via a \gls{pca} of the covariance matrix derived from the aligned tapping data as described above.
 
@@ -461,7 +461,7 @@ where $x^j_k$ is the $k$th segment of the tapping stream containing a tap on the
 
 As with the previous method, it is also possible to allocate sub-calculations independent of $y$ from equation~(\ref{eq:z2}) to the training stage to avoid heavy calculations during runtime. In addition, $\mu_\Theta$ is also defined during the training stage.
 
-Figure~\ref{fig:trainingsytemRotate} shows a block diagram of the implementation of the training algorithm. The training data $x^j$ is acquired by the user tapping multiple times on a specific spot $j$. The $N$ taps in this data stream $x^j$ is then detected and aligned with each other as an ensemble in a matrix. Figure~\ref{fig:trainingsytemRotate} shows this as $\textbf{x}^j =  [ x_1^j, x_2^j, \ldots , x_N^j ] $ and as the $N$ taps superimposed on each other in the little plot. From the ensemble the mean $\mu^j$ and the covariance matrix $C^j$ is computed, and from the covariance matrix $C^j$ the eigenvalues and eigenvectors are derived. The $q$ largest eigenvalues are selected and the corresponding eigenvectors are stored as the templates $t^j = [\alpha^j_1,\alpha^j_2,\ldots,\alpha^j_q] $ while the eigenvectors are stored as $C_\Theta^j = diag\{\lambda_1^j,\lambda_2^j,\ldots,\lambda_q^j \}$.
+Figure~\ref{fig:trainingsytemRotate} shows a block diagram of the implementation of the training algorithm. The training data $x^j$ is acquired by the user tapping multiple times on a specific spot $j$. The $N$ taps in this data stream $x^j$ are then detected and aligned with each other as an ensemble in a matrix. Figure~\ref{fig:trainingsytemRotate} shows this as $\textbf{x}^j =  [ x_1^j, x_2^j, \ldots , x_N^j ] $ and as the $N$ taps superimposed on each other in the little plot. From the ensemble the mean $\mu^j$ and the covariance matrix $C^j$ are computed, and from the covariance matrix $C^j$ the eigenvalues and eigenvectors are derived. The $q$ largest eigenvalues are selected and the corresponding eigenvectors are stored as the templates $t^j = [\alpha^j_1,\alpha^j_2,\ldots,\alpha^j_q] $ while the eigenvalues are stored as $C_\Theta^j = diag\{\lambda_1^j,\lambda_2^j,\ldots,\lambda_q^j \}$.
 
 \begin{figure}[!]
 \centering
@@ -471,7 +471,7 @@ Figure~\ref{fig:trainingsytemRotate} shows a block diagram of the implementation
 
 \subsection{Amplitude variable PCA model}
 
-In addition to the parameters required for the standard \gls{pca} model, the amplitude variable model requires information about the scaling parameter $K$. Here we propose to sample $K^j = [K^j_{l=1}, \ldots , K^j_{l=L}]$, from the aligned training pulses recorded. Figure~\ref{fig:amplitudeProbMass.pdf} shows an example of the sampled probability mass functions used for three different models $j$. While $K^j$ is a discrete scaling vector for each model $j$ Figure~\ref{fig:amplitudeProbMass.pdf} shows continuous smoothed functions to better illustrate some of the variety in the models and to be able to plot them together. Each scaling vector $K^j$ comprises $L=100$ scales.
+In addition to the parameters required for the standard \gls{pca} model, the amplitude variable model requires information about the scaling parameter $K$. Here we propose to sample $K^j = [K^j_{l=1}, \ldots , K^j_{l=L}]$, from the aligned training pulses recorded. Figure~\ref{fig:amplitudeProbMass.pdf} shows an example of the sampled probability mass functions used for three different models $j$. The sampling is done from a kernel smoothed distribution of amplitudes of the ensemble of pulses recorded. While $K^j$ is a discrete scaling vector for each model $j$ Figure~\ref{fig:amplitudeProbMass.pdf} shows continuous smoothed functions to better illustrate some of the variety in the models and to be able to plot them together. Each scaling vector $K^j$ comprises $L=100$ scales.
 
 \begin{figure}
 \centering
@@ -490,9 +490,9 @@ For a number of tapping spots evenly distributed on a line, the interpolated tem
 t = t_0 + \left(x - x_0\right) \frac{t_{1} - t^j}{x_1 - x_0},
 \end{equation}
 
-where $t_0$ and $t_1$ are the templates at the positions $x_0$and $x_1$ respectively and \linebreak[0]$x_0 < x < x_1$.
+where $t_0$ and $t_1$ are the templates at the positions $x_0$ and $x_1$ respectively and \linebreak[0]$x_0 < x < x_1$.
 
-An example of the a section of the waveforms resulting from this interpolation can be seen in Figure~\ref{fig:InterpData}. Here the thick lines represent the templates computed from data while the thin lines are interpolated templates. The linearly varying color, between red and black of the thin lines, shows the relative distance of the template position $x$ in this example.
+An example of a section of the waveforms resulting from this interpolation can be seen in Figure~\ref{fig:InterpData}. Here the thick lines represent the templates computed from data while the thin lines are interpolated templates. The linearly varying color, between red and black of the thin lines, shows the relative distance of the template position $x$ in this example.
 
 \begin{figure}[!]
 \centering
@@ -524,7 +524,15 @@ To test the algorithms, two sets of data are needed; a training set $D^1$ and a 
 \caption{To the left is an example of a tap with the stylus and to the right a tap with a fingernail.}\label{fig:tapSN}
 \end{figure}
 
-Each set of training data contains approximately 70 taps at each spot on the device totalling approximately $70 \times 12 = 840$ taps tapped with varying force. To estimate the performance of the algorithm given certain criteria there are 3 outcomes of a test. The tap may be correctly classified, misclassified (classified as any of the 11 other spots) or it may avoid detection entirely and hence be classified as a missed detection $j=0$. The ratio of these 3 outcomes may vary with a large number of parameters within the algorithm such as various thresholds for detection or classification, template length, filtering or number of principal components used under training, so the performance of the algorithm will always be presented in relation to a varying parameter. It is worth noting that all data used in the production of these results have been high-pass filtered with a cut-off frequency of 441 Hz. The effect of this filtering has not exhaustively been investigated, but provides a ``cleaner'' signal, visually, and does not appear to harm the performance.
+\begin{figure}[!]
+\centering
+\includegraphics[width=300 px]{phoneDisplayNum.png}
+\caption{Phone with spot location and numbers.}\label{fig:phoneDisplayNum}
+\end{figure}
+
+Figure~\ref{fig:phoneDisplayNum} shows the 12 spots and their location on the front of the phone used in this chapter.
+
+Each set of training data contains approximately 70 taps at each spot on the device totalling approximately $70 \times 12 = 840$ taps tapped with varying force. To estimate the performance of the algorithm given certain criteria there are 3 outcomes of a test. The tap may be correctly classified, misclassified (classified as any of the 11 other spots) or it may avoid detection entirely and hence be classified as a missed detection $j=0$. The ratio of these 3 outcomes may vary with a large number of parameters within the algorithm such as various thresholds for detection or classification, template length, filtering or number of principal components used under training, so the performance of the algorithm will always be presented in relation to a varying parameter. It is worth noting that all data used in the production of these results have been high-pass filtered with a cut-off frequency of 441 Hz (0.1 times the sampling frequency was found to be an effective cut-off frequency). The effect of this filtering has not exhaustively been investigated, but provides a ``cleaner'' signal, visually, and does not appear to harm the performance.
 
 As well as evaluating the classification performance of some of the algorithms presented above, the effect of varying various parameters of the models, such as component number and template length, is also explored.
 
