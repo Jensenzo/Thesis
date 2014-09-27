@@ -566,7 +566,7 @@ Figure~\ref{fig:PCAperform} shows the performance of the \gls{pca} type algorith
 \caption{Performance of the \gls{pca} type algorithm for different numbers of \gls{pca} components and with a template length $M=250$ samples. Training data: $D^1_S$, Testing data: $D^2_S$.}\label{fig:PCAperform}
 \end{figure}
 
-In Figure~\ref{fig:PCAperformLength} the relation between performance and template length $M$ can be seen with a test conducted with the same data as the previous test. The performance of the algorithm appears unaffected by $M$ at template lengths above 150 samples although for $M<150$ the performance decreases dramatically and as with Figure~\ref{fig:PCAperform} appears to settle around $p(j)$. The ratio between missed detections and misclassifications appear to vary greatly at low values for $M$ though it is currently not certain why this occurs. It is worth mentioning that this ratio is purely determined by a threshold in the algorithm and can be fine tuned for a desired outcome.
+In Figure~\ref{fig:PCAperformLength} the relation between performance and template length $M$ can be seen with a test conducted with the same data as the previous test. The performance of the algorithm appears unaffected by $M$ at template lengths above 170 samples although for $M<170$ the performance decreases dramatically and as with Figure~\ref{fig:PCAperform} appears to settle around $p(j)$. The ratio between missed detections and misclassifications appear to vary greatly at low values for $M$ though it is currently not certain why this occurs. It is worth mentioning that this ratio is purely determined by a threshold in the algorithm and can be fine tuned for a desired outcome.
 
 \begin{figure}[!] %PCA length S-S
 \centering
@@ -574,7 +574,7 @@ In Figure~\ref{fig:PCAperformLength} the relation between performance and templa
 \caption{Performance of the \gls{pca} type algorithm for different values of template length $M$ for components $q=5$. Training data: $D^1_S$, Testing data: $D^2_S$,}\label{fig:PCAperformLength}
 \end{figure}
 
-Figure~\ref{fig:MLperform} shows the performance of the \gls{ml} based algorithm using training data $D^1_S$ and testing data $D^2_S$. This figure shows the effect of changing the template length $M$ on the detection performance. As in Figure~\ref{fig:PCAperformLength} the performance appears to peak and stay constant at $M>150$. With the \gls{pca} algorithm the performance appears to approach the prior probability of detection at $M<50$ which, in this case, is set as being uniform across the different spots $j$.
+Figure~\ref{fig:MLperform} shows the performance of the \gls{ml} based algorithm using training data $D^1_S$ and testing data $D^2_S$. This figure shows the effect of changing the template length $M$ on the detection performance. As in Figure~\ref{fig:PCAperformLength} the performance appears to peak and stay constant at $M>170$. With the \gls{pca} algorithm the performance appears to approach the prior probability of detection at $M<50$ which, in this case, is set as being uniform across the different spots $j$.
 
 Another feature of Figure~\ref{fig:MLperform} is the ratio of various detection results. Whereas the \gls{pca} type algorithm replaced correct classifications with misclassifications when the number of components fell below 5, the \gls{ml} algorithm appears to miss the detection of the tap entirely. This difference in the two methods is caused by a difference in the threshold for a missed detection.
 
@@ -610,6 +610,20 @@ The motivation for developing the \gls{pca} type algorithm was to be able to mod
 \end{figure}
 
 Figure~\ref{fig:PCAMLMAPperform} gives an overview of the performance of the different algorithms with various data sets being used for testing and training. The specific data used for each test is noted on the figure itself. Please note that for all tests in Figure~\ref{fig:PCAMLMAPperform}, $M=250$ and $q=5$. These values were determined as sufficient in the previous tests detailed above.
+
+\begin{table}\begin{center}
+\caption{Classification percentage correct results per channel for each algorithm with combined stylus and nail training and testing data.}
+\label{tab:APRresultsPerChan}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+  & \multicolumn{12}{|c|}{Spot} \\
+\hline
+Method  & 1   & 2     & 3    & 4     & 5    & 6     & 7     & 8      & 9     & 10    & 11    & 12   \\ \hline
+ML      & 86  & 100   & 90   & 98    & 99   & 100   & 43    & 100    & 100   & 39    & 100   & 76   \\
+MAP     & 84  & 100   & 92   & 99    & 99   & 100   & 48    & 100    & 100   & 38    & 100   & 77   \\
+PCA     & 99  & 100   & 93   & 100   & 99   & 100   & 99    & 100    & 100   & 100   & 100   & 100   \\ \hline
+\end{tabular}\end{center}\end{table}
+
+Table~\ref{tab:APRresultsPerChan} shows the percentage of correct detection, based on all detections, per spot for the three different methods. This data is generated from the templates trained on both the stylus and nail tapping data and tested on both data sets as well. It is seen that on spots 2, 5, 6, 8, 9 and 11 all methods perform similarly. On spots 1, 3, 4, 7, 10 and 12 the ML and MAP methods are performing worse than the PCA. Particularly spots 7 and 10 show a significantly reduced performance in the mixed training and testing scenarios. For more spot specific results with the PCA approach Tables~\ref{tab:multiAPRresultsPerChan} and \ref{tab:multiAPRresultsNoisePerChan} should be considered.
 
 \begin{figure}[!] %PCA-ML-MAP compare
 \centering
