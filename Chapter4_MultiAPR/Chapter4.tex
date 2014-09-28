@@ -7,7 +7,9 @@
 \fi
 
 %Introduction to multi-channel APR
-While a key aspect of the basic single-channel \gls{apr} system was founded in the breath of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and more specifically multiple microphones. Laptop computers, tablets and mobile phones frequently employ multiple microphones for noise cancellation \cite{Habets2013}\cite{Habets2012}, echo cancelation \cite{US7925007} and localisation applications \cite{US8174547}\linebreak[2]\cite{US8233353}.
+While a key aspect of the basic single-channel \gls{apr} system was founded in the breadth of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and more specifically multiple microphones. Laptop computers, tablets and mobile phones frequently employ multiple microphones for noise cancellation \cite{Habets2013}\cite{Habets2012}, echo cancelation \cite{US7925007} and localisation applications \cite{US8174547}\linebreak[2]\cite{US8233353}.
+
+While chapter~\ref{ch:APR} implemented a touchscreen interface on a mobile phone, this chapter will focus on a larger device. A simple wooden board has been chosen since it enables fitting of microphones within the device. Internally fitted microphones should not be considered a requirement for the method presented in this chapter, but it is an option and could help block out external noise sources. It is also noted that although the device is of a much simpler internal structure than the phone used previously, the system does not focus exclusively on implementation in electronic mobile devices. It is possible to imagine that the microphones were attached to a wall or a desk and thereby providing a touch interface on these devices. An imagine could in addition be projected onto these devices thereby making the surface a touchscreen. Whether or not a device with a less homogeneous internal structure would provide better or worse classification performance has not been investigated in this chapter.
 
 In this chapter the \gls{apr} system is generalised to multiple channels and results are provided to quantify the multi-channel \gls{apr} system's performance in relation to a single-channel equivalent.
 
@@ -16,7 +18,7 @@ The background for the multi-channel \gls{apr} system in relation to the previou
 
 \section{Background}
 %Discuss and outline the advantages of multiple channels in a physical detection application
-Chapter~\ref{ch:APR} described the theory and application of a single-channel \gls{apr} system which relied on the presence of a single transducer in or on the device for the \gls{apr} application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanical noise in the device. Multiple channels enable, theoretically, improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same expected results. This is particularly an advantageous when the additional available channels are designed to specifically be a reference source discounting either some noise source (eg. background noise) or the target source (eg. speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise. Secondly multiple channels allow for utilisation of the timings of the detections between channels as discussed in more detail below.
+Chapter~\ref{ch:APR} described the theory and application of a single-channel \gls{apr} system which relied on the presence of a single transducer in or on the device for the \gls{apr} application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanical noise in the device. Multiple channels enable, theoretically, improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same expected results. This is particularly advantageous when the additional available channels are designed to specifically be a reference source discounting either some noise source (eg. background noise) or the target source (eg. speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise. Secondly multiple channels allow for utilisation of the timings of the detections between channels as discussed in more detail below.
 
 \subsection{Time of flight (ToF)}
 The second advantage of the multi-channel system is the main functional component of previous multi-channel \gls{apr} systems \cite{TouchSystems2006}\cite{US7411581}. \gls{tof}, \gls{tdoa} or the relative time of arrival of, especially transient, events at uniquely placed receiving transducers gives an indication of the origin of a pulse.
@@ -46,7 +48,7 @@ For constant phase velocity $c$ in a specific material and time difference $\Del
 \Delta d  = c \Delta t.
 \end{equation}
 
-For a digital system sampled at sampling rate $f_s$, time difference is equivalent to $\Delta t = \Delta S/f_s$ where $S$ is the number of samples and $t$ the sampling rate is measured in seconds and samples per second respectively.
+For a digital system sampled at sampling rate $f_s$, and time difference is equivalent to $\Delta t = \Delta S/f_s$ where $S$ is the number of samples, $\Delta S$ is the difference in samples $S$ and $t$ and the sampling rate are measured in seconds and samples per second respectively.
 
 The positional difference $\Delta d$ can now be calculated from the sample difference $\Delta S$ between two events as,
 
@@ -54,7 +56,7 @@ The positional difference $\Delta d$ can now be calculated from the sample diffe
 \Delta d  = c \frac{\Delta S}{f_s}.
 \end{equation}
 
-For the minimum sampling rate $f_s$ needed to detect any spatial difference $\Delta S \leq 1$ equation~\ref{eq:ToFcalcs2} is rearranged to
+For the minimum sampling rate $f_s$ needed to detect any spatial difference $\Delta S \leq 1$, i.e. no measurable difference in samples, equation~\ref{eq:ToFcalcs2} is rearranged to
 
 \begin{equation}\label{eq:ToFcalcs3}
 f_s  \geq \frac{c}{\Delta d}.
@@ -69,13 +71,14 @@ Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} show an example of 3 waveforms 
   \begin{picture}(0,0)
 \put(-180,60){11}
 \put(-150,36){19}
+\put(-385,160){amplitude}
 \end{picture}}
 \end{minipage}
-\caption{A zoomed example of the 3 wavefronts captured, and their relative alignment, for an impact on spot 9 on the surface.}
+\caption{A zoomed example of the 3 wavefronts captured, and their relative alignment, for an impact on spot 9 (see Figure~\ref{fig:MultiAPRsystem.pdf}) on the surface. The approximate distance from spot 9 is 35.5 cm, 9.5 cm and 21 cm for the microphones 1, 2 and 3 respectively.}
 \label{fig:MultiSourceExampleAnnoSpot9.pdf}
 \end{figure}
 
-Based on the estimated phase velocity in the surface, provided in appendix~\ref{ap:SpeedCalc}, this additional distance is 4.4 cm approximately corresponding to a range of early reflective paths on the surface.
+Based on the estimated phase velocity in the surface, provided in appendix~\ref{ap:SpeedCalc}, this additional distance is 4.4 cm approximately, corresponding to a range of early reflective paths on the surface.
 
 \section{Model and theory}\label{sec:MultiAPRModelTheory}
 The multi-channel model proposed here is an extension of the multi component model proposed in section~\ref{sec:APRpca}.
@@ -168,7 +171,7 @@ The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most 
 \label{fig:trainingSystem1.pdf}
 \end{figure}
 
-An initial implementation of the multi-channel system training is shown in Figure~\ref{fig:trainingSystem2.pdf}. Here the templates are considered together but aligned independently. This approach follows the training method presented in section~\ref{sec:MultiAPRMethod} and while the classification probabilities are considered jointly the templates are trained independently allowing for different templates with different lengths and number of components $I$.
+An initial implementation of the multi-channel system training is shown in Figure~\ref{fig:trainingSystem2.pdf}. Here the templates are considered together but aligned independently. This approach follows the training method presented in section~\ref{sec:MultiAPRMethod} and while the classification probabilities are considered jointly, the templates are trained independently allowing for different templates with different lengths and number of components $I$, although, as mentioned above, the number of components were fixed at $I=8$ for simplicity.
 
 \begin{figure} %trainingSystem2.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -235,7 +238,7 @@ These differences in microphone type, placement and mounting demonstrates that t
 Training data for the $J=9$ models, see Figure~\ref{fig:MultiAPRsystem.pdf}, consisted of approximately 33 seconds of audio data containing between 46 and 52 taps at varying intensity and strike angle. The taps were done with a capped Bic Cristal pen ``BiC\textregistered''. The $C=3$ channels were recorded simultaneously.
 
 %tests Q for q=1 to q=Q
-Two data sets were used for testing in this chapter, one without noise and one with noise. The noiseless set consisted of $Q=79$ testing taps and the noisy set consisted of $Q=45$ taps both were randomly distributed over the $J=9$ active spots. Each set of testing taps $q$ was comprised of $C=3$ channels. Each $Q \times C$ tapping pulse was separated into separate audio files of approximately 2 seconds length.
+Two data sets were used for testing in this chapter, one without noise and one with noise. The noiseless set consisted of $Q=79$ testing taps and the noisy set consisted of $Q=45$ taps, were both randomly distributed over the $J=9$ active spots. Each set of testing taps $q$ comprised $C=3$ channels. Each $Q \times C$ tapping pulse was separated into separate audio files of approximately 2 seconds length.
 
 All data was recorded as \gls{pcm} 16 bit audio data sampled at 48 kHz. The noisy testing sets were recorded with loud music playing in the background. Figure~\ref{fig:NoisyMicSignalsCompare} shows an example of a pulse recorded in a clean and in a noisy environment for microphone 1, Figure~\ref{fig:NoisyMicSignalsCompare}(a), and for microphone 2, Figure~\ref{fig:NoisyMicSignalsCompare}(b). It is clearly noted that the signal from microphone 2 is less affected by the acoustic noise. This mixture of more and less noise sensitive microphones emulates the real world scenario of devices with noise or signal reference microphones for noise reduction algorithms.
 
@@ -249,18 +252,19 @@ All data was recorded as \gls{pcm} 16 bit audio data sampled at 48 kHz. The nois
 \begin{minipage}[b]{1.0\linewidth}
   \centering
   \centerline{\includegraphics[width=11cm]{NoiseCompare2}}%10
-  %\begin{picture}(0,0)
-%\put(-120,382){(a)}
-%\put(-120,195){(b)}
-%\end{picture}
+
  %\vspace{1.5cm}
   \centerline{(b) Microphone 2}\medskip
-\end{minipage}
+\end{minipage} 
+\begin{picture}(0,0)
+\put(-10,280){amplitude}
+\put(-10,110){amplitude}
+\end{picture}
 \caption{Examples of audio signal (waveform) in clean and noisy conditions for (a) Microphone 1 and (b) Microphone 2.}
 \label{fig:NoisyMicSignalsCompare}
 \end{figure}
 
-\subsection{Approaches}
+\subsection{Classification approaches}
 While the underlying theory behind the multi-channel \gls{apr} system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of the decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
 
 As mentioned previously the multi-channel approach will be compared to the standard single-channel approach (\approachChFourN{app:IndiChan}). The single-channel \gls{pca} method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single-channel results will be processed and the unique mode (\approachChFourN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachChFourN{app:IndiChanMedian}) for each test $q$.
@@ -273,7 +277,7 @@ p(j|\textbf{y}) = \argmax{j} \prod^C \underset{n_0}{\max} p(y_c|j,n_o,c).
 
 This approach attempts to remedy the naive multi-channel approach by making an assumption. It is assumed that while a template may not perfectly fit a pulse associated with a different template, it will still have its maximum excitation when aligned correctly with the pulse. This enables a \emph{post hoc} pseudo alignment of the templates. This approach is included to remedy the naive multi-channel approach.
 
-Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is presented (\approachChFourN{app:Multi}). Here the \gls{tof} information is inherently retained assuming that the relative channel alignments in the testing system are kept constant between training and testing. While a template for a single-channel may score well with wrong testing data when combined with templates for other channels the effect should be blurred in time while a correct classification will have a set of matching template in addition to matching \gls{tof} information.
+Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is presented (\approachChFourN{app:Multi}). Here the \gls{tof} information is inherently retained assuming that the relative channel alignments in the testing system are kept constant between training and testing. While a template for a single-channel may score well with wrong testing data when combined with templates for other channels, the effect should be blurred in time while a correct classification will have a set of matching template in addition to matching \gls{tof} information.
 
 \section{Results}\label{sec:MultiAPRResults}
 \subsection{ToF example}
@@ -286,9 +290,11 @@ While the pulse translations, due to differences in \gls{tof} between microphone
   \begin{picture}(0,0)
 \put(-320,360){(a)}
 \put(-320,168){(b)}
+\put(-400,285){amplitude}
+\put(-400,92){amplitude}
 \end{picture}}
 \end{minipage}
-\caption{(a) An example of the 3 wavefronts captured, and their relative alignment, for an impact on spot 9 on the surface. (b) Zoomed in version of (a).}
+\caption{(a) An example of the 3 wavefronts captured, and their relative alignment, for an impact on spot 9 on the surface. (b) Zoomed in version of (a). The approximate distance from spot 9 is 35.5 cm, 9.5 cm and 21 cm for the microphones 1, 2 and 3 respectively.}
 \label{fig:MultiSourceExample.pdf}
 \end{figure}
 
@@ -310,7 +316,7 @@ Approach \#             & Approach description          & \% correct    & \% wro
 \ref{app:Multi}         & Multi-channel Joint           & 99            & 1         & 0          \\ \hline
 \end{tabular}\end{center}\end{table}
 
-The results for individual channels from Approach \ref{app:IndiChanMode} has been presented in Table~\ref{tab:multiAPRresults}. The Individually trained and tested channels approach correct classification result of $89\%$ is an average of the results from all channels. It should be noted that the individual channels are not proposed as classification methods in their own right, since all channels should be considered of equal weight. The individual channels are only presented here for transparency and to underline that Approach~\ref{app:IndiChan} was run on all test files individually.
+The results for individual channels from Approach \ref{app:IndiChanMode} has been presented in Table~\ref{tab:multiAPRresults}. The Individually trained and tested channels approach gives a correct classification result of $89\%$ which is an average of the results from all channels. It should be noted that the individual channels are not proposed as classification methods in their own right, since all channels should be considered of equal weight. The individual channels are only presented here for transparency and to underline that Approach~\ref{app:IndiChan} was run on all test files individually.
 
 For completeness Table~\ref{tab:multiAPRresultsPerChan} is presented detailing the performance (correct classification rate) at each spot across the surface. Spot 5 is noted to have a low correct classification rate across the board although it is also noted that $c = 1$ for the individual channel classification only lost a classification on spot 7 data. 
 
@@ -334,7 +340,7 @@ $c = 3$                 & 100 &  67 & 100 & 100 &  89 &  78 &   89 &  100 &  90 
 
 Since all the noiseless data contained nothing that could be confused with a pulse, the detection threshold could be set to a very low level without any false detections. The missed classification results noted for the mode-based individual channel approach (Approach \ref{app:IndiChanMode}) were due to three way disagreements between the channels. It is also noted that in these missed detection cases the similar median based classification approach (Approach \ref{app:IndiChanMedian}) will simply have picked the spot with the median value in a numerical sense. The noisy data was processed with the same low threshold as in the noiseless case, but it is assumed, for both the noisy and the noiseless case, that the maximum excitation is still caused by the pulse in the audio segment.
 
-In Table~\ref{tab:multiAPRresultsNoise} the results from at slightly smaller $Q=45$ test are presented. These results are conducted in a noisy environment with music playing in the background but with the same templates as with the previous test.
+In Table~\ref{tab:multiAPRresultsNoise} the results from a slightly smaller $Q=45$ test set are presented. These results are conducted in a noisy environment with music playing in the background but with the same templates as with the previous test.
 
 \begin{table}\begin{center}
 \caption{Multi-channel classification results in noisy environment.}
@@ -383,7 +389,7 @@ Slightly improved performance, from the basic individually trained approach (\re
 
 Approaches \ref{app:IndiChanMode} and \ref{app:IndiChanMedian} were presented as a way of achieving higher classification accuracy with only access to the various classes retrieved from the individual classifiers. Approaches \ref{app:MultiNaive} and \ref{app:MultiNaiveMax} present possible extensions when the underlying classifying statistics are considered as well. As predicted, Approach \ref{app:MultiNaive} does not perform as well as the other methods due to the relatively random alignment of the templates, but as noted previously, Approach \ref{app:MultiNaiveMax} rectifies the underlying idea of the approach and increases the classification performance to 94 \% and 84 \% for clean and noisy tests respectively. As noted, this method assumes that the maximum excitation is achieved at perfect alignment for the correct model. While the multi-channel approach (\ref{app:Multi}) achieves 99 \% and 100 \% correct classification, this assumption clearly does not hold true. Approach \ref{app:MultiNaiveMax} remains the best performing approach for non-aligned templates.
 
-The highest correct classification results, for both the clean and the noisy tests, were achieved with the multi-channel approach (\ref{app:Multi}) with combined alignment. While in the clean test this method managed results identical to results from to channel 1 from Approach~\ref{app:IndiChan}, in the noisy test the multi-channel approach (\ref{app:Multi}) managed slightly better performance, underlining that this approach can be better than the best of its constituent parts, and that the results suggest that the performance is unaffected by substantial environmental noise. It is reiterated that the individual channels in Approach~\ref{app:IndiChan} are not to be considered competing approaches individually since no objective weight is applied to these channels \emph{a priori}.
+The highest correct classification results, for both the clean and the noisy tests, were achieved with the multi-channel approach (\ref{app:Multi}) with combined alignment. While in the clean test this method managed results identical to results from channel 1 from Approach~\ref{app:IndiChan}, in the noisy test the multi-channel approach (\ref{app:Multi}) managed slightly better performance, underlining that this approach can be better than the best of its constituent parts, and that the results suggest that the performance is unaffected by substantial environmental noise. It is reiterated that the individual channels in Approach~\ref{app:IndiChan} are not to be considered competing approaches individually since no objective weight is applied to these channels \emph{a priori}.
 
 Tables~\ref{tab:multiAPRresultsPerChan} and \ref{tab:multiAPRresultsNoisePerChan} show the per spot correct classification performance for the noiseless and noisy environment respectively. While the data indicates that spot 5 contributed significantly to reducing the correct classification results in the noiseless environment it was not clear from the noisy example that any spots were particularly problematic. It was certainly clear that spot 5 did not cause the same difficulties in the noisy environment as in the noiseless environment indicating that the lower correct classification rate stemmed from a poorly trained template. 
 
@@ -391,7 +397,7 @@ Tables~\ref{tab:multiAPRresultsPerChan} and \ref{tab:multiAPRresultsNoisePerChan
 
 
 \section{Conclusions}
-The results presented in this chapter showed a significant improvement in detection performance of the multi-channel \gls{apr} system over a single-channel equivalent. In addition the full multi-channel approach (\ref{app:Multi}) outperformed other presented methods which also used the available channel data. For the data and scenario tested, the multi-channel approach (\ref{app:Multi}) appeared unaffected by loud environmental noise, while all other methods tested saw decreased classification accuracy.
+The results presented in this chapter showed an improvement in detection performance of the multi-channel \gls{apr} system over a single-channel equivalent. In addition the full multi-channel approach (\ref{app:Multi}) outperformed other presented methods which also used the available channel data. For the data and scenario tested, the multi-channel approach (\ref{app:Multi}) appeared unaffected by loud environmental noise, while all other methods tested saw decreased classification accuracy.
 
 While the devices tested in this and the previous chapter have been of moderate sizes, it is not unimaginable that the \gls{apr} systems presented could be applied to larger devices such as walls or tables. Increasing the physical dimensions of the device would generally reduce the energy in the pulses as the impact site moved away from the transducer thereby decreasing the \gls{snr}. In a multi-channel system, transducers could be distributed evenly around the surface edge maintaining high \gls{snr} for at least some channels. Models/templates with channels of low \gls{snr} could easily be registered during training and removed from consideration during classification essentially defaulting to the ignorant prior for that channel-template combination.
 
