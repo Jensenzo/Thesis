@@ -8,7 +8,7 @@
 
 As mentioned previously, the keyboard stroke removal algorithm can roughly be divided into two. Chapter~\ref{ch:TransientNoiseDetection} dealt with the task of detecting keyboard stroke noise and calculating the corruptions extent. Based on analysis of the data it was also concluded that while a model based approach could perform well on isolated keyboard stroke examples, tuning it for more general cases would be difficult. This chapter will explore the second, and final step, of the keyboard stroke removal system and focus on the restoration of the corrupted samples of the audio sequence. While the complete removal of all localised transient noise is the ultimate goal of this chapter, any significant reduction in audibility or subjective nuisance will also be acceptable and so this chapter will also include a subject study of the restoration quality.
 
-In this chapter a variety of methods will be explored. While the preferred detection algorithm from Chapter~\ref{ch:TransientNoiseDetection} was the \gls{ar} filter method, the noise burst model lent itself to an interesting restoration model based on the noise burst assumption, which will also be explored in this chapter. Audio examples of restorations are available on \siteURL~as a reference.
+In this chapter a variety of methods will be explored. While the preferred detection algorithm from Chapter~\ref{ch:TransientNoiseDetection} was the \gls{ar} filter method, the Noise Burst model lent itself to an interesting restoration model based on the Noise Burst assumption, which will also be explored in this chapter. Audio examples of restorations are available on \siteURL~as a reference.
 
 %structure of chapter
 The residual algorithms presented in this chapter are split into two. The first section deals with the restoration of the residual components, while the following section explores restoration of the tonal components. Section~\ref{sec:AlgStatement} pulls all the parts of the algorithm together and outlines the important connections of the system. Section~\ref{sec:RestorationMethods} presents the methods and metrics used in the results section following it, and results are discussed and concluded in sections~\ref{sec:RestorationDiscussion} and~\ref{sec:RestorationResults} respectively.
@@ -108,7 +108,7 @@ Figure~\ref{fig:ResultsNoiseInsertionFiltering.pdf} shows an example of the nois
 \end{figure}
 
 \subsection{Burst scaling}
-A different restoration approach can be derived from the noise burst detection method proposed in section~\ref{sec:WPdetectionNB}.
+A different restoration approach can be derived from the Noise Burst detection method proposed in section~\ref{sec:WPdetectionNB}.
 Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was is that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
 
 A Bayesian approach proceeds by estimating $p(\boldsymbol{v}_n | \boldsymbol{w}_n, i_n)$. Using Bayes' rule we get that
@@ -130,7 +130,7 @@ p(v_n | \boldsymbol{w}_n, i_n = 1) \propto \mathcal{N}\left({(C_v + \Lambda)^{-1
 \end{equation}
 
 %\frac{\boldsymbol{w}_n}{\Lambda}\right).
-In this case where both the background noise $v_n$ and the noise burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices).
+In this case where both the background noise $v_n$ and the Noise Burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices).
 
 An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScaled.pdf}. The reference variance for the wavelet coefficient sets $C_v$ is taken over a 5 second sequence. The pulse variance $\Lambda$ is a trained value which might vary from session to session, but for the restoration stage here the first 150 samples of the detected pulse are used.
 
@@ -145,7 +145,7 @@ An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScal
 \label{fig:ResultsScaled.pdf}
 \end{figure}
 
-%While assuming corruptions as noise bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white noise bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an \gls{ar} process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
+%While assuming corruptions as Noise Bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white Noise Bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an \gls{ar} process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
 %
 %\begin{figure} %compareRecon.pdf
 %\centering
