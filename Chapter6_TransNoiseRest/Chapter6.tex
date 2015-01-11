@@ -497,7 +497,7 @@ The mother wavelet basis selected was the Daubechies 8 (db8) wavelet \cite{Daube
 
 Subjects were presented with 12 test sets consisting of 2 audio segments each; the original audio segment containing speech and a number of keystrokes and the reconstructed segment. The order of these segments was randomized throughout the trial. The audio segments used for this test were a mix of fast typing and slow typing, recorded through laptops and external microphones, naturally corrupted segments and keystrokes added to clean segments, male or female speech and a variety of keyboards types and makes.
 
-The Graphical User Interface (GUI) presented to the test subjects is shown in Figure~\ref{fig:SubjectiveExp_GUI.png}.
+The \gls{gui} presented to the test subjects is shown in Figure~\ref{fig:SubjectiveExp_GUI.png}.
 
 \begin{figure}[!] %SubjectiveExp_GUI.png
 \centering
@@ -506,7 +506,7 @@ The Graphical User Interface (GUI) presented to the test subjects is shown in Fi
 %\put(-355,120){Frequency}
 %\put(-200,0){Time}
 \end{picture}
-\caption{Experimental GUI presented to subjects.}
+\caption{Experimental \gls{gui} presented to subjects.}
 \label{fig:SubjectiveExp_GUI.png}
 \end{figure}
 
@@ -614,7 +614,7 @@ While the results from this test do not conclusively show a preference of the re
 %should some of that have been in the method section?
 The \gls{pesq} and the \gls{peaq} test methodologies were used to evaluate some of the data sets used in the subjective test, section~\ref{sec:ResultsSubjectiveTest}. The selected data sets were 2, 4, 6 and 11. Sets 2, 4 and 6 were chosen since, as seen in Figure~\ref{fig:SubjectiveExp_PerTestData.pdf}, the original audio segment was preferred or strongly preferred by the subjects. Set 11 was chosen as a reference for sets where the reconstructed segment was heavily preferred. These sets were also chosen since they were \emph{constructed} segments, meaning that the noisy signal was a linear addition of a clean speech signal and a noise track containing purely keyboard stroke noise. To calculate the \gls{pesq} and \gls{peaq} measures, having a reference signal was essential.
 
-Table~\ref{tab:PESQdata} shows the data from the \gls{pesq} tests. In all but set 2 the reconstructed audio sample was found to have a higher MOS, and the mean \gls{mos} was found to be 0.2 higher for the reconstructed segments with the biggest improvement being over 0.5 in set 11, which was also the only set where the subjects decidedly preferred the reconstruction over the original segment.
+Table~\ref{tab:PESQdata} shows the data from the \gls{pesq} tests. In all but set 2 the reconstructed audio sample was found to have a higher \gls{mos}, and the mean \gls{mos} was found to be 0.2 higher for the reconstructed segments with the biggest improvement being over 0.5 in set 11, which was also the only set where the subjects decidedly preferred the reconstruction over the original segment.
 
 \begin{table}\begin{center}
 \caption{\gls{pesq} \gls{mos} results for test sets 2, 4, 6 and 11.}
@@ -644,7 +644,7 @@ Table~\ref{tab:PESQdata} shows the data from the \gls{pesq} tests. In all but se
 % Prediction for ref4.wav/dirty4.wav: PESQ_MOS = 2.108
 
 
-Table~\ref{tab:PEAQdataODG} shows the \gls{peaq} \gls{odg} \gls{mos} for the same audio sets as in Table~\ref{tab:PESQdata}. Again it is seen that the reconstructed audio segments have on average an \gls{odg} \gls{mos} of 0.4 higher than the original signal, with a maximum difference found in the tests conducted on set 6 with a difference of over 1.5 MOS. It was also noted that the preferred segment by the subjects, set 11 reconstructed, was found to have a larger negative difference than the original in contrast to the \gls{pesq} results.
+Table~\ref{tab:PEAQdataODG} shows the \gls{peaq} \gls{odg} \gls{mos} for the same audio sets as in Table~\ref{tab:PESQdata}. Again it is seen that the reconstructed audio segments have on average an \gls{odg} \gls{mos} of 0.4 higher than the original signal, with a maximum difference found in the tests conducted on set 6 with a difference of over 1.5 \gls{mos}. It was also noted that the preferred segment by the subjects, set 11 reconstructed, was found to have a larger negative difference than the original in contrast to the \gls{pesq} results.
 
 \begin{table}\begin{center}
 \caption{\gls{peaq} \gls{odg} \gls{mos} results for test sets 2, 4, 6 and 11.}
@@ -732,7 +732,7 @@ A selection of waveforms are in this section represented to visualise the recons
 \put(-150,235){(b)}
 \end{picture}
 \end{minipage}
-\caption{Examples of the final output of (a) the filtered noise model and (b) the \gls{lsar} reconstruction algorithms. Both reconstructing wavelet coefficients.}
+\caption{Examples of the final output of (a) the filtered noise model and (b) the \gls{lsar} reconstruction algorithms. Both reconstructing wavelet coefficients. The restored (red) and the original (black) signals are overlapping in this figure so that where the original (black) signal is visible, the restored signal has been restored/attenuated.}
 \label{fig:RestoredExamplesComparison}
 \end{figure}
 
