@@ -475,6 +475,7 @@ To quantify the performance of the algorithms, the test performed in \ref{fig:NB
 \label{fig:NBDetectionResults}
 \end{figure}
 
+
 \subsubsection{False detection rate}
 To further quantify the performance of the algorithm a similar test to the above was run on 61 seconds of speech and 43 individual keyboards taps. The audio was recorded via an external microphone in 16kHz and all algorithms were tuned similarly to the previous test. The results of this test has been tabulated in Table~\ref{table:NBResultsTest}.
 
@@ -491,6 +492,8 @@ To further quantify the performance of the algorithm a similar test to the above
  \end{tabular}
  \label{table:NBResultsTest}
 \end{table}
+
+While the detection rate of the Media filtering approach in Table~\ref{table:NBResultsTest} does appear to conflict with the results shown previously, it is noted that this is most likely caused by the consistently much louder transients recorded for the external microphone data. This aligns with previous results showing the Media approach to be heavily reliant on the amplitude of the transient noise. All methods show a similarly low false detection rate. 
 
 \subsection{AR Filter method results}
 Figure~\ref{fig:ARFilterDetectionResults} shows, similar to Figure~\ref{fig:NBDetectionResults}, the detection performance for the \gls{ar} filter method (red) in relation to that of the \gls{ukd}\cite{Subramanya2007} (blue) and the standard median filter method (green). Figure~\ref{fig:ARFilterDetectionResults}(a) shows the algorithms' performance on 10 clean keyboard strokes while Figure~\ref{fig:ARFilterDetectionResults}(b) shows an example of the algorithms' performance when the keyboard strokes are embedded in speech. As seen in Figure~\ref{fig:NBDetectionResults} with the proposed Noise Burst model, the \gls{ar} filter model in Figure~\ref{fig:ARFilterDetectionResults} indicates a detection in between the first and the second correct detections. Both of these detections are clearly provoked by the sudden onset of the speech utterance which is considered a false detection.
