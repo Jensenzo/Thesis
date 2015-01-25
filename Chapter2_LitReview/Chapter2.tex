@@ -99,6 +99,10 @@ A variety of different features have been proposed for audio classification but 
 %NFR (Noise frame ratio)
 The last audio feature presented here is the \gls{nfr} metric. This feature classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The \gls{nfr} is then the ratio between noisy frames and non-noisy frames in the audio segment \cite{Lu2002}\cite{Jiang2000}.
 
+%MFCC
+\label{corrections:mfcc1}
+Within the field of speech feature extraction the \gls{mfcc} is considered the most popular and has become the standard in speaker recognition systems partly due to its efficient computational scheme \cite{Tyagi2005}. The \gls{mfcc}s are obtained by mapping the power spectrum onto a Mel frequency scale using a series of triangular overlapping windows. The \gls{mfle} (log of the power) of each of the filters are calculated. The amplitude resulting from taking the \gls{dct} (or another linear transform) of the \gls{mfle}, as though it was a signal, will be the \gls{mfcc} \cite{Sahidullah2012}. In music genre classification \gls{mfcc} has also been used and it has been noted that specifically the lower \gls{mfcc}'s correlate well with the \emph{timbre} of the music \cite{Muller2010}. The \gls{mfcc} does although suffer from lack of robustness in the presence of common additive noise \cite{Tyagi2005}. 
+
 Many other features have been proposed and used successfully throughout the literature and an exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyon2000}.
 %LSTER (low short-time energy ratio)
 % \cite{Lu2001}
