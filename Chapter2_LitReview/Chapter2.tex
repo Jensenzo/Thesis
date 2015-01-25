@@ -792,10 +792,24 @@ In general many authors have considered \gls{lpc} and \gls{ar} models for audio 
 %\todo{something more}
 
 \section{Keyboard detection and removal systems}
-For the keystroke removal application a couple of articles have suggested similar systems \cite{Subramanya2007}\cite{Sugiyama2007}\cite{Abramson2007}\cite{Sugiyama2013}. 
+For the keystroke removal application a couple of articles have suggested similar systems \cite{Subramanya2007}\cite{Sugiyama2007}\cite{Abramson2007}\cite{Sugiyama2013}.
 
 \cite{Subramanya2007} proposes the \gls{ukd} algorithm. This algorithm relies on \gls{stft} and exploits the assumption of smoothness in the spectral coefficients during normal speech. Using an \gls{ar} filter on each frequency band the filtering error is considered as a joint probability and thresholded to expose detections. This method is described in great detail in equations \ref{eq:Subramanya2007} and \ref{eq:Subramanya2007_2}. The implementation presented by the authors rely on a lookahead of 2 buffers (of 20 ms) to make their detection requiring additional latency in a potential communication network. Additionally the authors propose to increase the robustness of their system by implementing a constrained detection step using the \gls{os} to feed information back to the algorithm to verify if the detection was in fact correct or not. The approach taken by the authors to restore corrupted coefficients is to replace them with new estimates using a \gls{map} based approach \cite{Raj2004}. The authors assumes the spectral coefficients are modeled as a stationary Gaussian process with a mean and variance. These statistical parameters are learned on an uncorrupted sequence. The method estimates the \gls{map} estimate of the the log-magnitude of the coefficients rather than the coefficients themselves. Further, the authors propose to improve these reconstructions by imposing constraints on the statistical parameters.
 The method proposed in \cite{Subramanya2007} relies on 40 ms lookahead, trained parameters for the speech reconstruction algorithm and, in the case of \gls{ekd} \gls{os} information about keyboard inputs. These elements make the algorithm unsuitable for real-time implementation.
+
+The system proposed by the authors of \cite{Sugiyama2007} base their detection on the \gls{stft} and from that they focus on 7 factors:
+\begin{enumerate}
+\item Number of frequency bins with magnitude exceeding a threshold.
+\item High frequency power compared to medium frequency power.
+\item Low frequency power compared to high frequency power.
+\item Current frame power compared to an average and some threshold.
+\item The increase in number of frequency bins since last frame where a power ratio has been exceeded.
+\item Same as above but with a lower threshold detecting a fall in the number of frequency bins.
+\item The intersection between criterions 2, 3 and 4.
+\end{enumerate}
+These are used in conjunction with a \gls{vad} and a complicated set of logical steps. Ultimately the authors attempt to exploit the spectral flatness of the keyboard strokes as well as the sudden onset of them with these 7 factors. 
+To suppress the detected keyboard strokes the authors of \cite{Sugiyama2007} subtract the power-normalized impact-noise derived from the difference between the signal and an estimate of the non-impact noise from the signal. The signal is post-processed, in what appears to be an offline stage making the algorithm essentially an offline algorithm. While this algorithm takes advantage of a complicated set of logical steps the underlying features in focus are similar to those exploited in \cite{Subramanya2007} with the spectral flatness feature being represented by the joint log-likelihood across the frequency bins and the onset detection being represented by the \gls{ar} process in \cite{Subramanya2007}. \cite{Sugiyama2007} is ultimately not an algorithm designed for real-time implementation in its current form and since it relies similar features to other algorithms and a diverse set of thresholds not reported in the publication, this algorithm will not be considered further in this work.
+
 
 
 and \cite{Sugiyama2007} propose algorithms specifically for the keyboard stroke detection and removal application. All of these methods rely on the \gls{stft} as a basis for detection using features such as the shape and change of the power spectrum \cite{Sugiyama2007}, \gls{ar} estimation error \cite{Subramanya2007}\cite{Kauppinen2002} or a Bayesian speech estimator \cite{Abramson2007}. In \cite{Godsill1998book} various \gls{ar} based detection methods are proposed and it was found that pairing the \gls{ar} model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \cite{Vaseghi1990} the authors find that \gls{ar} processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''.
