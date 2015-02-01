@@ -807,8 +807,19 @@ The system proposed by the authors of \cite{Sugiyama2007} base their detection o
 \item Same as above but with a lower threshold detecting a fall in the number of frequency bins.
 \item The intersection between criterions 2, 3 and 4.
 \end{enumerate}
-These are used in conjunction with a \gls{vad} and a complicated set of logical steps. Ultimately the authors attempt to exploit the spectral flatness of the keyboard strokes as well as the sudden onset of them with these 7 factors. 
+These are used in conjunction with a \gls{vad} and a complicated set of logical steps. Ultimately the authors attempt to exploit the spectral flatness of the keyboard strokes as well as the sudden onset of them with these 7 factors.
 To suppress the detected keyboard strokes the authors of \cite{Sugiyama2007} subtract the power-normalized impact-noise derived from the difference between the signal and an estimate of the non-impact noise from the signal. The signal is post-processed, in what appears to be an offline stage making the algorithm essentially an offline algorithm. While this algorithm takes advantage of a complicated set of logical steps the underlying features in focus are similar to those exploited in \cite{Subramanya2007} with the spectral flatness feature being represented by the joint log-likelihood across the frequency bins and the onset detection being represented by the \gls{ar} process in \cite{Subramanya2007}. \cite{Sugiyama2007} is ultimately not an algorithm designed for real-time implementation in its current form and since it relies similar features to other algorithms and a diverse set of thresholds not reported in the publication, this algorithm will not be considered further in this work.
+
+A more recent paper by the same authors as \cite{Sugiyama2007} proposes the use of phase linearity as a metric for keyboard tapping detection \cite{Sugiyama2013}. The authors note that a feature of noise pulses is a linear phase response across frequencies, $\theta(k)$, with slope $ \frac{d\theta(k)}{dk} = -2n_0\pi /N$. Here $n_0$ refers to the index of the pulse and $N$ is the frame size of the \gls{fft}. The authors propose $\Delta \theta(k)$, the change in the phase between different frequency bins, as an estimate for the derivative of the phase. Detection is based on the thresholding of the magnitude of a linearity index introduced as:
+
+\begin{equation}\label{eq:Sugiyama2013}
+LI_\theta(k) = \Delta\theta(k) - \frac{-2 \pi \hat{n}_0}{N},
+\end{equation}
+
+where $\hat{n}_0$ is the estimated location a tapping noise. While this should form the basis of the detector the authors note that it performs poorly due to ``strong lowpass characteristics'' of tapping noise giving a more ambiguous estimate for $\hat{n}_0$, so the authors propose weighting the estimate by the input magnitude at each frequency as well as introducing a peak indicator which they claim eliminates contamination by the target signal. Suppression of detected taps are done by phase randomization as well as magnitude suppression to some estimated ambient noise level.
+
+While the authors of \cite{Sugiyama2013} note their motivation behind said algorithm is linked to telecommunication networks no details about the algorithm in question's applicability in such a context is presented and while the paper does contain some objective evaluation these are compared to those of a standard magnitude based noise suppression algorithm by the same authors \cite{Sugiyama2002}. The authors present two examples with PESQ score improvements of 0.1 and 0.2 but propose cascading their approaches for further improvements. While these results are neither substantial nor well founded and with no comparison to the state of the art it is difficult to assess the actual performance of the algorithm proposed. This approach may be a novel approach to keyboard noise detection but few details about the implementation are presented and therefore questions regarding the algorithm's applicability in the real-time scenario are brought into question. 
+
 
 
 
