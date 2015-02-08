@@ -255,7 +255,7 @@ All data was recorded as \gls{pcm} 16 bit audio data sampled at 48 kHz. The nois
 
  %\vspace{1.5cm}
   \centerline{(b) Microphone 2}\medskip
-\end{minipage} 
+\end{minipage}
 \begin{picture}(0,0)
 \put(-10,280){amplitude}
 \put(-10,110){amplitude}
@@ -318,14 +318,14 @@ Approach \#             & Approach description          & \% correct    & \% wro
 
 The results for individual channels from Approach \ref{app:IndiChanMode} has been presented in Table~\ref{tab:multiAPRresults}. The Individually trained and tested channels approach gives a correct classification result of $89\%$ which is an average of the results from all channels. It should be noted that the individual channels are not proposed as classification methods in their own right, since all channels should be considered of equal weight. The individual channels are only presented here for transparency and to underline that Approach~\ref{app:IndiChan} was run on all test files individually.
 
-For completeness Table~\ref{tab:multiAPRresultsPerChan} is presented detailing the performance (correct classification rate) at each spot across the surface. Spot 5 is noted to have a low correct classification rate across the board although it is also noted that $c = 1$ for the individual channel classification only lost a classification on spot 7 data. 
+For completeness Table~\ref{tab:multiAPRresultsPerChan} is presented detailing the performance (correct classification rate) at each spot across the surface. Spot 5 is noted to have a low correct classification rate across the board although it is also noted that $c = 1$ for the individual channel classification only lost a classification on spot 7 data.
 
 \begin{table}\begin{center}
 \caption{Multi-channel classification percentage correct results per channel for noiseless data.}
 \label{tab:multiAPRresultsPerChan}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
   & \multicolumn{9}{|c|}{Spot} \\
-\hline 
+\hline
 Approach \#             & 1   & 2   & 3   & 4   & 5   & 6   & 7    & 8    & 9  \\ \hline \ref{app:IndiChan}      & 95  & 70  & 92  & 88  & 78  & 89  &  93  & 100  & 93   \\
 $c = 1$                 & 100 & 100 & 100 & 100 & 100 & 100 &   89 &  100 & 100  \\
 $c = 2$                 & 86  & 44  & 75  & 63  & 44  & 89  & 100  & 100  & 90   \\
@@ -366,7 +366,7 @@ For completeness Table~\ref{tab:multiAPRresultsNoisePerChan} is presented detail
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
   & \multicolumn{9}{|c|}{Spot} \\
 \hline
-Approach \#             & 1   & 2   & 3   & 4   & 5   & 6   & 7   & 8   & 9  \\ \hline 
+Approach \#             & 1   & 2   & 3   & 4   & 5   & 6   & 7   & 8   & 9  \\ \hline
 \ref{app:IndiChan}      & 100 &  83 &  92 & 100 &  73 &  73 &  73 &  89 &  71  \\
 $c = 1$                 & 100 & 100 & 100 & 100 & 100 &  80 & 100 & 100 & 100  \\
 $c = 2$                 & 100 &  50 &  75 & 100 &  80 &  80 &  60 & 100 &  57  \\
@@ -391,7 +391,7 @@ Approaches \ref{app:IndiChanMode} and \ref{app:IndiChanMedian} were presented as
 
 The highest correct classification results, for both the clean and the noisy tests, were achieved with the multi-channel approach (\ref{app:Multi}) with combined alignment. While in the clean test this method managed results identical to results from channel 1 from Approach~\ref{app:IndiChan}, in the noisy test the multi-channel approach (\ref{app:Multi}) managed slightly better performance, underlining that this approach can be better than the best of its constituent parts, and that the results suggest that the performance is unaffected by substantial environmental noise. It is reiterated that the individual channels in Approach~\ref{app:IndiChan} are not to be considered competing approaches individually since no objective weight is applied to these channels \emph{a priori}.
 
-Tables~\ref{tab:multiAPRresultsPerChan} and \ref{tab:multiAPRresultsNoisePerChan} show the per spot correct classification performance for the noiseless and noisy environment respectively. While the data indicates that spot 5 contributed significantly to reducing the correct classification results in the noiseless environment it was not clear from the noisy example that any spots were particularly problematic. It was certainly clear that spot 5 did not cause the same difficulties in the noisy environment as in the noiseless environment indicating that the lower correct classification rate stemmed from a poorly trained template. 
+Tables~\ref{tab:multiAPRresultsPerChan} and \ref{tab:multiAPRresultsNoisePerChan} show the per spot correct classification performance for the noiseless and noisy environment respectively. While the data indicates that spot 5 contributed significantly to reducing the correct classification results in the noiseless environment it was not clear from the noisy example that any spots were particularly problematic. It was certainly clear that spot 5 did not cause the same difficulties in the noisy environment as in the noiseless environment indicating that the lower correct classification rate stemmed from a poorly trained template.
 
 %more general implementation discussions
 

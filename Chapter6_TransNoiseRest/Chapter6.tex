@@ -276,7 +276,7 @@ The most common noise component left in the tonal component of the signal is a l
 %\put(-320,290){b)}
 %\put(-320,140){c)}
 \end{picture}
-\caption{Example of low frequency tonal noise. A \emph{bump}. Top: Waveform and Bottom: Spectrogram of same sequence.}
+\caption{Example of low frequency tonal noise. A \emph{bump}. Top: Waveform and Bottom: Spectrogram of same sequence. Bump is located between 0.075 - 0.275 seconds.}
 \label{fig:TonalArtefactSpectrumExample.png}
 \end{figure}
 
@@ -495,8 +495,31 @@ The combination of algorithms selected for testing were the separation algorithm
 %Wavelet type chosen
 The mother wavelet basis selected was the Daubechies 8 (db8) wavelet \cite{Daubechies1992}, with a quadrature filter of order 16. Db8 is selected mainly for its relatively low order but it was also found, through tests not reproduced here, to perform comparably to competing bases such as various Daubechies lengths, Haar and discrete Meyer.
 
+\label{corrections:subjects}The test subjects for this test comprised 16 individuals found around the research office. Subjects were predominantly male (13 male, 3 female) and in their mid to early 20s. Subjects were all familiar with digital signal processing methodology, and should be considered as expert listeners, but none were employed in the area of audio signal processing. Tests were conducted at the subject's desk in a quiet office environment. No training was given beyond explaining the function of the \gls{gui} and no other listening tests were conducted with any of the subjects. No compensation was offered and no prospective subjects declined to participate. Most of the subjects were familiar with the research being investigated.
+
 Subjects were presented with 12 test sets consisting of 2 audio segments each; the original audio segment containing speech and a number of keystrokes and the reconstructed segment. The order of these segments was randomized throughout the trial. The audio segments used for this test were a mix of fast typing and slow typing, recorded through laptops and external microphones, naturally corrupted segments and keystrokes added to clean segments, male or female speech and a variety of keyboards types and makes.
 
+\begin{table}
+\caption{Details about the test files used in the listening test.} \centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+  k & Speech & Description & length [s] \\ \hline
+  1 & Female & Fast typing & 4\\
+  2 & Male & Slow typing (2 key strokes) & 4\\
+  3 & Male & Slow typing (4 key strokes) & 10\\
+  4 & Male & Mixed typing (6 key strokes) & 6\\
+  5 & Male & Slow typing (3 key strokes) & 4\\
+  6 & Male & Slow typing (1 key stroke) & 2\\
+  7 & Male & Slow typing (2 key strokes) & 2\\
+  8 & Male & Slow typing (5 key strokes) & 10\\
+  9 & Male & Fast typing & 1\\
+  10& Male & Slow typing (3 key strokes) & 4\\
+  11& Female & Fast typing & 3\\
+  12& Female & Fast typing  & 5\\
+  \hline
+\end{tabular}
+ \label{table:ListenerTestFiles}
+\end{table}
 The \gls{gui} presented to the test subjects is shown in Figure~\ref{fig:SubjectiveExp_GUI.png}.
 
 \begin{figure}[!] %SubjectiveExp_GUI.png
@@ -510,7 +533,7 @@ The \gls{gui} presented to the test subjects is shown in Figure~\ref{fig:Subject
 \label{fig:SubjectiveExp_GUI.png}
 \end{figure}
 
-Subjects were asked to choose their preferred audio segment or the one they found the ``least annoying''. If they found both segments equally annoying or equally pleasing they could opt to tick both boxes and proceed. All audio segments were sampled at 16kHz, ranged from 1 to 10 seconds in length (mainly in the range 3-5 seconds), and were run through a completely sequential version of the final algorithm as it would work implemented in a communication framework. All subjects used the same set of AKG K-240 M1 circumaural open back headphones in a quiet office environment through a laptop computer audio interface and were allowed to replay audio segments as they pleased. The test was conducted on 16 individuals found in and around the office. Most of the subjects were familiar with the research being investigated.
+Subjects were asked to choose their preferred audio segment or the one they found the ``least annoying''. If they found both segments equally annoying or equally pleasing they could opt to tick both boxes and proceed. All audio segments were sampled at 16kHz, ranged from 1 to 10 seconds in length (mainly in the range 3-5 seconds, see Table~\ref{table:ListenerTestFiles}), and were run through a completely sequential version of the final algorithm as it would work implemented in a communication framework. All subjects used the same set of AKG K-240 Mk1 circumaural open back headphones in a quiet office environment through a laptop computer audio interface and were allowed to replay audio segments as they pleased. It is noted that this test did not specifically comply with any ITU standards.
 
 \subsection{Objective tests}
 A variety of measures for evaluating the performance and the quality of the reconstructed signals are used as results in this chapter.\todo{more}
@@ -798,7 +821,7 @@ Results presented in this and the preceding chapter shows that a successful dete
 Future work proposed in the detection chapter (\ref{ch:TransientNoiseDetection}) featured the use of multiple channels for detection. With additional channels restoration performance could feasibly also be increased in a variety of ways depending on the implementation of the additional channels. Assuming that additional channels could be considered reference sources for either the pulse, or the speech, could provide valuable cues in relation to tonal components of relevance and noise-related components. A basic restoration approach could simply involve subtraction, possibly given some alteration, of the channels, which could, in the case of a good speech reference, form the basis of an alternative to the pre processing separation stage.
 
 \subsubsection{Modified LSAR restoration algorithms}
-Based on the work presented in \cite{Esquef2006}, sequential implementations of the energy adjusted \gls{lsar} algorithms could form the basis of better sounding restoration algorithms for the residual component of the signal. The energy adjust \gls{lsar} algorithm has been shown to reduce the noticeable dip in energy of the signal through longer gaps in signals.  
+Based on the work presented in \cite{Esquef2006}, sequential implementations of the energy adjusted \gls{lsar} algorithms could form the basis of better sounding restoration algorithms for the residual component of the signal. The energy adjust \gls{lsar} algorithm has been shown to reduce the noticeable dip in energy of the signal through longer gaps in signals.
 
 \subsubsection{Correct detection verification}
 Post restoration a comparison of the restored and original signal should reveal a significant decrease in maximum \gls{mse} or other objective metric. This in turn could provide a useful way of confirming that a detection was in fact caused by a noise pulse and therefore justified.

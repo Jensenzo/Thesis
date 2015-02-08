@@ -4,7 +4,7 @@ Jens Christensen
 
 List of Corrections
 
-Overall Corrections
+\textbf{Overall Corrections}
 
 \begin{enumerate}
   \item All notes in thesis corrected.
@@ -14,13 +14,46 @@ Overall Corrections
   \item
 \end{enumerate}
 
-Abstract
+\textbf{Abstract}
 
-Chapter 2
+\textbf{Chapter 2}
 \begin{enumerate}
 \item \gls{mfcc} has been added in the literature review (pp. \pageref{corrections:mfcc1}) as a major audio feature in speech feature extraction and as proposed future work (pp. \pageref{corrections:mfcc2}).
     \item On pp. \pageref{corrections:viterbi} the Viterbi algorithm is introduced as a recursive optimal solution to the problem of estimating the state sequence of a discrete-time finite-state Markov process. A sentence has been added to clarify how the Viterbi may be used for a classification application given certain circumstances.
     \item On pp. \pageref{fig:LitRev_DetectCompare} and \pageref{fig:LitRev_DetectCompare2} references have been added to indicate the inspiration for the particular method's use in the comparison.
-    \item The patent mentioned in the list of corrections was already referenced (a long with other occurrences of the same IP) in reference \cite{Seltzer2011Patent} and does not appear to be related to patent \cite{US8233353}.
-        
+    \item The patent mentioned in the list of corrections was already referenced (a long with other occurrences of the same IP) in reference \cite{Seltzer2011Patent} and does not appear to be related to patent \cite{US8233353}. A new section that presents and discusses the state of the art of keyboard stroke removal algorithms has been included starting on page \pageref{corrections:methods} including the recent Sugiyama, A paper mentioned in the correction notes.
     \end{enumerate}
+    
+Chapter 3
+\begin{enumerate}
+\item The number of taps included in the training and testing sets $D^1$ and $D^2$ were already included on page \pageref{corrections:DSNcount}. The sets comprised approximately 70 taps per set.
+\item A paragraph giving further details about the generation of the training and testing sets $D^1$ and $D^2$ have now been included on page \pageref{corrections:DSNmethod}.
+\item Cut-off frequency used was 1102.5 Hz (pp. \pageref{corrections:cut-off}). Spectrogram example of performance on Figure~\ref{fig:filterCompareSpectrogram} pp. \pageref{fig:filterCompareSpectrogram}.
+\item Data presented over various tapping position in Table~\ref{tab:APRresultsPerChan} on page \pageref{tab:APRresultsPerChan}. These results have also been included in the discussion and comments surrounding the table in the text.
+\item LOO discussion and general testing methodology added. Specifically on page \pageref{corrections:LOO}.
+\item Added a small paragraph to the discussion in chapter 3 describing the possibility of \gls{ml} and \gls{map} in the context of audio classification had an appropriate feature presented itself (pp. \pageref{corrections:ML}.
+\item A section on the \gls{gmm} as a possible classifier for the \gls{apr} system is included on section \ref{corrections:GMM} page \pageref{corrections:GMM}.
+\end{enumerate}
+
+\textbf{Chapter 4}
+\begin{enumerate}
+\item Have added a short paragraph explaining why a wooden board may in fact be a valuable proxy for an actual screen for this application (pp. \label{corrections:wooden}.
+\item Added. See Figure~\ref{fig:MultiAPRsystem.pdf} page~\pageref{fig:MultiAPRsystem.pdf}.
+\item Per spot resolution of results shown in Table~\ref{tab:multiAPRresultsPerChan} on page~\pageref{tab:multiAPRresultsPerChan}.
+\end{enumerate}
+
+\textbf{Chapter 5}
+\begin{enumerate}
+\item More details added on page~\pageref{corrections:library}.
+\item More information and description added on page~\pageref{corrections:further_quantify}. Apparent discrepancy discussed in two paragraphs starting on page~\pageref{corrections:discuss_discrep}.
+\end{enumerate}
+
+\textbf{Chapter 6}
+\begin{enumerate}
+\item Colours used in figures did no print well. Blue colour replaced with bright green to increase contrast throughout Chapter 6.
+\item Changed on page~\pageref{eq:RestBasicModel}.
+\item \emph{Bump} placement indicated in caption of figure~\ref{fig:TonalArtefactSpectrumExample.png} page~\pageref{fig:TonalArtefactSpectrumExample.png}.
+\item Additional details about the subjects and details surrounding the informal listening test has been supplied on page~\pageref{corrections:subjects}.
+\item Table~\ref{table:ListenerTestFiles} included giving details about test files used in the listening test on page.~\pageref{table:ListenerTestFiles}.
+\item 
+\end{enumerate}
