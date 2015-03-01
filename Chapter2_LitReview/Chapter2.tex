@@ -738,6 +738,9 @@ Typically longer stretches of audio interpolation have been difficult applicatio
 
 In general many authors have considered \gls{lpc} and \gls{ar} models for audio and speech data \cite{Vaseghi1990}\cite{Czyzewski1995}\cite{Godsill1998}. A more comprehensive review of \gls{ar}, \gls{lpc} and warped-based methods were covered in section~\ref{sec:LitRevAR} from the perspective of modeling speech and audio in the detection application.
 
+
+In \cite{Godsill1998book} various \gls{ar} based detection methods are proposed and it was found that pairing the \gls{ar} model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \cite{Vaseghi1990} the authors find that \gls{ar} processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''. The detection schemes presented in \cite{Vaseghi1990} and \cite{Godsill1998book} focus on offline processing as well as much shorter noise bursts. These are not feasible in any real time system.
+
 %An Efficient Model-Based Method for Reconstruction of Audio Signals Across Long Gaps
 % \cite{Esquef2006} (based on \cite{Kauppinen2002a} and \cite{Kauppinen2002b})
 % The use of a maximally-decimated filterbank renders easier
@@ -822,10 +825,13 @@ While the authors of \cite{Sugiyama2013} note their motivation behind said algor
 
 
 In \cite{Kauppinen2002} the authors present 3 methods for transient detection algorithms which are designed to detect non-Gaussian noise in realtime datastreams. Here the authors focus on detection of transients in musical signals. The methods presented are a derivative based method, an \gls{rms} based method and an \gls{ar} based method. The derivative based method simply proposes to look at the absolute value of the derivative of the time signal. The authors suggest that the 4th derivative gave the best results in their experience. The second method proposed by the authors is an \gls{rms} based detector. While the authors acknowledge that the \gls{rms} is not a particularly good basis for transient detection they note that significant improvements can be obtained by taking the absolute value of the 4th derivative of it. Lastly the authors of \cite{Kauppinen2002} propose to detect transients by considering the \gls{ar} error of the time signal. The authors suggest that the underlying musical signal be modeled with a filter order of 10 although refer to a much higher order of 1000 as an ideal filter order. It was found that the \gls{ar} based method performed the best with the tested data (drums, guitar, saxophone and speech). While these algorithms performed well for this given application it is noted that the application did not contain a specific noise source such as the keyboard typing application. It was although noted that the \gls{ar} was the best performing method and considering the computational restrictions for real time processing at the time of publication of \cite{Kauppinen2002} more advanced methods could be developed.
- 
- or a Bayesian speech estimator \cite{Abramson2007}. 
- 
- In \cite{Godsill1998book} various \gls{ar} based detection methods are proposed and it was found that pairing the \gls{ar} model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \cite{Vaseghi1990} the authors find that \gls{ar} processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''. The detection schemes presented in \cite{Vaseghi1990} and \cite{Godsill1998book} focus on offline processing as well as much shorter noise bursts. These are not feasible in any real time system.
+
+In \cite{Abramson2007} the authors propose a simultaneous estimation and detection approach with an \emph{a priori} \gls{snr} estimator, which facilitate suppression of transient noise. This approach uses a cost function which combines the detection and estimation error in the \gls{stft} domain. A speech coefficients detector and a corresponding estimator for the coefficient values are designed jointly with the aim of minimizing the combined Bayes risk.
+
+To aid in transient noise detection the authors implement an \emph{a priori} \gls{snr} estimator. It is noted that while decision-directed estimators are widely used in similar scenarios, they are not suitable for transient noise environments, since a high energy transient noise may yield an instantaneous increase in \emph{a posteriori} \gls{snr}. This, in turn, would increase the spectral gain of the frequency bin and as a result the transient noise would not be attenuated to the correct degree. The authors propose to base their \emph{a priori} \gls{snr} estimator on the spectral variance where the variance for the underlying stationary noise can be estimated and the transient noise spectral variance is obtained through training. Since the \emph{a priori} \gls{snr} is highly dependent on the spectral variance the speech spectral variance is calculated whereafter the \emph{a priori} \gls{snr} is estimated. The authors show that this \gls{snr} estimate is lower and therefore enables further attenuation of transient noise.
+
+In the paper the authors evaluate their approach against the \gls{stsa} approach and obtain favorable results for their approach. It is although noted that the transient noise introduced into the signals are simulated short bursts of high energy coloured noise. There are no indications that these transient noise events could be related to any acoustic phenomenon much less the explicit scenario of key strokes where events exhibit a far less constant or flat spectral response with multiple intertwined segments. The paper also omits any mention of computational concerns or applicability in a realtime scenarios and given the parameter choices such as a 256 tap overlapping Hamming filter for \gls{stft} decomposition it is doubtful if this approach would be feasible in a realtime communication scenario as proposed.
+
 
 \section{Chapter summary}
 This chapter has aimed to summarise the relevant literature associated with the applications, techniques and theory presented throughout this thesis.
@@ -839,8 +845,7 @@ In \cite{Burke2013} a survey of factorisation methods found \gls{pca} to be an e
 Restoration approaches applicable to longer gaps ranged from heuristic waveform substitution methods \cite{Goodman1986}\cite{Niediwiecki2001}, pitch based methods modeling speech as spectral peak tracks \cite{Maher1994}\cite{McAulay1986} to \gls{ar} interpolators \cite{Esquef2006} based on a least squares adaption of the \gls{ar} process \cite{Godsill1998book}.
 %synthesis filters designed to excite the \gls{ar} model to achieve longer gap extrapolation with lower model orders \cite{Esquef2006}
 
-
-
+Specific keystroke removal systems were proposed in a couple of articles \cite{Subramanya2007}\cite{Sugiyama2007}\cite{Sugiyama2013}\cite{Seltzer2011Patent}. While some implementations propose real time implementations, none offer methods utilizing lookahead less than 10 or 20 ms and without the reliance of and \gls{os} cue.
 % ------------------------------------------------------------------------
 
 
