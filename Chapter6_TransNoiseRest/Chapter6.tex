@@ -6,20 +6,20 @@
     \graphicspath{{Chapter6_TransNoiseRest/Chapter6Figs/EPS/}{Chapter6_TransNoiseRest/Chapter6Figs/}}
 \fi
 
-As mentioned previously, the keyboard stroke removal algorithm can roughly be divided into two. Chapter~\ref{ch:TransientNoiseDetection} dealt with the task of detecting keyboard stroke noise and calculating the corruption's extent. Based on analysis of the data it was also concluded that while a model based approach could perform well on isolated keyboard stroke examples, tuning it for more general cases would be difficult. This chapter will explore the second, and final step, of the keyboard stroke removal system and focus on the restoration of the corrupted samples of the audio sequence. While the complete removal of all localised transient noise is the ultimate goal of this chapter, any significant reduction in audibility or subjective nuisance will also be acceptable and so this chapter will also include a subject study of the restoration quality.
+As mentioned previously, the keyboard stroke removal algorithm can roughly be divided into two. Chapter~\ref{ch:TransientNoiseDetection} dealt with the task of detecting keyboard stroke noise and calculating the \DIFdelbegin \DIFdel{corruptions }\DIFdelend \DIFaddbegin \DIFadd{corruption's }\DIFaddend extent. Based on analysis of the data it was also concluded that while a model based approach could perform well on isolated keyboard stroke examples, tuning it for more general cases would be difficult. This chapter will explore the second, and final step, of the keyboard stroke removal system and focus on the restoration of the corrupted samples of the audio sequence. While the complete removal of all localised transient noise is the ultimate goal of this chapter, any significant reduction in audibility or subjective nuisance will also be acceptable and so this chapter will also include a subject study of the restoration quality.
 
-In this chapter a variety of methods will be explored. While the preferred detection algorithm from Chapter~\ref{ch:TransientNoiseDetection} was the \gls{ar} filter method, the Noise Burst model lent itself to an interesting restoration model based on the Noise Burst assumption, which will also be explored in this chapter. Audio examples of restorations are available on \siteURL~as a reference.
+In this chapter a variety of methods will be explored. While the preferred detection algorithm from Chapter~\ref{ch:TransientNoiseDetection} was the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method, the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model lent itself to an interesting restoration model based on the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend assumption, which will also be explored in this chapter. Audio examples of restorations are available on \siteURL~as a reference.
 
 %structure of chapter
 The residual algorithms presented in this chapter are split into two. The first section deals with the restoration of the residual components, while the following section explores restoration of the tonal components. Section~\ref{sec:AlgStatement} pulls all the parts of the algorithm together and outlines the important connections of the system. Section~\ref{sec:RestorationMethods} presents the methods and metrics used in the results section following it, and results are discussed and concluded in sections~\ref{sec:RestorationDiscussion} and~\ref{sec:RestorationResults} respectively.
 
 \section{Residual Restoration}
-Based on the pre-processing stage from equation~\ref{eq:modelgeneral} the restoration section is separated into two major sections. Firstly the restoration, or interpolation, of the corrupted samples from the residual component of the signal will be explored. This sparse signal, of transient components, was found to contain a majority of the leading edge of the pulse of the keyboard strokes.
+Based on the \DIFdelbegin \DIFdel{pre processing }\DIFdelend \DIFaddbegin \DIFadd{pre-processing }\DIFaddend stage from equation~\ref{eq:modelgeneral} the restoration section is separated into two major sections. Firstly the restoration, or interpolation, of the corrupted samples from the residual component of the signal will be explored. This sparse signal, of transient components, was found to contain a majority of the leading edge of the pulse of the keyboard strokes.
 
 The second part of this section will focus on restoring and removing spurious tonal components caused by the keyboard stroke. Certain keyboard types in particular were found to produce noise pulses with more tonal components than others, and in particular loud strokes on the keyboard were found to exacerbate this issue. The methods developed in this part of the chapter will largely be of a heuristic nature.
 
 %The restoration of the sparse residual component can be formulated as follows. %This doesn't belong here
-In this chapter the detection state is presumed known and will be treated as a binary vector $\boldsymbol{i}$ containing a high value, $i_t = 1$, for a detection and a low value, $i_t = 0$, for no detection. Consider an audio segment $\boldsymbol{x}$ of length $N$ with a corrupted section starting at sample $m$ and of length $l$. The corrupted sequence can now be described as 3 separate sections with the unknown section being $\boldsymbol{x_{(i)}} = [x_m,x_{m+1},\ldots,x_{m+l-1}]$, the known section before and after the corruption respectively $\boldsymbol{x}_{\boldsymbol{-(i)}a} = [x_1,x_{2},\ldots,x_{m-1}]$ and $\boldsymbol{x}_{\boldsymbol{-(i)}b} = [x_{m+l},x_{m+2},\ldots,x_{N}]$. The total sequence is therefore
+In this chapter the detection state is presumed known and will be treated as a binary vector $\boldsymbol{i}$ containing a high value\DIFaddbegin \DIFadd{, }\DIFaddend $i_t = 1$\DIFaddbegin \DIFadd{, }\DIFaddend for a detection and a low value\DIFaddbegin \DIFadd{, }\DIFaddend $i_t = 0$\DIFaddbegin \DIFadd{, }\DIFaddend for no detection. Consider an audio segment $\boldsymbol{x}$ of length $N$ with a corrupted section starting at sample $m$ and of length $l$. The corrupted sequence can now be described as 3 separate sections with the unknown section being $\boldsymbol{x_{(i)}} = [x_m,x_{m+1},\ldots,x_{m+l-1}]$, the known section before and after the corruption respectively $\boldsymbol{x}_{\boldsymbol{-(i)}a} = [x_1,x_{2},\ldots,x_{m-1}]$ and \DIFdelbegin \DIFdel{$\boldsymbol{x}_{\boldsymbol{-(i)}b} = [x_{m+1},x_{m+2},\ldots,x_{N}]$}\DIFdelend \DIFaddbegin \DIFadd{$\boldsymbol{x}_{\boldsymbol{-(i)}b} = [x_{m+l},x_{m+2},\ldots,x_{N}]$}\DIFaddend . The total sequence is therefore
 
 \begin{equation}\label{eq:RestBasicModel}
 \boldsymbol{x} = \left[ \boldsymbol{x}_{\boldsymbol{-(i)}a}\quad\boldsymbol{x_{(i)}}\quad\boldsymbol{x}_{\boldsymbol{-(i)}b} \right].
@@ -41,9 +41,9 @@ The samples to replace are drawn from a zero-mean Gaussian distribution with the
 \boldsymbol{X}_{j,\boldsymbol{(i)}} \sim \mathcal{N}\left(0, \sigma^2_{j,a} \right).
 \end{equation}
 
-If data is available following a corruption, the variance $\sigma^2_{j,b}$ of the succeeding segment $\boldsymbol{X}_{\boldsymbol{j,-(i)}b}$ can be used in a similar fashion. To facilitate a smooth transition, a cross fading between the two random signals should be implemented.
+If data is available following a corruption, the variance $\sigma^2_{j,b}$ of the succeeding segment $\boldsymbol{X}_{\boldsymbol{j,-(i)}b}$ can be used in a similar fashion. \DIFdelbegin \DIFdel{Too }\DIFdelend \DIFaddbegin \DIFadd{To }\DIFaddend facilitate a smooth transition\DIFaddbegin \DIFadd{, }\DIFaddend a cross fading between the two random signals should be implemented.
 
-Figure~\ref{fig:ResultsNoiseInsertion.pdf} shows an example of the restoration process described above. Figure~\ref{fig:ResultsNoiseInsertion.pdf}(a) shows a set of the initial wavelet coefficients for a keystroke. The corrupted region has been removed in Figure~\ref{fig:ResultsNoiseInsertion.pdf}(b) and replaced with zero-mean Gaussian noise with the red plot showing noise generated from the segment preceding the corruption and the blue plot showing noise generated from the segment succeeding it. The two signals have been windowed and the final segment will be the addition of the two noise segments.
+Figure~\ref{fig:ResultsNoiseInsertion.pdf} shows an example of the restoration process described above. Figure~\ref{fig:ResultsNoiseInsertion.pdf}(a) shows a set of the initial wavelet coefficients for a keystroke. The corrupted region has been removed in Figure~\ref{fig:ResultsNoiseInsertion.pdf}(b) and replaced with zero-mean Gaussian noise with the red plot showing noise generated from the segment preceding the corruption and the \DIFdelbegin \DIFdel{red }\DIFdelend blue plot showing noise generated from the segment succeeding it. The two signals have been windowed and the final segment will be the addition of the two noise segments.
 
 \begin{figure} %ResultsNoiseInsertion.pdf
 \centering
@@ -58,15 +58,15 @@ Figure~\ref{fig:ResultsNoiseInsertion.pdf} shows an example of the restoration p
 
 \subsection{Forwards and backwards FIR filtering}
 %Model theory
-A simple approach to restoration of short corrupted intervals is to replace the corrupted samples and filter the corrupted region with an \gls{fir} filter with parameters drawn from the segment immediately prior to $\boldsymbol{x}_{\boldsymbol{-(i)}a}$ and following $\boldsymbol{x}_{\boldsymbol{-(i)}b}$ the corruption (if available).
+A simple approach to restoration of short corrupted intervals is to replace the corrupted samples and filter the corrupted region with an \DIFdelbegin \DIFdel{FIR }\DIFdelend \DIFaddbegin \gls{fir} \DIFaddend filter with parameters drawn from the segment immediately prior to $\boldsymbol{x}_{\boldsymbol{-(i)}a}$ and following $\boldsymbol{x}_{\boldsymbol{-(i)}b}$ the corruption (if available).
 
-Consider first the block of data samples $\boldsymbol{x}$ drawn from an \gls{ar} process with parameters $\boldsymbol{a}$. Given a known estimate of the detection state $\boldsymbol{i}$, zero pad the corrupted samples.
+Consider first the block of data samples $\boldsymbol{x}$ drawn from an \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend process with parameters $\boldsymbol{a}$. Given a known estimate of the detection state $\boldsymbol{i}$, zero pad the corrupted samples.
 
 \begin{equation}\label{eq:RestBasicModelFilterZeros}
 \boldsymbol{x} = \left[ \boldsymbol{x}_{\boldsymbol{-(i)}a}\quad \left[0,\ldots,0\right] \quad\boldsymbol{x}_{\boldsymbol{-(i)}b} \right].
 \end{equation}
 
-The block of data $\boldsymbol{x}$ is then filtered using the \gls{ar} parameters up until the end of the corrupted section,
+The block of data $\boldsymbol{x}$ is then filtered using the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend parameters up until the end of the corrupted section,
 
 \begin{equation}\label{eq:RestBasicModelFilterEQ}
 \boldsymbol{\hat{x}}_f = \Sigma_p^P \boldsymbol{x}_{n-p}a_p.
@@ -78,9 +78,9 @@ The output signal $\boldsymbol{\hat{x}}_f$ now contains a basic estimate of the 
 \boldsymbol{\hat{x}'}_b = \Sigma_p^P \boldsymbol{x'}_{n-p}a_p.
 \end{equation}
 
-The forward $\boldsymbol{\hat{x}}_f$ and backward $\boldsymbol{\hat{x}}_b$ filtered estimates can now, if both are available, be faded together, with overlapping linear slopes spanning the original corruption length, to produce a combined estimate for the corrupted sequence $\boldsymbol{\hat{x}}$.
+The forward $\boldsymbol{\hat{x}}_f$ and backward $\boldsymbol{\hat{x}}_b$ filtered estimates can now, if both are available, be faded together\DIFaddbegin \DIFadd{, with overlapping linear slopes spanning the original corruption length, }\DIFaddend to produce a combined estimate for the corrupted sequence $\boldsymbol{\hat{x}}$.
 
-An example of a reconstructed section can be seen in Figure~\ref{fig:ResultsFiltering.pdf}. It is noted that for this example the reconstruction is done on wavelet coefficients. Figure~\ref{fig:ResultsFiltering.pdf}(b) shows an example of the various parts of the reconstruction with the forward and backward filtering shown in red and blue respectively.
+An example of a reconstructed section can be seen in Figure~\ref{fig:ResultsFiltering.pdf}. It is noted that for this example the reconstruction is done on wavelet coefficients. Figure~\ref{fig:ResultsFiltering.pdf}(\DIFdelbegin \DIFdel{a}\DIFdelend \DIFaddbegin \DIFadd{b}\DIFaddend ) shows an example of the various parts of the reconstruction \DIFaddbegin \DIFadd{with the forward and backward filtering shown in red and blue respectively}\DIFaddend .
 
 \begin{figure} %ResultsFiltering.pdf
 \centering
@@ -108,8 +108,8 @@ Figure~\ref{fig:ResultsNoiseInsertionFiltering.pdf} shows an example of the nois
 \end{figure}
 
 \subsection{Burst scaling}
-A different restoration approach can be derived from the Noise Burst detection method proposed in section~\ref{sec:WPdetectionNB}.
-Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was seen that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
+A different restoration approach can be derived from the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend detection method proposed in section~\ref{sec:WPdetectionNB}.
+Based on the separation of the original data sequence in Equation~\ref{eq:modelgeneral} it was \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{seen }\DIFaddend that the majority of the transient information will be located in the residual, or non-tonal component. Considering the detection methods employed on the residual component, the restoration process could be done in either the time or the wavelet domain $w(n)$.
 
 A Bayesian approach proceeds by estimating $p(\boldsymbol{v}_n | \boldsymbol{w}_n, i_n)$. Using Bayes' rule we get that
 
@@ -124,13 +124,13 @@ and
 \begin{equation}\label{eq:v2}
 p(\boldsymbol{v}_n | i_n) = p(\boldsymbol{v}_n) = \mathcal{N}(0, C_v).
 \end{equation}
-Substituting equation (\ref{eq:w|vi}) and (\ref{eq:v2}) into equation (\ref{eq:BayesInterp}) where the product is proportional to a third Gaussian, we obtain;
-\begin{equation}\label{eq:vwi}
+Substituting equation (\ref{eq:w|vi}) and (\ref{eq:v2}) into equation (\ref{eq:BayesInterp}) where the product is proportional to a third Gaussian, \DIFaddbegin \DIFadd{we obtain;
+}\DIFaddend \begin{equation}\label{eq:vwi}
 p(v_n | \boldsymbol{w}_n, i_n = 1) \propto \mathcal{N}\left({(C_v + \Lambda)^{-1} C_v\boldsymbol{w}_n}, (C_v^{-1} + \Lambda^{-1})^{-1}\right)
 \end{equation}
 
 %\frac{\boldsymbol{w}_n}{\Lambda}\right).
-In this case where both the background noise $v_n$ and the Noise Burst $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices).
+In this case where both the background noise $v_n$ and the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend $\theta_n$ are Gaussian, estimating the mean of the conditional distribution equates to simply scaling corrupted samples by a factor of $({C_v + \Lambda})^{-1}{C_v}$ in a Wiener-style wavelet shrinkage (note the simple form of this in our case with diagonal covariance matrices).
 
 An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScaled.pdf}. The reference variance for the wavelet coefficient sets $C_v$ is taken over a 5 second sequence. The pulse variance $\Lambda$ is a trained value which might vary from session to session, but for the restoration stage here the first 150 samples of the detected pulse are used.
 
@@ -145,7 +145,8 @@ An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScal
 \label{fig:ResultsScaled.pdf}
 \end{figure}
 
-%While assuming corruptions as Noise Bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white Noise Bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an \gls{ar} process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
+%DIF < While assuming corruptions as noise bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white noise bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an AR process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
+%DIF > While assuming corruptions as Noise Bursts works well for detection, it was found that a more pleasing restoration was achieved by simply inserting white Noise Bursts with background variance in the corrupted regions. Figure~\ref{fig:compareRecon} shows an example of the restoration on the example result from Figure~\ref{fig:Separation_Residual_Example} An even simpler restoration approach could potentially entirely remove the offending coefficients and a more complicated approach attempt to fill in the corrupted coefficients with an \gls{ar} process trained on preceding and succeeding coefficients. Having estimated the most likely state of $i_n$ it is sometimes necessary also to filter out any very low frequency components of the transient that were removed with the voiced speech. Figure~\ref{fig:compareRecon} shows an example of the restored signal with the corrupted regions filtered with a high pass filter with a cutoff frequency of 120 Hz.
 %
 %\begin{figure} %compareRecon.pdf
 %\centering
@@ -163,9 +164,9 @@ An example of the burst scaling algorithm is seen in Figure~\ref{fig:ResultsScal
 %%Standard restoration, interpolation
 
 \subsection{Least-Squares AR (LSAR)}\label{sec:ResidualRestorationLSAR}
-For the restoration of samples in the residual component the \gls{lsar} interpolator is considered here \cite{Godsill1998book}.
+For the restoration of samples in the residual component the \DIFdelbegin \DIFdel{Least Squares AR (LSAR) }\DIFdelend \DIFaddbegin \gls{lsar} \DIFaddend interpolator is considered here \cite{Godsill1998book}.
 
-Assuming that the residual coefficients $\mathbf{x}$ are drawn from an \gls{ar} process with parameters $\mathbf{a}$, and where
+Assuming that the residual coefficients $\mathbf{x}$ are drawn from an \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend process with parameters $\mathbf{a}$, and where
 
 \begin{equation}\label{eq:LSAR0} \mathbf{A} =
 \begin{bmatrix}
@@ -184,7 +185,7 @@ The excitation vector $\mathbf{e}$ can be expressed as
   \mathbf{e} = \mathbf{A}\mathbf{x},
 \end{equation}
 
-where $\mathbf{x}$, the data vector, can be re-expressed in terms of corrupted and uncorrupted, or known $\mathbf{K}$ and unknown $\mathbf{U}$, samples
+where \DIFdelbegin \DIFdel{$\mathbf{X}$}\DIFdelend \DIFaddbegin \DIFadd{$\mathbf{x}$}\DIFaddend , the data vector, can be re-expressed in terms of corrupted and uncorrupted, or known $\mathbf{K}$ and unknown $\mathbf{U}$, samples
 
 \begin{align}\label{eq:LSAR2}
   \mathbf{e} = & \mathbf{A} (\mathbf{U}\mathbf{x}_{\mathbf{(i)}} + \mathbf{K}\mathbf{x}_{\mathbf{-(i)}}) \\
@@ -197,7 +198,7 @@ Now the sum squared prediction error can be calculated as
   E = \sum^N_{n=P+1} e^2_n = \mathbf{e}^T\mathbf{e}.
 \end{equation}
 
-The \gls{ls} interpolator is obtained as the interpolated data vector $\mathbf{x}_{\mathbf{(i)}}$ which minimises the error in equation~\ref{eq:LSAR3}:
+The \DIFdelbegin \DIFdel{Least Squares (LS) }\DIFdelend \DIFaddbegin \gls{ls} \DIFaddend interpolator is obtained as the interpolated data vector $\mathbf{x}_{\mathbf{(i)}}$ which minimises the error in equation~\ref{eq:LSAR3}:
 
 \begin{equation}\label{eq:LSAR4}
   \mathbf{x}^{\mathrm{LS}}_{\mathbf{(i)}} = \argmin{\mathbf{x}_{\mathbf{(i)}}} \{ E \}.
@@ -217,7 +218,7 @@ Solving for $\mathbf{x}_{\mathbf{(i)}}$ we have that:
   \mathbf{x}^{\mathrm{LS}}_{\mathbf{(i)}} = - (\mathbf{A}_{\mathbf{(i)}}^T \mathbf{A}_{\mathbf{(i)}} )^{-1}\mathbf{A}_{\mathbf{(i)}}^T\mathbf{A}_{\mathbf{-(i)}}\mathbf{x}_{\mathbf{-(i)}}
 \end{equation}
 
-An example of the \gls{lsar} interpolation algorithm is shown in Figure~\ref{fig:RestoredLSARExample}(a) and (b), where 2 different sets of Wavelet coefficients have had a pulse detection restored. Both examples are of audio sampled at 16kHz and coefficients are from a Wavelet decomposition done to the third level. Figure~\ref{fig:RestoredLSARExample}(a) uses the same detection example as the previous examples while  Figure~\ref{fig:RestoredLSARExample}(b) shows a restoration example, from the same audio sequence, which showcases more of the algorithms restoration abilities.
+An example of the \DIFdelbegin \DIFdel{LSAR }\DIFdelend \DIFaddbegin \gls{lsar} \DIFaddend interpolation algorithm is shown in Figure~\ref{fig:RestoredLSARExample}(a) and (b), where 2 different sets of Wavelet coefficients have had a pulse detection restored. Both examples are of audio sampled at 16kHz and coefficients are from a Wavelet decomposition done to the third level. Figure~\ref{fig:RestoredLSARExample}(a) uses the same detection example as the previous examples while  Figure~\ref{fig:RestoredLSARExample}(b) shows a restoration example, from the same audio sequence, which showcases more of the algorithms restoration abilities.
 
 \begin{figure}
 \begin{minipage}[b]{1.0\linewidth}
@@ -236,7 +237,7 @@ An example of the \gls{lsar} interpolation algorithm is shown in Figure~\ref{fig
 %  \vspace{1.5cm}
   %\centerline{(b)}\medskip
 \end{minipage}
-\caption{Examples of the \gls{lsar} algorithm interpolating corrupted wavelet coefficients.}
+\caption{Examples of the \DIFdelbeginFL \DIFdelFL{LSAR }\DIFdelendFL \DIFaddbeginFL \gls{lsar} \DIFaddendFL algorithm interpolating corrupted wavelet coefficients.}
 \label{fig:RestoredLSARExample}
 \end{figure}
 
@@ -263,10 +264,10 @@ An example of the \gls{lsar} interpolation algorithm is shown in Figure~\ref{fig
 %\end{figure}
 
 \section{Tonal Restoration}\label{sec:TonalFiltering}
-While the aim of the pre-processing separation stage is to separate out tonal components from transient noise events, the tonal components themselves occasionally retain components introduced by the noise events. These tonal noise components are not always present, but factors such as the amplitude of the pulse, mechanical properties of the keyboard or the laptop enclosure and even the surface on which the keyboard or computer is placed can have an impact on whether or not these components are present to the extent that they get identified as tonal components. Constraints such as frame sizes in the system can also add to the amount of noise leaking through to the tonal components. A short frame size can contribute to this effect.
+While the aim of the \DIFdelbegin \DIFdel{pre processing }\DIFdelend \DIFaddbegin \DIFadd{pre-processing }\DIFaddend separation stage is to separate out tonal components from transient noise events, the tonal components themselves occasionally retain components introduced by the noise events. These tonal noise components are not always present, but factors such as the amplitude of the pulse, mechanical properties of the keyboard or the laptop enclosure and even the surface on which the keyboard or computer is placed can have an impact on whether or not these components are present to the extent that \DIFaddbegin \DIFadd{they }\DIFaddend get identified as tonal components. Constraints such as frame sizes in the system can also add to the amount of noise leaking through to the tonal components. A short frame size can contribute to this effect.
 
 \subsection{Basic filtering}\label{sec:TonalFiltering}
-The most common noise component left in the tonal component of the signal is a low frequency \emph{bump}. Figure~\ref{fig:TonalArtefactSpectrumExample.png} shows an example of this, with an accompanying spectrogram. While it may be difficult to clearly visualise the extent of the corruption within a speech segment, it is nevertheless clearly audible\footnote{Audio examples can be found on \siteURL}.
+The most common noise component left in the tonal component of the signal is a low frequency \emph{bump}. Figure~\ref{fig:TonalArtefactSpectrumExample.png} shows an example of this, with an accompanying spectrogram. While it may be difficult to clearly visualise the extent of the corruption within a speech segment, it is \DIFdelbegin \DIFdel{although }\DIFdelend \DIFaddbegin \DIFadd{nevertheless }\DIFaddend clearly audible\footnote{Audio examples can be found on \siteURL}.
 
 \begin{figure} %TonalArtefactSpectrumExample.png
 \centering
@@ -276,7 +277,7 @@ The most common noise component left in the tonal component of the signal is a l
 %\put(-320,290){b)}
 %\put(-320,140){c)}
 \end{picture}
-\caption{Example of low frequency tonal noise. A \emph{bump}. Top: Waveform and Bottom: Spectrogram of same sequence. Bump is located between 0.075 - 0.275 seconds.}
+\caption{Example of low frequency tonal noise. A \emph{bump}. Top: Waveform and Bottom: Spectrogram of same sequence. \DIFaddbeginFL \DIFaddFL{Bump is located between 0.075 - 0.275 seconds.}\DIFaddendFL }
 \label{fig:TonalArtefactSpectrumExample.png}
 \end{figure}
 
@@ -326,7 +327,7 @@ Figure~\ref{fig:TonalRestoration_Spec_Orig.png} shows the spectrogram of a keybo
 \label{fig:TonalRestoration_Spec_Orig.png}
 \end{figure}
 
-Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png} shows a spectrogram of the audio segment from Figure~\ref{fig:TonalRestoration_Spec_Orig.png} with the Filtered Noise residual restoration from section~\ref{sec:ResidualRestorationFilteredNoise} applied. The separation algorithm has largely kept the voiced signal below 1500 Hz intact but some higher frequency information from the noise pulse has also been detected as tonal components and hence is still clearly visible in the spectrogram. These components, combined with the underlying voiced signal, arewhat can sometimes be detected as tonal components by the separation algorithm. Rather that replacing the data from the influenced buffers completely, which was done for the majority of the residual restoration algorithms, this section will explore a heuristic method for filtering out interfering tonal components while keeping voiced components intact and undisturbed.
+Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png} shows a spectrogram of the audio segment from Figure~\ref{fig:TonalRestoration_Spec_Orig.png} with the Filtered Noise residual restoration from section~\ref{sec:ResidualRestorationFilteredNoise} applied. The separation algorithm has largely kept the voiced signal below 1500 Hz intact but some higher frequency information from the noise pulse has also been detected as tonal components and hence \DIFdelbegin \DIFdel{are }\DIFdelend \DIFaddbegin \DIFadd{is }\DIFaddend still clearly visible in the spectrogram. These components, combined with the underlying voiced signal, \DIFdelbegin \DIFdel{is what }\DIFdelend \DIFaddbegin \DIFadd{arewhat }\DIFaddend can sometimes be detected as tonal components by the separation algorithm. Rather that replacing the data from the influenced buffers completely, which was done for the majority of the residual restoration algorithms, this section will explore a heuristic method for filtering out interfering tonal components while keeping voiced components intact and undisturbed.
 
 \begin{figure} %TonalRestoration_Spec_ResidualRestoration.png
 \centering
@@ -352,7 +353,7 @@ Since voiced components of speech are generally seen for at least 100 ms, this t
 \label{fig:TonalRestoration_Spec_ResidualRestorationFrames.png}
 \end{figure}
 
-Figure~\ref{fig:TonalRestoratio_FramesLogic.pdf} shows a diagram of the logic in the tonal filtering algorithm applied to the tonal component of a frame or buffer that is found to be corrupted by a noise pulse. The algorithm begins by calculating the binary sum vector from the magnitude history buffer. This vector will serve as a template for which frequencies would be expected in a corrupted frame. The vector in Figure~\ref{fig:TonalRestoratio_FramesLogic.pdf} annotated as ``Noise profile'' indicates tonal components detected during the corrupted frame. Filtering the current noise profile based on the magnitude history, it is now possible to remove newly introduced frequencies that are likely due to the corruption.
+Figure~\ref{fig:TonalRestoratio_FramesLogic.pdf} shows a diagram of the logic in the tonal filtering algorithm applied to the tonal component of a frame or buffer that is found to be corrupted by a noise pulse. The algorithm begins by calculating the binary sum vector from the magnitude history buffer. This vector will serve as a template for which frequencies would be expected in a corrupted frame. The vector in Figure~\ref{fig:TonalRestoratio_FramesLogic.pdf} annotated as ``Noise profile'' indicates tonal components detected during the corrupted frame. Filtering the current noise profile based on the magnitude history\DIFaddbegin \DIFadd{, }\DIFaddend it is now possible to remove newly introduced frequencies that are likely due to the corruption.
 
 \begin{figure} %TonalRestoratio_FramesLogic.pdf
 \centering
@@ -410,7 +411,7 @@ While the filtered tonal components in a corrupted frame might now contain only 
 \label{fig:TonalRestoratio_Spec_MagFiltScale.png}
 \end{figure}
 
-After applying both tonal filtering and rescaling, Figure~\ref{fig:TonalRestoratio_Spec_MagFiltScale.png} shows the resulting spectrogram. While the initial pulse has been removed from the spectrogram a secondary pulse is still visible. This pulse shows how louder pulses influence multiple buffers and therefore it is necessary to employ filtering procedures for a number of frames after each detected corruption.
+After applying both tonal filtering and rescaling\DIFaddbegin \DIFadd{, }\DIFaddend Figure~\ref{fig:TonalRestoratio_Spec_MagFiltScale.png} shows the resulting spectrogram. While the initial pulse has been removed from the spectrogram a secondary pulse is still visible. This pulse shows how louder pulses influence multiple buffers and therefore it is necessary to employ filtering procedures for a number of frames after each detected corruption.
 
 Figure~\ref{fig:TonalRestoratio_TonalFuture.pdf} shows a diagram of the logic employed to filter out remnants of noise pulses following a keyboard stroke detection. The algorithm contains 2 major components. First it applies a window function to the future tonal components so at the end of the procedure the algorithm performs as before a corruption was detected. Secondly the algorithm continues to apply the filtering and re-scaling functions from the historic buffer, because this second part of the algorithm is largely made up data this will be faded out as the original data is faded back in.
 
@@ -480,47 +481,48 @@ Figure~\ref{fig:restorationPP.pdf} shows a diagrammatic representation of the re
 
 \section{Methods}\label{sec:RestorationMethods}
 \subsection{Computational time test}
-While most of the results focus on reconstruction quality in various ways, it is important to note that since this algorithm is intended for sequential implementation in communication networks, the computational complexity is of imminent concern. Although traditional complexity measures would rate both the \gls{lsar} and the \gls{ar} filtered algorithms as $O(n^2)$ the real world computational time could be vastly different. In an attempt to quantify these differences the core code was repeatedly run $N=1000$ or $N=100$ times on various machines. The total computational time was divided by the total time for the audio segments processed. While reconstruction was only needed for a fraction of the audio segment length, this scaling gives an average relative computational effort for a real world corrupted signal scenario.
+While most of the results focus on reconstruction quality in various ways, it is important to note that since this algorithm is intended for sequential implementation in communication networks, the computational complexity is of imminent concern. Although traditional complexity measures would rate both the \DIFdelbegin \DIFdel{LSAR and the AR }\DIFdelend \DIFaddbegin \gls{lsar} \DIFadd{and the }\gls{ar} \DIFaddend filtered algorithms as $O(n^2)$ the real world computational time could be vastly different. In an attempt to quantify these differences the core code was repeatedly run $N=1000$ or $N=100$ times on various machines. The total computational time was divided by the total time for the audio segments processed. While reconstruction was only needed for a fraction of the audio segment length, this scaling gives an average relative computational effort for a real world corrupted signal scenario.
 
-The \gls{ar} order of the models were comparable so that the waveform/time based methods had a model order of $p_t = p_w 2^L$ for $L$ wavelet decomposition levels, to give the filters relatively the same effect. This scaling of model order is possible due to the complete decimation at the various wavelet levels which reduces the number of resonance modes to model allowing for this model order reduction \cite{Esquef2006}. In addition the gap length is reduced. For these tests the filter order $p_w = 100$ was used.
+The \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend order of the models were comparable so that the waveform/time based methods had a model order of $p_t = p_w 2^L$ for $L$ wavelet decomposition \DIFdelbegin \DIFdel{level }\DIFdelend \DIFaddbegin \DIFadd{levels, }\DIFaddend to give the filters relatively the same effect. This scaling of model order is possible due to the complete decimation at the various wavelet levels which reduces the number of resonance modes to model allowing for this model order reduction \cite{Esquef2006}. In addition the gap length is reduced. For these tests the filter order $p_w = 100$ was used.
 
-Although no part of the code is optimised and the timings are done exclusively in Matlab, the code has been written using Matlab's in-built functions as often as possible. Methods tested all used the same vector segmentation code and so the only differing code was the actual reconstruction process. The computers used for the test were running a variety of Matlab versions but all on the Windows operating system, and all times were conducted using the real time stop watch functions in Matlab. In addition it should be noted that no parallelisation, automatic or manual, was enabled within Matlab. Lastly all methods tested were run using the same \gls{ar} model order and both estimating the \gls{ar} model solving the Yule-Walker equations.
+Although \DIFdelbegin \DIFdel{non }\DIFdelend \DIFaddbegin \DIFadd{no part }\DIFaddend of the code is optimised and the timings are done exclusively in Matlab, the code has been written \DIFdelbegin \DIFdel{use }\DIFdelend \DIFaddbegin \DIFadd{using }\DIFaddend Matlab's in-built functions as often as possible. Methods tested all used the same vector segmentation code and so the only differing code was the actual reconstruction process. The computers used for the test were running a variety of Matlab versions but all on the Windows operating system, and all times were conducted using the real time stop watch functions in Matlab. In addition it should be noted that no parallelisation, automatic or manual, was enabled within Matlab. Lastly all methods tested were run using the same \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend model order and both estimating the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend model solving the Yule-Walker equations.
 
 \subsection{Subjective test}
 A subjective listening test was designed to gauge the preference of listeners to reconstructed corruptions in relation to the original corruption. Since the reconstruction procedure, in most cases, still leaves or introduces artifacts in the audio stream the experiment was intended to measure if the artificial noise would in fact be more of an audible nuisance than the original keystrokes.
 
 %What was tested and why that.
-The combination of algorithms selected for testing were the separation algorithm with a 160 sample frame window, the \gls{ar} filtering detection algorithm with the \gls{ar} filtering with noise reconstruction and the full historical tonal reconstruction algorithm. The discussion provided in section~\ref{sec:RestorationDiscussion} outlines the background for these choices and concludes that this combination provides the best performance versus complexity tradeoff.
+The combination of algorithms selected for testing were the separation algorithm with a 160 sample frame window, the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filtering detection algorithm with the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filtering with noise reconstruction and the full historical tonal reconstruction algorithm. The discussion provided in section~\ref{sec:RestorationDiscussion} outlines the background for these choices and concludes that this combination provides the best performance versus complexity tradeoff.
 
 %Wavelet type chosen
-The mother wavelet basis selected was the Daubechies 8 (db8) wavelet \cite{Daubechies1992}, with a quadrature filter of order 16. Db8 is selected mainly for its relatively low order but it was also found, through tests not reproduced here, to perform comparably to competing bases such as various Daubechies lengths, Haar and discrete Meyer.
+The mother wavelet basis selected was the Daubechies 8 (db8) wavelet \cite{Daubechies1992}, with a quadrature filter of order 16. Db8 is selected mainly for its relatively low order but it was also found, through tests not reproduced here, to perform comparably to competing bases \DIFaddbegin \DIFadd{such as various Daubechies lengths, Haar and discrete Meyer}\DIFaddend .
 
-\label{corrections:subjects}The test subjects for this test comprised 16 individuals found around the research office. Subjects were predominantly male (13 male, 3 female) and in their mid to early 20s. Subjects were all familiar with digital signal processing methodology, and should be considered as expert listeners, but none were employed in the area of audio signal processing. Tests were conducted at the subject's desk in a quiet office environment. No training was given beyond explaining the function of the \gls{gui} and no other listening tests were conducted with any of the subjects. No compensation was offered and no prospective subjects declined to participate. Most of the subjects were familiar with the research being investigated.
+\DIFdelbegin \DIFdel{Subjects were }\DIFdelend \DIFaddbegin \label{corrections:subjects}\DIFadd{The test subjects for this test comprised 16 individuals found around the research office. Subjects were predominantly male (13 male, 3 female) and in their mid to early 20s. Subjects were all familiar with digital signal processing methodology, and should be considered as expert listeners, but none were employed in the area of audio signal processing. Tests were conducted at the subject's desk in a quiet office environment. No training was given beyond explaining the function of the }\gls{gui} \DIFadd{and no other listening tests were conducted with any of the subjects. No compensation was offered and no prospective subjects declined to participate. Most of the subjects were familiar with the research being investigated.
+}
 
-Subjects were presented with 12 test sets consisting of 2 audio segments each; the original audio segment containing speech and a number of keystrokes and the reconstructed segment. The order of these segments was randomized throughout the trial. The audio segments used for this test were a mix of fast typing and slow typing, recorded through laptops and external microphones, naturally corrupted segments and keystrokes added to clean segments, male or female speech and a variety of keyboards types and makes.
+\DIFadd{Subjects were }\DIFaddend presented with 12 test sets consisting of 2 audio segments each; the original audio segment containing speech and a number of keystrokes and the reconstructed segment. The order of these segments was randomized throughout the trial. The audio segments used for this test were a mix of fast typing and slow typing, recorded through laptops and external microphones, naturally corrupted segments and keystrokes added to clean segments, male or female speech and a variety of keyboards types and makes.
 
-\begin{table}
-\caption{Details about the test files used in the listening test.} \centering
+\DIFdelbegin \DIFdel{The Graphical User Interface (GUI) }\DIFdelend \DIFaddbegin \begin{table}
+\caption{\DIFaddFL{Details about the test files used in the listening test.}} \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
-  k & Speech & Description & length [s] \\ \hline
-  1 & Female & Fast typing & 4\\
-  2 & Male & Slow typing (2 key strokes) & 4\\
-  3 & Male & Slow typing (4 key strokes) & 10\\
-  4 & Male & Mixed typing (6 key strokes) & 6\\
-  5 & Male & Slow typing (3 key strokes) & 4\\
-  6 & Male & Slow typing (1 key stroke) & 2\\
-  7 & Male & Slow typing (2 key strokes) & 2\\
-  8 & Male & Slow typing (5 key strokes) & 10\\
-  9 & Male & Fast typing & 1\\
-  10& Male & Slow typing (3 key strokes) & 4\\
-  11& Female & Fast typing & 3\\
-  12& Female & Fast typing  & 5\\
+  \DIFaddFL{k }& \DIFaddFL{Speech }& \DIFaddFL{Description }& \DIFaddFL{length }[\DIFaddFL{s}] \\ \hline
+  \DIFaddFL{1 }& \DIFaddFL{Female }& \DIFaddFL{Fast typing }& \DIFaddFL{4}\\
+  \DIFaddFL{2 }& \DIFaddFL{Male }& \DIFaddFL{Slow typing (2 key strokes) }& \DIFaddFL{4}\\
+  \DIFaddFL{3 }& \DIFaddFL{Male }& \DIFaddFL{Slow typing (4 key strokes) }& \DIFaddFL{10}\\
+  \DIFaddFL{4 }& \DIFaddFL{Male }& \DIFaddFL{Mixed typing (6 key strokes) }& \DIFaddFL{6}\\
+  \DIFaddFL{5 }& \DIFaddFL{Male }& \DIFaddFL{Slow typing (3 key strokes) }& \DIFaddFL{4}\\
+  \DIFaddFL{6 }& \DIFaddFL{Male }& \DIFaddFL{Slow typing (1 key stroke) }& \DIFaddFL{2}\\
+  \DIFaddFL{7 }& \DIFaddFL{Male }& \DIFaddFL{Slow typing (2 key strokes) }& \DIFaddFL{2}\\
+  \DIFaddFL{8 }& \DIFaddFL{Male }& \DIFaddFL{Slow typing (5 key strokes) }& \DIFaddFL{10}\\
+  \DIFaddFL{9 }& \DIFaddFL{Male }& \DIFaddFL{Fast typing }& \DIFaddFL{1}\\
+  \DIFaddFL{10}& \DIFaddFL{Male }& \DIFaddFL{Slow typing (3 key strokes) }& \DIFaddFL{4}\\
+  \DIFaddFL{11}& \DIFaddFL{Female }& \DIFaddFL{Fast typing }& \DIFaddFL{3}\\
+  \DIFaddFL{12}& \DIFaddFL{Female }& \DIFaddFL{Fast typing  }& \DIFaddFL{5}\\
   \hline
 \end{tabular}
  \label{table:ListenerTestFiles}
 \end{table}
-The \gls{gui} presented to the test subjects is shown in Figure~\ref{fig:SubjectiveExp_GUI.png}.
+\DIFadd{The }\gls{gui} \DIFaddend presented to the test subjects is shown in Figure~\ref{fig:SubjectiveExp_GUI.png}.
 
 \begin{figure}[!] %SubjectiveExp_GUI.png
 \centering
@@ -529,20 +531,20 @@ The \gls{gui} presented to the test subjects is shown in Figure~\ref{fig:Subject
 %\put(-355,120){Frequency}
 %\put(-200,0){Time}
 \end{picture}
-\caption{Experimental \gls{gui} presented to subjects.}
+\caption{Experimental \DIFdelbeginFL \DIFdelFL{GUI }\DIFdelendFL \DIFaddbeginFL \gls{gui} \DIFaddendFL presented to subjects.}
 \label{fig:SubjectiveExp_GUI.png}
 \end{figure}
 
-Subjects were asked to choose their preferred audio segment or the one they found the ``least annoying''. If they found both segments equally annoying or equally pleasing they could opt to tick both boxes and proceed. All audio segments were sampled at 16kHz, ranged from 1 to 10 seconds in length (mainly in the range 3-5 seconds, see Table~\ref{table:ListenerTestFiles}), and were run through a completely sequential version of the final algorithm as it would work implemented in a communication framework. All subjects used the same set of AKG K-240 Mk1 circumaural open back headphones in a quiet office environment through a laptop computer audio interface and were allowed to replay audio segments as they pleased. It is noted that this test did not specifically comply with any \gls{itu} standards.
+Subjects were asked to choose their preferred audio segment or the one they found the ``least annoying''. If they found both segments equally annoying or equally pleasing they could opt to tick both boxes and proceed. All audio segments were sampled at 16kHz, ranged from 1 to 10 seconds in length (mainly in the range 3-5 seconds\DIFaddbegin \DIFadd{, see Table~\ref{table:ListenerTestFiles}}\DIFaddend ), and were run through a completely sequential version of the final algorithm as it would work implemented in a communication framework. All subjects used the same set of AKG K-240 \DIFdelbegin \DIFdel{M1 }\DIFdelend \DIFaddbegin \DIFadd{Mk1 }\DIFaddend circumaural open back headphones in a quiet office environment through a laptop computer audio interface and were allowed to replay audio segments as they pleased. \DIFdelbegin \DIFdel{The test was conducted on 16 individuals found in and around the office. Most of the subjects were familiar with the research being investigated}\DIFdelend \DIFaddbegin \DIFadd{It is noted that this test did not specifically comply with any }\gls{itu} \DIFadd{standards}\DIFaddend .
 
 \subsection{Objective tests}
 A variety of measures for evaluating the performance and the quality of the reconstructed signals are used as results in this chapter.\todo{more}
 \subsubsection{Objective perceptual tests}
-The \gls{peaq} and \gls{pesq} are industry standard perceptual methods for objectively evaluating the perceived quality of audio and speech specifically.
+The \DIFdelbegin \DIFdel{Perceptual Evaluation of Audio Quality (PEAQ) and Perceptual Evaluation of Speech Quality (PESQ) }\DIFdelend \DIFaddbegin \gls{peaq} \DIFadd{and }\gls{pesq} \DIFaddend are industry standard perceptual methods for objectively evaluating the perceived quality of audio and speech specifically.
 
-\gls{peaq} is standardised by the \gls{itu-r} through the \gls{itu-r} Recommendation BS.1387 \cite{BS-1387-1998} of 1998. The implementation used to generate the results in this chapter is the PQevalAudio package from the TSP Lab of McGill University \cite{Kabal2003}. It is noted that \gls{itu-r} BS.1387 does not provide sufficient information for a conforming implementation \cite{Campeanu2005} and so PQevalAudio fails to fall within the tight bounds of the standard. Despite this, evaluations of the package suggest that it comes close enough to warrant its use as a quality impairment measurement \cite{Kabal2003}.
+\DIFdelbegin \DIFdel{PEAQ }\DIFdelend \DIFaddbegin \gls{peaq} \DIFaddend is standardised by the \DIFdelbegin \DIFdel{International Telecommunication Union's Radiocommunication Sector (ITU-R) through the ITU-R }\DIFdelend \DIFaddbegin \gls{itu-r} \DIFadd{through the }\gls{itu-r} \DIFaddend Recommendation BS.1387 \cite{BS-1387-1998} of 1998. The implementation used to generate the results in this chapter is the PQevalAudio package from the TSP Lab of McGill University \cite{Kabal2003}. It is noted that \DIFdelbegin \DIFdel{ITU-R }\DIFdelend \DIFaddbegin \gls{itu-r} \DIFaddend BS.1387 does not provide sufficient information for a conforming implementation \cite{Campeanu2005} and so PQevalAudio fails to fall within the tight bounds of the standard. Despite this, evaluations of the package suggest that it comes close enough to \DIFdelbegin \DIFdel{warrants }\DIFdelend \DIFaddbegin \DIFadd{warrant }\DIFaddend its use as a quality impairment measurement \cite{Kabal2003}.
 
-PQevalAudio measures the audio quality with a \gls{mos} based \gls{odg} in relation to a reference signal. The \gls{mos}\cite{P-800-1996} and Difference grade \cite{Kabal2003} are defined in Table~\ref{tab:MOS} where the description of impairments is the relevant measure for the results in this chapter.
+PQevalAudio measures the audio quality with a \DIFdelbegin \DIFdel{Mean Opinion Score (MOS) based Objective Difference Grade (ODG) }\DIFdelend \DIFaddbegin \gls{mos} \DIFadd{based }\gls{odg} \DIFaddend in relation to a reference signal. The \DIFdelbegin \DIFdel{MOS}\DIFdelend \DIFaddbegin \gls{mos}\DIFaddend \cite{P-800-1996} and Difference grade \cite{Kabal2003} \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{are }\DIFaddend defined in Table~\ref{tab:MOS} where the description of impairments is the relevant measure for the results in this chapter.
 
 \begin{table}\begin{center}
 \caption{Mean Opinion Score (MOS)}
@@ -556,12 +558,12 @@ MOS & Difference Grade  & Quality       & Description of Impairments  \\ \hline
 1   & -4                & Bad           & Very annoying               \\ \hline
 \end{tabular}\end{center}\end{table}
 
-\gls{pesq}, or the specific wide band adaptation \gls{pesq}-WB \cite{P862-2-2005}, is, unlike \gls{peaq}, designed specifically for speech quality measures, and was first standardised as \gls{itu}-Telecommunication (ITU-T) Recommendation P.862 in 2001 with a wide band addition in 2005 \cite{P862-2-2005}. The package used to generate the \gls{pesq} measures in this chapter was supplied with \cite{Loizou2007}, and quantifies the objective perceptual quality with a \gls{mos} of impairments as defined in Table~\ref{tab:MOS}.
+\DIFdelbegin \DIFdel{PESQ}\DIFdelend \DIFaddbegin \gls{pesq}\DIFaddend , or the specific wide band adaptation \DIFdelbegin \DIFdel{PESQ-WB}\DIFdelend \DIFaddbegin \gls{pesq}\DIFadd{-WB }\DIFaddend \cite{P862-2-2005}, is, unlike \DIFdelbegin \DIFdel{PEAQ}\DIFdelend \DIFaddbegin \gls{peaq}\DIFaddend , designed specifically for speech quality measures, and was first standardised as \DIFdelbegin \DIFdel{ITU-Telecommunication }\DIFdelend \DIFaddbegin \gls{itu}\DIFadd{-Telecommunication }\DIFaddend (ITU-T) Recommendation P.862 in 2001 with a wide band addition in 2005 \cite{P862-2-2005}. The package used to generate the \DIFdelbegin \DIFdel{PESQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFaddend measures in this chapter was supplied with \cite{Loizou2007}, and quantifies the objective perceptual quality with a \DIFdelbegin \DIFdel{MOS }\DIFdelend \DIFaddbegin \gls{mos} \DIFaddend of impairments as defined in Table~\ref{tab:MOS}.
 
-It is beyond the scope of this document to further describe the \gls{peaq} and \gls{pesq} methods in more detail. Please refer to the cited literature for further detail.
+It is beyond the scope of this document to further describe the \DIFdelbegin \DIFdel{PEAQ and PESQ }\DIFdelend \DIFaddbegin \gls{peaq} \DIFadd{and }\gls{pesq} \DIFaddend methods in more detail. Please refer to the cited literature for further detail.
 
 \subsubsection{Other measures}
-Further to \gls{peaq} and \gls{pesq}, the quality of the reconstructions in this chapter will also be quantified using the \gls{mse}. \gls{mse} is a measure of the average of the squares of the errors, or the amount which a value differs from a reference value, and is defined by:
+Further to \DIFdelbegin \DIFdel{PEAQ and PESQ}\DIFdelend \DIFaddbegin \gls{peaq} \DIFadd{and }\gls{pesq}\DIFaddend , the quality of the reconstructions in this chapter will also be quantified using the \DIFdelbegin \DIFdel{Mean Squared Error (MSE). MSE }\DIFdelend \DIFaddbegin \gls{mse}\DIFadd{. }\gls{mse} \DIFaddend is a measure of the average of the squares of the errors, or the amount which a value differs from a reference value, and is defined by:
 
 \begin{equation}\label{eq:MSEdef}
 \textrm{MSE}\left(\hat{x}\right) = \textrm{E} \left[ \left( \hat{x} - x \right)^2\right].
@@ -569,22 +571,25 @@ Further to \gls{peaq} and \gls{pesq}, the quality of the reconstructions in this
 
 Here $\hat{x}$ is an estimator and $x$ is the reference value.
 
-A frame based \gls{mse} is also used in this chapter to give a temporal representation of the \gls{mse}. This measure is simply the \gls{mse} applied to overlapping frames throughout the signal.
+A frame based \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend is also used in this chapter to give a temporal representation of the \DIFdelbegin \DIFdel{MSE}\DIFdelend \DIFaddbegin \gls{mse}\DIFaddend . This measure is simply the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend applied to overlapping frames throughout the signal.
 
-It is important to stress that the \gls{mse} does not give a measure of the perceptibility of an error but just a numeric indication of the magnitude of this error. While a phase shift might be imperceptible to the listener it could potentially give a significant \gls{mse} response, while low amplitude noise modulated in phase with a signal could potentially be clearly audible while resulting in only a minor \gls{mse} response. For impulsive noise with a large magnitude in relation to the underlying signal it does provide sparse visual reference for evaluating impulsive noise and the reconstruction of corrupted samples and it is to that extent the \gls{mse} is primarily used in this chapter.
+It is important to stress that the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend does not give a measure of the perceptibility of an error but just a numeric indication of the magnitude of this error. While a phase shift might be imperceptible to the listener it could potentially give a significant \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend response, while low amplitude noise modulated in phase with a signal could potentially be clearly audible while resulting in only a minor \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend response. For impulsive noise with a large magnitude in relation to the underlying signal it does provide sparse visual reference for evaluating impulsive noise and the reconstruction of corrupted samples and it is to that extent the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend is primarily used in this chapter.
 
-%\todo{Will I even use \gls{psnr}?}
-%The \gls{psnr} is a measure of the maximum possible power of a signal in relation to the power of a corrupting noise, and is defined as
+%DIF < \todo{Will I even use PSNR?}
+%DIF < The Peak Signal to Noise Ration (PSNR) is a measure of the maximum possible power of a signal in relation to the power of a corrupting noise, and is defined as
+%DIF > \todo{Will I even use \gls{psnr}?}
+%DIF > The \gls{psnr} is a measure of the maximum possible power of a signal in relation to the power of a corrupting noise, and is defined as
 %
 %\begin{equation}\label{eq:PSNRdef}
 %\textrm{PSNR} = 20 \log_{10} \left( \frac{\textrm{MAX}_\textrm{I}}{\sqrt{\textrm{MSE}}} \right),
 %\end{equation}
-%where \gls{mse}\textsubscript{I} is the maximum possible value for a sample.
+%DIF < where MSE\textsubscript{I} is the maximum possible value for a sample.
+%DIF > where \gls{mse}\textsubscript{I} is the maximum possible value for a sample.
 
 
 \section{Results}\label{sec:RestorationResults}
 \subsection{Preliminary computational measures}\label{sec:CompData}
-Some benchmark computational results from the reconstruction algorithms are presented in Table~\ref{tab:CompData}. All methods tested here use an \gls{ar} model order of $p_w=100$ for wavelet based methods, and an order of $p_t=800$ for waveform/time based methods. For all \gls{pc} tested the computational time for the \gls{lsar} algorithm is 2 orders of magnitude higher than the simple \gls{ar} filtering algorithm with noise on the wavelet based methods. The filtering method applied to the waveform and the wavelet basis had similar computational impact.
+Some benchmark computational results from the reconstruction algorithms are presented in Table~\ref{tab:CompData}. \DIFdelbegin \DIFdel{Both }\DIFdelend \DIFaddbegin \DIFadd{All }\DIFaddend methods tested here use an \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend model order of $p_w=100$ for wavelet based methods, and an order of $p_t=800$ for waveform/time based methods. For all \DIFdelbegin \DIFdel{PCs }\DIFdelend \DIFaddbegin \gls{pc} \DIFaddend tested the computational time for the \DIFdelbegin \DIFdel{LSAR }\DIFdelend \DIFaddbegin \gls{lsar} \DIFaddend algorithm is 2 orders of magnitude higher than the simple \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filtering algorithm with noise on the wavelet based methods. The filtering method applied to the waveform and the wavelet basis had similar computational impact.
 
 \begin{table}\begin{center}
 \caption{Computational time measures relative to audio segment length. Number of iterations $N=1000$ unless otherwise stated.}
@@ -594,8 +599,8 @@ Some benchmark computational results from the reconstruction algorithms are pres
                                 & PC 1              & PC 2              & PC 3              &  Mean \\ \hline
   Filtering w. noise (wavelet)  & 1.9 $\ttt{-3}$    & 3.4 $\ttt{-3}$    & 2.6 $\ttt{-3}$    &  2.6 $\ttt{-3}$  \\
   Filtering w. noise (waveform) & 1.8 $\ttt{-3}$    & 4.1 $\ttt{-3}$    & 2.9 $\ttt{-3}$    &  2.9 $\ttt{-3}$  \\
-  \gls{lsar} (wavelet)                & 1.0 $\ttt{-1}$    & 2.3 $\ttt{-1}$    & 2.5 $\ttt{-1}$    &  1.9 $\ttt{-1}$  \\
-  \gls{lsar} (waveform) (N=100)       & 2.3 $\ttt{0}$     & 4.0 $\ttt{0}$     & 3.9 $\ttt{0}$     &  3.4 $\ttt{0}$  \\ \hline
+  \DIFdelbeginFL \DIFdelFL{LSAR }\DIFdelendFL \DIFaddbeginFL \gls{lsar} \DIFaddendFL (wavelet)                & 1.0 $\ttt{-1}$    & 2.3 $\ttt{-1}$    & 2.5 $\ttt{-1}$    &  1.9 $\ttt{-1}$  \\
+  \DIFdelbeginFL \DIFdelFL{LSAR }\DIFdelendFL \DIFaddbeginFL \gls{lsar} \DIFaddendFL (waveform) (N=100)       & 2.3 $\ttt{0}$     & 4.0 $\ttt{0}$     & 3.9 $\ttt{0}$     &  3.4 $\ttt{0}$  \\ \hline
 \end{tabular}\end{center}\end{table}
 
 
@@ -618,7 +623,7 @@ Figure~\ref{fig:SubjectiveExp_PerTestData.pdf} shows the results for each of the
 \label{fig:SubjectiveExp_PerTestData.pdf}
 \end{figure}
 
-It was noted that subjects' preferences generally varied greatly. Some subjects almost entirely preferred the original segments while others were heavily in favour of the reconstructions. Most were however split throughout the sets with a slight preference in favour of the reconstructed samples. Figure~\ref{fig:SubjectiveExp_PreferenceHistogram.pdf} shows a histogram of the data from the experiment. From this figure it can be seen how the mode of the distribution of number of preferences of the reconstructed audio segment is higher (7) than that for the number of preference for the original audio segment (4). In other words, 4 subjects preferred the reconstructed segment 7 times in the test, while 4 subjects preferred the original only 4 times.
+It was noted that subjects' preferences generally varied greatly. Some subjects almost entirely preferred the original segments while others were heavily in favour of the reconstructions. Most were \DIFdelbegin \DIFdel{although }\DIFdelend \DIFaddbegin \DIFadd{however }\DIFaddend split throughout the sets with a slight preference in favour of the reconstructed samples. Figure~\ref{fig:SubjectiveExp_PreferenceHistogram.pdf} shows a histogram of the data from the experiment. From this figure it can be seen how the mode of the distribution of number of preferences of the reconstructed audio segment is higher (7) than that for the number of preference for the original audio segment (4). In other words, 4 subjects preferred the reconstructed segment 7 times in the test, while 4 subjects preferred the original only 4 times.
 
 \begin{figure}[!] %SubjectiveExp_PreferenceHistogram.pdf
 \centering
@@ -631,16 +636,16 @@ It was noted that subjects' preferences generally varied greatly. Some subjects 
 \label{fig:SubjectiveExp_PreferenceHistogram.pdf}
 \end{figure}
 
-While the results from this test do not conclusively show a preference of the reconstructed audio segments amongst listeners it can be said that there is a slight preference for the reconstructed audio segments. Listeners who were generally in favor of the original segments reported that they preferred the ``naturally'' sounding corruptions to the more artificially sounding corruptions left by the algorithm, especially when these were imbedded in speech. Other users also noted that the key strokes were not generally perceived to be a nuisance at all. These preliminary findings underline the importance of natural and predictably sounding reconstructions.
+While the results from this test \DIFdelbegin \DIFdel{does }\DIFdelend \DIFaddbegin \DIFadd{do }\DIFaddend not conclusively show a preference of the reconstructed audio segments amongst listeners it can be said that there is a slight preference \DIFdelbegin \DIFdel{to }\DIFdelend \DIFaddbegin \DIFadd{for }\DIFaddend the reconstructed audio segments. Listeners who were generally in favor of the original segments reported that they preferred the ``naturally'' sounding corruptions to the more artificially sounding corruptions left by the algorithm, especially when these were imbedded in speech. Other users also noted that the key strokes were not generally perceived to be a nuisance at all. These preliminary findings underline the importance of natural and predictably sounding reconstructions.
 
 \subsection{Objective measures}
 %should some of that have been in the method section?
-The \gls{pesq} and the \gls{peaq} test methodologies were used to evaluate some of the data sets used in the subjective test, section~\ref{sec:ResultsSubjectiveTest}. The selected data sets were 2, 4, 6 and 11. Sets 2, 4 and 6 were chosen since, as seen in Figure~\ref{fig:SubjectiveExp_PerTestData.pdf}, the original audio segment was preferred or strongly preferred by the subjects. Set 11 was chosen as a reference for sets where the reconstructed segment was heavily preferred. These sets were also chosen since they were \emph{constructed} segments, meaning that the noisy signal was a linear addition of a clean speech signal and a noise track containing purely keyboard stroke noise. To calculate the \gls{pesq} and \gls{peaq} measures, having a reference signal was essential.
+The \DIFdelbegin \DIFdel{PESQ and the PEAQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFadd{and the }\gls{peaq} \DIFaddend test methodologies were used to evaluate some of the data sets used in the subjective test, section~\ref{sec:ResultsSubjectiveTest}. The selected data sets were 2, 4, 6 and 11. Sets 2, 4 and 6 were chosen since, as seen in Figure~\ref{fig:SubjectiveExp_PerTestData.pdf}, the original audio segment was preferred or strongly preferred by the subjects. Set 11 was chosen as a reference for sets \DIFdelbegin \DIFdel{were }\DIFdelend \DIFaddbegin \DIFadd{where }\DIFaddend the reconstructed segment was heavily preferred. These sets were also chosen since they were \emph{constructed} segments, meaning that the noisy signal was a linear addition of a clean speech signal and a noise track containing purely keyboard stroke noise. To calculate the \DIFdelbegin \DIFdel{PESQ and PEAQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFadd{and }\gls{peaq} \DIFaddend measures, having a reference signal was essential.
 
-Table~\ref{tab:PESQdata} shows the data from the \gls{pesq} tests. In all but set 2 the reconstructed audio sample was found to have a higher \gls{mos}, and the mean \gls{mos} was found to be 0.2 higher for the reconstructed segments with the biggest improvement being over 0.5 in set 11, which was also the only set where the subjects decidedly preferred the reconstruction over the original segment.
+Table~\ref{tab:PESQdata} shows the data from the \DIFdelbegin \DIFdel{PESQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFaddend tests. In all but set 2 the reconstructed audio sample was found to have a higher \DIFdelbegin \DIFdel{MOS}\DIFdelend \DIFaddbegin \gls{mos}\DIFaddend , and the mean \DIFdelbegin \DIFdel{MOS }\DIFdelend \DIFaddbegin \gls{mos} \DIFaddend was found to be 0.2 higher for the reconstructed segments with the biggest improvement being over 0.5 in set 11, which was also the only set where the subjects decidedly preferred the reconstruction over the original segment.
 
 \begin{table}\begin{center}
-\caption{\gls{pesq} \gls{mos} results for test sets 2, 4, 6 and 11.}
+\caption{\DIFdelbeginFL \DIFdelFL{PESQ MOS }\DIFdelendFL \DIFaddbeginFL \gls{pesq} \gls{mos} \DIFaddendFL results for test sets 2, 4, 6 and 11.}
 \label{tab:PESQdata}
 \begin{tabular}{|l|c|c|c|c|c|}\hline
                     & set 2 & set 4 & set 6 & set 11  & Mean \\ \hline
@@ -667,10 +672,10 @@ Table~\ref{tab:PESQdata} shows the data from the \gls{pesq} tests. In all but se
 % Prediction for ref4.wav/dirty4.wav: PESQ_MOS = 2.108
 
 
-Table~\ref{tab:PEAQdataODG} shows the \gls{peaq} \gls{odg} \gls{mos} for the same audio sets as in Table~\ref{tab:PESQdata}. Again it is seen that the reconstructed audio segments have on average an \gls{odg} \gls{mos} of 0.4 higher than the original signal, with a maximum difference found in the tests conducted on set 6 with a difference of over 1.5 \gls{mos}. It was also noted that the preferred segment by the subjects, set 11 reconstructed, was found to have a larger negative difference than the original in contrast to the \gls{pesq} results.
+Table~\ref{tab:PEAQdataODG} shows the \DIFdelbegin \DIFdel{PEAQ ODG MOS }\DIFdelend \DIFaddbegin \gls{peaq} \gls{odg} \gls{mos} \DIFaddend for the same audio sets as in Table~\ref{tab:PESQdata}. Again it is seen that the reconstructed audio segments have on average an \DIFdelbegin \DIFdel{ODG MOS }\DIFdelend \DIFaddbegin \gls{odg} \gls{mos} \DIFaddend of 0.4 higher than the original signal, with a maximum difference found in the tests conducted on set 6 with a difference of over 1.5 \DIFdelbegin \DIFdel{MOS}\DIFdelend \DIFaddbegin \gls{mos}\DIFaddend . It was also noted that the preferred segment by the subjects, set 11 reconstructed, was found to have a larger negative difference than the original in contrast to the \DIFdelbegin \DIFdel{PESQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFaddend results.
 
 \begin{table}\begin{center}
-\caption{\gls{peaq} \gls{odg} \gls{mos} results for test sets 2, 4, 6 and 11.}
+\caption{\DIFdelbeginFL \DIFdelFL{PEAQ ODG MOS }\DIFdelendFL \DIFaddbeginFL \gls{peaq} \gls{odg} \gls{mos} \DIFaddendFL results for test sets 2, 4, 6 and 11.}
 \label{tab:PEAQdataODG}
 \begin{tabular}{|l|c|c|c|c|c|}\hline
                     % file 3    & file 2    & file 1    & file 4
@@ -681,13 +686,13 @@ Table~\ref{tab:PEAQdataODG} shows the \gls{peaq} \gls{odg} \gls{mos} for the sam
   \hline
 \end{tabular}\end{center}\end{table}
 
-The \gls{peaq} implementation used \cite{Loizou2007} and featured a couple of other measures that have been included for completeness. A description of the measures, is included in section~\ref{ap:PEAQdata} on page~\pageref{ap:PEAQdata}.
+The \DIFdelbegin \DIFdel{PEAQ }\DIFdelend \DIFaddbegin \gls{peaq} \DIFaddend implementation used \cite{Loizou2007} \DIFaddbegin \DIFadd{and }\DIFaddend featured a couple of other measures that have been included for completeness\DIFdelbegin \DIFdel{, including a }\DIFdelend \DIFaddbegin \DIFadd{. A }\DIFaddend description of the measures, \DIFaddbegin \DIFadd{is included }\DIFaddend in section~\ref{ap:PEAQdata} on page~\pageref{ap:PEAQdata}.
 
 \subsection{Other measures}
-Table~\ref{tab:MaxMSE} shows the maximum \gls{mse} of the sets tested above. It is clearly seen that across the board the reconstructed signal has a lower maximum \gls{mse} which is on average 0.3 below the corrupted signal. The set with the most improved max \gls{mse}, set 11, and the sets with the least improvement, sets 2 and 4, are also the sets with the strongest polarisation in preference to the same effect of the chosen sets.
+Table~\ref{tab:MaxMSE} shows the maximum \DIFdelbegin \DIFdel{mean squared error (MSE) }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend of the sets tested above. It is clearly seen that across the board the reconstructed signal has a lower maximum \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend which is on average 0.3 below the corrupted signal. The set with the most improved max \DIFdelbegin \DIFdel{MSE}\DIFdelend \DIFaddbegin \gls{mse}\DIFaddend , set 11, and the sets with the least improvement, sets 2 and 4, are also the sets with the strongest polarisation in preference to the same effect of the chosen sets.
 
 \begin{table}\begin{center}
-\caption{Max \gls{mse} results for test sets 2, 4, 6 and 11.}
+\caption{Max \DIFdelbeginFL \DIFdelFL{MSE }\DIFdelendFL \DIFaddbeginFL \gls{mse} \DIFaddendFL results for test sets 2, 4, 6 and 11.}
 \label{tab:MaxMSE}
 \begin{tabular}{|l|c|c|c|c|c|}\hline
                     % file 3    & file 2    & file 1    & file 4
@@ -698,7 +703,7 @@ Table~\ref{tab:MaxMSE} shows the maximum \gls{mse} of the sets tested above. It 
   \hline
 \end{tabular}\end{center}\end{table}
 
-An example of one of the frame based \gls{mse} comparisons is shown in Figure~\ref{fig:MSEexampleSet11.pdf}. This figure shows a series of corruptions with a large part of them being detected and restored and as a result it exhibits a much reduced \gls{mse}. A couple of the noise pulses are not detected and as a result the \gls{mse} for both the corrupted signal and the reconstructed signal are identical and overlapping.
+An example of one of the frame based \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend comparisons is shown in Figure~\ref{fig:MSEexampleSet11.pdf}. This figure shows a series of corruptions with a large part of them being detected and restored and as a result it exhibits a much reduced \DIFdelbegin \DIFdel{MSE}\DIFdelend \DIFaddbegin \gls{mse}\DIFaddend . A couple of the noise pulses are not detected and as a result the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend for both the corrupted signal and the reconstructed signal are identical and overlapping.
 
 \begin{figure} %MSEexampleSet11.pdf
 \centering
@@ -707,11 +712,11 @@ An example of one of the frame based \gls{mse} comparisons is shown in Figure~\r
 \put(-320,395){(a)}
 \put(-320,185){(b)}
 \end{picture}
-\caption{\gls{mse} comparison for data set 11. (a) Corrupted, reconstructed and reference signals, and (b) framed \gls{mse} comparison of corrupted and reconstructed signal.}
+\caption{\DIFdelbeginFL \DIFdelFL{MSE }\DIFdelendFL \DIFaddbeginFL \gls{mse} \DIFaddendFL comparison for data set 11. (a) Corrupted, reconstructed and reference signals, and (b) framed \DIFdelbeginFL \DIFdelFL{MSE }\DIFdelendFL \DIFaddbeginFL \gls{mse} \DIFaddendFL comparison of corrupted and reconstructed signal.}
 \label{fig:MSEexampleSet11.pdf}
 \end{figure}
 
-Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\ref{fig:MSEexampleSet11.pdf} focusing on two major corruptions and one missed detection. The figure shows clearly how the reconstruction algorithm dramatically reduces the \gls{mse} of three of the corruptions and almost completely removes the error for one of them. It is also noted that one corruption was not detected and hence no reconstruction was attempted.
+Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\ref{fig:MSEexampleSet11.pdf} focusing on two major corruptions and one missed detection. The figure shows clearly how the reconstruction algorithm dramatically reduces the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend of three of the corruptions and almost completely removes the error for one of them. It is also noted that one corruption was not detected and hence no reconstruction was attempted.
 
 \begin{figure} %MSEexampleSet11Zoom.pdf
 \centering
@@ -720,15 +725,17 @@ Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\re
 \put(-320,395){(a)}
 \put(-320,185){(b)}
 \end{picture}
-\caption{Zoomed \gls{mse} comparison for data set 11. (a) Corrupted, reconstructed and reference signals, and (b) framed \gls{mse} comparison of corrupted and reconstructed signal.}
+\caption{Zoomed \DIFdelbeginFL \DIFdelFL{MSE }\DIFdelendFL \DIFaddbeginFL \gls{mse} \DIFaddendFL comparison for data set 11. (a) Corrupted, reconstructed and reference signals, and (b) framed \DIFdelbeginFL \DIFdelFL{MSE }\DIFdelendFL \DIFaddbeginFL \gls{mse} \DIFaddendFL comparison of corrupted and reconstructed signal.}
 \label{fig:MSEexampleSet11Zoom.pdf}
 \end{figure}
 
 %Peak SNR PSNR (maybe not needed)
-%The final measure explored for the 4 selected sets is the peak \gls{snr}. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak \gls{snr} calculations. As with the max \gls{mse} measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak \gls{snr} measures, with sets 2 and 4 in this case showing no improvement as opposed to some improvement in sets 6 and 11. Overall the average improvement for the 4 tested signals is 1.8 dB.
+%DIF < The final measure explored for the 4 selected sets is the peak SNR. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak SNR calculations. As with the max MSE measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak SNR measures, with sets 2 and 4 in this case showing no improvement as opposed to some improvement in sets 6 and 11. Overall the average improvement for the 4 tested signals is 1.8 dB.
+%DIF > The final measure explored for the 4 selected sets is the peak \gls{snr}. Table~\ref{tab:PeakSNR} shows the results from an investigation of the peak \gls{snr} calculations. As with the max \gls{mse} measures, and to a certain extent the other measures investigated, there appears to be a correlation between the subjective results and the peak \gls{snr} measures, with sets 2 and 4 in this case showing no improvement as opposed to some improvement in sets 6 and 11. Overall the average improvement for the 4 tested signals is 1.8 dB.
 %
 %\begin{table}\begin{center}
-%\caption{Peak \gls{snr} results for test sets 2, 4, 6 and 11.}
+%DIF < \caption{Peak SNR results for test sets 2, 4, 6 and 11.}
+%DIF > \caption{Peak \gls{snr} results for test sets 2, 4, 6 and 11.}
 %\label{tab:PeakSNR}
 %\begin{tabular}{|l|c|c|c|c|c|}\hline
 %                    % file 3    & file 2    & file 1    & file 4
@@ -740,7 +747,7 @@ Figure~\ref{fig:MSEexampleSet11Zoom.pdf} shows a zoomed in version of Figure~\re
 %\end{tabular}\end{center}\end{table}
 
 \subsection{Waveforms of reconstructions}
-A selection of waveforms are in this section represented to visualise the reconstruction algorithms' performance. While not adequate for an evaluation of the various algorithms' performance, general trends may be visible and the shape of the envelope may give an indication of the naturalness of the amplitude. Figure~\ref{fig:RestoredExamplesComparison} shows a comparison of the filtered noise and the \gls{lsar} reconstruction algorithms. In this example the basic high pass filtering tonal restoration is applied to the examples.
+A selection of waveforms are in this section represented to visualise the reconstruction algorithms' performance. While not adequate for an evaluation of the various algorithms' performance, general trends may be visible and the shape of the envelope may give an indication of the naturalness of the amplitude. Figure~\ref{fig:RestoredExamplesComparison} shows a comparison of the filtered noise and the \DIFdelbegin \DIFdel{LSAR }\DIFdelend \DIFaddbegin \gls{lsar} \DIFaddend reconstruction algorithms. In this example the basic high pass filtering tonal restoration is applied to the examples.
 
 \begin{figure}
 \begin{minipage}[b]{1.0\linewidth}
@@ -755,11 +762,11 @@ A selection of waveforms are in this section represented to visualise the recons
 \put(-150,235){(b)}
 \end{picture}
 \end{minipage}
-\caption{Examples of the final output of (a) the filtered noise model and (b) the \gls{lsar} reconstruction algorithms. Both reconstructing wavelet coefficients. The restored (red) and the original (black) signals are overlapping in this figure so that where the original (black) signal is visible, the restored signal has been restored/attenuated.}
+\caption{Examples of the final output of (a) the filtered noise model and (b) the \DIFdelbeginFL \DIFdelFL{LSAR }\DIFdelendFL \DIFaddbeginFL \gls{lsar} \DIFaddendFL reconstruction algorithms. Both reconstructing wavelet coefficients. \DIFaddbeginFL \DIFaddFL{The restored (red) and the original (black) signals are overlapping in this figure so that where the original (black) signal is visible, the restored signal has been restored/attenuated.}\DIFaddendFL }
 \label{fig:RestoredExamplesComparison}
 \end{figure}
 
-The waveform resulting from various stages of the historic filtering tonal restoration algorithm, described in section~\ref{sec:HistoricFiltering}, is shown in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}. The waveforms in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf} follow the previously discussed spectrograms from Figures~\ref{fig:TonalRestoration_Spec_Orig.png}, \ref{fig:TonalRestoration_Spec_ResidualRestoration.png}, \ref{fig:TonalRestoratio_Spec_MagFiltScale.png} and \ref{fig:TonalRestoratio_Spec_FullRestoration.png}. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(a) shows the original corrupted signal with the residual reconstructed signal using the filtered noise algorithm but with no tonal restoration. The separation algorithm is, in this example, implemented using a 160 sample frame size and the particular keyboard strokes exhibit clear tonal components which pollute the tonal component. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(b) shows the initial tonal restoration also seen in Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png}. whilst Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(c) shows the full restoration of the signal.
+The \DIFdelbegin \DIFdel{waveforms }\DIFdelend \DIFaddbegin \DIFadd{waveform }\DIFaddend resulting from various stages of the historic filtering tonal restoration algorithm, described in section~\ref{sec:HistoricFiltering}, is shown in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}. The waveforms in Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf} follow the previously discussed spectrograms from Figures~\ref{fig:TonalRestoration_Spec_Orig.png}, \ref{fig:TonalRestoration_Spec_ResidualRestoration.png}, \ref{fig:TonalRestoratio_Spec_MagFiltScale.png} and \ref{fig:TonalRestoratio_Spec_FullRestoration.png}. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(a) shows the original corrupted signal with the residual reconstructed signal using the filtered noise algorithm but with no tonal restoration. The separation algorithm is, in this example, implemented using a 160 sample frame size and the particular keyboard strokes exhibit clear tonal components which pollute the tonal component. Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(b) shows the initial tonal restoration also seen in Figure~\ref{fig:TonalRestoration_Spec_ResidualRestoration.png}. whilst Figure~\ref{fig:FullAlgorithmTonalRestSteps.pdf}(c) shows the full restoration of the signal.
 
 \begin{figure}[!] %FullAlgorithmTonalRestSteps.pdf
 \centering
@@ -778,27 +785,29 @@ Audio versions of all examples used throughout this section are available on the
 
 \section{Discussion}\label{sec:RestorationDiscussion}
 
-% \gls{fir} filtering, computational advantage in the \gls{ar} parameter estimation
-While interpolation using \gls{fir} filtering approaches on both the time and wavelet bases generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the \gls{ar} parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $O(n^2)$ \cite{Hayes1996} rather than $O(n^3)$ using the state of the art Cramer\'s rule implementation \cite{Habgood2012}. Performing the restoration on the wavelet coefficients, rather than the waveform, will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality. This is because the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$.
+%DIF <  FIR filtering, computational advantage in the AR parameter estimation
+%DIF >  \gls{fir} filtering, computational advantage in the \gls{ar} parameter estimation
+While interpolation using \DIFdelbegin \DIFdel{FIR }\DIFdelend \DIFaddbegin \gls{fir} \DIFaddend filtering approaches on both the time and wavelet bases generated nearly visually and audibly identical results, it is noted that there are some computational advantages to doing it in the wavelet domain. A commonly used approach for estimating the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend parameters is through solving of the Yule-Walker equations. Typical implementations of this algorithm utilise Levison-Durbin recursion which means that the estimation process runs in $O(n^2)$ \cite{Hayes1996} rather than $O(n^3)$ using the state of the art Cramer\'s rule implementation \cite{Habgood2012}. Performing the restoration on the wavelet coefficients, rather than the waveform, will not formally reduce the complexity of the algorithm but for the quadratic complexity recursion the complexity will be reduced by a constant of proportionality. This is because the wavelet packet coefficients will be sampled at $\frac{1}{2^L}$ of the original signal in $2^L$ sets, for a wavelet decomposition at level $L$.
 
-% Justify the use of the \gls{ar} filtering (filtering with noise) restoration algorithm
-Based on the extent of the corruptions, seen in section~\ref{sec:WPdata}, the residual restoration algorithm's ability to reconstruct longer stretches of missing data is essential. With keyboard strokes affecting upwards of a third of a second, many frames may end up retaining artifacts from the keyboard stroke. The ability of a restoration algorithm to filter or interpolate backwards in a sequential scenario with long corruptions and short frame sizes, is negligible when a simple fading operation can mitigate discontinuities. While a variety of methods exist that deal specifically with the restoration of long gaps in audio files, similar to the ones seen here, or modifications to the \gls{lsar} reconstruction algorithm \cite{Kauppinen2002a}\cite{Esquef2006} these are all based on restorations of the full audio sequence. The computational data presented in section~\ref{sec:CompData} also suggests that a full \gls{lsar} reconstruction algorithm, or derivatives thereof, may not be feasible in most real time communication systems with limited computational and power resources.
+%DIF <  Justify the use of the AR filtering (filtering with noise) restoration algorithm
+%DIF >  Justify the use of the \gls{ar} filtering (filtering with noise) restoration algorithm
+Based on the extent of the corruptions, seen in section~\ref{sec:WPdata}, the residual restoration algorithm's ability to reconstruct longer stretches of missing data is essential. With keyboard strokes affecting upwards of a third of a second, many frames may end up retaining artifacts from the keyboard stroke. The ability of a restoration algorithm to filter or interpolate backwards in a sequential scenario with long corruptions and short frame sizes, is negligible when a simple fading operation can mitigate discontinuities. While a variety of methods exist that deal specifically with the restoration of long gaps in audio files, similar to the ones seen here, or modifications to the \DIFdelbegin \DIFdel{LSAR }\DIFdelend \DIFaddbegin \gls{lsar} \DIFaddend reconstruction algorithm \cite{Kauppinen2002a}\cite{Esquef2006} these are all based on restorations of the full audio sequence. The computational data presented in section~\ref{sec:CompData} also suggests that a full \DIFdelbegin \DIFdel{LSAR }\DIFdelend \DIFaddbegin \gls{lsar} \DIFaddend reconstruction algorithm, or derivatives thereof, may not be feasible in most real time communication systems with limited computational and power resources.
 
 % Justify the use of a tonal restorer and the specific restorer used
-Despite the benefits of the separation stage, results presented in section~\ref{sec:WPseparation} and discussed in section~\ref{sec:WPdiscussion} clearly indicate a need for tonal restoration in some examples. It was also noted that the need for tonal restoration increases when shorter frame sizes are used in the separation process. Section~\ref{sec:TonalFiltering} outlined some example results from some proposed tonal restoration algorithms, and it was clearly seen how, with relatively simple filtering and heuristic methods, tonal noise components can be logically targeted. While the simple high pass filtering effectively removes low frequency \emph{bump} associated with many keyboard strokes the more advanced heuristic method was seen to restore frequencies more selectively especially when tonal noise was introduced outside of the voiced spectrum.
+Despite the benefits of the separation stage, results presented in section~\ref{sec:WPseparation} and discussed in section~\ref{sec:WPdiscussion} clearly indicate a need for tonal restoration in some examples. It was also noted that the need for tonal restoration increases when shorter frame sizes are used in the separation process. Section~\ref{sec:TonalFiltering} outlined some example results from \DIFdelbegin \DIFdel{the }\DIFdelend some proposed tonal restoration algorithms, and it was clearly seen how\DIFaddbegin \DIFadd{, }\DIFaddend with relatively simple filtering and heuristic methods, tonal noise components can be logically targeted. While the simple high pass filtering effectively removes low frequency \emph{bump} associated with many keyboard strokes the more advanced heuristic method was seen to restore frequencies more selectively especially when tonal noise was introduced outside of the voiced spectrum.
 
 %Discuss subjective test results
 %Generally slightly in favor of restoration, yet generally split.
 %Prefer Recon: 46%, Orig: 36%, Equal: 18%
-The subjective listening results presented in section~\ref{sec:ResultsSubjectiveTest} show mixed results. Although slightly in favor of restored audio segments, it is clear from Figure~\ref{fig:SubjectiveExp_PerTestData.pdf} that some audio testing sets, namely set 1 and 2, were heavily favored by the test subjects, and no sets achieve unanimous preference. Upon inspection of the particular sets in question it is clear that users found the artifacts introduced by the current algorithm more of a nuisance than the original keystroke pulses. Conversely it was found that the sets that achieved the most preferences for the restored segments were the ones that achieved the least notable artifacts or most \emph{soft} or \emph{naturally sounding} artifacts. The restored set 10 audio segment, in particular, leaves behind a clear indication of keyboard stroke activity but manages to reduce the amplitude of these dramatically. In practice this was caused by the detection algorithm not responding quickly enough to the pulse, but the result is a clearly attenuated natural sounding keystroke which was, with the exception of 2 subjects finding it equal in preferredness to the original, was preferred by all subjects. Overall it should be noted that the restored audio segments were selected as the preferred segment 46\% of the time while the original corrupted sequences were only favored 36\% of the time with 18\% not preferring either. For all tested sets the detection algorithm, at least when evaluated audibly, appears to detect nearly all noise pulses. As discussed previously, it can be difficult to evaluate the false detection rate on these testing sets, but no sets were observed to clearly suffer from false detections.
+The subjective listening results presented in section~\ref{sec:ResultsSubjectiveTest} show mixed results. Although slightly in favor of restored audio segments, it is clear from Figure~\ref{fig:SubjectiveExp_PerTestData.pdf} that some audio testing sets, namely set 1 and 2, were heavily favored by the test subjects, and no sets achieve unanimous preference. Upon inspection of the particular sets in question it is clear that users found the artifacts introduced by the current algorithm more of a nuisance than the original keystroke pulses. Conversely it was found that the sets that achieved the most preferences for the restored segments were the ones that achieved the least notable artifacts or most \emph{soft} or \emph{naturally sounding} artifacts. The restored set 10 audio segment, in particular, leaves behind a clear indication of keyboard stroke activity but manages to reduce the amplitude of these dramatically. In practice this was caused by the detection algorithm not responding quickly enough to the pulse, but the result is a clearly attenuated natural sounding keystroke which was, with the exception of 2 subjects finding it equal in preferredness to the original, was preferred by all subjects. Overall it should be noted that the restored audio segments were selected as the preferred segment 46\% of the time while the original corrupted sequences were only favored 36\% of the time with \DIFdelbegin \DIFdel{the }\DIFdelend 18\% not preferring either. For all tested sets the detection algorithm, at least when evaluated audibly, appears to detect nearly all noise pulses. As discussed previously, it can be difficult to evaluate the false detection rate on these testing sets, but no sets were observed to clearly suffer from false detections.
 
 %Discuss objective perceptible results
 %Overwhelmingly an improvement
-Contrary to the subjective results, the selected testing sets from the subjective test, gave much clearer results of the effect of the restoration algorithm with an on average improvement of 0.2 for \gls{pesq} and 0.4 for \gls{peaq} \gls{mos} difference. For the \gls{pesq} measures the results ranged from a 0.2 in favor of the original to 0.5 in favor of the restoration, noting that the 0.5 \gls{mos} difference improvement was for the only testing set used for the objective measures tests, set 11, which was also preferred by a majority of the testing subjects. The \gls{peaq} results, as noted, also showed a preference to the restored segments in general, but counterintuitively seemed to rate the original audio segment higher in set 11 in clear contrast to the \gls{pesq} results. It is however noted that more weight should be put on the \gls{pesq} results since these measures were specifically generated based on telecommunication standards for wideband speech.
+Contrary to the subjective results, the selected testing sets from the subjective test, gave much clearer results of the effect of the restoration algorithm with an on average improvement of 0.2 for \DIFdelbegin \DIFdel{PESQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFaddend and 0.4 for \DIFdelbegin \DIFdel{PEAQ MOS }\DIFdelend \DIFaddbegin \gls{peaq} \gls{mos} \DIFaddend difference. For the \DIFdelbegin \DIFdel{PESQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFaddend measures the results ranged from a 0.2 in favor of the original to 0.5 in favor of the restoration, noting that the 0.5 \DIFdelbegin \DIFdel{MOS }\DIFdelend \DIFaddbegin \gls{mos} \DIFaddend difference improvement was for the only testing set used for the objective measures tests, set 11, which was also preferred by a majority of the testing subjects. The \DIFdelbegin \DIFdel{PEAQ }\DIFdelend \DIFaddbegin \gls{peaq} \DIFaddend results, as noted, also showed a preference to the restored segments in general, but counterintuitively seemed to rate the original audio segment higher in set 11 in clear contrast to the \DIFdelbegin \DIFdel{PESQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFaddend results. It is however noted that more weight should be put on the \DIFdelbegin \DIFdel{PESQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFaddend results since these measures were specifically generated based on telecommunication standards for wideband speech.
 
 %Discuss other objective measures
 %Overwhelmingly an improvement
-Considering the more general \gls{mse} and max \gls{mse} measure, the reconstructed segments also show consistent improvements. The max \gls{mse} was decreased by just under 0.3 on average with improvement differences ranging from over 0.1 to 0.4. The framewise \gls{mse} results, in Figures~\ref{fig:MSEexampleSet11.pdf} and \ref{fig:MSEexampleSet11Zoom.pdf}, also show these relative improvements throughout a corruption. It is however noted that \gls{mse} does not give any indication of perceptibility of errors and also penalises phase shifts which may, in many cases, be imperceptible to human listeners. On the other hand, \gls{mse}, and max \gls{mse} in particular, is particularly sensitive to impulsive noise primarily seen in this application.
+Considering the more general \DIFdelbegin \DIFdel{MSE and max MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFadd{and max }\gls{mse} \DIFaddend measure, the reconstructed segments also show consistent improvements. The max \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend was decreased by just under 0.3 on average with improvement differences ranging from over 0.1 to 0.4. The framewise \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend results, in Figures~\ref{fig:MSEexampleSet11.pdf} and \ref{fig:MSEexampleSet11Zoom.pdf}, also show these relative improvements throughout a corruption. It is \DIFdelbegin \DIFdel{although noted that MSE }\DIFdelend \DIFaddbegin \DIFadd{however noted that }\gls{mse} \DIFaddend does not give any indication of perceptibility of errors and also penalises phase shifts which may, in many cases, be imperceptible to human listeners. On the other hand, \DIFdelbegin \DIFdel{MSE}\DIFdelend \DIFaddbegin \gls{mse}\DIFaddend , and max \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend in particular, is particularly sensitive to impulsive noise primarily seen in this application.
 
 % Discuss PSNR results
 %\todo{Include PSNR discussion if included in final version.}
@@ -807,14 +816,16 @@ Considering the more general \gls{mse} and max \gls{mse} measure, the reconstruc
 Despite broadly improved objective measures following detection and reconstruction, the subjective test revealed that restored audio segments were not preferred by some of the listeners. Although as a whole the restored segments were preferred, the subjects in this test were split in their preference in all but a few of the testing sets. It is beyond the scope of this discussion to delve deeper into the psychoacoustic basis of these results, but it is noted that great care should be taken when applying reconstructive algorithms within speech signals, and perhaps audio signals in general, since artificially introduced artifacts may cause more of a disturbance than the original noise source. Equally these results underline the importance of subjective measurements for restoration algorithms since objective perceptive measures are not able to distinguish between noise that may be deemed \emph{natural} or \emph{expected} by the user and which sounds may be deemed \emph{unnatural} and \emph{unexpected}.
 
 \section{Conclusions}\label{sec:RestorationResults}
-Subjective results presented in this chapter are mixed but on average preference is shown for restored audio segments. It was found that results were very split and only a few sets was found to be clearly preferred either way by the listeners. Objective performance results on the other hand show clear improvements for the restored audio segments with \gls{pesq} on average showing an improvement of 0.2 \gls{mos} and 0.4 for \gls{peaq} for the selected sets. While neither of these results were overwhelming it was noted results were generally in favor of the restored audio segments despite some of these not being preferred by the listeners. These results indicate that there is a nuisance factor associated with the subtle artifacts introduced by the algorithm that may be less preferred by listeners than the relatively louder and more perceivable keyboard stroke pulses. 
+Subjective results presented in this chapter are mixed but on average preference is shown for restored audio segments. It was found that results were very split and only a few sets was found to be clearly preferred either way by the listeners. Objective performance results on the other hand show clear improvements for the restored audio segments with \DIFdelbegin \DIFdel{PESQ }\DIFdelend \DIFaddbegin \gls{pesq} \DIFaddend on average showing an improvement of 0.2 \DIFdelbegin \DIFdel{MOS }\DIFdelend \DIFaddbegin \gls{mos} \DIFaddend and 0.4 for \DIFdelbegin \DIFdel{PEAQ }\DIFdelend \DIFaddbegin \gls{peaq} \DIFaddend for the selected sets. While neither of these results were overwhelming it was noted results were generally in favor of the restored audio segments despite some of these not being preferred by the listeners. These results indicate that there is a nuisance factor associated with the subtle artifacts introduced by the algorithm that may be less preferred by listeners than the relatively louder and more perceivable keyboard stroke pulses. 
 
-%Further listening tests needed
-\label{corrections:conclusionSubjective}Given the subjective test results, it would be advisable to rerun the test with a larger group of subjects, ensure subjects are na\"{\i}ve and not expert listeners, ensure a larger testing library and that the tests conform to relevant \gls{itu} standards for subjective listening tests.
+%DIF > Further listening tests needed
+\DIFaddbegin \label{corrections:conclusionSubjective}\DIFadd{Given the subjective test results, it would be advisable to rerun the test with a larger group of subjects, ensure subjects are na}\"{\i}\DIFadd{ve and not expert listeners, ensure a larger testing library and that the tests conform to relevant }\gls{itu} \DIFadd{standards for subjective listening tests.
+}
 
-As the listening tests suggest a tradeoff between \emph{natural noise} or \emph{expected noise} and restoration artifacts, further tests exploring this tradeoff should be conducted. Although no \gls{polqa} results were presented it was clear that \gls{pesq} results did not adequately mirror the subjective results. If there is indeed a general subjective cost associated with artificially sounding artifacts in the audio, that is not thoroughly understood, then any further restoration effort for transient noise events should be preceded by a study into this effect to avoid inadvertently reducing \gls{mos} in an attempt to increase it.
+\DIFadd{As the listening tests suggest a tradeoff between }\emph{\DIFadd{natural noise}} \DIFadd{or }\emph{\DIFadd{expected noise}} \DIFadd{and restoration artifacts, further tests exploring this tradeoff should be conducted. Although no }\gls{polqa} \DIFadd{results were presented it was clear that }\gls{pesq} \DIFadd{results did not adequately mirror the subjective results. If there is indeed a general subjective cost associated with artificially sounding artifacts in the audio, that is not thoroughly understood, then any further restoration effort for transient noise events should be preceded by a study into this effect to avoid inadvertently reducing }\gls{mos} \DIFadd{in an attempt to increase it.
+}
 
-It is probably the case that, assuming all restorations of real time audio will introduce some artifacts, for any keyboard stroke pulse there is some level of restoration that objective perception methods will deem \emph{better} than the original while subjective result may deem them \emph{less preferred}. Equally it is probably also the case that there is a level of restoration that will be deemed \emph{preferred} in subjective tests for any corruption. This initial gap of disagreement between the perceptual model and the subjective test may be caused, in part, by the fact that keyboard stroke noise is to some extent expected in the telecommunication scenario and is therefore deemed \emph{natural} while artificially sounding artifacts are not.
+\DIFaddend It is probably the case that, assuming all restorations of real time audio will introduce some artifacts, for any keyboard stroke pulse there is some level of restoration that objective perception methods will deem \emph{better} than the original while subjective result may deem them \emph{less preferred}. Equally it is probably also the case that there is a level of restoration that will be deemed \emph{preferred} in subjective tests for any corruption. This initial gap of disagreement between the perceptual model and the subjective test may be caused, in part, by the fact that keyboard stroke noise is to some extent expected in the telecommunication scenario and is therefore deemed \emph{natural} while artificially sounding artifacts are not.
 
 Results presented in this and the preceding chapter shows that a successful detection and restoration system in a real time communication system, using a single embedded microphone, is possible. Although, great care must be taken when performing replacement or audio segment restoration of hundreds of milliseconds since artificially sounding artifacts will quickly be deemed a nuisance by listeners.
 
@@ -825,10 +836,11 @@ Results presented in this and the preceding chapter shows that a successful dete
 Future work proposed in the detection chapter (\ref{ch:TransientNoiseDetection}) featured the use of multiple channels for detection. With additional channels restoration performance could feasibly also be increased in a variety of ways depending on the implementation of the additional channels. Assuming that additional channels could be considered reference sources for either the pulse, or the speech, could provide valuable cues in relation to tonal components of relevance and noise-related components. A basic restoration approach could simply involve subtraction, possibly given some alteration, of the channels, which could, in the case of a good speech reference, form the basis of an alternative to the pre processing separation stage.
 
 \subsubsection{Modified LSAR restoration algorithms}
-Based on the work presented in \cite{Esquef2006}, sequential implementations of the energy adjusted \gls{lsar} algorithms could form the basis of better sounding restoration algorithms for the residual component of the signal. The energy adjust \gls{lsar} algorithm has been shown to reduce the noticeable dip in energy of the signal through longer gaps in signals.
+Based on the work presented in \cite{Esquef2006}\DIFaddbegin \DIFadd{, }\DIFaddend sequential implementations of the energy adjusted \DIFdelbegin \DIFdel{LSAR }\DIFdelend \DIFaddbegin \gls{lsar} \DIFaddend algorithms could form the basis of better sounding restoration algorithms for the residual component of the signal. \DIFaddbegin \DIFadd{The energy adjust }\gls{lsar} \DIFadd{algorithm has been shown to reduce the noticeable dip in energy of the signal through longer gaps in signals.
+}\DIFaddend 
 
 \subsubsection{Correct detection verification}
-Post restoration a comparison of the restored and original signal should reveal a significant decrease in maximum \gls{mse} or other objective metric. This in turn could provide a useful way of confirming that a detection was in fact caused by a noise pulse and therefore justified.
+Post restoration a comparison of the restored and original signal should reveal a significant decrease in maximum \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend or other objective metric. This in turn could provide a useful way of confirming that a detection was in fact caused by a noise pulse and therefore justified.
 %- Investigate this discrepancy between perceivability and nuisance for artificial and natural noise
 % ------------------------------------------------------------------------
 

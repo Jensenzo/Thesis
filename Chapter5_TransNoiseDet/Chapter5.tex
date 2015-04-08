@@ -8,29 +8,29 @@
 
 The rapid increase in availability of high speed internet connections has made personal computers a popular basis for teleconferencing applications. While embedded microphones, loudspeakers and webcams in laptop computers have made setting up conference calls very easy, it has also brought with it some specific noise difficulties such as feedback, fan noise and button clicking noise. The latter has been a particularly persistent problem and is generally due to the mechanical pulses caused by keystrokes. Particularly on laptop computers this can be a significant nuisance due to the mechanical connection between microphone, within in the laptop case, and the keyboard, and the distinct tactile interface points throughout the key travel. The noise impulses produced can vary greatly due to factors such as keystroke speed and length, microphone placement and response, laptop frame or base, keyboard or trackpad type and even the surface on which the computer is placed.
 
-The focus of our noise reduction efforts will purely be from the perspective of the receiving end since this is the only noise accessible to us through signal processing, but also since the acoustical feedback from keyboards is often an important cue for the typist, whereas to the receiver it will be uncorrelated with any actions.
+The focus of our noise reduction efforts will purely be from the perspective of the receiving end since this is the only noise accessible to us through signal processing, but also since the acoustical feedback from keyboards is often an important cue for the typist, whereas to the receiver it will \DIFaddbegin \DIFadd{be }\DIFaddend uncorrelated with any actions.
 
-As noted in the literature review, chapter~\ref{sec:LitRev_Detection}, a range of approaches has been taken to detect impulsive noise in speech and audio. In general the approaches taken can be divided into two categories. Firstly corruptions caused by mechanical defects in the medium (cracked LP records or dust particles on magnetic tapes) and secondly errors in the communication channel and corruptions caused by acoustically additive noise such as transient noise events like hand claps, keyboard strokes and mouse button clicks. Although, as noted in chapter~\ref{sec:LitRev_Detection}, there is an overlap between the applications and the methods used, the focus of this chapter will be the detection of acoustically additive transient noise events, specifically keyboard stroke noise, which are characterised by their length, sequence of multiple pulses and in certain cases significant tonal components.
+As noted in the literature review, chapter~\ref{sec:LitRev_Detection}, a range of approaches \DIFdelbegin \DIFdel{have }\DIFdelend \DIFaddbegin \DIFadd{has }\DIFaddend been taken to detect impulsive noise in speech and audio. In general the approaches taken can be divided into two categories. Firstly corruptions caused by mechanical defects in the medium \DIFdelbegin \DIFdel{focused }\DIFdelend \DIFaddbegin \DIFadd{(cracked LP records or dust particles on magnetic tapes) }\DIFaddend and secondly errors in the communication channel and corruptions caused by acoustically additive noise such as transient noise events like hand claps, keyboard strokes and mouse button clicks. Although, as noted in chapter~\ref{sec:LitRev_Detection}, there is an overlap between the applications and the methods used, the focus of this chapter will be the detection of acoustically additive transient noise events, specifically keyboard stroke noise, which are characterised by their length, sequence of multiple pulses and in certain cases significant tonal components.
 
 Chapters~\ref{ch:TransientNoiseDetection} and \ref{ch:TransientNoiseRestoration} can be seen as two stages of the same application. Localised removal of transient noise for realtime applications. In this chapter the focus will be on the initial stage of this system, the detection. This chapter will start with an investigation into the noise pulses in question and the specific parameters related to these pulses. A range of detection algorithms will then be proposed in section~\ref{sec:WPdetection} after which the methods used to evaluate the algorithms will be introduced. The chapter will finish with the presentation and discussion of results and conclusions from the work undertaken.
 
 \section{A look at the data}\label{sec:WPdata}
-Figure~\ref{fig:TypingSPLKeyboards} shows a plot of the A-weighted \gls{spl} of 4 different keyboard pulses aligned \cite{Hauswirth2013}. This data was recorded with an artificial binaural head measurement system in an anechoic environment and as such only serves to outline the audible real world acoustic scenario of keystroke pulses. The data clearly shows some key features of keyboard noise;
+Figure~\ref{fig:TypingSPLKeyboards} shows a plot of the A-weighted \DIFdelbegin \DIFdel{sound pressure level (SPL) }\DIFdelend \DIFaddbegin \gls{spl} \DIFaddend of 4 different keyboard pulses aligned \cite{Hauswirth2013}. This data was recorded with an artificial binaural head measurement system in an anechoic environment and as such only serves to outline \DIFaddbegin \DIFadd{the }\DIFaddend audible real world acoustic scenario of keystroke pulses. The data clearly shows some key features of keyboard noise;
 \begin{enumerate}
 \item The length of keyboard strokes can be upwards of 350 ms.
 \item In all tested cases the pulses consist of at least 2 clearly defined pulses.
 \item The majority of the energy lies in the initial pulse.
 \end{enumerate}
 
-The second pulse seen for every device in Figure~\ref{fig:TypingSPLKeyboards} shows what will be referred to as the \emph{lift} pulse from this point onwards. This pulse is related to the physical key or switch returning to its original unpressed position. The relationships between the two pulses are not consistent across different devices and \emph{Laptop 1} specifically was said to have a ``hard return stop'' while \emph{Laptop 3} has a ``soft return stop'' with a \gls{spl} level difference of almost nothing and 18 dB(A) \gls{spl} respectively.
+The second pulse seen for every device in Figure~\ref{fig:TypingSPLKeyboards} shows what will be referred to as the \emph{lift} pulse from this point onwards. This pulse is related to the physical key or switch returning to its original unpressed position. The \DIFdelbegin \DIFdel{relationship }\DIFdelend \DIFaddbegin \DIFadd{relationships }\DIFaddend between the two pulses are not consistent across different devices and \emph{Laptop 1} specifically was said to have a ``hard return stop'' while \emph{Laptop 3} has a ``soft return stop'' with a \DIFdelbegin \DIFdel{SPL }\DIFdelend \DIFaddbegin \gls{spl} \DIFaddend level difference of almost nothing and 18 dB(A) \DIFdelbegin \DIFdel{SPL }\DIFdelend \DIFaddbegin \gls{spl} \DIFaddend respectively.
 
 \begin{figure}[!] %TypingSPLKeyboards
 \centering
 \includegraphics[width=100mm]{TypingSPLKeyboards.png}
-\caption{\gls{spl} analysis of keyboard noise (time weighting: 2ms). Plot reproduced with permission from \cite{Hauswirth2013}.}\label{fig:TypingSPLKeyboards}
+\caption{\DIFdelbeginFL \DIFdelFL{SPL }\DIFdelendFL \DIFaddbeginFL \gls{spl} \DIFaddendFL analysis of keyboard noise (time weighting: 2ms). Plot reproduced with permission from \cite{Hauswirth2013}.}\label{fig:TypingSPLKeyboards}
 \end{figure}
 
-Figure~\ref{fig:TypingLoudnessKeyboards} shows the loudness of keyboard pulses versus time. Loudness is a representation of a human's perception of sound volume and is represented on a linear scale so that twice the loudness represents a listener perceiving the sound twice as loud. The figure shows that the desktop keyboard is perceived as being over twice as loud as a laptop keyboard. Desktop keyboards are traditionally optimised for typing comfort and tactile feedback while not having to consider the spatial constraints of laptop computers. In addition some keyboards are specifically designed to give the user audible feedback \cite{Hauswirth2013}.
+Figure~\ref{fig:TypingLoudnessKeyboards} shows the loudness of keyboard pulses versus time. Loudness is a representation of a human's perception of sound volume and is represented on a linear scale so that twice the loudness represents a listener perceiving the sound twice as loud. The figure shows that the desktop keyboard is perceived as being over twice as loud as a laptop keyboard. Desktop keyboards are traditionally optimised for typing comfort and tactile feedback while not having to consider the \DIFdelbegin \DIFdel{spacial }\DIFdelend \DIFaddbegin \DIFadd{spatial }\DIFaddend constraints of laptop computers. In addition some keyboards are specifically designed to give the user audible feedback \cite{Hauswirth2013}.
 
 \begin{figure}[!] %TypingLoudnessKeyboards
 \centering
@@ -41,7 +41,7 @@ Figure~\ref{fig:TypingLoudnessKeyboards} shows the loudness of keyboard pulses v
 In addition to the loudness, Figure~\ref{fig:TypingLoudnessKeyboards} also shows the 5\% percentile value as a single number in the diagram legend. This value indicated the value which the signal exceeds during 5\% of the examined time interval \cite{Hauswirth2013}. This number also reflects the fact that the desktop keyboards in general are perceived much more loudly than laptop keyboards so while laptop keyboards are of interest due to their mechanical connection and physical proximity to the microphone, desktop keyboards are clearly also a potential source of nuisance in telecommunication applications.
 
 \subsection{Spectral investigation of audio signals}
-Figure~\ref{fig:spectrogramMarkedTapsBrownFox} shows a spectrogram of a short sequence of speech with typing strokes embedded in it. The figure overlays show the approximate positions of the strokes in the spectrogram. It can be observed that the typing strokes have a fairly flat frequency response compared to the voiced parts of the audio sequence.
+Figure~\ref{fig:spectrogramMarkedTapsBrownFox} shows a spectrogram of a short sequence of speech with typing strokes embedded in it. The figure overlays show the approximate positions of the strokes in the spectrogram. It can be observed that the typing strokes have a fairly flat frequency response \DIFdelbegin \DIFdel{compered to the the }\DIFdelend \DIFaddbegin \DIFadd{compared to the }\DIFaddend voiced parts of the audio sequence.
 
 \begin{figure}[!] %spectrogramMarkedTapsBrownFox
 \centering
@@ -49,9 +49,13 @@ Figure~\ref{fig:spectrogramMarkedTapsBrownFox} shows a spectrogram of a short se
 \caption{Spectrogram analysis of mixed typing strokes and speech. Overlay shows positions of typing strokes.}\label{fig:spectrogramMarkedTapsBrownFox}
 \end{figure}
 
-Figure~\ref{fig:waveletspectrumAno} shows the wavelet spectrum of a sequence of keystrokes with speech interference. The figure overlays show the approximate positions of the strokes in the wavelet spectrum. \label{corrections:motherWavelet}The mother wavelet basis used throughout this work was the Daubechies 8 (db8) wavelet \cite{Daubechies1992}, with a quadrature filter of order 16. Db8 is selected mainly for its relatively low order but it was also found, through tests not reproduced here, to perform comparably to competing bases.
+Figure~\ref{fig:waveletspectrumAno} shows the wavelet spectrum of a sequence of keystrokes with speech interference. The figure overlays show the approximate positions of the strokes in the wavelet spectrum. \DIFaddbegin \label{corrections:motherWavelet}\DIFadd{The mother wavelet basis used throughout this work was the Daubechies 8 (db8) wavelet \mbox{%DIFAUXCMD
+\cite{Daubechies1992}
+}%DIFAUXCMD
+, with a quadrature filter of order 16. Db8 is selected mainly for its relatively low order but it was also found, through tests not reproduced here, to perform comparably to competing bases.
+}
 
-\begin{figure}[!] %waveletspectrumAno
+\DIFaddend \begin{figure}[!] %waveletspectrumAno
 \centering
 \includegraphics[width=150mm]{waveletspectrumAno.png}
 \caption{Top: Waveform of typing sequence. Bottom: Wavelet spectrum of same typing sequence.}\label{fig:waveletspectrumAno}
@@ -91,11 +95,11 @@ Figure~\ref{fig:Keyboard4StrokesFast} shows an example of a short rapid 4 keystr
 \end{figure}
 
 \section{Detection algorithms}\label{sec:WPdetection}
-The basic detection algorithm comprise two stages. First a separation stage aims to separate the transient noise pulses by separating out tonal atoms assumed to be speech components and secondly a detection stage which attempts to detect transient noise events through the wavelet bases. For the detection stage, 2 different approaches have been explored.
+The basic detection algorithm \DIFdelbegin \DIFdel{comprises of }\DIFdelend \DIFaddbegin \DIFadd{comprise }\DIFaddend two stages. First a separation stage aims to separate the transient noise pulses by separating out tonal atoms assumed to be speech components and secondly a detection stage which attempts to detect transient noise events through the wavelet bases. For the detection stage\DIFaddbegin \DIFadd{, }\DIFaddend 2 different approaches have been explored.
 
 \subsection{Separation pre processing}\label{sec:WPseparation}
 %good amplitude results in \cite{Vaseghi1990}
-The purpose of the separation stage is twofold. Firstly the removal of tonal atoms, and thereby speech, should aid in the detection algorithm's ability to distinguish between speech signals and transient noise. Secondly, the tonal atoms provide a good first approximation for a restoration, equally the residual signal, used for detection, should ideally be a sparse signal containing mainly transient noise events. Methods utilising similar approaches in the literature clearly document their advantages \cite{Godsill1998book} (see sections~\ref{sec:LitRevAR}, \ref{sec:LitRev_RestorationNonLin} and \ref{sec:LitRev_RestorationLin} for full review). Visual examples produced in this section and audible examples provided\footnote{Audio examples can be found on \siteURL} also speak to the power of the separation pre processing stage.
+The purpose of the separation stage is twofold. Firstly the removal of tonal atoms, and thereby speech, should aid in the detection \DIFdelbegin \DIFdel{algorithms }\DIFdelend \DIFaddbegin \DIFadd{algorithm's }\DIFaddend ability to distinguish between speech signals and transient noise. Secondly, the tonal atoms provide a good first approximation for a restoration, equally the residual signal, used for detection, should ideally be a sparse signal containing mainly transient noise events. Methods utilising similar approaches in the literature clearly document \DIFdelbegin \DIFdel{its }\DIFdelend \DIFaddbegin \DIFadd{their }\DIFaddend advantages \cite{Godsill1998book} (see sections~\ref{sec:LitRevAR}, \ref{sec:LitRev_RestorationNonLin} and \ref{sec:LitRev_RestorationLin} for full review). Visual examples produced in \DIFdelbegin \DIFdel{section~\ref{sec:WPseparation} }\DIFdelend \DIFaddbegin \DIFadd{this section }\DIFaddend and audible examples provided\footnote{Audio examples can be found on \siteURL} also speak to the power of the separation pre processing stage.
 Future restoration efforts should therefore mainly be focused on the residual signal and, in general, limiting the detrimental effects of restoration.
 
 The incoming audio signal can be expressed as the linear combination of a voiced signal and a sparse signal containing transient noise events:
@@ -104,13 +108,13 @@ The incoming audio signal can be expressed as the linear combination of a voiced
 \end{equation}
 where $c_i$ are the coefficients for the voiced parts of the signal and $\Phi$ is the standard short-time Fourier basis. $w_{j}(n)$ are the coefficients of the residual where $j$ is an integer relating to some translation and dilation of some Wavelet basis function $\Psi$. Here we utilise an over-complete dictionary of atoms to represent the audio: a dictionary of `tonal' atoms and a dictionary of `transient' atoms that are aimed at capturing voiced speech and transient noise, respectively. Multiple dictionaries have been employed in Bayesian probabilistic methodologies for noise reduction purposes in \cite{Fevotte2006}\cite{Fevotte2008} (see also references therein for other approaches with multiple dictionaries). Here we focus on development of a fast algorithm using the principles of the above model in order to first extract the tonal (voiced) components in order to process the noise components directly in the wavelet domain. Other tonal dictionaries such as Gabor functions and other transient dictionaries such as standard discrete or continuous wavelet transforms can of course be substituted in our methods with minor modifications. Wavelets are found to be particularly suited to the types of transient noise we observed here, which are localised in time and can be of highly variable durations and frequency profile.
 
-The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a \gls{wpt} such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for a level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. Terminal nodes are the coefficient sets $AAA_3, DAA_3, ADA_3, DDA_3, AAD_3, DAD_3, ADD_3$ and $DDD_3$ in \ref{fig:LitRev_WPTtree.pdf}.
-%For the case of a wavelet decomposition with decimation steps the time index from the terminal node coefficient sets and equation~\ref{eq:modelgeneral} will be related by a factor of $1/J$. %This sentence could be removed.
+The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a \DIFdelbegin \DIFdel{Wavelet Packet Decomposition (WPD) }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for a level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. \DIFaddbegin \DIFadd{Terminal nodes are the coefficient sets $AAA_3, DAA_3, ADA_3, DDA_3, AAD_3, DAD_3, ADD_3$ and $DDD_3$ in \ref{fig:LitRev_WPTtree.pdf}.
+}\DIFaddend %For the case of a wavelet decomposition with decimation steps the time index from the terminal node coefficient sets and equation~\ref{eq:modelgeneral} will be related by a factor of $1/J$. %This sentence could be removed.
 
 \subsubsection{Algorithm description}\label{sec:WPdetectionSep}
 The method for selecting the tonal components from the noisy signal is described in this section.
 
-As described in the literature \cite{Vaseghi1988thesis}\cite{Vaseghi1990}, speech signals are typically slowly varying signals with energy concentrated around specific frequencies known as formant frequencies. These frequencies are related to the physiological shape of the human vocal tract and typically manifest as spectral peaks \cite{Fant1970}. This algorithm attempts to detect these peaks and separate out this presumed vocal content. Figure~\ref{fig:Separation_Spectrum_Selection.pdf} shows an example of the algorithm running on a block of speech data. A diagrammatic representation of the algorithm is shown in Figure~\ref{fig:SeparationDiagram.pdf} where ``iSTFT'' refers to the inverse Fourier transform on a windowed block of data.
+As described in the literature \cite{Vaseghi1988thesis}\cite{Vaseghi1990}, speech signals are typically slowly varying signals with energy concentrated around specific frequencies known as formant frequencies. These frequencies are related to the physiological shape of the human vocal tract and typically manifest as spectral peaks \cite{Fant1970}. This algorithm attempts to detect these peaks and separate out this presumed vocal content. Figure~\ref{fig:Separation_Spectrum_Selection.pdf} shows an example of the algorithm running on \DIFaddbegin \DIFadd{a }\DIFaddend block of speech data. A diagrammatic representation of the algorithm is shown in Figure~\ref{fig:SeparationDiagram.pdf} where ``iSTFT'' refers to the inverse Fourier transform on a windowed block of data.
 
 \begin{figure} %Separation_Spectrum_Selection.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -121,7 +125,7 @@ As described in the literature \cite{Vaseghi1988thesis}\cite{Vaseghi1990}, speec
 \label{fig:Separation_Spectrum_Selection.pdf}
 \end{figure}
 
-The algorithm proceeds by calculating a running median value of the \gls{stft} magnitude coefficients from a 320 sample long signal buffer. The median filter takes the running median value of 60 spectral samples and coefficients exceeding some factor $\nu$ of the median value (blue line in Figure~\ref{fig:Separation_Spectrum_Selection.pdf} and \ref{fig:SeparationDiagram.pdf}) are selected as tonal values (black bars). The red bars in Figure~\ref{fig:Separation_Spectrum_Selection.pdf} are assumed to be transient noise and their magnitude is set to zero. A suitable factor of the median value needs to be selected and for this application $\nu = 3.5$ was chosen by observation. The detection of formant frequencies were additionally confined to be above 85 Hz and below 4000 Hz.
+The algorithm proceeds by calculating a running median value of the \DIFdelbegin \DIFdel{STFT }\DIFdelend \DIFaddbegin \gls{stft} \DIFaddend magnitude coefficients from a 320 sample long signal buffer. The \DIFdelbegin \DIFdel{media }\DIFdelend \DIFaddbegin \DIFadd{median }\DIFaddend filter takes the running median value of 60 spectral samples and coefficients exceeding some factor $\nu$ of the median value (blue line in \DIFdelbegin \DIFdel{figure}\DIFdelend \DIFaddbegin \DIFadd{Figure~\ref{fig:Separation_Spectrum_Selection.pdf} and \ref{fig:SeparationDiagram.pdf}}\DIFaddend ) are selected as tonal values (black bars). The red bars in Figure~\ref{fig:Separation_Spectrum_Selection.pdf} are assumed to be transient noise and their magnitude is set to zero. A suitable factor of the median value needs to be selected and for this application $\nu = 3.5$ was chosen by observation. The detection of formant frequencies were additionally confined to be above 85 Hz and below 4000 Hz.
 
 \begin{figure} %SeparationDiagram.pdf
 \centering
@@ -141,7 +145,7 @@ The algorithm proceeds by calculating a running median value of the \gls{stft} m
 \label{fig:SeparationDiagram.pdf}
 \end{figure}
 
-A proposed addition to the algorithm described above and represented in Figure~\ref{fig:SeparationDiagram.pdf} includes a step to replace removed spectral information in frames suspected of being corrupted by key strokes to make the tonal component itself sound better. First of all a simple detection algorithm is employed to detect the spectral characteristics of a pulse. For the purpose of this implementation the detection criteria was a threshold on the ratio between energy in a specific high frequency band and low frequency band, since energy in speech frames is largely located at the lower frequencies while pulses exhibit a wider frequency response. The specific bands chosen will depend on the sampling frequency used but a typical high frequency band could lie above 2000 Hz while the low frequency band could be from 200 to 1000 Hz. Figure~\ref{fig:SeparationDiagram2.pdf} shows a diagram of the revised algorithm. The removed spectral components in a corrupted frame are replaced by components from a historic buffer containing uncorrupted data.
+A proposed addition to the algorithm described above and represented in Figure~\ref{fig:SeparationDiagram.pdf} includes a step to replace removed spectral information in frames suspected of being corrupted by key strokes to make the tonal component itself sound better. First of all a simple detection algorithm is employed to detect the spectral characteristics of a pulse. For the purpose of this implementation the detection criteria was a threshold on the ratio between energy in a specific high frequency band and low frequency band, since energy in speech frames is largely located at the lower frequencies while pulses exhibit a wider frequency response. The specific bands chosen will depend on the sampling frequency used but a typical high frequency band could lie above 2000 Hz while the low frequency band could be from 200 to 1000 Hz. Figure~\ref{fig:SeparationDiagram2.pdf} shows a diagram of the revised algorithm. The removed spectral components in a corrupted frame \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{are }\DIFaddend replaced by components from a historic buffer containing uncorrupted data.
 
 \begin{figure} %SeparationDiagram2.pdf
 \centering
@@ -174,8 +178,8 @@ We assume that the coefficients for each terminal node $j$ can be modeled as som
 \begin{equation}\label{eq:model1}
     w_{j}(n) = i_{n} \theta_{n,j} + v_{n,j},
 \end{equation}
-where $i_{n}$ is the binary (1/0) switching variable denoting the presence of $\theta_{n,j}$ for $i_{n} = 1$ and otherwise for $i_{n} = 0$. The transient signal $\theta_{n,j}$ is thus a switched Noise Burst corrupted by additive noise $v_{n,j}$.
-Note that the grouping of the transient Noise Bursts will depend on the statistics of $i_{n}$ so that it is most likely that detections occur in clusters. These clusters could be modeled as a Markov chain which would describe some degree of cohesion between frequency and time, i.e. the transient noise pulses will typically have a similar index of onset and will likely stay active for a length of time proportional to wavelet scale $j$.
+where $i_{n}$ is the binary (1/0) switching variable denoting the presence of $\theta_{n,j}$ for $i_{n} = 1$ and otherwise \DIFaddbegin \DIFadd{for }\DIFaddend $i_{n} = 0$. The transient signal $\theta_{n,j}$ is thus a switched \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend corrupted by additive noise $v_{n,j}$.
+Note that the grouping of the transient \DIFdelbegin \DIFdel{noise bursts }\DIFdelend \DIFaddbegin \DIFadd{Noise Bursts }\DIFaddend will depend on the statistics of $i_{n}$ so that it is most likely that detections occur in clusters. These clusters could be modeled as a Markov chain which would describe some degree of cohesion between frequency and time, i.e. the transient noise pulses will typically have a similar index of onset and will likely stay active for a length of time proportional \DIFdelbegin \DIFdel{with }\DIFdelend \DIFaddbegin \DIFadd{to }\DIFaddend wavelet scale $j$.
 
 We can now express our model in terms of the additive noise and a matrix of coefficients
 
@@ -183,12 +187,12 @@ We can now express our model in terms of the additive noise and a matrix of coef
 \boldsymbol{w} = \boldsymbol{\theta} + \boldsymbol{v},
 \end{equation}
 
-where $\boldsymbol{w} = [w_{1}(n),w_{2}(n),\ldots,w_{J}(n)]$ and where $w_{j}(n)$ for the $j$th set of coefficients. $\boldsymbol{\theta}$ is the corresponding switched Noise Burst $J \times N$ matrix containing elements $i_{n}\theta_{n,j}$ and $\boldsymbol{v}$ is the random additive noise describing, for example, the effect of speech on the coefficients. For simplicity we consider $i_{n}$ to be constant across scales $j$ so the discrete vector $\boldsymbol{i} = [i_{1}, i_{2}, \ldots, i_{N}]$ can take any one of $2^{N}$ values. It is possible, however, to let $i$ vary with $j$ to express different detection characteristics at different scales. The detection task now becomes the estimation of the true state of $\boldsymbol{i}$ from the observed sequence $\boldsymbol{w}$.
+where \DIFdelbegin \DIFdel{$\boldsymbol{w} = [\boldsymbol{w}_1,\boldsymbol{w}_2,\ldots,\boldsymbol{w}_J]$ and where $\boldsymbol{w}_j = [w_{1,j}, w_{2,j}, \ldots, w_{N,j}]^T$ }\DIFdelend \DIFaddbegin \DIFadd{$\boldsymbol{w} = [w_{1}(n),w_{2}(n),\ldots,w_{J}(n)]$ and where $w_{j}(n)$ }\DIFaddend for the $j$th set of coefficients. $\boldsymbol{\theta}$ is the corresponding switched \DIFdelbegin \DIFdel{noise burst $J$ by $N$ }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst $J \times N$ }\DIFaddend matrix containing elements $i_{n}\theta_{n,j}$ and $\boldsymbol{v}$ is the random additive noise describing, for example, the effect of speech on the coefficients. For simplicity we consider $i_{n}$ to be constant across scales $j$ so the discrete vector $\boldsymbol{i} = [i_{1}, i_{2}, \ldots, i_{N}]$ can take any one of $2^{N}$ values. It is possible, however, to let $i$ vary with $j$ to express different detection characteristics at different scales. The detection task now becomes the estimation of the true state of $\boldsymbol{i}$ from the observed sequence $\boldsymbol{w}$.
 
-Assuming that both the Noise Burst $\boldsymbol{\theta}$ and the background noise $\boldsymbol{v}$ can be modeled as zero mean Gaussian distributions, we have that:
+Assuming that both the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend $\boldsymbol{\theta}$ and the background noise $\boldsymbol{v}$ can be modeled as zero mean Gaussian distributions, we have that:
 
 \begin{equation}\label{eq:burst}
-\boldsymbol{\theta} \sim \mathcal{N}_{\boldsymbol{\theta}}(0,\Lambda),
+\boldsymbol{\theta} \DIFdelbegin \DIFdel{_n }\DIFdelend \sim \mathcal{N}\DIFdelbegin \DIFdel{_{\boldsymbol{\theta}_n}}\DIFdelend \DIFaddbegin \DIFadd{_{\boldsymbol{\theta}}}\DIFaddend (0,\Lambda),
 \end{equation}
 
 where $\Lambda$ is a covariance matrix, here taken as diagonal with diagonal elements $\left[\lambda_{1}, \lambda_{2}, \ldots, \lambda_{J}\right]$, learned from training examples of keyboard clicks.
@@ -196,13 +200,13 @@ where $\Lambda$ is a covariance matrix, here taken as diagonal with diagonal ele
 The background noise is also modelled as a zero-mean Gaussian process so that:
 
 \begin{equation}\label{eq:noise}
-\boldsymbol{v} \sim \mathcal{N}_{\boldsymbol{v}}(0,C_{\boldsymbol{v}}),
+\boldsymbol{v} \DIFdelbegin \DIFdel{_n }\DIFdelend \sim \mathcal{N}\DIFdelbegin \DIFdel{_{\boldsymbol{v}_n}}\DIFdelend \DIFaddbegin \DIFadd{_{\boldsymbol{v}}}\DIFaddend (0,C_{\boldsymbol{v}}),
 \end{equation}
 
 where again $C_v$ is a diagonal covariance matrix with diagonal components \\*$[\sigma_{v,1}^2, \sigma_{v,2}^2, \ldots, \sigma_{v,J}^2]$.
 
 %Bayes'
-Treating the detection state $\boldsymbol{i}$ as a discrete random vector, the probability of $\boldsymbol{i}$, conditional upon the observed (and corrupted) data $\boldsymbol{w}$ and other prior information available to us, can now be calculated. This posterior probability $p(\boldsymbol{i}|\boldsymbol{w})$ can be expressed using Bayes' rule so that
+Treating the detection state $\boldsymbol{i}$ as a discrete random vector\DIFaddbegin \DIFadd{, }\DIFaddend the probability of $\boldsymbol{i}$, conditional upon the observed (and corrupted) data $\boldsymbol{w}$ and other prior information available to us, can now be calculated. This posterior probability $p(\boldsymbol{i}|\boldsymbol{w})$ can be expressed using Bayes' rule so that
 
 \begin{equation}\label{eq:Bayes}
 p(\boldsymbol{i}|\boldsymbol{w}) = \frac{p(\boldsymbol{w}|\boldsymbol{i})p(\boldsymbol{i})}{p(\boldsymbol{w})}
@@ -211,7 +215,7 @@ p(\boldsymbol{i}|\boldsymbol{w}) = \frac{p(\boldsymbol{w}|\boldsymbol{i})p(\bold
 where the likelihood $p(\boldsymbol{w}|\boldsymbol{i})$ will be a significant component of $p(\boldsymbol{i}|\boldsymbol{w})$.
 $\boldsymbol{\theta}$ is our switched random noise process and its amplitude is defined by the noise burst amplitude p.d.f. $p_{\boldsymbol{\theta}}$ which is the joint distribution for the burst amplitudes where $i_{n} = 1$.
 
-Since both functions $p_{\boldsymbol{v}}(\boldsymbol{v})$ and $p_{\boldsymbol{\theta}}(\boldsymbol{\theta})$ are zero-mean Gaussians, we can express each set of wavelet coefficients, $w_j(n)$, as:
+Since both functions $p_{\boldsymbol{v}}(\boldsymbol{v})$ and $p_{\boldsymbol{\theta}}(\boldsymbol{\theta})$ are zero-mean Gaussians, we can express each set of wavelet coefficients\DIFdelbegin \DIFdel{as }\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend $w_j(n)$\DIFaddbegin \DIFadd{, }\DIFaddend as:
 
 \begin{equation}\label{eq:cases}
   w_j(n) \sim
@@ -227,12 +231,12 @@ and the likelihood function $p(\boldsymbol{w}|\boldsymbol{i})$ becomes
 p(\boldsymbol{w}|\boldsymbol{i}) = \prod^J \prod^N \mathcal{N}(0,\sigma_{v,j}^2 + i_n\lambda_j).
 \end{equation}
 
-The \gls{ml} estimate for $i_n$ can now be calculated as
+The \DIFdelbegin \DIFdel{Maximum Likelihood (ML) }\DIFdelend \DIFaddbegin \gls{ml} \DIFaddend estimate for $i_n$ can now \DIFdelbegin \DIFdel{trivially }\DIFdelend be calculated as
 \begin{equation}\label{eq:ml1}
 \hat{i}_n^{\textrm{MLE}} = \arg\max_{i\in\{0,1\}} \prod^J \mathcal{N}(0,\sigma_{v,j} + i_n\lambda_j).
 \end{equation}
 
-Given that keyboard transient noise usually occurs in long bursts, it is essential to incorporate this knowledge into the model. We thus model the state vector $\boldsymbol{i}$ as a \gls{hmm}. Decoding of the hidden state sequence can then be computed using the Viterbi algorithm \cite{Viterbi1967}\cite{Forney1973} to calculate the most likely detection sequence $\boldsymbol{i}$:
+Given that keyboard transient noise usually occurs in long bursts, it is essential to incorporate this knowledge into the model. We thus model the state vector $\boldsymbol{i}$ as a \DIFdelbegin \DIFdel{Hidden Markov Model (HMM)}\DIFdelend \DIFaddbegin \gls{hmm}\DIFaddend . Decoding of the hidden state sequence can then be computed using the Viterbi algorithm \cite{Viterbi1967}\cite{Forney1973} to calculate the most likely detection sequence $\boldsymbol{i}$:
 
 \begin{equation}\label{eq:viterbi}
 \hat{\boldsymbol{i}}^{\textrm{MAP}} = \arg\max_{{\bf i}\in\{0,1\}^N} p(i_{0})\prod_n p(i_n | i_{n-1})p(\boldsymbol{w}(n) | i_n).
@@ -240,11 +244,11 @@ Given that keyboard transient noise usually occurs in long bursts, it is essenti
 
 Here $p(i_{0})$ is the starting probability, $p(i_n | i_{n-1})$ is the transition probability from one state to the next and $p(\boldsymbol{w}(n) | i_n)$ is the emission probability or the observation probability, as determined by (\ref{eq:cases}).
 
-The algorithm proposed above aims to implement a detection algorithm with superior temporal resolution compared with current approaches and to view the detection state as a \gls{hmm} in order to incorporate prior knowledge of the likely evolution of the detection state. In addition, the proposed algorithm is also fundamentally different from current approaches in that it utilises a sparse residual signal that is well modelled by a wavelet basis.
+The algorithm proposed above aims to implement a detection algorithm with superior temporal resolution compared with current approaches and to view the detection state as a \DIFdelbegin \DIFdel{HMM }\DIFdelend \DIFaddbegin \gls{hmm} \DIFaddend in order to incorporate prior knowledge of the likely evolution of the detection state. In addition, the proposed algorithm is also fundamentally different from current approaches in that it utilises a sparse residual signal that is well modelled by a wavelet basis.
 
 \subsection{AR filtering approach}\label{sec:WPdetectionAR}
 
-The terminal node coefficients of the \gls{wpt} of an incoming audio sequence $x(n)$ of length $N$ is defined as $X(j,t)$ where $X_j$ is the $j$th terminal node, $j \in \{1, \ldots, J\}$, and $t$ is the time index related to $n$. A level $L$ \gls{wpt} gives $J = 2^L$ terminal nodes. $X(t)$ will be used to denote a vector of all coefficients at a given time index $t$. We assume that the coefficients for each terminal node $j$ follow this linear predictive model
+The terminal node coefficients of the \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend of an incoming audio sequence $x(n)$ of length $N$ is defined as $X(j,t)$ where $X_j$ is the $j$th terminal node, $j \in \{1, \ldots, J\}$, and $t$ is the time index related to $n$. A level $L$ \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend gives $J = 2^L$ terminal nodes. $X(t)$ will be used to denote a vector of all coefficients at a given time index $t$. We assume that the coefficients for each terminal node $j$ follow this linear predictive model
 
 \begin{equation}\label{eq:lpm}
 X(j,t) = \sum_{m=1}^{M} a_{j,m} X(j,t - m) + v(j,t),
@@ -256,9 +260,13 @@ where $a_{jm}$ is the $m$th weight applied to the $j$th terminal node so that $\
 v(j,t) \sim \mathcal{N}_v(0,\sigma^2_{j,t}).
 \end{equation}
 
-We can now express the probability of $X(j,t)$ conditional on prior values of $X$ assuming independence.
-\
-\begin{align}\label{eq:likelihood}
+We can now express the probability of $X(j,t)$ conditional on prior values of $X$ \DIFdelbegin \DIFdel{.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \DIFadd{assuming independence.
+}\
+\DIFaddend \begin{align}\label{eq:likelihood}
 p\left(X\left(j,t\right)|X\left(j,t-1\right),\ldots,X\left(j,t-M\right)\right) = \nonumber\\
 \qquad \mathcal{N}_X\left( \sum_{m=1}^M a_{j,m} X(j,t - m), \sigma_{j,t}^2\right),
 \end{align}
@@ -282,12 +290,14 @@ where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of 
 
 \section{Methods}\label{sec:WPmethods} %A note about the issues of plotting/decribing/comparing detection results.
 \subsection{Separation algorithm}
-Results provided for the separation algorithm mainly take the form of waveforms. They provide a reference for the amplitude reduction achieved for speech segments of the signal containing both speech and keyboard strokes. Figures are also provided that show the effect of the separation algorithm on both a clean speech segment as well as a keyboard stroke corrupted segment (e.g. Figure~\ref{fig:Separation_Residual_Example}).
+Results provided for the separation algorithm mainly take the form of waveforms. They provide a reference for the amplitude reduction achieved for speech segments of the signal containing both speech and keyboard strokes. Figures are also provided that show the effect of the separation algorithm on both a clean speech segment as well as a keyboard stroke corrupted segment \DIFdelbegin \DIFdel{.
+}\DIFdelend \DIFaddbegin \DIFadd{(e.g. Figure~\ref{fig:Separation_Residual_Example}).
+}\DIFaddend 
 
-A plot of a moving frame estimate of the \gls{mse} is also provided (e.g. Figure~\ref{fig:SeparationError.pdf}) as well as other error measurements such as \gls{psnr} and the maximum \gls{mse} for the entire signal.
+A plot of a moving frame estimate of the \DIFdelbegin \DIFdel{Mean Squared Error (MSE) }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend is also provided \DIFaddbegin \DIFadd{(e.g. Figure~\ref{fig:SeparationError.pdf}) }\DIFaddend as well as other error measurements such as \DIFdelbegin \DIFdel{Peak Signal to Noise Ration (PSNR) }\DIFdelend \DIFaddbegin \gls{psnr} \DIFaddend and the maximum \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend for the entire signal.
 
 \subsection{Detection algorithms}
-The aim of any validation of a detection algorithm should clearly be to assess whether or not the algorithm detects what it is designed to detect as well as if it can dismiss everything else. In Section~\ref{sec:WPdata} it was noted that the pulses in question contain multiple segments that vary in length, amplitude and structure in some cases. To assess the performance of the detection algorithm having a complete record of the time of pulse occurrence would clearly be advantageous. While the primary goal of a keyboard is to inform the computer of keystrokes and their timing, the sample rate of a keyboard is often nowhere near that of audio. A standard desktop keyboard is quoted as accepting 1000 keystrokes per minute \cite{MSCurveKeyboard3000}. As well as this comes additional variable latency inherent in the \gls{os} ultimately rendering any such data useless. To achieve a suitable ground truth estimate of keyboard strokes within audio files manual labeling is the only viable option and this procedure gives rise to a range of additional problems and sources of error:
+The aim of any validation of a detection algorithm should clearly be to assess whether or not the algorithm detects what it is designed to detect as well as if it can dismiss everything else. In Section~\ref{sec:WPdata} it was noted that the pulses in question contain multiple segments that vary in length, amplitude and structure in some cases. To assess the performance of the detection algorithm having a complete record of the time of pulse occurrence would clearly be advantageous. While the primary goal of a keyboard is to inform the computer of keystrokes and their timing, the sample rate of a keyboard is often nowhere near that of audio. A standard desktop keyboard is quoted as accepting 1000 keystrokes per minute \cite{MSCurveKeyboard3000}. As well as this comes additional variable latency inherent in the \DIFdelbegin \DIFdel{OS }\DIFdelend \DIFaddbegin \gls{os} \DIFaddend ultimately rendering any such data useless. To achieve a suitable ground truth estimate of keyboard strokes within audio files manual labeling is the only viable option and this procedure gives rise to a range of additional problems and sources of error:
 
 \begin{itemize}
   \item Variability in the marking of the pulse onset due to subjective factors.
@@ -297,32 +307,33 @@ The aim of any validation of a detection algorithm should clearly be to assess w
 
 Especially the latter concern has caused a variety of issues in relation to the meaningful evaluation of the detection performance of all evaluated detection algorithms within this chapter. While a typical keyboard stroke can contain multiple pulses at varying delays from each other, other background pulses might also be of interest when considering a detection algorithm for audio restoration. While not the primary target, mouse clicks and foot steps from other sources might exhibit many of the spectral characteristics of keyboard strokes and hence cause a similar level of nuisance.
 
-To evaluate the performance of the detection algorithms in this section, a selection of audio files divided into 3 main categories have been used.
+To evaluate the performance of the detection algorithms in this section, a \DIFdelbegin \DIFdel{library }\DIFdelend \DIFaddbegin \DIFadd{selection }\DIFaddend of audio files divided into 3 main categories have been used.
 
-\begin{description} \label{corrections:library}
-  \item[Speech] 53 speech segments of 1-2 seconds manually verified to contain nothing that should be identified as a noise pulse.
-  \item[Keyboard strokes] 40 audio segments containing nothing but a keyboard stroke from either a singular stroke or cut out from a sequence of strokes.
-  \item[Mixed] Various speech segment containing a keyboard stroke. These are the segments used throughout this and the following chapter to demonstrate the algorithms' performance. These segments are a mix of speech and keyboard typing on a mix of laptops and desktops, fast and slow typing as well as different laptop manufacturers (e.g. Figure~\ref{fig:Separation_Residual_Example}).
-\end{description}
+\begin{description} \DIFaddbegin \label{corrections:library}
+  \DIFaddend \item[Speech] \DIFdelbegin \DIFdel{Speech }\DIFdelend \DIFaddbegin \DIFadd{53 speech }\DIFaddend segments of 1-2 seconds manually verified to contain nothing that should be identified as a noise pulse.
+  \item[Keyboard strokes] \DIFdelbegin \DIFdel{Audio }\DIFdelend \DIFaddbegin \DIFadd{40 audio }\DIFaddend segments containing nothing but a keyboard stroke \DIFaddbegin \DIFadd{from either a singular stroke or cut out from a sequence of strokes}\DIFaddend .
+  \item[Mixed] \DIFdelbegin \DIFdel{Speech }\DIFdelend \DIFaddbegin \DIFadd{Various speech }\DIFaddend segment containing a keyboard stroke. \DIFaddbegin \DIFadd{These are the segments used throughout this and the following chapter to demonstrate the algorithms' performance. These segments are a mix of speech and keyboard typing on a mix of laptops and desktops, fast and slow typing as well as different laptop manufacturers (e.g. Figure~\ref{fig:Separation_Residual_Example}).
+}\DIFaddend \end{description}
 
-The speech segments serve as a reference for the false detection rate, the keyboard stroke files provide an unambiguous reference for positive detections and the mixed files are mainly of interest for either visual and audible inspections and subjective restoration trials conducted in the following chapter. 53 short speech samples were used and they were retrieved from a longer speech segments with individual words and short sentences cut out in 1-2 second segments. These comprised a mix of female and male speech in about equal proportions. All samples used here were not part of any publicly available sample libraries.
+The speech segments serve as a reference for the false detection rate, the keyboard stroke files provide an unambiguous reference for positive detections and the mixed files are mainly of interest for either visual and audible inspections and subjective restoration trials conducted in the following chapter. \DIFaddbegin \DIFadd{53 short speech samples were used and they were retrieved from a longer speech segments with individual words and short sentences cut out in 1-2 second segments. These comprised a mix of female and male speech in about equal proportions. All samples used here were not part of any publicly available sample libraries.
+}\DIFaddend 
 
-The term \emph{false detection} will be used to refer to an algorithm wrongfully indicating the presence of a noise pulse when a different cause of the detection can be verified. Typically this would be the sharp onset of a speech segment or loud speech in general. A \emph{correct detection} is generally anything other than a \emph{false detection}. This again outlines the difficulty of assessing a noise detection algorithm and great care must be taken when generating speech sequences for \emph{false detection} rate calculations to not allow anything in the signal that could rightly be considered transient or impulsive noise.
+The term \emph{false detection} will be used to refer to an algorithm wrongfully indicating the presence of a noise pulse when a different cause of the detection can be verified. Typically this would be the sharp onset of a speech segment or \DIFdelbegin \DIFdel{a }\DIFdelend loud speech in general. A \emph{correct detection} is generally anything \DIFdelbegin \DIFdel{else }\DIFdelend \DIFaddbegin \DIFadd{other }\DIFaddend than a \emph{false detection}. This again outlines the difficulty of assessing a noise detection algorithm and great care must be taken when generating speech sequences for \emph{false detection} rate calculations to not allow anything in the signal that could rightly be considered transient or impulsive noise.
 
 The 4 main detection methods tested in the following section are:
 \begin{enumerate}
   \item Noise burst model from section~\ref{sec:WPdetectionNB}
-  \item \gls{ar} filter method from section~\ref{sec:WPdetectionAR}
-  \item \gls{ukd} algorithm from \cite{Subramanya2007}
+  \item \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method from section~\ref{sec:WPdetectionAR}
+  \item \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm from \cite{Subramanya2007}
   \item Generic median filter detector.
 \end{enumerate}
-The two methods (Noise burst from section~\ref{sec:WPdetectionNB} and \gls{ar} filter method from section~\ref{sec:WPdetectionAR}) of the methods outlined in this chapter will utilize the pre-processing stage discussed in section~\ref{sec:WPdetectionSep}.
+\DIFdelbegin \DIFdel{Both }\DIFdelend \DIFaddbegin \DIFadd{The two methods (Noise burst from section~\ref{sec:WPdetectionNB} and }\gls{ar} \DIFadd{filter method from section~\ref{sec:WPdetectionAR}) }\DIFaddend of the methods outlined in this chapter will utilize the pre-processing stage discussed in section~\ref{sec:WPdetectionSep}.
 
-While the \gls{ar} filter, \gls{ukd} and median filter methods all rely on the thresholding of some statistical or detection value, the Noise Burst model relies on a range of parameters such as variance estimates and transition probabilities. Since the sensitivity, and thereby detection and false detection rate, are dependent on these thresholds, a method for evaluating the performance of the algorithms is to compare the range of these statistical or detection values. The greater the margin between false detections and correct detections the stronger the detection capability of the algorithm.
+While the \DIFdelbegin \DIFdel{AR filter, UKD }\DIFdelend \DIFaddbegin \gls{ar} \DIFadd{filter, }\gls{ukd} \DIFaddend and median filter methods all rely on the thresholding of some statistical or detection value, the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model relies on a range of parameters such as variance estimates and transition probabilities. Since the sensitivity, and thereby detection and false detection rate, are dependent on these thresholds\DIFaddbegin \DIFadd{, }\DIFaddend a method for evaluating the performance of the algorithms is to compare the range of these statistical or detection values. The greater the margin between false detections and correct detections the stronger the detection capability of the algorithm.
 
-The Noise Burst model is compared to other algorithms by calibrating the sensitivity of all algorithms to a similar standard of sensitivity using clean speech data and making sure nothing is detected within them.
+The \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model is compared to other algorithms by calibrating the sensitivity of all algorithms to a similar standard of sensitivity using clean speech data and making sure nothing is detected within them.
 
-While the Noise Burst model offers a statistical framework for estimating the duration of pulses, it is also possible to assume the length of a corruption based on experience or even estimate the extent of the corruption based on the level of the excitation over the threshold. This approach will be assumed on all subsequent algorithms and therefore short detection extents in future sections will not necessarily be considered undesirable.
+While the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model offers a statistical framework for estimating the duration of pulses, it is also possible to assume the length of a corruption based on experience or even estimate the extent of the corruption based on the level of the excitation over the threshold. This approach will be assumed on all subsequent algorithms and therefore short \DIFdelbegin \DIFdel{detections }\DIFdelend \DIFaddbegin \DIFadd{detection }\DIFaddend extents in future sections will not necessarily be considered undesirable.
 
 \section{Results}\label{sec:WPresults}
 \subsection{Separation Results} %DONE
@@ -342,14 +353,20 @@ An example of the waveforms from the separation processing stage with both the t
 \begin{figure} %SeparationWaveformEx320.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{SeparationWaveformEx320.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{SeparationWaveformEx320.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < \put(-310,270){a)}
+%DIFDELCMD < \put(-310,130){b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{SeparationWaveformEx320.pdf}
   \begin{picture}(0,0)
 \put(-310,270){a)}
 \put(-310,130){b)}
 \put(-370,200){Level}
 \put(-370,65){Level}
 \end{picture}}
-\end{minipage}
+\DIFaddendFL \end{minipage}
 \caption{Separation example of keyboard pulse, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 320.}
 \label{fig:SeparationWaveformEx320.pdf}
 \end{figure}
@@ -359,14 +376,20 @@ Applying the algorithm to block sizes of 640 samples yields a better separation 
 \begin{figure} %SeparationWaveformEx640.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{SeparationWaveformEx640.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{SeparationWaveformEx640.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < \put(-310,270){a)}
+%DIFDELCMD < \put(-310,130){b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{SeparationWaveformEx640.pdf}
   \begin{picture}(0,0)
 \put(-310,270){a)}
 \put(-310,130){b)}
 \put(-370,200){Level}
 \put(-370,65){Level}
 \end{picture}}
-\end{minipage}
+\DIFaddendFL \end{minipage}
 \caption{Separation example of keyboard pulse, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 640.}
 \label{fig:SeparationWaveformEx640.pdf}
 \end{figure}
@@ -376,14 +399,20 @@ In Figure~\ref{fig:SeparationWaveformExBig320.pdf} and \ref{fig:SeparationWavefo
 \begin{figure} %SeparationWaveformExBig320.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig320.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig320.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < \put(-310,275){a)}
+%DIFDELCMD < \put(-310,135){b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig320.pdf}
   \begin{picture}(0,0)
 \put(-310,275){a)}
 \put(-310,135){b)}
 \put(-370,215){Level}
 \put(-370,75){Level}
 \end{picture}}
-\end{minipage}
+\DIFaddendFL \end{minipage}
 \caption{Separation example of speech and pulses, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 320.}
 \label{fig:SeparationWaveformExBig320.pdf}
 \end{figure}
@@ -391,62 +420,77 @@ In Figure~\ref{fig:SeparationWaveformExBig320.pdf} and \ref{fig:SeparationWavefo
 \begin{figure} %SeparationWaveformExBig640.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig640.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig640.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < \put(-310,275){a)}
+%DIFDELCMD < \put(-310,135){b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{SeparationWaveformExBig640.pdf}
   \begin{picture}(0,0)
 \put(-310,275){a)}
 \put(-310,135){b)}
 \put(-370,215){Level}
 \put(-370,75){Level}
 \end{picture}}
-\end{minipage}
+\DIFaddendFL \end{minipage}
 \caption{Separation example of speech and pulses, a) Tonal component, b) residual component. Sample rate: 16kHz. Block size: 640.}
 \label{fig:SeparationWaveformExBig640.pdf}
 \end{figure}
 
-To further evaluate the effect of the separation algorithm a comparison of the \gls{mse} and the waveform is provided in Figure~\ref{fig:SeparationError.pdf}. In Figure~\ref{fig:SeparationError.pdf}(a) the corrupted signal and the tonal component of the corrupted signal are compared to the original uncorrupted signal. This comparison is made possible since the noisy signal has been corrupted by the linear addition of a keyboard stroke and therefore a perfect record of the uncorrupted signal is available for the \gls{mse} estimate. The large spike in Figure~\ref{fig:SeparationError.pdf}(a) is the location of the corruption in the signal and it is clearly noted that both the corrupted signal as well as the tonal component of the corrupted signal excites the \gls{mse} estimate to varying degrees.
+To further evaluate the effect of the separation algorithm a comparison of the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend and the waveform is provided in Figure~\ref{fig:SeparationError.pdf}. In Figure~\ref{fig:SeparationError.pdf}(a) the corrupted signal and the tonal component of the corrupted signal \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{are }\DIFaddend compared to the original uncorrupted signal. This comparison is made possible since the noisy signal has been corrupted by the linear addition of a keyboard stroke and therefore a perfect record of the uncorrupted signal is available for the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend estimate. The large spike in Figure~\ref{fig:SeparationError.pdf}(a) is the location of the corruption in the signal and it is clearly noted that both the corrupted signal as well as the tonal component of the corrupted signal excites the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend estimate to varying degrees.
 
 Figure~\ref{fig:SeparationError.pdf}(b) shows the waveform for the signals compared in Figure~\ref{fig:SeparationError.pdf}(a) and Figure~\ref{fig:SeparationErrorData.pdf} provides an enhanced view of the waveform for a more detailed comparison.
 
-For the audio segment in Figure~\ref{fig:SeparationError.pdf} in addition to the \gls{mse} estimate provided, the \gls{psnr} value was also increased from 80.5 dB, for the corrupted signal, to 82 dB for the tonal component of the corrupted signal. The maximum \gls{mse} was also calculated to be reduced from 0.52 to 0.32 for the entire signal.
+For the audio segment in Figure~\ref{fig:SeparationError.pdf} in addition to the \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend estimate provided, the \DIFdelbegin \DIFdel{Peak Signal to Noise Ratio (PSNR) }\DIFdelend \DIFaddbegin \gls{psnr} \DIFaddend value was also increased from \DIFdelbegin %DIFDELCMD < \todo{Recalculate PSNR} %%%
+\DIFdelend 80.5 dB, for the corrupted signal, to 82 dB for the tonal component of the corrupted signal. The maximum \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend was also calculated to be reduced from 0.52 to 0.32 for the entire signal.
 
 \begin{figure} %SeparationError.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{SeparationError2.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{SeparationError.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < \put(-310,390){(a)}
+%DIFDELCMD < \put(-310,180){(b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{SeparationError2.pdf}
   \begin{picture}(0,0)
 \put(-313,272){(a)}
 \put(-313,138){(b)}
 \end{picture}}
-\end{minipage}
-\caption{Separation performance example of speech and a pulse, (a) \gls{mse} comparison (b) waveform comparison. Sample rate: 16kHz. Block size: 640.}
+\DIFaddendFL \end{minipage}
+\caption{Separation performance example of speech and a pulse, (a) \DIFdelbeginFL \DIFdelFL{Means Squared Error (MSE) }\DIFdelendFL \DIFaddbeginFL \gls{mse} \DIFaddendFL comparison (b) waveform comparison. Sample rate: 16kHz. Block size: 640.}
 \label{fig:SeparationError.pdf}
 \end{figure}
 
 \begin{figure} %SeparationErrorData.pdf
-\begin{minipage}[b]{1.0\linewidth}
-  \centering
-   \centerline{\includegraphics[width=10cm]{SeparationErrorData.pdf}
+\DIFaddbeginFL \begin{minipage}[b]{1.0\linewidth}
+  \DIFaddendFL \centering
+   \DIFdelbeginFL %DIFDELCMD < \includegraphics[width=10cm]{SeparationErrorData.pdf}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=10cm]{SeparationErrorData.pdf}
 \begin{picture}(0,0)
   \put(-342,144){amplitude}
 \end{picture}}
 \end{minipage}
-\caption{Zoomed in version of the waveform from Figure~\ref{fig:SeparationError.pdf}. Sample rate: 16kHz. Block size: 640.}
+\DIFaddendFL \caption{Zoomed in version of the waveform from Figure~\ref{fig:SeparationError.pdf}. Sample rate: 16kHz. Block size: 640.}
 \label{fig:SeparationErrorData.pdf}
 \end{figure}
 
 
 \subsection{Noise Burst method results}\label{sec:WPdetectionNBresults}
 %Introduction to results
-In Figures~\ref{fig:NBDetCompare.pdf}-\ref{fig:DetectPerfMedian.pdf} the performance of the detection algorithm proposed (red) is, in this chapter, compared to two other keystroke detection algorithms. The first algorithm is the \gls{ukd} algorithm presented in \cite{Subramanya2007} (blue), and the second is a standard median filtered algorithm (green),
+\DIFdelbegin \DIFdel{The }\DIFdelend \DIFaddbegin \DIFadd{In Figures~\ref{fig:NBDetCompare.pdf}-\ref{fig:DetectPerfMedian.pdf} the }\DIFaddend performance of the detection algorithm proposed (red) is, in this chapter, compared to two other keystroke detection algorithms. The first algorithm is the \DIFdelbegin \DIFdel{Unsupervised Keystroke Detection (UKD) }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm presented in \cite{Subramanya2007} (blue), and the second is a standard median filtered algorithm (green),
 
 \begin{equation}
 y(n) = x(n)^2 - \textrm{MED}\left|x(n)^2\right|
 \end{equation}
 
 where $x(n)$ is the incoming signal, $y(n)$ is the detection statistics and $\textrm{MED}\left|\cdot \right|$ is
-the median filter. The following data is all sampled at 32 kHz and recorded either on a laptop or a microphone attached near an external PC keyboard. The median filter buffer is 10 samples and the \gls{ukd} algorithm is implemented as described in \cite{Subramanya2007}.
+the median filter. The following data is all sampled at 32 kHz and recorded either on a laptop or a microphone attached near an external PC keyboard. The median filter buffer is 10 samples and the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm is implemented as described in \cite{Subramanya2007}.
 
-Figure~\ref{fig:NBDetCompare.pdf} shows an example of the detection algorithms running on the same audio sequence used in Figure~\ref{fig:Separation_Residual_Example}. The coloured step functions indicate a detection with their high state and no detection with their low state. All algorithms have been tuned to be as sensitive as possible while only allowing correct detections, or plausibly correct detections. Lowering the thresholds on the \gls{ukd} and the median filter algorithms slightly would cause a false detection in this example. In this example the Noise Burst model quite clearly picks out the keystroke pulse and a secondary pulse associated with the lifting of the keyboard key. It is also clearly seen how the \gls{hmm} stage estimates the most likely length of the pulse and not just the onset as in the \gls{ukd} and median filter approaches.
+Figure~\ref{fig:NBDetCompare.pdf} shows an example of the detection algorithms running on the same audio sequence used in Figure~\ref{fig:Separation_Residual_Example}. The coloured step functions indicate a detection with their high state and no detection with their low state. All algorithms have been tuned to be as sensitive as possible while only allowing correct detections, or plausibly correct detections. Lowering the thresholds on the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend and the median filter algorithms slightly would cause a false detection in this example. In this example the Noise Burst model quite clearly picks out the keystroke pulse and a secondary pulse associated with the lifting of the keyboard key. It is also clearly seen how the \DIFdelbegin \DIFdel{HMM }\DIFdelend \DIFaddbegin \gls{hmm} \DIFaddend stage estimates the most likely length of the pulse and not just the onset as in the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend and median filter approaches.
 
 \begin{figure} %NBDetCompare.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -461,7 +505,7 @@ Figure~\ref{fig:NBDetCompare.pdf} shows an example of the detection algorithms r
 \label{fig:NBDetCompare.pdf}
 \end{figure}
 
-To quantify the performance of the algorithms, the test performed in \ref{fig:NBDetCompare.pdf} was run on the two audio sequences seen in Figure~\ref{fig:NBDetectionResults}. Figure~\ref{fig:NBDetectionResults}(a) shows the results from running the algorithm on 10 clean keystrokes, and Figure~\ref{fig:NBDetectionResults}(b) shows the results from 10 keystrokes but each of which were embedded at different points in different utterances. Both the Noise Burst model and the \gls{ukd} algorithm manage to pick up all 10 keystrokes, with \gls{ukd} catching some additional faint pulses, while the median filter miss 3 keystrokes, mainly the ones with the smallest maximum amplitude. The median filter misses all but 2 keystrokes in Figure~\ref{fig:NBDetectionResults}(b), while the \gls{ukd} algorithm and the Noise Burst algorithm misses 3 and 1 respectively. The stars in Figure~\ref{fig:NBDetectionResults}(b) indicate the ground truth, or in other words the best estimate of where the initial keystroke occurred in the sequence. The algorithms are all tuned to be as sensitive as possible on a third audio sequence containing 8 seconds of only speech without getting any detections.
+To quantify the performance of the algorithms, the test performed in \ref{fig:NBDetCompare.pdf} was run on the two audio sequences seen in Figure~\ref{fig:NBDetectionResults}. Figure~\ref{fig:NBDetectionResults}(a) shows the results from running the algorithm on 10 clean keystrokes, and Figure~\ref{fig:NBDetectionResults}(b) shows the results from 10 keystrokes but each of which were embedded at different points in different utterances. Both the Noise Burst model and the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm manage to pick up all 10 keystrokes, with \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend catching some additional faint pulses, while the median filter \DIFdelbegin \DIFdel{misses }\DIFdelend \DIFaddbegin \DIFadd{miss }\DIFaddend 3 keystrokes, mainly the ones with the smallest maximum amplitude. The median filter misses all but 2 keystrokes in Figure~\ref{fig:NBDetectionResults}(b), while the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm and the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend algorithm misses 3 and 1 respectively. The stars in Figure~\ref{fig:NBDetectionResults}(b) indicate the ground truth, or in other words the best estimate of where the initial keystroke occurred in the sequence. The algorithms are all tuned to be as sensitive as possible on a third audio sequence containing 8 seconds of only speech without getting any detections.
 
 \begin{figure}
 \begin{minipage}[b]{1.0\linewidth}
@@ -484,15 +528,15 @@ To quantify the performance of the algorithms, the test performed in \ref{fig:NB
 \end{figure}
 
 
-\subsubsection{False detection rate}\label{corrections:further_quantify}
-To further quantify the performance of the algorithm a similar test to the above was run on 61 seconds of speech and 43 individual keyboards taps. The audio was recorded via an external microphone in 16kHz and all algorithms were tuned similarly to the previous test. The results of this test has been tabulated in Table~\ref{table:NBResultsTest}.
+\subsubsection{False detection rate}\DIFaddbegin \label{corrections:further_quantify}
+\DIFaddend To further quantify the performance of the algorithm a similar test to the above was run on 61 seconds of speech and 43 individual keyboards taps. The audio was recorded via an external microphone in 16kHz and all algorithms were tuned similarly to the previous test. The results of this test has been tabulated in Table~\ref{table:NBResultsTest}.
 
 \begin{table}
 \caption{Detection results}
 \centering
 \begin{tabular}{|l | c c c|}
 \hline
-                            & Noise Burst   & \gls{ukd}       & Median        \\
+                            & Noise Burst   & \DIFdelbeginFL \DIFdelFL{UKD       }\DIFdelendFL \DIFaddbeginFL \gls{ukd}       \DIFaddendFL & Median        \\
  \hline
  Correct detection rate     & 34 \%         & 20 \%     & 50 \%         \\
  False detections per second& 0             & 0.03      & 0.02          \\
@@ -501,10 +545,11 @@ To further quantify the performance of the algorithm a similar test to the above
  \label{table:NBResultsTest}
 \end{table}
 
-While the detection rate of the Media filtering approach in Table~\ref{table:NBResultsTest} does appear to conflict with the results shown previously, it is noted that this is most likely caused by the consistently much louder transients recorded for the external microphone data. This aligns with previous results showing the Media approach to be heavily reliant on the amplitude of the transient noise. All methods show a similarly low false detection rate.
+\DIFaddbegin \DIFadd{While the detection rate of the Media filtering approach in Table~\ref{table:NBResultsTest} does appear to conflict with the results shown previously, it is noted that this is most likely caused by the consistently much louder transients recorded for the external microphone data. This aligns with previous results showing the Media approach to be heavily reliant on the amplitude of the transient noise. All methods show a similarly low false detection rate.
+}
 
-\subsection{AR Filter method results}
-Figure~\ref{fig:ARFilterDetectionResults} shows, similar to Figure~\ref{fig:NBDetectionResults}, the detection performance for the \gls{ar} filter method (red) in relation to that of the \gls{ukd}\cite{Subramanya2007} (blue) and the standard median filter method (green). Figure~\ref{fig:ARFilterDetectionResults}(a) shows the algorithms' performance on 10 clean keyboard strokes while Figure~\ref{fig:ARFilterDetectionResults}(b) shows an example of the algorithms' performance when the keyboard strokes are embedded in speech. As seen in Figure~\ref{fig:NBDetectionResults} with the proposed Noise Burst model, the \gls{ar} filter model in Figure~\ref{fig:ARFilterDetectionResults} indicates a detection in between the first and the second correct detections. Both of these detections are clearly provoked by the sudden onset of the speech utterance which is considered a false detection.
+\DIFaddend \subsection{AR Filter method results}
+Figure~\ref{fig:ARFilterDetectionResults} shows, similar to Figure~\ref{fig:NBDetectionResults}, the detection performance for the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method (red) in relation to that of the \DIFdelbegin \DIFdel{UKD}\DIFdelend \DIFaddbegin \gls{ukd}\DIFaddend \cite{Subramanya2007} (blue) and the standard median filter method (green). Figure~\ref{fig:ARFilterDetectionResults}(a) shows the algorithms' performance on 10 clean keyboard strokes while Figure~\ref{fig:ARFilterDetectionResults}(b) shows an example of the algorithms' performance when the keyboard strokes are embedded in speech. As seen in Figure~\ref{fig:NBDetectionResults} with the proposed \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model, the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter model in Figure~\ref{fig:ARFilterDetectionResults} indicates a detection in between the first and the second correct detections. Both of these detections are clearly provoked by the sudden onset of the speech utterance \DIFdelbegin \DIFdel{and }\DIFdelend \DIFaddbegin \DIFadd{which }\DIFaddend is considered a false detection.
 
 \begin{figure}
 \begin{minipage}[b]{1.0\linewidth}
@@ -526,18 +571,24 @@ Figure~\ref{fig:ARFilterDetectionResults} shows, similar to Figure~\ref{fig:NBDe
 \label{fig:ARFilterDetectionResults}
 \end{figure}
 
-Since the 3 detection methods compared in this section all work by thresholding some statistical value the maximum excitation for various signal types can be compared and ideally there should be a margin between correct detection and false detections in which a threshold limit can be set. Figures~\ref{fig:DetectPerfARFilt.pdf} - \ref{fig:DetectPerfMedian.pdf} show the maximum excitations for 40 different keystroke files and 53 different speech segments for the three detection methods previously compared in this section. Figures~\ref{fig:DetectPerfARFilt.pdf} and \ref{fig:DetectPerfUKD.pdf} show that for both the \gls{ar} filter and the \gls{ukd} method, there is a distinct margin between the lowest maximum excitation for a positive detection and the highest maximum detection for a false detection indicating that there are a range of values for which perfect detection could be achieved for this training set. The minimum response for correct detection is 1067 and 91.4 for the \gls{ar} filter and \gls{ukd} methods respectively, while the maximum response for a false detection, or for the clean speech segments, is 714.4 and 72.2 for the \gls{ar} filter and \gls{ukd} methods respectively. In relative terms the maximum response for a false detection in this test would be 67\% of the minimum correct detection response while the same number for the \gls{ukd} method would be 79\%.
+Since the 3 detection methods compared in this section all work by thresholding some statistical value the maximum excitation for various signal types can be compared and ideally there should be a margin between correct detection and false detections in which a threshold limit can be set. Figures~\ref{fig:DetectPerfARFilt.pdf} - \ref{fig:DetectPerfMedian.pdf} show the maximum excitations for 40 different keystroke files and 53 different speech segments for the three detection methods previously compared in this section. Figures~\ref{fig:DetectPerfARFilt.pdf} and \ref{fig:DetectPerfUKD.pdf} show that for both the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter and the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend method, there is a distinct margin between the lowest maximum excitation for a positive detection and the highest maximum detection for a false detection indicating that there are a range of values for which perfect detection could be achieved for this training set. The minimum response for correct detection is 1067 and 91.4 \DIFaddbegin \DIFadd{for the }\gls{ar} \DIFadd{filter and }\gls{ukd} \DIFadd{methods respectively, }\DIFaddend while the maximum response for a false detection, or for the clean speech segments, is 714.4 and 72.2 for the \DIFdelbegin \DIFdel{AR filter and UKD }\DIFdelend \DIFaddbegin \gls{ar} \DIFadd{filter and }\gls{ukd} \DIFaddend methods respectively. In relative terms the maximum response for a false detection in this test would be 67\% of the minimum correct detection response while the same number for the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend method would be 79\%.
 Figure~\ref{fig:DetectPerfMedian.pdf} shows that although the mean value for the maximum detection statistics are clearly separated, several samples give results within the range of 0.05, the lowest maximum detection for a keystroke, and 0.29, the highest maximum detection for a clean speech signal.
 
 \begin{figure} %DetectPerfARFilt.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{DetectPerfARFilt2.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{DetectPerfARFilt.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < %\put(-310,275){a)}
+%DIFDELCMD < %\put(-310,135){b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{DetectPerfARFilt2.pdf}
   \begin{picture}(0,0)
 %\put(-310,275){a)}
 %\put(-310,135){b)}
 \end{picture}}
-\end{minipage}
+\DIFaddendFL \end{minipage}
 \caption{Maximum detector response for files with either a tap or some speech.}
 \label{fig:DetectPerfARFilt.pdf}
 \end{figure}
@@ -545,12 +596,18 @@ Figure~\ref{fig:DetectPerfMedian.pdf} shows that although the mean value for the
 \begin{figure} %DetectPerfUKD.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{DetectPerfUKD2.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{DetectPerfUKD.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < %\put(-310,275){a)}
+%DIFDELCMD < %\put(-310,135){b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{DetectPerfUKD2.pdf}
   \begin{picture}(0,0)
 %\put(-310,275){a)}
 %\put(-310,135){b)}
 \end{picture}}
-\end{minipage}
+\DIFaddendFL \end{minipage}
 \caption{Maximum detector response for files with either a tap or some speech.}
 \label{fig:DetectPerfUKD.pdf}
 \end{figure}
@@ -558,23 +615,29 @@ Figure~\ref{fig:DetectPerfMedian.pdf} shows that although the mean value for the
 \begin{figure} %DetectPerfMedian.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{DetectPerfMedian2.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{DetectPerfMedian.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < %\put(-310,275){a)}
+%DIFDELCMD < %\put(-310,135){b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{DetectPerfMedian2.pdf}
   \begin{picture}(0,0)
 %\put(-310,275){a)}
 %\put(-310,135){b)}
 \end{picture}}
-\end{minipage}
+\DIFaddendFL \end{minipage}
 \caption{Maximum detector response for files with either a tap or some speech.}
 \label{fig:DetectPerfMedian.pdf}
 \end{figure}
 
 \subsubsection{False detection rate}
 
-To evaluate the performance of any given detection algorithm the rate of false detections is often considered. Assuming that all positive detections were detected correctly, the false detection rate gives a measure of an algorithm's sensitivity and therefore its performance.
+To evaluate the performance of any given detection algorithm the rate of false detections is often considered. Assuming that all positive detections were detected correctly, the false detection rate gives a measure of an \DIFdelbegin \DIFdel{algorithms }\DIFdelend \DIFaddbegin \DIFadd{algorithm's }\DIFaddend sensitivity and therefore its performance.
 
-This comparison will be to compare the Wavelet based detection algorithm, discussed in section~\ref{sec:WPdetection}, the \gls{stft} based \gls{ukd} algorithm \cite{Subramanya2007} and a basic median based detection algorithm. Since the detection algorithms investigated depend on various thresholds, it is important to construct a method for calibrating all methods so a valid comparison can be drawn. For this calibration a set of 40 keyboard taps collected from a variety of sources was used. The threshold was set as the minimum value of the maximum responses of each tap for every model, in other words, the threshold was adjusted so that it would only just detect all 40 taps.
+This comparison \DIFdelbegin \DIFdel{we will be }\DIFdelend \DIFaddbegin \DIFadd{will be to }\DIFaddend compare the Wavelet based detection algorithm, discussed in section~\ref{sec:WPdetection}, the \DIFdelbegin \DIFdel{STFT based UKD }\DIFdelend \DIFaddbegin \gls{stft} \DIFadd{based }\gls{ukd} \DIFaddend algorithm \cite{Subramanya2007} and a basic median based detection algorithm. Since the detection algorithms investigated depend on various thresholds, it is important to construct a method for calibrating all methods so a valid comparison can be drawn. For this calibration a set of 40 keyboard taps collected from a variety of sources was used. The threshold was set as the minimum value of the maximum responses of each tap for every model, in other words, the threshold was adjusted so that it would only just detect all 40 taps.
 
-Figure~\ref{fig:maxes.pdf} shows the various maximum responses of each tap for all three detection methods. Had any of these methods produced a significantly lower response for only a few of the taps the calibration scheme chosen would have put that detection method at a disadvantage. In this instance none of the methods produced significantly outlying responses. Although it is noted that the Wavelet based detector does produce significantly higher responses in some instances.
+Figure~\ref{fig:maxes.pdf} shows the various maximum responses of each tap for all three detection methods. Had any of these methods produced a significantly lower response for only a few of the taps the calibration scheme chosen would have put that detection method at a disadvantage. In this instance none of the methods produced significantly outlying responses. \DIFdelbegin \DIFdel{It is although }\DIFdelend \DIFaddbegin \DIFadd{Although it is }\DIFaddend noted that the Wavelet based detector does produce significantly higher responses in some instances.
 
 \begin{figure} %maxes.pdf
 \centering
@@ -585,46 +648,50 @@ Figure~\ref{fig:maxes.pdf} shows the various maximum responses of each tap for a
 
 Given the threshold set as described above, an additional 55 short audio segments (combined playing time of about 1 min) containing speech were analysed.
 
-It was found that both the Wavelet and \gls{stft} based methods had 2 false detections while the median detector had 28 false detections. While the \gls{ukd}, which relies on \gls{stft}, method might have identical performance to the Wavelet based method it should be noted that the \gls{ukd} method requires a longer look-ahead and provides a coarser temporal resolution than the Wavelet based method.
+It was found that both the Wavelet and \DIFdelbegin \DIFdel{STFT }\DIFdelend \DIFaddbegin \gls{stft} \DIFaddend based methods had 2 false detections while the median detector had 28 false detections. While the \DIFdelbegin \DIFdel{STFT UKD }\DIFdelend \DIFaddbegin \gls{ukd}\DIFadd{, which relies on }\gls{stft}\DIFadd{, }\DIFaddend method might have identical performance to the Wavelet based method it should be noted that the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend method requires a longer look-ahead and provides a coarser temporal resolution than the Wavelet based method.
 
 \section{Discussion}\label{sec:WPdiscussion}
 \subsection{Separation algorithm}
 
-By visual inspection of Figures~\ref{fig:Separation_Residual_Example} through \ref{fig:SeparationWaveformExBig640.pdf} it is clear that the separation algorithm provides a reduction of speech while leaving transient noise events largely the same in the residual component. Audibly this effect is also clearly verified\footnote{Listen to separation examples on \siteURL.}. Despite a distinct audible effect on the speech the tonal component alone manages a decreased maximum \gls{mse} from 5.2 to 3.2 as well as increasing the \gls{psnr} from 80.5 dB to 82 dB. While the maximum \gls{mse} is nearly halved in the tonal component of the signal, the original corruption site is still clearly visible in Figure~\ref{fig:SeparationError.pdf}. The original corruption is nearly inaudible in the tonal component and Figure~\ref{fig:SeparationErrorData.pdf} shows in more detail the waveform of the corruption site. The \gls{mse} might still be significant in Figure~\ref{fig:SeparationError.pdf} but Figure~\ref{fig:SeparationErrorData.pdf} reveals that this might mainly be due to phase shifts around the corruption site with an inaudible effect.
+By visual inspection of Figures~\ref{fig:Separation_Residual_Example} through \ref{fig:SeparationWaveformExBig640.pdf} it is clear that the separation algorithm provides a reduction of speech while leaving transient noise events largely the same in the residual component. Audibly this effect is also clearly verified\footnote{Listen to separation examples on \siteURL.}. Despite a distinct audible effect on the speech the tonal component alone manages a decreased maximum \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend from 5.2 to 3.2 as well as increasing the \DIFdelbegin \DIFdel{PSNR }\DIFdelend \DIFaddbegin \gls{psnr} \DIFaddend from 80.5 dB to 82 dB. While the maximum \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend is nearly halved in the tonal component of the signal, the original corruption site is still clearly visible in Figure~\ref{fig:SeparationError.pdf}. The original corruption is nearly inaudible in the tonal component and Figure~\ref{fig:SeparationErrorData.pdf} shows in more detail the waveform of the corruption site. The \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend might still be significant in Figure~\ref{fig:SeparationError.pdf} but Figure~\ref{fig:SeparationErrorData.pdf} reveals that this might mainly be due to phase shifts around the corruption site with an inaudible effect.
 
 \subsection{Detection algorithms}
-Two different, but related, detection algorithms have been presented in this chapter; the Noise Burst model algorithm and the \gls{ar} filtering algorithm. These two have been compared to two other approaches; the \gls{ukd} algorithm \cite{Subramanya2007} and a median filter algorithm. While the median filter algorithm provides a benchmark for one of the simplest approaches previously used for similar applications, the \gls{ukd} algorithm represents the best alternative in the literature.
+Two different, but related, detection algorithms have been presented in this chapter; the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model algorithm and the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filtering algorithm. These two have been compared to two other approaches; the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm \cite{Subramanya2007} and a median filter algorithm. While the median filter algorithm provides a benchmark for one of the simplest approaches previously used for similar applications, the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm represents the best alternative in the literature.
 
 %Discussion of NBDetectionResults and NBResultsTest 
-\label{corrections:discuss_discrep}
-It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the \gls{ukd} algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the \gls{ukd} algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the \gls{ukd} appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. It is worth noting that generally the keyboard strokes missed are the ones where the pulse amplitude appears to not exceed that of the speech segment. For all methods tested this appears to be a difficult detection scenario especially at low (for audio in general) sample rates of 16kHz. At higher sample rates, where the speech would take up a lower proportion of the bandwidth, the algorithms should perform better assuming that the noise pulse's spectrum is being limited by the current sample rate. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than \gls{ukd} while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
+\DIFaddbegin \label{corrections:discuss_discrep}
+\DIFaddend It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. It is worth noting that generally the keyboard strokes missed are the ones where the pulse amplitude appears to not exceed that of the speech segment. For all methods tested this appears to be a difficult detection scenario especially at low (for audio in general) sample rates of 16kHz. At higher sample rates, where the speech would take up a lower proportion of the bandwidth, the algorithms should perform better assuming that the noise pulse's spectrum is being limited by the current sample rate. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
 
-Figure~\ref{fig:NBDetCompare.pdf} specifically shows one of the strengths of the Noise Burst algorithm in relation to the \gls{ukd} algorithm. While both algorithms catch elements of both keyboard strokes the \gls{ukd} algorithm misses the initial pulse of the second keyboard stroke. Additionally the Noise Burst algorithm gives a clear estimate of the extent of the corruption. The detection rate results from Table~\ref{table:NBResultsTest} also show similar results although again slightly in favour of the Noise Burst model.
+Figure~\ref{fig:NBDetCompare.pdf} specifically shows one of the strengths of the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend algorithm in relation to the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm. While both algorithms catch elements of both keyboard strokes the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm misses the initial pulse of the second keyboard stroke. Additionally the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend algorithm gives a clear estimate of the extent of the corruption. The detection rate results from Table~\ref{table:NBResultsTest} also show similar results although again slightly in favour of the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model.
 
-In general the results presented in section~\ref{sec:WPdetectionNBresults} indicate that the Noise Burst model outperforms both the \gls{ukd} and the median filter method. A significant issue with the Noise Burst model is that it requires a good estimate for the variance of noise pulses in order to perform well. The results presented in this chapter have attempted to assess the algorithms using a variety of data but the amount of tuning required for the Noise Burst model to perform well makes a simple and general implementation infeasible.
+In general the results presented in section~\ref{sec:WPdetectionNBresults} indicate that the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model outperforms both the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend and the median filter method. A significant issue with the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model is that it requires a good estimate for the variance of noise pulses in order to perform well. \DIFdelbegin \DIFdel{Additional algorithmic complexity updates will be required for the algorithm to perform well in various scenarios. }\DIFdelend The results presented in this chapter have attempted to assess the algorithms using a variety of data but the amount of tuning required for the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model to perform well makes a simple and general implementation infeasible.
 
-The \gls{ar} filter method was considerably easier to implement, more generally applicable and computationally simpler. Figure~\ref{fig:ARFilterDetectionResults} shows the results from a similar test to that of Figure~\ref{fig:NBDetCompare.pdf} with the \gls{ar} filter method generally being more sensitive. While the \gls{ar} filter method does appear to trigger more false detections, closer inspection of the underlying data suggests that some of these are in fact secondary pulses while others are different spurious acoustic noise pulses. The only clearly falsely detected pulse is the detection of the sharp speech onset in the second speech segment. The same speech segment that the Noise Burst model falsely detected, as seen in Figure~\ref{fig:NBDetCompare.pdf}. As with the Noise Burst model the \gls{ar} filter method also misses a detection though a different one.
+The \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method was considerably easier to implement, more generally applicable and computationally simpler. Figure~\ref{fig:ARFilterDetectionResults} shows the results from a similar test to that of Figure~\ref{fig:NBDetCompare.pdf} with the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method generally being more sensitive. While the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method does appear to trigger more false detections, closer inspection of the underlying data suggests that some of these are in fact secondary pulses while others are different spurious acoustic noise pulses. The only clearly falsely detected pulse is the detection of the sharp speech onset in the second speech segment. The same speech segment that the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model falsely detected, as seen in Figure~\ref{fig:NBDetCompare.pdf}. As with the \DIFdelbegin \DIFdel{noise burst model the AR }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst model the }\gls{ar} \DIFaddend filter method also misses a detection though a different one.
 
-While the visible real world detection results, Figures~\ref{fig:ARFilterDetectionResults} and \ref{fig:NBDetCompare.pdf}, are informative, assessing objectively what qualifies as a false detection can be difficult. The Figures~\ref{fig:DetectPerfARFilt.pdf} - \ref{fig:DetectPerfMedian.pdf} provide clear representation of the range of excitation values for a set of 40 audio files with keyboard strokes and 53 files including speech and no noise pulses. The general margin between these two ranges indicate the robustness of the algorithm. It is seen from these plots that the \gls{ar} filter method, Figure~\ref{fig:DetectPerfARFilt.pdf}, and the \gls{ukd} algorithm, Figure~\ref{fig:DetectPerfUKD.pdf}, clearly outperform the median filter approach, Figure~\ref{fig:DetectPerfMedian.pdf}, which shows a significant overlap of the two ranges. While the \gls{ar} filter approach has maximum responses with higher variance, the \gls{ukd} algorithm has a more consistent response. The lower variance of the \gls{ukd} response is probably due to a smoothing effect by the larger size of the Fourier transform windows used in this procedure, since both methods respond to similar wide band noise characteristics in the pulses. The two methods also have responses on very different scales so a direct comparison is difficult, but based on the relationship between the minimum response for a positive detection and the maximum response for a false detection the \gls{ar} filter method provides an increased margin and thereby robustness. The \gls{ar} filter method also provides higher temporal resolution, via the Wavelet Transform, than the \gls{ukd} algorithm in addition to not requiring the additional look-ahead. Better temporal resolution provides more accurate detection and therefore more accurate restoration. Less required look-ahead in the algorithm makes real time implementations more feasible and reduces in-built latency.
+While the visible real world detection results, Figures~\ref{fig:ARFilterDetectionResults} and \ref{fig:NBDetCompare.pdf}, are informative, assessing objectively what qualifies as a false detection can be difficult. The Figures~\ref{fig:DetectPerfARFilt.pdf} - \ref{fig:DetectPerfMedian.pdf} provide clear representation of the range of excitation values for a set of 40 audio files with keyboard strokes and 53 files including speech and no noise pulses. The general margin between these two ranges indicate the robustness of the algorithm. It is seen from these plots \DIFdelbegin \DIFdel{the AR }\DIFdelend \DIFaddbegin \DIFadd{that the }\gls{ar} \DIFaddend filter method, Figure~\ref{fig:DetectPerfARFilt.pdf}, and the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm, Figure~\ref{fig:DetectPerfUKD.pdf}, clearly outperform the median filter approach, Figure~\ref{fig:DetectPerfMedian.pdf}, which shows a significant overlap of the two ranges. While the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter approach has maximum responses with higher variance\DIFdelbegin \DIFdel{the UKD }\DIFdelend \DIFaddbegin \DIFadd{, the }\gls{ukd} \DIFaddend algorithm has a more consistent response. The lower variance of the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend response is probably due to a smoothing effect by the larger size of the Fourier transform windows used in this procedure, since both methods respond to similar wide band noise characteristics in the pulses. The two methods also have responses on very different scales so a direct comparison is difficult\DIFaddbegin \DIFadd{, }\DIFaddend but based on the relationship between the minimum response for a positive detection and the maximum response for a false detection the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method provides an increased margin and thereby robustness. The \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method also provides higher temporal resolution, via the Wavelet Transform, than the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm in addition to not requiring the additional look-ahead. Better temporal resolution provides more accurate detection and therefore more accurate restoration. Less required look-ahead in the algorithm makes real time implementations more feasible and reduces in-built latency.
 
 %Although the algorithms generally performed well on the data sampled at 16kHz in this section, which is common in wide band VoIP applications, it should be noted that for audio recorded at higher sample rates the
 %narrowband telecommunication systems work against these detection algorithms by having a less sparse spectrum.
 \section{Conclusions}\label{sec:WPconclusions}
 
-This chapter has explored a variety of noise pulse detectors for the express purpose of detecting keyboard strokes for a real-time communication system. The pulses created by the keyboard stroke were found to generally consist of a number of noise pulses each associated with various mechanical interactions with the keyboard itself. All of these pulses had varying amplitudes and timing in relation to each other depending on the range of parameters. The individual detection of these different pulses appears to be the only feasible approach to the detection step due to this variability. Two detectors were developed and tested in this section; the Noise Burst model and the \gls{ar} filter method. These were compared and contrasted with a state of the art algorithm for this purpose, the \gls{ukd} algorithm \cite{Subramanya2007}, and a basic, largely legacy, approach using a median filter.
+This chapter has explored a variety of noise pulse detectors for the express purpose of detecting keyboard strokes for a real-time communication system. The pulses created by the keyboard stroke were found to generally consist of a number of noise pulses each associated with various mechanical interactions with the keyboard itself. All of these pulses had varying amplitudes and timing in relation to each other depending on the range of parameters. The individual detection of these different pulses appears to be the only feasible approach to the detection step due to this variability. Two detectors were developed and tested in this section; the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model and the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method. These were compared and contrasted with a state of the art algorithm for this purpose, the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm \cite{Subramanya2007}, and a basic, largely legacy, approach using a median filter.
 
-Tests suggested that with careful tuning the Noise Burst model performed at least as well as the \gls{ukd} algorithm on the data sets used, while providing additional functionality. It was also noted that the algorithm was reliant on a variety of parameters that complicated the application of the algorithm and could limit the general applicability of the algorithm.
+Tests suggested that with careful tuning the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model performed at least as well as the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm on the data sets used, while providing additional functionality. It was also noted that the algorithm was reliant on a variety of parameters that complicated the application of the algorithm and could limit the general applicability of the algorithm.
 
-While it is difficult to conclusively state, based on the results in section~\ref{sec:WPresults}, that the \gls{ar} filter method is superior to the Noise Burst model and the \gls{ukd} algorithm, considering practical implementation concerns, it provides a detection performance at least on par with the competition without the in-built latency and poor temporal resolution of the \gls{ukd} algorithm or the required training and complexity of the Noise Burst model. Predictably, all algorithms tested outperformed the median filter algorithm.
+While it is difficult to conclusively state, based on the results in section~\ref{sec:WPresults}, that the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter method is superior to the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model and the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm, considering practical implementation concerns\DIFaddbegin \DIFadd{, }\DIFaddend it provides a detection performance at least on par with the competition without the in-built latency and poor temporal resolution of the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm or the required training and complexity of the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model. Predictably, all algorithms tested outperformed the median filter algorithm.
 
 \subsection{Possible future work}
-Based on the same background assumption that led to the development of the multi-channel \gls{apr} system in chapter~\ref{ch:MultichannelAPR}, it is possible to extend the detection process to multiple channels. While not necessarily providing the same information through \gls{tof} it is still possible to improve performance through additional correlated sources as clearly shown from the results in chapter~\ref{ch:MultichannelAPR} if only with nothing more than simple majority voting (median/mode processing).
+Based on the same background assumption that led to the development of the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system in chapter~\ref{ch:MultichannelAPR}, it is possible to extend the detection process to multiple channels. While not necessarily providing the same information through \DIFdelbegin \DIFdel{ToF }\DIFdelend \DIFaddbegin \gls{tof} \DIFaddend it is still possible to improve performance through additional correlated sources as clearly shown from the results in chapter~\ref{ch:MultichannelAPR} if only with nothing more than simple majority voting (median/mode processing).
 
 \subsubsection{Sinusoidal/peak tracking}
-To improve the preprocessing stage a peak tracking or sinusoidal tracking algorithm could be applied to improve the tonal component detection scheme. While this would complicate the procedure it would also improve the tonal component estimate and perhaps reduce the tonal noise interference \cite{McAulay1986}.
+To improve the preprocessing stage a peak tracking or sinusoidal tracking algorithm could be applied to improve the tonal component detection scheme. While this would complicate the procedure it would also improve the tonal component estimate and perhaps reduce the tonal noise interference \cite{McAulay1986}\DIFaddbegin \DIFadd{.
+}
 
-\subsubsection{\gls{mfcc} based speech extraction}\label{corrections:mfcc2}
-While the \gls{mfcc} features do exhibit a high sensitivity to additive noise they may provide a useful basis for speech extraction from the noisy signal specifically given that the formants are not primarily affected by this additive noise \cite{Tyagi2005}. Another benefit of \gls{mfcc} features are their computationally efficient derivation schemes developed.
+\subsubsection{\gls{mfcc} \DIFadd{based speech extraction}}\label{corrections:mfcc2}
+\DIFadd{While the }\gls{mfcc} \DIFadd{features do exhibit a high sensitivity to additive noise they may provide a useful basis for speech extraction from the noisy signal specifically given that the formants are not primarily affected by this additive noise \mbox{%DIFAUXCMD
+\cite{Tyagi2005}
+}%DIFAUXCMD
+. Another benefit of }\gls{mfcc} \DIFadd{features are their computationally efficient derivation schemes developed}\DIFaddend .
 
 % ------------------------------------------------------------------------
 

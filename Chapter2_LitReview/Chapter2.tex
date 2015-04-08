@@ -6,22 +6,25 @@
     \graphicspath{{Chapter2_LitReview/Chapter2Figs/EPS/}{Chapter2_LitReview/Chapter2Figs/}}
 \fi
 
-The literature review presented in this chapter is split into three major sections: Classification, Detection and Restoration. These sections contain the literature review that forms the basis of each chapter of this thesis. The classification section covers literature reviewed for the work undertaken in chapters~\ref{ch:APR} and \ref{ch:MultichannelAPR} while the detection and restoration sections cover work undertaken in chapters~\ref{ch:TransientNoiseDetection} and \ref{ch:TransientNoiseRestoration}.
+The literature review presented in this chapter is split into three major sections: Classification, Detection and Restoration. These sections contain the literature review that \DIFdelbegin \DIFdel{formes }\DIFdelend \DIFaddbegin \DIFadd{forms }\DIFaddend the basis of each chapter of this thesis. The classification section covers literature reviewed for the work undertaken in chapters~\ref{ch:APR} and \ref{ch:MultichannelAPR} while the detection and restoration sections cover work undertaken in chapters~\ref{ch:TransientNoiseDetection} and \ref{ch:TransientNoiseRestoration}.
 
 %Not JUST classification. Also some other stuff (needs to be removed)
 \section{Classification}\label{sec:LitRev_Classification}
 %\subsection{Computational auditory scene analysis (CASA)}
 %The computational auditory scene analysis (CASA) approach to source separation attempts to mimic the auditory scene analyzing (ASA) capabilities of the brain by computational means. \cite{Wang2006} state: ``One may define the CASA problem as the challenge of constructing a machine learning system that achieves human performance in ASA''. In an attempt to make CASA systems more \emph{biologically relevant} many CASA systems limit their scope to either monaural or binaural input signals and hence replicating the ASA problem where only the signal from the two ears are present.
 %
-%More specifically CASA solutions aim to identify certain auditory object, such as characterizing note objects in terms of harmonicity, correlated modulation, duration of sinusoidal partials and common onset, and arranging these into streams using psycho-acoustic cues \citep{Ellis1996}. Proximity of time-frequency objects within the audio mixture can cause problems for CASA whereas ASA is able to retain a reasonable degree of separation of sources. These shortcomings of CASA have thus been the focus of much research. Examples of this is the integration of evidence derived from multiple grouping principles at several levels of abstraction \citep{Godsmark1999}, matching of timbre features learned on solo excerpts \citep{Kashino1998}, \citep{Kinoshita1999}, \citep{Eggink2003} (based on a Gaussian mixture model (GMM) classifier). More recently the overlap probability of frequency components has been introduced to improve algorithm performance \citep{Sakuraba2003}.
+%DIF < More specifically CASA solutions aim to identify certain auditory object, such as characterizing note objects in terms of harmonicity, correlated modulation, duration of sinusoidal partials and common onset, and arranging these into streams using psycho-acoustic cues\citep{Ellis1996}. Proximity of time-frequency objects within the audio mixture can cause problems for CASA whereas ASA is able to retain a reasonable degree of separation of sources. These shortcomings of CASA have thus been the focus of much research. Examples of this is the integration of evidence derived from multiple grouping principles at several levels of abstraction\citep{Godsmark1999}, matching of timbre features learned on solo excerpts \citep{Kashino1998},\citep{Kinoshita1999},\citep{Eggink2003} (based on a Gaussian mixture model (GMM) classifier). More recently the overlap probability of frequency components has been introduced to improve algorithm performance\citep{Sakuraba2003}.
+%DIF > More specifically CASA solutions aim to identify certain auditory object, such as characterizing note objects in terms of harmonicity, correlated modulation, duration of sinusoidal partials and common onset, and arranging these into streams using psycho-acoustic cues \citep{Ellis1996}. Proximity of time-frequency objects within the audio mixture can cause problems for CASA whereas ASA is able to retain a reasonable degree of separation of sources. These shortcomings of CASA have thus been the focus of much research. Examples of this is the integration of evidence derived from multiple grouping principles at several levels of abstraction \citep{Godsmark1999}, matching of timbre features learned on solo excerpts \citep{Kashino1998}, \citep{Kinoshita1999}, \citep{Eggink2003} (based on a Gaussian mixture model (GMM) classifier). More recently the overlap probability of frequency components has been introduced to improve algorithm performance \citep{Sakuraba2003}.
 %
 %CASA methods still suffer from a few drawbacks though. The brain's own ASA system is able to localize sources in a natural acoustic environment through what is known as the \emph{precedence effect}. In environments where a sound is reflected multiple times before reaching the listener, the brain is able to give \emph{precedence} to early arrival of sounds, such as the direct sound, and hence evaluate the true location of the sound. This precedence rule between grouping cues can be hard to assess \citep{Wang2006}, which is also why current methods are restricted to non-reverberant mixtures \citep{Vincent2006}.
 %
 %In the recent paper, \cite{Shao2010}, the authors present a CASA system for separating speech signals in the presence of other speech or noise. Their approach proceeds by tracking time-frequency units across time frames in 2 different stages. Firstly they use harmonicity to segregate the voiced portions of individual sources for each time frame using multipitch tracking. Secondly the time-frequency units are grouped across the time frames by utilizing knowledge from the speaker characteristics. The system proposed in \cite{Shao2010} mainly focusses on features such as onset/offset and periodicity which are not specific necessarily specific to the target source or even speech and as such this system works well for a variety of speech separation cases with a variety of noise scenarios.
 %
 %\subsection{Independent Component Analysis (ICA)}
-%One of the most widely known and used methods for blind source separation (\gls{bss}) is independent component analysis (ICA). \gls{ica} proposes to separate a multivariate signals into additive subcomponents supposing the mutual statistical independence of the non-Gaussian source signals. For $M$ observations and $N$ sources it is a requirement for \gls{ica} to work that $M\geq N$.
-%In general \gls{ica} can be defined as the linear transformation $\textrm{\textbf{A}}$ of observed data $\textrm{\textbf{x}} = [x_1,\ldots,x_M]$
+%DIF < One of the most widely known and used methods for blind source separation (BSS) is independent component analysis (ICA). ICA proposes to separate a multivariate signals into additive subcomponents supposing the mutual statistical independence of the non-Gaussian source signals. For $M$ observations and $N$ sources it is a requirement for ICA to work that $M\geq N$.
+%DIF < In general ICA can be defined as the linear transformation $\textrm{\textbf{A}}$ of observed data $\textrm{\textbf{x}} = [x_1,\ldots,x_M]$
+%DIF > One of the most widely known and used methods for blind source separation (\gls{bss}) is independent component analysis (ICA). \gls{ica} proposes to separate a multivariate signals into additive subcomponents supposing the mutual statistical independence of the non-Gaussian source signals. For $M$ observations and $N$ sources it is a requirement for \gls{ica} to work that $M\geq N$.
+%DIF > In general \gls{ica} can be defined as the linear transformation $\textrm{\textbf{A}}$ of observed data $\textrm{\textbf{x}} = [x_1,\ldots,x_M]$
 %
 %\begin{equation}\label{eq:ICA1}
 %    \textrm{\textbf{x}} = \textrm{\textbf{A}}\textrm{\textbf{s}}
@@ -31,7 +34,8 @@ The literature review presented in this chapter is split into three major sectio
 %
 %Traditionally $\textrm{\textbf{A}}$ would then be referred to as the mixing matrix. The source signals $\textrm{\textbf{s}}$ can feasibly be recovered using $\textrm{\textbf{s}} = \textrm{\textbf{A}}^{-1}\textrm{\textbf{x}}$  with $\textrm{\textbf{A}}$ the invertible matrix.  $\textrm{\textbf{A}}^{-1}$ is then called the un-mixing matrix \citep{Smaragdis1998}.
 %
-%A very popular implementation of the \gls{ica} method is the FastICA algorithm as proposed in \cite{Hyvarinen1999}. Often mixture models are modeled as \emph{convolutive} and hence solving for the mixing matrix \textbf{A} in the time-domain will require labor-intensive convolution while some methods propose solutions to the inherent permutation problem for the frequency domain equivalent of the FastICA \citep{Mitianoudis2003}. It has been reported that this approach has also produced good separation results.
+%DIF < A very popular implementation of the ICA method is the FastICA algorithm as proposed in \cite{Hyvarinen1999}. Often mixture models are modeled as \emph{convolutive} and hence solving for the mixing matrix \textbf{A} in the time-domain will require labor-intensive convolution while some methods propose solutions to the inherent permutation problem for the frequency domain equivalent of the FastICA \citep{Mitianoudis2003}. It has been reported that this approach has also produced good separation results.
+%DIF > A very popular implementation of the \gls{ica} method is the FastICA algorithm as proposed in \cite{Hyvarinen1999}. Often mixture models are modeled as \emph{convolutive} and hence solving for the mixing matrix \textbf{A} in the time-domain will require labor-intensive convolution while some methods propose solutions to the inherent permutation problem for the frequency domain equivalent of the FastICA \citep{Mitianoudis2003}. It has been reported that this approach has also produced good separation results.
 %
 %A more recent paper \citep{Douglas2007} presents two spatio-temporal extensions to the FastICA method and reports significant improvements over previous methods when applied to multichannel recordings of two- and three-source speech mixtures in a room environment. It was also noted that this proposed method was simple, fast and did not require parameter tuning in order to obtain good separation performance.
 %
@@ -48,22 +52,28 @@ The literature review presented in this chapter is split into three major sectio
 %\begin{equation}\label{eq:ICA3}
 %   \hat{ \textrm{\textbf{x}}}(\omega) = \hat{\textrm{\textbf{A}}}(\omega)\hat{\textrm{\textbf{s}}}(\omega),
 %\end{equation}
-%where $\hat{ \textrm{\textbf{x}}}(\omega), \hat{\textrm{\textbf{A}}}(\omega)$ and $\hat{\textrm{\textbf{s}}}(\omega)$ are the Fourier transform of $\textrm{\textbf{x}}(\omega), \textrm{\textbf{A}}(\omega)$ and $\textrm{\textbf{s}}(\omega)$ respectively \citep{Ikeda1999}.
+%DIF < where $\hat{ \textrm{\textbf{x}}}(\omega), \hat{\textrm{\textbf{A}}}(\omega)$ and $\hat{\textrm{\textbf{s}}}(\omega)$ are the FT of $\textrm{\textbf{x}}(\omega), \textrm{\textbf{A}}(\omega)$ and $\textrm{\textbf{s}}(\omega)$ respectively \citep{Ikeda1999}.
+%DIF > where $\hat{ \textrm{\textbf{x}}}(\omega), \hat{\textrm{\textbf{A}}}(\omega)$ and $\hat{\textrm{\textbf{s}}}(\omega)$ are the Fourier transform of $\textrm{\textbf{x}}(\omega), \textrm{\textbf{A}}(\omega)$ and $\textrm{\textbf{s}}(\omega)$ respectively \citep{Ikeda1999}.
 %
-%It is noted that if $\textrm{\textbf{A}}$ in equation~(\ref{eq:ICA1}) is seen as a matrix of \gls{fir} filters instead of scalars, the resulting multiplication will be equivalent to convolution and the notation will be consistent. This notation is called \gls{fir} algebra notation \citep{Lambert1996}.
+%DIF < It is noted that if $\textrm{\textbf{A}}$ in equation~(\ref{eq:ICA1}) is seen as a matrix of FIR filters instead of scalars, the resulting multiplication will be equivalent to convolution and the notation will be consistent. This notation is called FIR algebra notation \citep{Lambert1996}.
+%DIF > It is noted that if $\textrm{\textbf{A}}$ in equation~(\ref{eq:ICA1}) is seen as a matrix of \gls{fir} filters instead of scalars, the resulting multiplication will be equivalent to convolution and the notation will be consistent. This notation is called \gls{fir} algebra notation \citep{Lambert1996}.
 %
-%This time-frequency approach to ICA has been proposed by a variety of authors \citep{Lee1998}, \citep{Ikeda1999}, \citep{Smaragdis1998} and specifically \cite{Ikeda1999} has been successful in dealing with the inherent arbitrary scaling and permutation problems of the \gls{ica} approach applied in a frequency domain context \citep{Zhang2007}.
+%DIF < This time-frequency approach to ICA has been proposed by a variety of authors \citep{Lee1998},\citep{Ikeda1999},\citep{Smaragdis1998} and specifically \cite{Ikeda1999} has been successful in dealing with the inherent arbitrary scaling and permutation problems of the ICA approach applied in a frequency domain context \citep{Zhang2007}.
+%DIF > This time-frequency approach to ICA has been proposed by a variety of authors \citep{Lee1998}, \citep{Ikeda1999}, \citep{Smaragdis1998} and specifically \cite{Ikeda1999} has been successful in dealing with the inherent arbitrary scaling and permutation problems of the \gls{ica} approach applied in a frequency domain context \citep{Zhang2007}.
 %
-%The recent paper \cite{Zhang2007} attempts to avoid the whitening of outputs which plagues conventional implementations of \gls{ica} for convolutive mixtures by enforcing pairwise independence rather than mutual independence. This approach is based on the findings that for blind separation the two are generally equivalent.
+%DIF < The recent paper \cite{Zhang2007} attempts to avoid the whitening of outputs which plagues conventional implementations of ICA for convolutive mixtures by enforcing pairwise independence rather than mutual independence. This approach is based on the findings that for blind separation the two are generally equivalent.
+%DIF > The recent paper \cite{Zhang2007} attempts to avoid the whitening of outputs which plagues conventional implementations of \gls{ica} for convolutive mixtures by enforcing pairwise independence rather than mutual independence. This approach is based on the findings that for blind separation the two are generally equivalent.
 %%better ending here?
 %
 %\subsection{Independent Subspace Analysis (ISA)}
-%Independent subspace analysis (ISA) is based on \gls{ica} but relaxes the constraints $M\geq N$ and the statistical independence of source signals. In practice ISA is a generalization of \gls{ica} in the sense that instead of requiring statistical independence between components ISA requires statistical independence between groups of components. ISA can also been described as multidimensional independent component analysis and hence the independent components are required to be of the same dimension $k$. In the case where $k = 1$, ISA is equivalent to \gls{ica} \citep{Theis2006}. Despite this relaxing of restrictions of the \gls{ica} approach implementations of ISA has still been restricted by fixed group sizes or semi-parametric models. An even more general approach has been proposed which introduces the concept of irreducible independent components and give an identifiability result for this general, parameter-free model together with an arbitrary subspace size algorithm \citep{Theis2006}.
+%DIF < Independent subspace analysis (ISA) is based on ICA but relaxes the constraints $M\geq N$ and the statistical independence of source signals. In practice ISA is a generalization of ICA in the sense that instead of requiring statistical independence between components ISA requires statistical independence between groups of components. ISA can also been described as multidimensional independent component analysis and hence the independent components are required to be of the same dimension $k$. In the case where $k = 1$, ISA is equivalent to ICA \citep{Theis2006}. Despite this relaxing of restrictions of the ICA approach implementations of ISA has still been restricted by fixed group sizes or semi-parametric models. An even more general approach has been proposed which introduces the concept of irreducible independent components and give an identifiability result for this general, parameter-free model together with an arbitrary subspace size algorithm \citep{Theis2006}.
+%DIF > Independent subspace analysis (ISA) is based on \gls{ica} but relaxes the constraints $M\geq N$ and the statistical independence of source signals. In practice ISA is a generalization of \gls{ica} in the sense that instead of requiring statistical independence between components ISA requires statistical independence between groups of components. ISA can also been described as multidimensional independent component analysis and hence the independent components are required to be of the same dimension $k$. In the case where $k = 1$, ISA is equivalent to \gls{ica} \citep{Theis2006}. Despite this relaxing of restrictions of the \gls{ica} approach implementations of ISA has still been restricted by fixed group sizes or semi-parametric models. An even more general approach has been proposed which introduces the concept of irreducible independent components and give an identifiability result for this general, parameter-free model together with an arbitrary subspace size algorithm \citep{Theis2006}.
 %
 %A previous study managed to implement ISA models for audio source separation and introduced the \emph{ixegram} as a measure space for grouping independent basis components \citep{Casey2000}. The separation and grouping results from this experiment suggest that the technique can perform separation of source signals without parametric model fitting or prior knowledge of the composition of input data.
 %
 %\subsection{Non-Negative Matrix Factorisation (NMF)}
-%Since the concept of non-negative matrix factorization (NMF) was introduced independently by \cite{Paatero1997} and \cite{Lee1999} the method has gained some popularity within the field of polyphonic transcription and the source separation field \citep{Smaragdis2003}, \citep{Smaragdis2004}. NMF was originally proposed as an alternative to $k$-means clustering and \gls{pca} for data analysis and compression.
+%DIF < Since the concept of non-negative matrix factorization (NMF) was introduced independently by \cite{Paatero1997} and \cite{Lee1999} the method has gained some popularity within the field of polyphonic transcription and the source separation field \citep{Smaragdis2003},\citep{Smaragdis2004}. NMF was originally proposed as an alternative to $k$-means clustering and principal component analysis (PCA) for data analysis and compression.
+%DIF > Since the concept of non-negative matrix factorization (NMF) was introduced independently by \cite{Paatero1997} and \cite{Lee1999} the method has gained some popularity within the field of polyphonic transcription and the source separation field \citep{Smaragdis2003}, \citep{Smaragdis2004}. NMF was originally proposed as an alternative to $k$-means clustering and \gls{pca} for data analysis and compression.
 %The original formulation of NMF starts with a non-negative $M\times N$ matrix $\textrm{\textbf{V}} \in \mathbb{R}^{\geq 0,M\times N}$ where the goal is to approximate $\textrm{\textbf{V}}$ as a product of two non-negative matrices so that
 %
 %\begin{equation}\label{eq:nmf1}
@@ -71,7 +81,8 @@ The literature review presented in this chapter is split into three major sectio
 %\end{equation}
 %where $\textrm{\textbf{W}} \in \mathbb{R}^{\geq 0,M\times R}$, $\textrm{\textbf{H}} \in \mathbb{R}^{\geq 0,R\times N}$ and $R \leq M$ such that the error of reconstruction is minimized \citep{Smaragdis2004}.
 %
-%Good results have generally been reported for extraction of percussive sounds in mono recordings, but for low intensity sounds the algorithms generally perform worse and suffer from distortion and lost information inherent in the mixing and analysis process \citep{Smaragdis2004}. Other results have shown NMF to consistently obtain better separation results than ISA and \gls{ica} \citep{Virtanen2007}.
+%DIF < Good results have generally been reported for extraction of percussive sounds in mono recordings, but for low intensity sounds the algorithms generally perform worse and suffer from distortion and lost information inherent in the mixing and analysis process \citep{Smaragdis2004}. Other results have shown NMF to consistently obtain better separation results than ISA and ICA \citep{Virtanen2007}.
+%DIF > Good results have generally been reported for extraction of percussive sounds in mono recordings, but for low intensity sounds the algorithms generally perform worse and suffer from distortion and lost information inherent in the mixing and analysis process \citep{Smaragdis2004}. Other results have shown NMF to consistently obtain better separation results than ISA and \gls{ica} \citep{Virtanen2007}.
 %
 %\subsection{Hierarchical Bayesian Models}
 %
@@ -83,61 +94,80 @@ The literature review presented in this chapter is split into three major sectio
 %
 %Here the conditional distribution is characterized by the conditional distribution $p(\textrm{\textbf{x}}|\textrm{\textbf{s}},\Theta_m)$, where $\Theta_m$ denotes the collection of mixing parameters such as the mixing matrix, observation noise and variance, etc. and the prior term $p(\textrm{\textbf{s}}|\Theta_p)$ describes the sources via their own prior parameters $\Theta_p$ \citep{Cemgil2007}.
 %
-%It is worth noting that there is a considerable computational cost associated with a full Bayesian inference, via MCMC or variational Bayes (VB) for Bayesian source separation. Good results were reported in a study attempting Bayesian source separation using an MCMC approach to inference \citep{Fevotte2006}. Also, the authors of this study point out the computational burden of the MCMC approach compared to the alternative expectation maximisation (EM) approach. It was although also noticed that the \gls{em} approach was far more sensitive to mixing matrix initialization and hence less robust. The Gibbs sampler described in this paper was implemented as part of the review of this paper. Although the implementation was problematic due to the inherent indeterminacy on gain, the approach provided good results to noisy linear mixtures of sources.
+%DIF < It is worth noting that there is a considerable computational cost associated with a full Bayesian inference, via MCMC or variational Bayes (VB) for Bayesian source separation. Good results were reported in a study attempting Bayesian source separation using an MCMC approach to inference \citep{Fevotte2006}. Also, the authors of this study point out the computational burden of the MCMC approach compared to the alternative expectation maximisation (EM) approach. It was although also noticed that the EM approach was far more sensitive to mixing matrix initialization and hence less robust. The Gibbs sampler described in this paper was implemented as part of the review of this paper. Although the implementation was problematic due to the inherent indeterminacy on gain, the approach provided good results to noisy linear mixtures of sources.
+%DIF > It is worth noting that there is a considerable computational cost associated with a full Bayesian inference, via MCMC or variational Bayes (VB) for Bayesian source separation. Good results were reported in a study attempting Bayesian source separation using an MCMC approach to inference \citep{Fevotte2006}. Also, the authors of this study point out the computational burden of the MCMC approach compared to the alternative expectation maximisation (EM) approach. It was although also noticed that the \gls{em} approach was far more sensitive to mixing matrix initialization and hence less robust. The Gibbs sampler described in this paper was implemented as part of the review of this paper. Although the implementation was problematic due to the inherent indeterminacy on gain, the approach provided good results to noisy linear mixtures of sources.
 %
 %The recent paper \cite{Cemgil2007} describes a hybrid approach where a general linear instantaneous model, which might be noisy and underdetermined, is tackled using a Student $t$ distribution to model the source prior. Both the Gibbs sampler and VB method were studied as a method for inference. Both these methods are algorithmically similar but by employing a hybrid method the authors managed to combine the speed of the variational approach with the robustness of the Gibbs sampler \citep{Cemgil2007}.
 
 \subsection{Audio classification}
 This section contains a brief review of the methods typically employed in the field of audio classification. Classification features and classifiers are covered independently since, in many cases, they can be combined according to the particular application.
 
-A variety of different features have been proposed for audio classification but features are mainly centered around the distinction between music, speech, silence and background noise. \gls{zcr} has been reported as a useful feature for a variety of audio signals although mainly used in speech/music classification algorithms \cite{Lu2002}. \gls{zcr} is defined as the number of time-domain zero-crossings within a given number of samples in the signal. Typically this number is divided by the number of samples within this frame. This feature is popularly used in music information retrieval and speech recognition \cite{Saraceno1997}\cite{Scheirer1997}\cite{Gouyon2000}. \gls{zcr} is also commonly used in \gls{vad} along with energy based detectors \cite{Sangwan2002}.
+A variety of different features have been proposed for audio classification but features are mainly centered around the distinction between music, speech, silence and background noise. \DIFdelbegin \DIFdel{Zero-crossing rate (ZCR) }\DIFdelend \DIFaddbegin \gls{zcr} \DIFaddend has been reported as a useful feature for a variety of audio signals although mainly used in speech/music classification algorithms \cite{Lu2002}. \DIFdelbegin \DIFdel{ZCR }\DIFdelend \DIFaddbegin \gls{zcr} \DIFaddend is defined as the number of time-domain zero-crossings within a \DIFdelbegin \DIFdel{frame }\DIFdelend \DIFaddbegin \DIFadd{given number of samples }\DIFaddend in the signal. Typically this number is divided by the number of samples within this frame. This feature is popularly used in music information retrieval and speech recognition \cite{Saraceno1997}\cite{Scheirer1997}\cite{Gouyon2000}. \DIFdelbegin \DIFdel{ZCR }\DIFdelend \DIFaddbegin \gls{zcr} \DIFaddend is also commonly used in \DIFdelbegin \DIFdel{voice activity detectors (VAD) }\DIFdelend \DIFaddbegin \gls{vad} \DIFaddend along with energy based detectors \cite{Sangwan2002}.
 
 %SF (spectral flux)
-\gls{sf} compares the power spectrum of neighbouring audio frames in an effort to measure how quickly the spectrum fluctuates. Typically this is done by calculating the Euclidian distance between two normalised spectral coefficients \cite{Wang2012}.
-% \cite{Lu2001}\cite{Wang2012}
+\DIFdelbegin \DIFdel{Spectral flux (SF) }\DIFdelend \DIFaddbegin \gls{sf} \DIFaddend compares the power spectrum of neighbouring audio frames in an effort to measure how quickly the spectrum fluctuates. Typically this is done by calculating the Euclidian distance between two normalised spectral coefficients \cite{Wang2012}.
+%DIF < \cite{Lu2001}\cite{Wang2012}
+%DIF >  \cite{Lu2001}\cite{Wang2012}
 
 %NFR (Noise frame ratio)
-The last audio feature presented here is the \gls{nfr} metric. This feature classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The \gls{nfr} is then the ratio between noisy frames and non-noisy frames in the audio segment \cite{Lu2002}\cite{Jiang2000}.
+The last audio feature presented here is the \DIFdelbegin \DIFdel{noise frame ratio (NFR) }\DIFdelend \DIFaddbegin \gls{nfr} \DIFaddend metric. This feature classifies frames as being noise frames if the local peak of their normalised correlation function reaches a certain threshold. The \DIFdelbegin \DIFdel{NFR }\DIFdelend \DIFaddbegin \gls{nfr} \DIFaddend is then the ratio between noisy frames and non-noisy frames in the audio segment \cite{Lu2002}\cite{Jiang2000}.
 
-%MFCC
-\label{corrections:mfcc1}
-Within the field of speech feature extraction the \gls{mfcc} is considered the most popular and has become the standard in speaker recognition systems partly due to its efficient computational scheme \cite{Tyagi2005}. The \gls{mfcc}s are obtained by mapping the power spectrum onto a Mel frequency scale using a series of triangular overlapping windows. The \gls{mfle} (log of the power) of each of the filters are calculated. The amplitude resulting from taking the \gls{dct} (or another linear transform) of the \gls{mfle}, as though it was a signal, will be the \gls{mfcc} \cite{Sahidullah2012}. In music genre classification \gls{mfcc} has also been used and it has been noted that specifically the lower \gls{mfcc}'s correlate well with the \emph{timbre} of the music \cite{Muller2010}. The \gls{mfcc} does although suffer from lack of robustness in the presence of common additive noise \cite{Tyagi2005}.
+%DIF > MFCC
+\DIFaddbegin \label{corrections:mfcc1}
+\DIFadd{Within the field of speech feature extraction the }\gls{mfcc} \DIFadd{is considered the most popular and has become the standard in speaker recognition systems partly due to its efficient computational scheme \mbox{%DIFAUXCMD
+\cite{Tyagi2005}
+}%DIFAUXCMD
+. The }\gls{mfcc}\DIFadd{s are obtained by mapping the power spectrum onto a Mel frequency scale using a series of triangular overlapping windows. The }\gls{mfle} \DIFadd{(log of the power) of each of the filters are calculated. The amplitude resulting from taking the }\gls{dct} \DIFadd{(or another linear transform) of the }\gls{mfle}\DIFadd{, as though it was a signal, will be the }\gls{mfcc} \DIFadd{\mbox{%DIFAUXCMD
+\cite{Sahidullah2012}
+}%DIFAUXCMD
+. In music genre classification }\gls{mfcc} \DIFadd{has also been used and it has been noted that specifically the lower }\gls{mfcc}\DIFadd{'s correlate well with the }\emph{\DIFadd{timbre}} \DIFadd{of the music \mbox{%DIFAUXCMD
+\cite{Muller2010}
+}%DIFAUXCMD
+. The }\gls{mfcc} \DIFadd{does although suffer from lack of robustness in the presence of common additive noise \mbox{%DIFAUXCMD
+\cite{Tyagi2005}
+}%DIFAUXCMD
+.
+}
 
-Many other features have been proposed and used successfully throughout the literature and an exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyon2000}.
+\DIFaddend Many other features have been proposed and used successfully throughout the literature and an exhaustive list can be found here \cite{Scheirer1997} and \cite{Gouyon2000}.
 %LSTER (low short-time energy ratio)
-% \cite{Lu2001}
+%DIF < \cite{Lu2001}
+%DIF >  \cite{Lu2001}
 
 %KNN
-% \cite{Lu2001}
+%DIF < \cite{Lu2001}
+%DIF >  \cite{Lu2001}
 
 %LSP VQ
-% \cite{Lu2001}
+%DIF < \cite{Lu2001}
+%DIF >  \cite{Lu2001}
 
 In the area of audio classification a range of classifiers has been proposed. The most commonly used ones are discussed here.
 
-The \gls{gmm} classifier assumes that each class pdf is comprised of a specific number of multidimensional Gaussian distributions. Iterative \gls{em} can then be used to estimate parameters of each Gaussian component and the mixture weights \cite{Tzanetakis2002}. \gls{k-nn} is a non-parametric classifier where samples are classified according to the majority of its K nearest neighbors \cite{Lu2001}. Both of these classifiers have performed similarly to humans in genre classification applications \cite{Tzanetakis2002} and in speech/music classification/segmentation applications \gls{k-nn} has given total accuracy rates over 96\% using a variety of features such as \gls{zcr}, \gls{sf} and \gls{nfr} among others \cite{Lu2002}. \gls{hmm} classifiers have also been employed where the \gls{hmm} is trained using \gls{ml} based on a training sequence \cite{Kimber1997}\cite{Xiong2003}\cite{Burke2013}. A classification algorithm employed in the context of \gls{hmm} was the Viterbi algorithm which is covered in more detail later in this chapter \cite{Kimber1997}\cite{Burke2013}.
+The \DIFdelbegin \DIFdel{Gaussian mixture model (GMM) }\DIFdelend \DIFaddbegin \gls{gmm} \DIFaddend classifier assumes that each class pdf is comprised of a specific number of multidimensional Gaussian distributions. Iterative \DIFdelbegin \DIFdel{expectation maximization (EM) }\DIFdelend \DIFaddbegin \gls{em} \DIFaddend can then be used to estimate parameters of \DIFdelbegin \DIFdel{the }\DIFdelend each Gaussian component and the mixture weights \cite{Tzanetakis2002}. \DIFdelbegin \DIFdel{K nearest neighbors (K-NN) }\DIFdelend \DIFaddbegin \gls{k-nn} \DIFaddend is a non-parametric classifier where samples are classified according to the majority of its K nearest neighbors \cite{Lu2001}. Both of these classifiers have performed similarly to humans in genre classification applications \cite{Tzanetakis2002} and in speech/music classification/segmentation applications \DIFdelbegin \DIFdel{K-NN }\DIFdelend \DIFaddbegin \gls{k-nn} \DIFaddend has given total accuracy rates over 96\% using a variety of features such as \DIFdelbegin \DIFdel{ZCR, SF and NFR }\DIFdelend \DIFaddbegin \gls{zcr}\DIFadd{, }\gls{sf} \DIFadd{and }\gls{nfr} \DIFaddend among others \cite{Lu2002}. \DIFdelbegin \DIFdel{Hidden Markov model (HMM) }\DIFdelend \DIFaddbegin \gls{hmm} \DIFaddend classifiers have also been employed where the \DIFdelbegin \DIFdel{HMM }\DIFdelend \DIFaddbegin \gls{hmm} \DIFaddend is trained using \DIFdelbegin \DIFdel{maximum likelihood (ML) }\DIFdelend \DIFaddbegin \gls{ml} \DIFaddend based on a training sequence \cite{Kimber1997}\cite{Xiong2003}\cite{Burke2013}. A classification algorithm employed in the context of \DIFdelbegin \DIFdel{HMM }\DIFdelend \DIFaddbegin \gls{hmm} \DIFaddend was the Viterbi algorithm which is covered in more detail later in this chapter \cite{Kimber1997}\cite{Burke2013}.
 A comprehensive introduction to various pattern recognition methods can be found in \cite{Duda2001}.
 
-A study of 143 classification features for general audio data found that \gls{mfcc} and \gls{lpc} provided ``much better classification accuracy'' compared to spectral features \cite{Li2001}. This was concluded irrespective of the number of audio categories desired.
-%hidden Markov model-based (\gls{hmm}-based) classifiers
+A study of 143 classification features for general audio data found that \DIFdelbegin \DIFdel{MFCC and linear prediction coefficients (LPC) }\DIFdelend \DIFaddbegin \gls{mfcc} \DIFadd{and }\gls{lpc} \DIFaddend provided ``much better classification accuracy'' compared to spectral features \cite{Li2001}. This was concluded irrespective of the number of audio categories desired.
+%DIF < hidden Markov model-based (HMM-based) classifiers
+%DIF > hidden Markov model-based (\gls{hmm}-based) classifiers
 % - http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB8
 % - http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB9
 %neural network-based classifiers http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB4
 %decision trees, http://www.sciencedirect.com/science/article/pii/S0167865500001197#BIB8
 
 \subsection{Principal component analysis (PCA)}
-The central idea of \gls{pca} is to reduce the number of dimensions of a set of data consisting of potentially correlated variables to a smaller number of uncorrelated variables. This operation is achieved by transforming to a set of uncorrelated variables, principal components, which are ordered so the first principal component retains most of the variability and each succeeding component accounts for as much of the remaining variability as possible.
+The central idea of \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend is to reduce the number of dimensions of a set of data consisting of potentially correlated variables to a smaller number of uncorrelated variables. This operation is achieved by transforming to a set of uncorrelated variables, principal components\DIFdelbegin \DIFdel{(PCs)}\DIFdelend , which are ordered so the first \DIFdelbegin \DIFdel{PC retain }\DIFdelend \DIFaddbegin \DIFadd{principal component retains }\DIFaddend most of the variability and each succeeding component accounts for as much of the remaining variability as possible.
 
-Take $\textrm{\textbf{x}}$ to be a vector of $p$ random variables where the variance of the variables and the correlation or covariance between them are of interest. The approach taken by \gls{pca} is to look for a few ($<<p$) derived variables which preserve most of the information given by these variances and covariances or correlations. The initial step is to look for a linear function $\boldsymbol\alpha_1^T \textrm{\textbf{x}}$ of $\textrm{\textbf{x}}$ which maximizes the variance, where $\boldsymbol\alpha_1^T =  [\alpha_{1{}1},\alpha_{1{}2},\ldots,\alpha_{1{}p}]$ so that:
+Take $\textrm{\textbf{x}}$ to be a vector of $p$ random variables where the variance of the variables and the correlation or covariance between them are of interest. The approach taken by \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend is to look for a few ($<<p$) derived variables which \DIFdelbegin \DIFdel{preserves }\DIFdelend \DIFaddbegin \DIFadd{preserve }\DIFaddend most of the information given by these variances and covariances or correlations. The initial step is to look for a linear function $\boldsymbol\alpha_1^T \textrm{\textbf{x}}$ of $\textrm{\textbf{x}}$ which maximizes the variance, where $\boldsymbol\alpha_1^T =  [\alpha_{1{}1},\alpha_{1{}2},\ldots,\alpha_{1{}p}]$ so that:
 
 \begin{equation}\label{eq:PCAdef}
 \boldsymbol\alpha_1^T \textrm{\textbf{x}}= \alpha_{1{}1}x_1 +\alpha_{1{}1} x_2 + \ldots \alpha_{1{}p} x_p = \sum^p_{j=1}\alpha_{1{}j}x_j,
 \end{equation}
 
 is the first PC where ${}^T$ denotes a transposed matrix.
-Now, find the linear function $\boldsymbol\alpha_2^T \textrm{\textbf{x}}$ of $\textrm{\textbf{x}}$ uncorrelated with $\boldsymbol\alpha_1^T \textrm{\textbf{x}}$ which again maximizes the variance, and so on, so that the $k$th PC $\boldsymbol\alpha_k^T \textrm{\textbf{x}}$ maximizes the variances while being uncorrelated to $\boldsymbol\alpha_1^T \textrm{\textbf{x}}, \boldsymbol\alpha_2^T \textrm{\textbf{x}}, \ldots, \boldsymbol\alpha_{k-1}^T \textrm{\textbf{x}}$. For a reduction of dimensionality it is hoped that most of the variability of $\textrm{\textbf{x}}$ is accounted for by $q$ principal components where $q<<p$ \citep[chap. 1]{Jolliffe1986}.
+Now, find the linear function $\boldsymbol\alpha_2^T \textrm{\textbf{x}}$ of $\textrm{\textbf{x}}$ uncorrelated with $\boldsymbol\alpha_1^T \textrm{\textbf{x}}$ which again maximizes the variance, and so on, so that the $k$th PC $\boldsymbol\alpha_k^T \textrm{\textbf{x}}$ maximizes the variances while being uncorrelated to $\boldsymbol\alpha_1^T \textrm{\textbf{x}}, \boldsymbol\alpha_2^T \textrm{\textbf{x}}, \ldots, \boldsymbol\alpha_{k-1}^T \textrm{\textbf{x}}$. For a reduction of dimensionality it is hoped that most of the variability of $\textrm{\textbf{x}}$ is accounted for by $q$ \DIFdelbegin \DIFdel{PCs }\DIFdelend \DIFaddbegin \DIFadd{principal components }\DIFaddend where $q<<p$ \citep[chap. 1]{Jolliffe1986}.
 
-A more common transform into uncorrelated basis functions is the \gls{dft} or Fourier transform which approximately decomposes a signal into a set of uncorrelated or orthogonal (in the statistical sense) complex exponentials of the form $e^{i\omega t}$. The transform described above can therefore be seen as a generalization of the \gls{dft} for random processes, where the decomposed uncorrelated basis functions are real random signals rather than complex exponentials \citep[chap. 4.6]{Therrien1992}.
+A more common transform into uncorrelated basis functions is the \DIFdelbegin \DIFdel{discrete Fourier transform (DFT) or FT }\DIFdelend \DIFaddbegin \gls{dft} \DIFadd{or Fourier transform }\DIFaddend which approximately decomposes a signal into a set of uncorrelated or orthogonal (in the statistical sense) complex exponentials of the form $e^{i\omega t}$. The transform described above can therefore be seen as a generalization of the \DIFdelbegin \DIFdel{DFT }\DIFdelend \DIFaddbegin \gls{dft} \DIFaddend for random processes, where the decomposed uncorrelated basis functions are real random signals rather than complex exponentials \citep[chap. 4.6]{Therrien1992}.
 
 \subsection{Simple PCA Examples}
 
@@ -149,7 +179,7 @@ Figure~\ref{fig:30observations} gives a plot of 30 observations of two highly co
   \end{center}
 \end{figure}
 
-It is also seen in Figure~\ref{fig:30observations} that neither of the two variables have a mean of zero. To apply \gls{pca} the mean of both variables must be subtracted. Figure~\ref{fig:30observationsBar} shows the two variables with their means subtracted.
+It is also seen in Figure~\ref{fig:30observations} that neither of the two variables have a mean of zero. To apply \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend the mean of both variables must be subtracted. Figure~\ref{fig:30observationsBar} shows the two variables with their means subtracted.
 \begin{figure}[!]
   \begin{center}
     \includegraphics[width=260px]{30observationsBar.pdf}
@@ -157,7 +187,7 @@ It is also seen in Figure~\ref{fig:30observations} that neither of the two varia
   \end{center}
 \end{figure}
 
-Since the process of \gls{pca} is closely related to the diagonalization of the correlation matrix \citep[p. 174]{Therrien1992}, a helpful interpretation of the \gls{pca} is the attempt to ``rotate'' the axes of Figure~\ref{fig:30observationsBar} to collect as much variability as possible in one dimension, rather than having it spread over 2 dimensions. The correlation matrix (correlation coefficients) for the two variables $x_1$ and $x_2$ is,
+Since the process of \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend is closely related to the diagonalization of the correlation matrix \citep[p. 174]{Therrien1992}, a helpful interpretation of the \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend is the attempt to ``rotate'' the axes of Figure~\ref{fig:30observationsBar} to collect as much variability as possible in one dimension, rather than having it spread over 2 dimensions. The correlation matrix (correlation coefficients) for the two variables $x_1$ and $x_2$ is,
 
 \begin{equation}\label{eq:corrcoef}
 \textrm{Correlation matrix} = \textrm{corr}(x,y)= \left(
@@ -194,7 +224,7 @@ The eigenvectors from equation~(\ref{eq:eigenVectors}) have been plotted on top 
   \end{center}
 \end{figure}
 
-The eigenvector with the highest corresponding eigenvalue is the first principal component. Ordering the eigenvectors in terms of descending eigenvalue gives the components in order of significance. It turns out that, for $k \in \{1, 2, \ldots, p\}$ the $k$th PC is given by $z_k = \boldsymbol\alpha_k^T\textrm{\textbf{x}}$, where $\textrm{\textbf{x}} = [x_1,x_2,\ldots, x_p]^T$ and where $\boldsymbol\alpha_k$ corresponds to the eigenvector with the $k$th largest eigenvalue \citep[p. 2-3]{Jolliffe1986}. For a complete transformation of the data use the expression $\textrm{\textbf{z}} = \hat{\boldsymbol\alpha}^T\textrm{\textbf{x}}$ where $\hat{\boldsymbol\alpha}$ is the feature vector containing the number of eigenvectors desired $q$, so $\hat{\boldsymbol\alpha} = [\boldsymbol\alpha_1,\boldsymbol\alpha_2,\ldots,\boldsymbol\alpha_q]$. Figure~\ref{fig:30observationsBarEig} shows the transformed data in terms of the transformed variables $z_1$ and $z_2$.
+The eigenvector with the highest corresponding eigenvalue is the \DIFdelbegin \DIFdel{PC}\DIFdelend \DIFaddbegin \DIFadd{first principal component}\DIFaddend . Ordering the eigenvectors in terms of descending eigenvalue gives the components in order of significance. It turns out that, for $k \in \{1, 2, \ldots, p\}$ the $k$th PC is given by $z_k = \boldsymbol\alpha_k^T\textrm{\textbf{x}}$, where $\textrm{\textbf{x}} = [x_1,x_2,\ldots, x_p]^T$ and where $\boldsymbol\alpha_k$ corresponds to the eigenvector with the $k$th largest eigenvalue \citep[p. 2-3]{Jolliffe1986}. For a complete transformation of the data use the expression $\textrm{\textbf{z}} = \hat{\boldsymbol\alpha}^T\textrm{\textbf{x}}$ where $\hat{\boldsymbol\alpha}$ is the feature vector containing the number of eigenvectors desired $q$, so $\hat{\boldsymbol\alpha} = [\boldsymbol\alpha_1,\boldsymbol\alpha_2,\ldots,\boldsymbol\alpha_q]$. Figure~\ref{fig:30observationsBarEig} shows the transformed data in terms of the transformed variables $z_1$ and $z_2$.
 
 \begin{figure}[!]
   \begin{center}
@@ -215,7 +245,8 @@ It is noticed that this transform, with results displayed in Figure~\ref{fig:30o
 It is clear how the data resembles that of Figure~\ref{fig:30observations} although some of the variability has been lost in the dimensional reduction.
 
 %\subsubsection{Eigenfaces}
-%A popular application of \gls{pca} is the so called \emph{eigenfaces}\cite{Sirovich1987}\cite{Turk1991}\cite{Zaeri2006}. \emph{Eigenfaces} are essentially eigenvectors derived from the covariance matrix of a high dimensional vector space or ensemble of individual pictures. The idea of \emph{eigenpictures} was originally developed by \cite{Sirovich1987} were the authors repeatedly draw parallels between how humans recognize facial features and their own computational method. Although the \emph{eigenpictures} were not formerly used for facial recognition until \cite{Turk1991}, where the term \emph{eigenfaces} was first coined, \cite{Sirovich1987} hypothesises that perhaps humans compartmentalize faces and treat different features individually. This assertion is rooted first in the observation that humans are able to store and recognize enormous numbers of faces and secondly, that since recognition is apparently instantaneous it is conceivable that we do it by some efficient method, possibly similar to low dimensional methods. It is for example noted that ``(...) fewer than 100 \emph{eigenpictures} are necessary to fit a picture.'' and ``fewer than 100 dimensions are needed to provide likeness.''.
+%DIF < A popular application of PCA is the so called \emph{eigenfaces}\cite{Sirovich1987}\cite{Turk1991}\cite{Zaeri2006}. \emph{Eigenfaces} are essentially eigenvectors derived from the covariance matrix of a high dimensional vector space or ensemble of individual pictures. The idea of \emph{eigenpictures} was originally developed by \cite{Sirovich1987} were the authors repeatedly draw parallels between how humans recognize facial features and their own computational method. Although the \emph{eigenpictures} were not formerly used for facial recognition until \cite{Turk1991}, where the term \emph{eigenfaces} was first coined, \cite{Sirovich1987} hypothesises that perhaps humans compartmentalize faces and treat different features individually. This assertion is rooted first in the observation that humans are able to store and recognize enormous numbers of faces and secondly, that since recognition is apparently instantaneous it is conceivable that we do it by some efficient method, possibly similar to low dimensional methods. It is for example noted that ``(...) fewer than 100 \emph{eigenpictures} are necessary to fit a picture.'' and ``fewer than 100 dimensions are needed to provide likeness.''.
+%DIF > A popular application of \gls{pca} is the so called \emph{eigenfaces}\cite{Sirovich1987}\cite{Turk1991}\cite{Zaeri2006}. \emph{Eigenfaces} are essentially eigenvectors derived from the covariance matrix of a high dimensional vector space or ensemble of individual pictures. The idea of \emph{eigenpictures} was originally developed by \cite{Sirovich1987} were the authors repeatedly draw parallels between how humans recognize facial features and their own computational method. Although the \emph{eigenpictures} were not formerly used for facial recognition until \cite{Turk1991}, where the term \emph{eigenfaces} was first coined, \cite{Sirovich1987} hypothesises that perhaps humans compartmentalize faces and treat different features individually. This assertion is rooted first in the observation that humans are able to store and recognize enormous numbers of faces and secondly, that since recognition is apparently instantaneous it is conceivable that we do it by some efficient method, possibly similar to low dimensional methods. It is for example noted that ``(...) fewer than 100 \emph{eigenpictures} are necessary to fit a picture.'' and ``fewer than 100 dimensions are needed to provide likeness.''.
 %
 %The method used in \cite{Sirovich1987} uses photographs of 115 male undergraduates faces. These pictures were then digitized to a 128 by 128 pixel image and manually aligned. Figure~\ref{fig:Sirovich1987-3} shows a figure of 3 cropped images. The left image is the average face based on the ensemble, the middle is a sample face and right image that sample faces departure from the ensemble average or the samples \emph{caricature}. All pictures presented in this section are reproduced from the original paper \cite{Sirovich1987} where none of the pictures have been filtered to eliminate the high frequencies produced by digitization.
 %
@@ -245,66 +276,69 @@ It is clear how the data resembles that of Figure~\ref{fig:30observations} altho
 %\end{figure}
 
 \subsubsection{In the literature}
-As mentioned previously, one of the main applications of \gls{pca} is dimensionality reduction which has rendered it useful in a variety of compression applications \citep{Vasilescu2003}\cite{Alexa2000}\linebreak[2]\cite{Zaeri2006}. Within the image compression community \citep{Vasilescu2003} the focus on principal components has been useful in dimensionality reduction, and more specifically it has been widely applied as a way of representing animations of 3D geometric shapes. \cite{Alexa2000} presented an ``easy and adaptive lossy compression'' algorithm which provided compression of animation sequences with a factor of 1:100 accepting loss in animation accuracy. Another approach to animation compression is presented in \cite{Karni2004} where \gls{pca} is combined with \gls{lpc} to individually focus on spatial and the resulting temporal components respectively.
+As mentioned previously, one of the main applications of \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend is dimensionality reduction which has rendered it useful in a variety of compression applications \citep{Vasilescu2003}\cite{Alexa2000}\linebreak[2]\cite{Zaeri2006}. Within the image compression community \citep{Vasilescu2003} the focus on \DIFdelbegin \DIFdel{PCs }\DIFdelend \DIFaddbegin \DIFadd{principal components }\DIFaddend has been useful in dimensionality reduction, and more specifically it has been widely applied as a way of representing animations of 3D geometric shapes. \cite{Alexa2000} presented an ``easy and adaptive lossy compression'' algorithm which provided compression of animation sequences with a factor of 1:100 accepting loss in animation accuracy. Another approach to animation compression is presented in \cite{Karni2004} where \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend is combined with \DIFdelbegin \DIFdel{Linear Prediction Coding (LPC) }\DIFdelend \DIFaddbegin \gls{lpc} \DIFaddend to individually focus on spatial and the resulting temporal components respectively.
 
-PCA has been adopted as a way to manage the enormous amounts of data produced by microarray experiments in genetics \cite{Raychaudhuri2000}\cite{Saidi2004}. It was found that most of the observable variation in the data could be accounted for in just two components with rapidly falling eigenvalues \cite{Raychaudhuri2000}. In other words, \gls{pca} reduces the data to two data sets which capture most of the information \cite{Raychaudhuri2000}. Later research has highlighted some advantages in \gls{ica} over \gls{pca} for this application \cite{Saidi2004}. This approach has shown to be robust to significant noise levels, while \gls{ica} showed some domain specific feature extraction advantages.
+PCA has been adopted as a way to manage the enormous amounts of data produced by microarray experiments in genetics \cite{Raychaudhuri2000}\cite{Saidi2004}. It was found that most of the observable variation in the data could be accounted for in just two components with \DIFdelbegin \DIFdel{a }\DIFdelend rapidly falling eigenvalues \cite{Raychaudhuri2000}. In other words, \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend reduces the data to two data sets which capture most of the information \cite{Raychaudhuri2000}. Later research has highlighted some advantages in \DIFdelbegin \DIFdel{ICA over PCA }\DIFdelend \DIFaddbegin \gls{ica} \DIFadd{over }\gls{pca} \DIFaddend for this application \cite{Saidi2004}. This approach has shown to be robust to significant noise levels, while \DIFdelbegin \DIFdel{ICA }\DIFdelend \DIFaddbegin \gls{ica} \DIFaddend showed some domain specific feature extraction \DIFdelbegin \DIFdel{advantageous}\DIFdelend \DIFaddbegin \DIFadd{advantages}\DIFaddend .
 
-The MPEG-7 standard \cite{Casey2001} has adopted a generalised sound recognition framework where decorrelated dimension-reduced features, called audio spectrum project (ASP), are used to train \gls{hmm} for classification \cite{Kim2006}. These features are regularly extracted from a basis decomposition via \gls{ica} or \gls{pca} \cite{Casey2001}\cite{Kim2003}\cite{Kim2006}. ASP features for sound recognition have been compared to \gls{mfcc} and were found to be slower and have worse performance \cite{Kim2004} while similar MPEG-7 related facial recognition tasks have yielded good performance but with a significant computational cost for the feature extraction step \cite{Zaeri2006}.
-% \cite{Kim2003} %Speaker Recognition Using MPEG-7 Descriptors
-% \cite{Zaeri2006} %Extension of the MPEG-7 Fourier Feature Descriptor for Face Recognition using PCA,
-% \cite{Casey2001} % Basis functions may be chosen as uncorrelated features. (PCA or KL)
+The MPEG-7 standard \cite{Casey2001} has adopted a generalised sound recognition framework where decorrelated \DIFdelbegin \DIFdel{demension-reduced }\DIFdelend \DIFaddbegin \DIFadd{dimension-reduced }\DIFaddend features, called audio spectrum project (ASP), are used to train \DIFdelbegin \DIFdel{hidden Markov models (HMM) }\DIFdelend \DIFaddbegin \gls{hmm} \DIFaddend for classification \cite{Kim2006}. These features are regularly extracted from a basis decomposition via \DIFdelbegin \DIFdel{ICA or PCA}\DIFdelend \DIFaddbegin \gls{ica} \DIFadd{or }\gls{pca} \DIFaddend \cite{Casey2001}\cite{Kim2003}\cite{Kim2006}. ASP features for sound recognition \DIFdelbegin \DIFdel{has }\DIFdelend \DIFaddbegin \DIFadd{have }\DIFaddend been compared to \DIFdelbegin \DIFdel{Mel-frequency cepstrum (MFC) features }\DIFdelend \DIFaddbegin \gls{mfcc} \DIFaddend and were found to be slower and have worse performance \cite{Kim2004} while similar MPEG-7 related facial recognition tasks have yielded good performance but with a significant computational cost for the feature extraction step \cite{Zaeri2006}.
+%DIF < \cite{Kim2003} %Speaker Recognition Using MPEG-7 Descriptors
+%DIF < \cite{Zaeri2006} %Extension of the MPEG-7 Fourier Feature Descriptor for Face Recognition using PCA,
+%DIF < \cite{Casey2001} % Basis functions may be chosen as uncorrelated features. (PCA or KL)
+%DIF >  \cite{Kim2003} %Speaker Recognition Using MPEG-7 Descriptors
+%DIF >  \cite{Zaeri2006} %Extension of the MPEG-7 Fourier Feature Descriptor for Face Recognition using PCA,
+%DIF >  \cite{Casey2001} % Basis functions may be chosen as uncorrelated features. (PCA or KL)
 
-Although \gls{pca} is optimal in approximating the input data in the mean-squared error sense, the representation that it provides is often not the most meaningful in terms of real world data and in terms of describing the fundamental properties of the data. Since the \gls{pca} describes the data in an orthonormal basis, purely in order of the second-order statistics (covariance) of the input data \citep{Oja1995}, the \gls{pca} networks are only able to realize linear input-output mappings \citep{Karhunen1995}. In the field of neural networks there has been an interest in the development of nonlinear \gls{pca} methods that take higher-order statistics into account.
+Although \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend is optimal in approximating the input data in the mean-squared error sense, the representation that it provides is often not the most meaningful in terms of real world data and in terms of describing the fundamental properties of the data. Since the \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend describes the data in an orthonormal basis, purely in order of the second-order statistics (covariance) of the input data \citep{Oja1995}, \DIFdelbegin \DIFdel{which in effect means that PCA }\DIFdelend \DIFaddbegin \DIFadd{the }\gls{pca} \DIFaddend networks are only able to realize linear input-output mappings \citep{Karhunen1995}. In the field of neural networks there has been an interest in the development of nonlinear \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend methods that take higher-order statistics into account.
 
-Although not specifically a \gls{pca} approach, \cite{Honkela2005} presents an approach to general nonlinear generative models for non-linear factor analysis which can form the basis for many non-linear implementations of latent variable models such as a non-linear generalization of \gls{pca} or even \gls{ica}. This general model is based on the variational Bayesian framework, which forms a solid foundation for non-linear modeling \citep{Honkela2005}. This model can be implemented into a linear \gls{ica} framework for nonlinear \gls{bss}, and \cite{Valpola2003} found that the variational Bayesian method provided ``useful'' results for difficult nonlinear problems. \citep{Lappalainen2000} introduced nonlinear counterparts of \gls{pca} and \gls{ica} where the generative mapping from sources to data is not restricted to being linear. Here this mapping is modeled by a \gls{mlp} network and the distributions of source signals are modeled by Gaussians. The general form of the models discussed in this paper are of the form:
+Although not specifically a \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend approach, \cite{Honkela2005} presents an approach to general nonlinear generative \DIFdelbegin \DIFdel{model }\DIFdelend \DIFaddbegin \DIFadd{models }\DIFaddend for non-linear factor analysis which can form the basis for many non-linear implementations of latent variable models such as a non-linear generalization of \DIFdelbegin \DIFdel{PCA or even ICA}\DIFdelend \DIFaddbegin \gls{pca} \DIFadd{or even }\gls{ica}\DIFaddend . This general model is based on the variational Bayesian framework, which forms a solid foundation for non-linear modeling \citep{Honkela2005}. This model can be implemented into a linear \DIFdelbegin \DIFdel{ICA }\DIFdelend \DIFaddbegin \gls{ica} \DIFaddend framework for nonlinear \DIFdelbegin \DIFdel{blind source separation (BSS)}\DIFdelend \DIFaddbegin \gls{bss}\DIFaddend , and \cite{Valpola2003} found that the variational Bayesian method provided ``useful'' results for difficult nonlinear problems. \citep{Lappalainen2000} introduced nonlinear counterparts of \DIFdelbegin \DIFdel{PCA and ICA }\DIFdelend \DIFaddbegin \gls{pca} \DIFadd{and }\gls{ica} \DIFaddend where the generative mapping from sources to data is not restricted to being linear. Here this mapping is modeled by a \DIFdelbegin \DIFdel{multi-layer perceptron (MLP) }\DIFdelend \DIFaddbegin \gls{mlp} \DIFaddend network and the distributions of source signals are modeled by Gaussians. The general form of the models discussed in this paper are of the form:
 
 \begin{equation}\label{eq:nonlinear}
 \textbf{x}(t) = f\left(\textbf{s}(t)\right) + \textbf{n}\left(t\right),
 \end{equation}
 
-where $\textbf{x}(t)$ are the observations at time $t$, $\textbf{s}(t)$ are the sources, $\textbf{n}(t)$ the noise and $f()$ the function which maps the sources to the observation space. In \cite{Lappalainen2000} the authors compare their approach favorably to previously suggested models for representing data with nonlinear coordinate systems, and they especially focus on their methods applicability in high dimensional applications.
+where $\textbf{x}(t)$ are the observations at time $t$, \DIFdelbegin \DIFdel{$\text{s}(t)$ }\DIFdelend \DIFaddbegin \DIFadd{$\textbf{s}(t)$ }\DIFaddend are the sources, $\textbf{n}(t)$ the noise and $f()$ the function which maps the sources to the observation space. In \cite{Lappalainen2000} the authors compare their approach favorably to previously suggested models for representing data with nonlinear coordinate systems, and they especially focus on their methods applicability in high dimensional applications.
 
-Very recent work has compared a range of multi-linear function factorisation techniques for feature extraction for classification applications \cite{Burke2013}. The comparison was performed on a variety of data types including speaker recognition from spoken vowels. The article confirms previously presented results and emphasises the advantage and simplicity of the factorisation techniques in question in relation to \gls{hmm}s and the associated training required. The authors found that \gls{cv} and \gls{pca} generally produced features with the greatest separability of the ones tested but neither reportedly performed well for the audio application. Specifically it was found in \cite{Burke2013} that the \gls{pca} produced features of poor separability somewhat in contrast to \cite{Raychaudhuri2000}. This could potentially be due to the stacking, or lack thereof, employed by the authors. It is also noted that while \gls{pca} features, per definition, are ordered according to ``principality'', \gls{cv} features require additional training \cite{Burke2013}.
+Very recent work has compared a range of multi-linear function factorisation techniques for feature extraction for classification applications \cite{Burke2013}. The comparison was performed on a variety of data types including speaker recognition from spoken vowels. The article confirms previously presented results and emphasises the advantage and simplicity of the factorisation techniques in question in relation to \DIFdelbegin \DIFdel{HMMs }\DIFdelend \DIFaddbegin \gls{hmm}\DIFadd{s }\DIFaddend and the associated training required. The authors found that \DIFdelbegin \DIFdel{canonical variates (CV) and PCA }\DIFdelend \DIFaddbegin \gls{cv} \DIFadd{and }\gls{pca} \DIFaddend generally produced features with the greatest separability of the ones tested but neither reportedly performed well for the audio application. Specifically it was found in \cite{Burke2013} that the \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend produced features of poor separability somewhat in contrast to \cite{Raychaudhuri2000}. This could potentially be due to the stacking, or lack thereof, employed by the authors. It is also noted that while \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend features, per definition, are ordered according to ``principality'', \DIFdelbegin \DIFdel{CV }\DIFdelend \DIFaddbegin \gls{cv} \DIFaddend features require additional training \cite{Burke2013}.
 
 \subsection{Probabilistic PCA (PPCA)}
-One of the notable features of the above derived definition of the \gls{pca} is the lack of a probabilistic model for the observed data. \cite{Tipping1999} proposes a latent variable model for determining the principal axis of observed data which is closely related to factor analysis. This model utilizes a \gls{ml} estimator to estimate the parameters of the latent variable model. This model is commonly known as a factor analysis model where the relationship is linear:
+One of the notable features of the above derived definition of the \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend is the lack of a probabilistic model for the observed data. \cite{Tipping1999} proposes a latent variable model for determining the principal axis of observed data which is closely related to factor analysis. This model utilizes a \DIFdelbegin \DIFdel{Maximum Likelihood (ML) }\DIFdelend \DIFaddbegin \gls{ml} \DIFaddend estimator to estimate the parameters of the latent variable model. This model is commonly known as a factor analysis model where the relationship is linear:
 
 \begin{equation}\label{eq:facAn}
 \textrm{\textbf{t}} = \textrm{\textbf{W}}\textrm{\textbf{x}} + \boldsymbol\mu + \boldsymbol\epsilon,
 \end{equation}
 
-in which the $d$-dimensional observations vector \textbf{t} is related to a corresponding $q$-dimensional vector of latent (or unobserved) variables \textbf{x}. The $d \times q$ matrix \textbf{W} relates the two sets of variables, $\boldsymbol\epsilon$ is a zero-mean Gaussian noise process and the parameter $\boldsymbol\mu$ allows for the model to have a non-zero mean. By defining $\textrm{\textbf{x}} \sim \mathcal{N}_\textrm{x}(\boldsymbol0,\textrm{\textbf{I}})$ and $\boldsymbol\epsilon \stackrel{i.i.d.}{\sim} \mathcal{N}_\epsilon(\boldsymbol0,\boldsymbol\Psi)$, equation~(\ref{eq:facAn}) induces a Gaussian distribution for the observations $\textrm{\textbf{t}} \sim \mathcal{N}(\boldsymbol\mu,\textrm{\textbf{W}}\textrm{\textbf{W}}^T + \boldsymbol\Psi)$. The parameters of this model can then be obtained through an iterative process using \gls{ml} \citep{Tipping1999}.
+in which the $d$-dimensional observations vector \textbf{t} is related to a corresponding $q$-dimensional vector of latent (or unobserved) variables \textbf{x}. The $d \times q$ matrix \textbf{W} relates the two sets of variables, $\boldsymbol\epsilon$ is a zero-mean Gaussian noise process and the parameter $\boldsymbol\mu$ allows for \DIFaddbegin \DIFadd{the }\DIFaddend model to have a non-zero mean. By defining $\textrm{\textbf{x}} \sim \mathcal{N}_\textrm{x}(\boldsymbol0,\textrm{\textbf{I}})$ and $\boldsymbol\epsilon \stackrel{i.i.d.}{\sim} \mathcal{N}_\epsilon(\boldsymbol0,\boldsymbol\Psi)$, equation~(\ref{eq:facAn}) induces a Gaussian distribution for the observations $\textrm{\textbf{t}} \sim \mathcal{N}(\boldsymbol\mu,\textrm{\textbf{W}}\textrm{\textbf{W}}^T + \boldsymbol\Psi)$. The parameters of this model can then be obtained through an iterative process using \DIFdelbegin \DIFdel{ML }\DIFdelend \DIFaddbegin \gls{ml} \DIFaddend \citep{Tipping1999}.
 
- \cite{Lawrence2005} presents an extended \gls{ppca} model based on the work of \cite{Tipping1999} termed \gls{dppca}. The \gls{dppca} method can, through Gaussian processes, non-linearize the linear mappings from the embedded space and hence provide a new probabilistic approach to the visualizing and modeling of high dimensional data.
+ \cite{Lawrence2005} presents an extended \DIFdelbegin \DIFdel{PPCA }\DIFdelend \DIFaddbegin \gls{ppca} \DIFaddend model based on the work of \cite{Tipping1999} termed \DIFdelbegin \DIFdel{Dual Probabilistic PCA (DPPCA). The DPPCA }\DIFdelend \DIFaddbegin \gls{dppca}\DIFadd{. The }\gls{dppca} \DIFaddend method can, through Gaussian processes, non-linearize the linear mappings from the embedded space and hence provide \DIFaddbegin \DIFadd{a }\DIFaddend new probabilistic approach to \DIFaddbegin \DIFadd{the }\DIFaddend visualizing and modeling of high dimensional data.
 
 
 
 \section{Detection}\label{sec:LitRev_Detection}
 Any restoration of transient noise events presupposes complete knowledge of the position of the corruption. In practice this information is unknown \emph{a priori} and a detection procedure must be employed to ascertain the timing of the corruptions. As noted in this section, a large number of different approaches to transient noise detection have been studied, and since there are as many types of transient noise as there are data that can be corrupted by it, the detection methods range from simple \emph{ad hoc} filtering approaches to more complex model based approaches.
 
-In a reconstruction algorithm it is important to focus our attention on audible corruptions. The audibility of a corruption is not only a function of its amplitude or the energy that it represents, but also the context in which it sits. Psychoacoustically some corruptions may be rendered inaudible through masking effects such as the precedence effect, and hence any restoration effort is wasted or potentially damaging \cite{Moore2003}.
+In a reconstruction algorithm it is important to focus our attention on audible corruptions. The audibility of a corruption is not only a function of its amplitude or the energy that it represents, but also the context in which \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{it }\DIFaddend sits. Psychoacoustically some corruptions may be rendered inaudible through masking effects such as the precedence effect, and hence any restoration effort is wasted or potentially damaging \cite{Moore2003}.
 
-The simplest pulse detection algorithms exploit the relatively sparse nature of many audio, and in particular speech, signals above 9000 Hz in relation to impulsive noise which often exhibits much smoother and wider frequency characteristics \cite{Subramanya2007}. In \cite{Kasparis1993} and \cite{US6795559} the authors preprocess their signals using a high-pass filter to target the impulsive noise.
+The simplest pulse detection algorithms exploit the relatively sparse nature of many audio, and in particular speech, signals above 9000 Hz in relation to impulsive noise which often exhibits \DIFdelbegin \DIFdel{a }\DIFdelend much smoother and wider frequency characteristics \cite{Subramanya2007}. In \cite{Kasparis1993} and \cite{US6795559} the authors preprocess their signals using a high-pass filter to target the impulsive noise.
 
 \subsection{Median filter methods}\label{sec:LitRevDetMedianFilts}
 A classic pulse noise detection (and restoration) scheme involves a median filter \cite{Tukey1974}\linebreak[2]\cite{Lee1985}\cite{Heinonen1985}\cite{Heinonen1987}\cite{Maekivirta1991}\cite{Kasparis1993}.
 %explain median filtering
-Median filtering for signal smoothing, first published in \cite{Tukey1974}, has, according to \cite{Brillinger2002}, some important characteristics in that they reduce ``spiky'' noise while preserving jump discontinuities (edges). In \cite{Lee1985} it is noted that the median filter has limited effect on non-impulsive noise and the authors propose a method for augmenting the median filter with a linear filter for added smoothing. This augmentation of the nonlinear median filter approach with a linear filtering approach has become a popular variation of the median filtering process for impulsive noise detection and reduction, spawning a variety of implementations \cite{Lee1985}\cite{Heinonen1985}\cite{Nieminen1987}\cite{Kasparis1993}\cite{Loveridge1995}. In \cite{Kauppinen2002} it was also noted that the pulse detection algorithm that performed best was the median filter preprocessed by a linear filter. In recent years median based algorithms such as \gls{wm} filters \cite{Yin1996}\cite{Wang2010} and switching median filters \cite{Abreu1996}\cite{Chen2000}\cite{Chen2001}\cite{Lin2007} have seen a fair bit of attention although the focus of the implementations have almost exclusively been focused on image data.
+Median filtering for signal smoothing, first published in \cite{Tukey1974}, has, according to \cite{Brillinger2002}, some important characteristics in that they reduce ``spiky'' noise while preserving jump discontinuities (edges). In \cite{Lee1985} it is noted that the \DIFdelbegin \DIFdel{media }\DIFdelend \DIFaddbegin \DIFadd{median }\DIFaddend filter has limited effect on non-impulsive noise and the authors propose a method for augmenting the median filter with a linear filter for added smoothing. This augmentation of the nonlinear \DIFdelbegin \DIFdel{media }\DIFdelend \DIFaddbegin \DIFadd{median }\DIFaddend filter approach with a linear filtering approach has become a popular variation of \DIFaddbegin \DIFadd{the }\DIFaddend median filtering process for impulsive noise detection and reduction\DIFaddbegin \DIFadd{, }\DIFaddend spawning a variety of implementations \cite{Lee1985}\cite{Heinonen1985}\cite{Nieminen1987}\cite{Kasparis1993}\cite{Loveridge1995}. In \cite{Kauppinen2002} it was also noted that the pulse detection algorithm that performed best was the median filter preprocessed by a linear filter. In recent years median based algorithms such as \DIFdelbegin \DIFdel{weighted median (WM) }\DIFdelend \DIFaddbegin \gls{wm} \DIFaddend filters \cite{Yin1996}\cite{Wang2010} and switching median filters \cite{Abreu1996}\cite{Chen2000}\cite{Chen2001}\cite{Lin2007} have seen a fair bit of attention although the focus of the implementations have almost exclusively been focused on image data.
 
-The authors of \cite{Chandra1998} employ the \gls{sd-rom} (signal dependent rank order mean) algorithm, similar to the median filter methods, to evaluate the likelihood of each sample being corrupted based on the neighbouring samples. While this algorithm has shown great results in the removal of pulse noise in images \cite{Abreu1996}, in \cite{Chandra1998} the method performs best for short, although frequent, noise pulses of the order of a single or a few samples.
+The authors of \cite{Chandra1998} employ the \DIFdelbegin \DIFdel{SD-ROM }\DIFdelend \DIFaddbegin \gls{sd-rom} \DIFaddend (signal dependent rank order mean) algorithm, similar to the \DIFdelbegin \DIFdel{media }\DIFdelend \DIFaddbegin \DIFadd{median }\DIFaddend filter methods, to evaluate the likelihood of each sample being corrupted based on the neighbouring samples. While this algorithm has shown great results in the removal of pulse noise in images \cite{Abreu1996}\DIFaddbegin \DIFadd{, }\DIFaddend in \cite{Chandra1998} the method performs best for short, although frequent, noise pulses of the order of a single or a few samples.
 
 Since transient noise events often exhibit a sudden fast change in the signal, one way to detect the onset of a noise event is to detect abrupt nonstationary changes in the dynamics of time series. In \cite{Fancourt2000} the authors employ neural network predictors for this task, while \cite{Kauppinen2002} proposes an iterative discrete derivative method. In \cite{Kauppinen2002} the linear predictor and median hybrid method outperformed the derivative approach and the method described in \cite{Fancourt2000} was never tested on real data but the requirement for training and the inherent detection deadzone does reduce the method's general applicability.
 
 \subsection{Autoregressive (AR) methods}\label{sec:LitRevAR}
-While \gls{ar} methods have been used in other fields for detection and restoration of transient noise events \cite{Arakawa1986}, these methods were generally pioneered in the field of audio processing in \cite{Vaseghi1988thesis}\cite{Vaseghi1988}\cite{Vaseghi1990}. \gls{ar} methods are today the basis for many pulse detection algorithms in audio applications \cite{Karjalainen1997}\cite{Esquef2000}\cite{Haermae2000}\cite{Esquef2002}\cite{Kauppinen2002}\cite{Wolfe2005}\cite{Subramanya2007}. The \gls{ar} method considers a sub-frame of the audio data $x_t$ for $ t = \{ 1, \ldots, N \}$. Assuming the data is drawn from a short-term stationary \gls{ar} process:
+While \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend methods have been used in other fields for detection and restoration of transient noise events \cite{Arakawa1986}\DIFaddbegin \DIFadd{, }\DIFaddend these methods were generally pioneered in the field of audio processing in \cite{Vaseghi1988thesis}\cite{Vaseghi1988}\cite{Vaseghi1990}. \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend methods are today the basis for many pulse detection algorithms in audio applications \cite{Karjalainen1997}\cite{Esquef2000}\cite{Haermae2000}\cite{Esquef2002}\cite{Kauppinen2002}\cite{Wolfe2005}\cite{Subramanya2007}. The \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend method considers a sub-frame of the audio data $x_t$ for $ t = \{ 1, \ldots, N \}$. Assuming the data is drawn from a short-term stationary \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend process:
 
 \begin{equation}\label{eq:ARmodel}
 x_t = \sum_{i=1}^P a_i x_{n-i} + ge_t,
 \end{equation}
 
-where $e_t$ is the prediction error (or excitation signal), $g$ is the excitation gain and $\mathbf{a} = \{a_1,\ldots,a_P\}$ is the \gls{ar} coefficients of order $P$. The transient nature of the impulsive noise pulses will most likely lead to very large prediction errors if an attempt is made to predict its value with previous values of $x_t$. It follows that if an inverse \gls{ar} filter is applied to an \gls{ar} signal segment corrupted with transient noise events, $y_t$ the prediction error $e_t = y_t - \sum_{i=1}^P a_i y_{n-i}$ is expected to be large when noise events are present while remaining low at other times \cite{Godsill1998book}.
+where $e_t$ is the prediction error (or excitation signal), $g$ is the excitation gain and $\mathbf{a} = \{a_1,\ldots,a_P\}$ is the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend coefficients of order $P$. The transient nature of the impulsive noise pulses will most likely lead to very large prediction errors if an attempt is made to predict its \DIFdelbegin \DIFdel{values }\DIFdelend \DIFaddbegin \DIFadd{value }\DIFaddend with previous values of $x_t$. It follows that if an inverse \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filter is applied to an \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend signal segment corrupted with transient noise events\DIFdelbegin \DIFdel{$y_t$, }\DIFdelend \DIFaddbegin \DIFadd{, $y_t$ }\DIFaddend the prediction error $e_t = y_t - \sum_{i=1}^P a_i y_{n-i}$ is expected to be large when noise events are present while remaining low at other times \cite{Godsill1998book}.
 
-In \cite{Vaseghi1990} the authors find that linear prediction systems, or \gls{ar} process, are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''. This realisation is used to separate out the residual of the \gls{lpc} model effectively leaving the excitation noise in addition to the transient noise events, similarly to the preprocessing step of the favored approach in \cite{Kauppinen2002}.
+In \cite{Vaseghi1990} the authors find that linear prediction systems, or \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend process, are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''. This realisation is used to separate out the residual of the \DIFdelbegin \DIFdel{LPC }\DIFdelend \DIFaddbegin \gls{lpc} \DIFaddend model effectively leaving the excitation noise in addition to the transient noise events, similarly to the preprocessing step of the favored approach in \cite{Kauppinen2002}.
 
 A noisy speech signal $y_n$ can be modelled as an instantaneous mixture of a speech signal $x_n$ and some some impulsive disturbance:
 
@@ -316,14 +350,14 @@ and assuming that the speech signal can be modelled with a linear prediction mod
 \begin{equation}\label{eq:Vaseghi1990_4}
 x_n = \sum^P_{k=1} a_k x_{n-k} +ge_n,
 \end{equation}
-where $\mathbf{a}$ contains the \gls{lpc} parameters, $e_n$ is the excitation signal and $g$ is the linear prediction system gain. The excitation signal can either be noise-like or a mixture of noise and some quasi periodic train of pulses. White noise can be considered as a basic excitation signal for speech modelling \cite{Vaseghi1990}.
+where $\mathbf{a}$ \DIFdelbegin \DIFdel{is the LPC }\DIFdelend \DIFaddbegin \DIFadd{contains the }\gls{lpc} \DIFaddend parameters, $e_n$ is the excitation signal and $g$ is the linear prediction system gain. The excitation signal can either be noise-like or a mixture of noise and some quasi periodic train of pulses. White noise can be considered as a basic excitation signal for speech modelling \cite{Vaseghi1990}.
 
 Equation~\ref{eq:Vaseghi1990_1} can now be rewritten
 \begin{equation}\label{eq:Vaseghi1990_5}
 y_n = \sum^P_{k=1} a_k x_{n-k} + ge_n + d_n.
 \end{equation}
 
-With an estimate for the \gls{lpc} parameters $\mathbf{\hat{a}}$, the noisy signal $y_n$ can be written as the noisy excitation signal $v_n$
+With an estimate for the \DIFdelbegin \DIFdel{LPC }\DIFdelend \DIFaddbegin \gls{lpc} \DIFaddend parameters $\mathbf{\hat{a}}$, the noisy signal $y_n$ can be written as the noisy excitation signal $v_n$
 
 \begin{eqnarray}
 % \nonumber to remove numbering (before each equation)
@@ -331,39 +365,75 @@ With an estimate for the \gls{lpc} parameters $\mathbf{\hat{a}}$, the noisy sign
   &=& x_n + d_h - \sum^P_{k=1} (a_k - \tilde{a}_k)(x_{n-k} + d_{n-k}),\label{eq:Vaseghi1990_6}
 \end{eqnarray}
 
-where $a_k$ is the error in the \gls{lpc} parameter vector estimate. Equation~\ref{eq:Vaseghi1990_6} can now be rewritten
+where $a_k$ is the error in the \DIFdelbegin \DIFdel{LPC }\DIFdelend \DIFaddbegin \gls{lpc} \DIFaddend parameter vector estimate. Equation~\ref{eq:Vaseghi1990_6} can now be rewritten
 
 \begin{equation}\label{eq:Vaseghi1990_7}
 v_n = e_n + d_h - \sum^P_{k=1} \hat{a}_k d_{n-k} + \sum^P_{k=1} \tilde{a}_k x_{n-k}.
 \end{equation}
 
-The three elements that contribute to the noise in the excitation sequence estimate are the impulsive disturbance $d_n$, the past $p$ noise samples and the inflation in the variance of the residual signal due to the error parameter estimate \cite{Vaseghi1990}.
+The three elements that contribute to the noise in the excitation sequence estimate \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{are }\DIFaddend the impulsive disturbance $d_n$, the past $p$ noise samples and the inflation in the variance of the residual signal due to the error parameter estimate \cite{Vaseghi1990}.
 %\todo{maybe more sources for the separation?}
 
-Since the transient noise pulses are transformed to a scaled version of the pulse response of the inverse \gls{lpc} filter, and experimental results conducted by \cite{Vaseghi1990} show the amplitude of the excitation signal is in the order of $10^{-1}$ to $10^{-4}$, the detection task is greatly simplified. The authors of \cite{Godsill1998} note that the disadvantages with the approach outlined in \cite{Vaseghi1990} is its inability to detect small pulses in the presence of much larger disturbances as well as the introduction of distortion for certain signals. In \cite{Godsill1998} the pulse detection problem is put in a Bayesian framework and extended to non-Gaussian noise pulses.
+Since the transient noise pulses are transformed to a scaled version of the pulse response of the inverse \DIFdelbegin \DIFdel{LPC }\DIFdelend \DIFaddbegin \gls{lpc} \DIFaddend filter, and experimental results conducted by \cite{Vaseghi1990} show the amplitude of the excitation signal is in the order of $10^{-1}$ to $10^{-4}$, the detection task is greatly simplified. The authors of \cite{Godsill1998} note that the disadvantages with the approach outlined in \cite{Vaseghi1990} is its inability to detect small pulses in the presence of much larger disturbances as well as the introduction of distortion for certain signals. In \cite{Godsill1998} the pulse detection problem is put in a Bayesian framework and extended to non-Gaussian noise pulses.
 
-An adaptation to the basic \gls{ar} detection method in \cite{Vaseghi1988} uses a matched filter approach to detect transient noise events. The matched filter approach proceeds by considering the transient noise event as the signal and the \gls{ar} data as the coloured additive noise \cite{Godsill1998book}. An inherent problem with the matched filter approach is its dependence on training. Other methods in the literature model impulsive noise as non-Gaussian heavy-tailed distributions where the $\alpha$-stable distribution is particularly popular \cite{Tsihrintzis1997}\cite{Coates2002}. According to \cite{Nikias1995} $\alpha$-stable distributions are good for modeling many types of impulsive noise (including atmospheric and underwater acoustic noise). The sub-Gaussians methods in \cite{Tsihrintzis1997}\cite{Coates2002} appear to perform well on certain kinds of impulsive noise though it is questionable whether they could perform in a real time application with high pulse variability and high sample rates.
+An adaptation to the basic \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend detection method in \cite{Vaseghi1988} uses a matched filter approach to detect transient noise events. The matched filter approach proceeds by considering the transient noise event as the signal and the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend data as the coloured additive noise \cite{Godsill1998book}. An inherent problem with the matched filter approach is its dependence on training. Other methods in the literature model impulsive noise as non-Gaussian heavy-tailed distributions where the $\alpha$-stable distribution is particularly popular \cite{Tsihrintzis1997}\cite{Coates2002}. According to \cite{Nikias1995} $\alpha$-stable distributions are good for modeling many types of impulsive noise (including atmospheric and underwater acoustic noise). The sub-Gaussians methods in \cite{Tsihrintzis1997}\cite{Coates2002} appear to perform well on certain kinds of impulsive noise though it is questionable whether they could perform in a real time application with high pulse variability and high sample rates.
 
-Figures~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} compare the output of the 4 basic detection schemes discussed previously. The data presented in Figure~\ref{fig:LitRev_DetectCompare}(a) and Figure~\ref{fig:LitRev_DetectCompare2}(a) is speech data corrupted with keyboard tapping noise sampled at 44.1 kHz. Each primary tapping pulse has been marked as ``Ground Truth'' although secondary pulses can also be seen. Comparing the matched filter (b) and \gls{ar} prediction error (c) methods in Figures~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} it is noted that the matched filter produces a more smeared response while, in some cases, picking out more subtle pulses \cite{Godsill1998book}, e.g. 3rd marked pulse in Figure~\ref{fig:LitRev_DetectCompare}. The median filtered (d) and the high pass-filtered (HP) (e) signals produce nearly identical results. These results are also superior in that they increase the margin between lowest correct detection and the highest false detection is larger than for the \gls{ar} prediction error (c) and potentially the matched filter (b). It is also noted that both the median and HP filtered signals pick up a faint secondary pulse just beyond the 6th confirmed pulse in Figure~\ref{fig:LitRev_DetectCompare}. For the matched filter (b) response this pulse is obscured due to temporal smearing. This secondary detection is typically associated with the lifting of a keyboard key and should therefore not be considered as a potential false detection. This and other intricacies of establishing a ground truth value for detections will be discussed in Chapters~\ref{ch:TransientNoiseDetection} and \ref{ch:TransientNoiseRestoration}.
+Figures~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} compare the output of the 4 basic detection schemes discussed previously. The data presented in Figure~\ref{fig:LitRev_DetectCompare}(a) and Figure~\ref{fig:LitRev_DetectCompare2}(a) is speech data corrupted with keyboard tapping noise sampled at 44.1 kHz. Each primary tapping pulse has been marked as ``Ground Truth'' although secondary pulses can also be seen. Comparing the matched filter (b) and \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend prediction error (c) methods in Figures~\ref{fig:LitRev_DetectCompare} and~\ref{fig:LitRev_DetectCompare2} it is noted that the matched filter produces a more smeared response while, in some cases, picking out more subtle pulses \cite{Godsill1998book}, e.g. 3rd marked pulse in Figure~\ref{fig:LitRev_DetectCompare}. The median filtered (d) and the high pass-filtered (HP) (e) signals produce nearly identical results. These results are also superior in that they increase the margin between lowest correct detection and the highest false detection is larger than for the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend prediction error (c) and potentially the matched filter (b). It is also noted that both the median and HP filtered signals pick up a faint secondary pulse just beyond the 6th confirmed pulse in Figure~\ref{fig:LitRev_DetectCompare}. For the matched filter (b) response this pulse is obscured due to temporal smearing. This secondary detection is typically associated with the lifting of a keyboard key and should therefore not be considered as a potential false detection. This and other intricacies of establishing a ground truth value for detections will be discussed in Chapters~\ref{ch:TransientNoiseDetection} and \ref{ch:TransientNoiseRestoration}.
 
 \begin{figure}[!] %LitRev_DetectCompare
 \centering
 \includegraphics[width=130mm]{LitRev_DetectCompareNew.png}
-\caption{Pulse detection comparison, (a) Speech data with 6 primary keystroke pulses sampled at 44.1 kHz, (b) absolute value matched filter detector output \cite{Vaseghi1988}, (c) absolute value of \gls{ar} filter prediction error output with buffer size 1024 samples and order 100 \cite{Vaseghi1990}, (d) absolute value of median filter prediction error \cite{Tukey1974}, and (e) absolute value of high pass filtered data with crossover frequency 9.6 kHz \cite{Godsill1998book}\cite{Kasparis1993}\cite{US6795559}.}
+\caption{Pulse detection comparison, (a) Speech data with 6 primary keystroke pulses sampled at 44.1 kHz, (b) absolute value matched filter detector output \DIFaddbeginFL \DIFaddFL{\mbox{%DIFAUXCMD
+\cite{Vaseghi1988}
+}%DIFAUXCMD
+}\DIFaddendFL , (c) absolute value of \DIFdelbeginFL \DIFdelFL{AR }\DIFdelendFL \DIFaddbeginFL \gls{ar} \DIFaddendFL filter prediction error output with buffer size 1024 samples and order 100 \DIFaddbeginFL \DIFaddFL{\mbox{%DIFAUXCMD
+\cite{Vaseghi1990}
+}%DIFAUXCMD
+}\DIFaddendFL , (d) absolute value of median filter prediction error \DIFaddbeginFL \DIFaddFL{\mbox{%DIFAUXCMD
+\cite{Tukey1974}
+}%DIFAUXCMD
+}\DIFaddendFL , and (e) absolute value of high pass filtered data with crossover frequency 9.6 kHz \DIFaddbeginFL \DIFaddFL{\mbox{%DIFAUXCMD
+\cite{Godsill1998book}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Kasparis1993}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{US6795559}
+}%DIFAUXCMD
+}\DIFaddendFL .}
 \label{fig:LitRev_DetectCompare}
 \end{figure}
 
 \begin{figure}[!] %LitRev_DetectCompare2
 \centering
 \includegraphics[width=130mm]{LitRev_DetectCompare2New.png}
-\caption{Pulse detection comparison, (a) Speech data with 2 primary keystroke pulses sampled at 44.1 kHz, (b) absolute value matched filter detector output \cite{Vaseghi1988}, (c) absolute value of \gls{ar} filter prediction error output with buffer size 1024 samples and order 100 \cite{Vaseghi1990}, (d) absolute value of median filter prediction error \cite{Tukey1974}, and (e) absolute value of high pass filtered data with crossover frequency 9.6 kHz \cite{Godsill1998book}\cite{Kasparis1993}\cite{US6795559}.}
+\caption{Pulse detection comparison, (a) Speech data with 2 primary keystroke pulses sampled at 44.1 kHz, (b) absolute value matched filter detector output \DIFaddbeginFL \DIFaddFL{\mbox{%DIFAUXCMD
+\cite{Vaseghi1988}
+}%DIFAUXCMD
+}\DIFaddendFL , (c) absolute value of \DIFdelbeginFL \DIFdelFL{AR }\DIFdelendFL \DIFaddbeginFL \gls{ar} \DIFaddendFL filter prediction error output with buffer size 1024 samples and order 100 \DIFaddbeginFL \DIFaddFL{\mbox{%DIFAUXCMD
+\cite{Vaseghi1990}
+}%DIFAUXCMD
+}\DIFaddendFL , (d) absolute value of median filter prediction error \DIFaddbeginFL \DIFaddFL{\mbox{%DIFAUXCMD
+\cite{Tukey1974}
+}%DIFAUXCMD
+}\DIFaddendFL , and (e) absolute value of high pass filtered data with crossover frequency 9.6 kHz \DIFaddbeginFL \DIFaddFL{\mbox{%DIFAUXCMD
+\cite{Godsill1998book}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Kasparis1993}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{US6795559}
+}%DIFAUXCMD
+}\DIFaddendFL .}
 \label{fig:LitRev_DetectCompare2}
 \end{figure}
 
 %Warped linear prediction
-\gls{wlp} is another adaptation of the \gls{ar} method \cite{Esquef2002}. The basic idea of \emph{warped} DSP was first introduced in \cite{Oppenheim1983} and later formalized in a predictive framework in \cite{Strube1980} and as a recursive filter \cite{Steiglitz1980}. \gls{wlp} has since been applied successfully to several audio applications \cite{Karjalainen1997}\cite{Haermae2000} and more specifically used as a basis for pulse detection \cite{Esquef2000}\cite{Esquef2002}.
+\DIFdelbegin \DIFdel{Warped linear prediction (WLP) }\DIFdelend \DIFaddbegin \gls{wlp} \DIFaddend is another adaptation of the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend method \cite{Esquef2002}. The basic idea of \emph{warped} DSP was first introduced in \cite{Oppenheim1983} and later formalized in a predictive framework in \cite{Strube1980} and as a recursive filter \cite{Steiglitz1980}. \DIFdelbegin \DIFdel{WLP }\DIFdelend \DIFaddbegin \gls{wlp} \DIFaddend has since been applied successfully to several audio applications \cite{Karjalainen1997}\cite{Haermae2000} and more specifically used as a basis for pulse detection \cite{Esquef2000}\cite{Esquef2002}.
 
-The basic concept of warped filters can be explained by considering a standard \gls{fir}-like structure, but rather than applying the standard unit delay $z^{-1}$ the warped filter applies a new delay element $D(z)$ so that each new delay is frequency dependant (dispersive). In practice this means that the design of the warped filters are based on any pair of functions, $\tilde{z} = f(z)$ and $z = g(\tilde{z})$, so that $f(\cdot)$ and $g(\cdot)$ are one-to-one mappings of the unit circle onto itself, and $z = g\left( f(z) \right)$ \cite{Karjalainen1997}. Bilinear conformal mapping \cite{Brown1996} conforms to the requirements and corresponds to the first order all-pass filter
+The basic concept of warped filters can be explained by considering a standard \DIFdelbegin \DIFdel{FIR-like }\DIFdelend \DIFaddbegin \gls{fir}\DIFadd{-like }\DIFaddend structure, but rather than applying the standard unit delay $z^{-1}$ the warped filter applies a new delay element $D(z)$ so that each new delay is frequency dependant (dispersive). In practice this means that the design of the warped filters are based on any pair of functions, $\tilde{z} = f(z)$ and $z = g(\tilde{z})$, so that $f(\cdot)$ and $g(\cdot)$ are one-to-one mappings of the unit circle onto itself, and $z = g\left( f(z) \right)$ \cite{Karjalainen1997}. Bilinear conformal mapping \cite{Brown1996} conforms to the requirements and corresponds to the first order all-pass filter
 
 \begin{equation}\label{eq:Karjalainen1997}
 \tilde{z}^{-1} = D(z) = \frac{z^{-1} - \lambda}{1 - \lambda z^{-1}},
@@ -371,7 +441,7 @@ The basic concept of warped filters can be explained by considering a standard \
 
 where $\lambda, -1 < \lambda < 1$, is a warping parameter which, if chosen appropriately \cite{Karjalainen1997}, yields a good match to the psychoacoustic Bark scale \cite{Smith1995}.
 
-Warped digital filters have a range of advantages in that they can be designed to model the human auditory system as well as other physical systems \cite{Karjalainen1997}. In \cite{Esquef2002} the authors note that for auditory models the warping factor $\lambda$ tends to be positive while for click detection, negative warping factors appeared to perform best. It is also noted that pulse detection using \gls{wlp} comes at a considerable computational cost and is therefore not suited for real time implementations. As in \cite{Godsill1998book} the authors of \cite{Esquef2002} only considered pulses with duration of $<1$ ms, for which the \gls{wlp} based method performs well. This good performance is largely believed to be caused by spectral characteristics also exploited in \cite{Kasparis1993}\cite{US6795559}, although the signals in \cite{Esquef2002} were not exclusively corrupted speech data and can therefore not be assumed to be spectrally sparse at high frequencies.
+Warped digital filters have a range of advantages in that they can be designed to model the human auditory system as well as other physical systems \cite{Karjalainen1997}. In \cite{Esquef2002} the authors note that for auditory models the warping factor $\lambda$ tends to be positive while for click detection, negative warping factors appeared to perform best. It is also noted that pulse detection using \DIFdelbegin \DIFdel{WLP }\DIFdelend \DIFaddbegin \gls{wlp} \DIFaddend comes at a considerable computational cost and is therefore not suited for real time implementations. As in \cite{Godsill1998book} the authors of \cite{Esquef2002} only considered pulses with duration of $<1$ ms, for which the \DIFdelbegin \DIFdel{WLP }\DIFdelend \DIFaddbegin \gls{wlp} \DIFaddend based method performs well. This good performance is largely believed to be caused by spectral characteristics also exploited in \cite{Kasparis1993}\cite{US6795559}, although the signals in \cite{Esquef2002} were not exclusively corrupted speech data and can therefore not be assumed to be spectrally sparse at high frequencies.
 
 
 %|P. A. A. Esquef, V. Välimäki, K. Roth, and I. Kauppinen, "Interpolation of Long Gaps in Audio Signals Using the Warped Burg's Method", in Proc. 6th Int. Conf. Digital Audio Effects %(DAFx-03), pp. 18-23 London, UK, September 8-11, 2003.
@@ -379,7 +449,7 @@ Warped digital filters have a range of advantages in that they can be designed t
 Warped-based methods evaluated via objective measures have been found to only be advantageous for lower model orders. For moderate model orders warped-based methods perform similarly to conventional schemes \cite{Esquef2003}\cite{Esquef2003a}. Furthermore it is reported that warped-based methods increase the number of floating-point operations by around 77\% \cite{Esquef2003}.
 
 \subsection{Frequency methods}
- Some authors have attempted to use the \gls{stft} as a basis for detection \cite{Czyzewski1995}\cite{Subramanya2007}\cite{Sugiyama2007}\cite{Abramson2007} causing problems such as loss of temporal resolution of detections at moderate frame sizes, loss of spectral resolution for smaller frame size and computational inefficiency using extensive overlapping of frames. The authors of \cite{Subramanya2007} propose an algorithm for detection of keystroke noise on laptop computers and recognise the temporal and spectral variability in the noise pulses cause methods based on noise models and stationarity assumptions to perform poorly. Instead the authors propose to exploit the ``smoothness in speech signals present across time'' and the relative spectral sparsity of speech signals compared to keystroke noise pulses with a simple linear predictive model across each frequency bin. Their model assumes that
+ Some authors have attempted to use the \DIFdelbegin \DIFdel{short time Fourier transform (STFT) }\DIFdelend \DIFaddbegin \gls{stft} \DIFaddend as a basis for detection \cite{Czyzewski1995}\cite{Subramanya2007}\cite{Sugiyama2007}\cite{Abramson2007} causing problems such as loss of temporal resolution of detections at moderate frame sizes, loss of spectral resolution for smaller frame size and computational inefficiency using extensive overlapping of frames. The authors of \cite{Subramanya2007} propose an algorithm for detection of keystroke noise on laptop computers and recognise the temporal and spectral variability in the noise pulses cause methods based on noise models and stationarity assumptions to perform poorly. Instead the authors propose to exploit the ``smoothness in speech signals present across time'' and the relative spectral sparsity of speech signals compared to keystroke noise pulses with a simple linear predictive model across each frequency bin. Their model assumes that
 
 \begin{equation}
 \label{eq:Subramanya2007}
@@ -397,14 +467,22 @@ F_t = - \frac{1}{2} \sum_k \frac{1}{\sigma^2_{tk}} \left( S\left(k,t\right) - \s
 
 where $C_{tk}$ is a constant.
 
-\subsection{Hidden Markov models (HMM)}
-While some detection algorithms quite simply base detections on magnitudes of some parameter \cite{Subramanya2007}\cite{Sugiyama2007}, in some situations it may be advantageous to attempt to model, probabilistically, the evolution of a sequence of hidden states. For this application the hidden \gls{hmm} is considered effective \cite{Rabiner1989}\cite{Xu2005}.
+\subsection{Hidden Markov \DIFdelbegin \DIFdel{model }\DIFdelend \DIFaddbegin \DIFadd{models }\DIFaddend (HMM)}
+While some detection algorithms quite simply base detections on magnitudes of some parameter \cite{Subramanya2007}\cite{Sugiyama2007}\DIFaddbegin \DIFadd{, }\DIFaddend in some situations it may be advantageous to attempt to model, probabilistically, the evolution of a sequence of hidden states. For this application the hidden \DIFdelbegin \DIFdel{Markov model (HMM) }\DIFdelend \DIFaddbegin \gls{hmm} \DIFaddend is considered effective \cite{Rabiner1989}\cite{Xu2005}.
 
-It is beyond the scope of this work to give a comprehensive introduction to \gls{hmm}s but \cite{Rabiner1989} provides a comprehensive introduction to \gls{hmm} in the field of speech processing.
+It is beyond the scope of this work to give a comprehensive introduction to \DIFdelbegin \DIFdel{HMM }\DIFdelend \DIFaddbegin \gls{hmm}\DIFadd{s }\DIFaddend but \cite{Rabiner1989} provides a comprehensive introduction to \DIFdelbegin \DIFdel{HMM }\DIFdelend \DIFaddbegin \gls{hmm} \DIFaddend in the field of speech processing.
 
 %Viterbi
-The Viterbi algorithm, first proposed in 1967 \cite{Viterbi1967} and originally developed as a method for decoding convolutional codes
-from language identification \cite{Nagarajan2004}, is a recursive optimal solution to the problem of estimating the state sequence of a discrete-time finite-state Markov process \cite{Forney1973}. The Viterbi algorithm is therefore not a classification algorithm in the traditional sense but if you consider states as classes and each time step as correlated trials then the Viterbi algorithm does apply.\label{corrections:viterbi}
+The Viterbi algorithm, first proposed in 1967 \cite{Viterbi1967} \DIFaddbegin \DIFadd{and originally developed as a method for decoding convolutional codes
+from language identification \mbox{%DIFAUXCMD
+\cite{Nagarajan2004}
+}%DIFAUXCMD
+}\DIFaddend , is a recursive optimal solution to the problem of estimating the state sequence of a discrete-time finite-state Markov process \cite{Forney1973}. \DIFdelbegin \DIFdel{Originally developed as a method for decoding convolutional codes
+from language identification \mbox{%DIFAUXCMD
+\cite{Nagarajan2004}
+}%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{The Viterbi algorithm is therefore not a classification algorithm in the traditional sense but if you consider states as classes and each time step as correlated trials then the Viterbi algorithm does apply.}\label{corrections:viterbi}
+\DIFaddend 
 
 Given an observation of a sequence $y \in \{y_1,\ldots,y_K\}$ the Viterbi algorithm's goal is to find the most probable sequence of states $S \in \{S_0,\ldots,S_K \}$ given these observations assuming the successive Markov state probabilities $Pr(S_{k-1} \rightarrow S_{k})$ as well as the output probabilities $p(y_k | S_{k-1} \rightarrow S_{k})$ are mutually independent for $k$. The likelihood function for the path from $k=1$ to $k=K$ is given by
 
@@ -412,7 +490,7 @@ Given an observation of a sequence $y \in \{y_1,\ldots,y_K\}$ the Viterbi algori
 L = \prod_{k=1}^K Pr(S_{k-1} \rightarrow S_{k}) p(y_k | S_{k-1} \rightarrow S_{k}).
 \end{equation}
 
-Typically the logarithm is here considered due to computational efficiency.
+Typically the \DIFdelbegin \DIFdel{the }\DIFdelend logarithm is here considered due to computational efficiency.
 
 \begin{equation}\label{eq:viterbiLitRev2}
 \log{\left(L\right)} = \sum_{k=1}^K m(y_k ; S_{k-1}, S_{k}),
@@ -439,24 +517,27 @@ M_K(S^i) &=& \max \left( M_{K-1}(S^i) + m(y_K ; S_{K-1}^j, S_{K}^i)\right), \\ \
 \end{eqnarray}
 which is the expression at the heart of the Viterbi algorithm \cite{Viterbi2006}.
 
-%\todo{Add information about the \gls{hmm} and Viterbi in particular}
-% \cite{Rabiner1989}\cite{Viterbi1967}\cite{Forney1973}
+%DIF < \todo{Add information about the HMM and Viterbi in particular}
+%DIF < \cite{Rabiner1989}\cite{Viterbi1967}\cite{Forney1973}
+%DIF > \todo{Add information about the \gls{hmm} and Viterbi in particular}
+%DIF >  \cite{Rabiner1989}\cite{Viterbi1967}\cite{Forney1973}
 
 \subsubsection{Time-Frequency processing}
 %The basics of time-frequency processing is the correlation of a .... %Simon made a mark over "is" in this sentence
-Since the object of interest in our detection efforts is inherently transient and therefore localised in time, classic Fourier analysis has a significant shortcoming in that it provides no temporal information. The basis of time-frequency processing is the correlation of a signal with a family of waveforms that are well concentrated in time as well as in frequency \cite{Mallat1999} also called \emph{time-frequency atoms}\cite{Gabor1946}. The popular \gls{stft} used in numerous applications dates back to 1946 and the introduction of the windowed Fourier atoms to measure the ``frequency variations'' of sound. Given the real and symmetric window
+Since the object of interest in our detection efforts is inherently transient and therefore localised in time, classic Fourier analysis has a significant shortcoming in that it provides no temporal information. The basis of time-frequency processing is the correlation of a signal with a family of waveforms that are well concentrated in time as well as in frequency \cite{Mallat1999} also called \emph{time-frequency atoms}\cite{Gabor1946}. The popular \DIFdelbegin \DIFdel{STFT }\DIFdelend \DIFaddbegin \gls{stft} \DIFaddend used in numerous applications dates back to 1946 and the introduction of the windowed Fourier atoms to measure the ``frequency variations'' of sound. Given the real and symmetric window
 
 \begin{equation}\label{eq:Mallat1999}
 g_{u,\xi}(t) = \mathrm{e}^{i\xi t}g(t-u),
 \end{equation}
-where $\xi$ is a modulation frequency and $u$ is a translation, $g$ is normalized, $\|g\| = 1$, so that $\|g_{u,\xi}\| = 1$ for any $(u, \xi) \in \mathbb{R}^2$. The resulting windowed Fourier transform of $f \in \mathbf{L^2}(\mathbb{R})$ is
+where $\xi$ is a modulation frequency and $u$ is a translation\DIFdelbegin \DIFdel{and normalized}\DIFdelend \DIFaddbegin \DIFadd{, $g$ is normalized, }\DIFaddend $\|g\| = 1$\DIFaddbegin \DIFadd{, }\DIFaddend so that $\|g_{u,\xi}\| = 1$ for any $(u, \xi) \in \mathbb{R}^2$. The resulting windowed Fourier transform of $f \in \mathbf{L^2}(\mathbb{R})$ is
 
 \begin{equation}\label{eq:Mallat1999_2}
 S f(u, \xi) = \langle f, g_{u,\xi} \rangle = \int^{+\infty}_{-\infty}  f(t)g(t-u)\mathrm{e}^{-i\xi t} dt,
 \end{equation}
-which is also called the \gls{stft} since the window $g(t-u)$ has the effect of localising the Fourier integral in the region of $t=u$. $\mathbf{L^2}(\mathbb{R})$ describes finite energy functions $\int |f(t)|^2 dt < + \infty$.
+which is also called the \DIFdelbegin \DIFdel{STFT }\DIFdelend \DIFaddbegin \gls{stft} \DIFaddend since the window $g(t-u)$ has the effect of localising the Fourier integral in the region of $t=u$. \DIFaddbegin \DIFadd{$\mathbf{L^2}(\mathbb{R})$ describes finite energy functions $\int |f(t)|^2 dt < + \infty$.
+}\DIFaddend 
 
-To evaluate the energy density $P_S$ of the \gls{stft}, also called the \emph{spectrogram}, the squared magnitude is computed:
+To evaluate the energy density $P_S$ of the \DIFdelbegin \DIFdel{STFT}\DIFdelend \DIFaddbegin \gls{stft}\DIFaddend , also called the \emph{spectrogram}, the squared magnitude is computed:
 
 \begin{equation}\label{eq:Mallat1999_3}
 P_S f(u,\xi) = |S f(u,\xi)|^2 = \left| \int^{+\infty}_{-\infty} f(t)g(t-u)\mathrm{e}^{-i\xi t} dt \right|^2.
@@ -489,14 +570,14 @@ For the windowed Fourier transform the time spread $\sigma_t$ and frequency spre
 \put(-32,122){$\sigma_\omega$}
 \put(-50,20){$|g_{v,\xi}(t)|$}
 \end{picture}
-\caption{An example of the Heisenberg box illustration and the inherent time-frequency resolution trade-off for the \gls{stft}.}
+\caption{An example of the Heisenberg box illustration and the inherent time-frequency resolution trade-off for the \DIFdelbeginFL \DIFdelFL{STFT}\DIFdelendFL \DIFaddbeginFL \gls{stft}\DIFaddendFL .}
 \label{fig:LitRev_HeisenbergBox_STFT}
 \end{figure}
 
 In practice this gives rise to a trade-off between temporal and frequency resolution, illustrated in Figure~\ref{fig:LitRev_STFTlims}, where two different temporal frame sizes are shown in relation to the resulting frequency resolution.
 
 \subsubsection{Wavelet decomposition}
-The Wavelet Transform can be seen as a generalization of the windowed Fourier transform in that it decomposes a signal over dilated and translated wavelets. A wavelet is simply a function $\phi \in \mathbf{L^2}(\mathbb{R})$ which is normalised $\| \psi \| = 1$, centered in the neighborhood of $t=0$, and with zero average:
+The Wavelet Transform can be seen as a generalization of the windowed Fourier transform in that it decomposes a signal over dilated and translated wavelets. A wavelet is simply a function $\phi \in \mathbf{L^2}(\mathbb{R})$ which is normalised \DIFdelbegin \DIFdel{$\| \phi \| = 1$}\DIFdelend \DIFaddbegin \DIFadd{$\| \psi \| = 1$}\DIFaddend , centered in the neighborhood of $t=0$, and with zero average:
 
 \begin{equation}\label{eq:Mallat1999_4}
 \int^{+\infty}_{-\infty} \psi(t) dt = 0.
@@ -505,7 +586,7 @@ The Wavelet Transform can be seen as a generalization of the windowed Fourier tr
 Unlike the windowed Fourier transform the family of time-frequency wavelet atoms is translated by $u$ as well as scaled by $s$:
 
 \begin{equation}\label{eq:Mallat1999_5}
-\psi_{i,s}(t) = \frac{1}{\sqrt{s}}\psi\left(\frac{t-u}{s}\right).
+\DIFdelbegin \DIFdel{\phi}\DIFdelend \DIFaddbegin \DIFadd{\psi}\DIFaddend _{i,s}(t) = \frac{1}{\sqrt{s}}\psi\left(\frac{t-u}{s}\right).
 \end{equation}
 
 Now we have that the wavelet transform of $f \in \mathbf{L^2}(\mathbb{R})$ at time $u$ and scale $s$ is
@@ -514,7 +595,7 @@ Now we have that the wavelet transform of $f \in \mathbf{L^2}(\mathbb{R})$ at ti
 W f(u,s) = \langle f, \psi_{u,s} \rangle = \int^{+\infty}_{-\infty} f(t) \frac{1}{\sqrt{s}}\psi^\ast \left( \frac{t-u}{s} \right) dt.
 \end{equation}
 
-The energy spread of a wavelet time-frequency atom $\psi_{u,s}$ corresponds to a Heisenberg box centered at $(u,\eta/s)$ where $\eta$ is the center frequency of $\hat{\psi}$ the Fourier transform of $\phi$, and $\hat{\psi}_{u,s}$ is the Fourier transform of $\phi$ dilated by $1/s$. For more details on the derivation of the time-frequency resolution of the wavelet transform see Appendix~\ref{ap:TimeFreqResolutionWavelet} on page~\pageref{ap:TimeFreqResolutionWavelet}. The Heisenberg box remains of area $\sigma_t \sigma_\omega$ at all scales but it is now $s\sigma_t$ on the time axis and $\sigma_\omega /s$ along the frequency axis \cite{Mallat1999}. The temporal and frequency resolution is now dependent on $s$ as illustrated in Figure~\ref{fig:LitRev_HeisenbergBox_wavelets}
+The energy spread of a wavelet time-frequency atom \DIFdelbegin \DIFdel{$\phi_{u,s}$ }\DIFdelend \DIFaddbegin \DIFadd{$\psi_{u,s}$ }\DIFaddend corresponds to a Heisenberg box centered at $(u,\eta/s)$ where $\eta$ is the center frequency of \DIFdelbegin \DIFdel{$\hat{\phi}$ }\DIFdelend \DIFaddbegin \DIFadd{$\hat{\psi}$ }\DIFaddend the Fourier transform of $\phi$, and \DIFdelbegin \DIFdel{$\hat{\phi_{u,s}}$ }\DIFdelend \DIFaddbegin \DIFadd{$\hat{\psi}_{u,s}$ }\DIFaddend is the Fourier transform of $\phi$ dilated by $1/s$. For more details on the derivation of the time-frequency resolution of the wavelet transform see Appendix~\ref{ap:TimeFreqResolutionWavelet} on page~\pageref{ap:TimeFreqResolutionWavelet}. The Heisenberg box remains of area $\sigma_t \sigma_\omega$ at all scales but it is now $s\sigma_t$ on the time axis and $\sigma_\omega /s$ along the frequency axis \cite{Mallat1999}. The temporal and frequency resolution is now dependent on $s$ as illustrated in Figure~\ref{fig:LitRev_HeisenbergBox_wavelets}
 
 \begin{figure}[!] %LitRev_HeisenbergBox_wavelets
 \centering
@@ -542,7 +623,7 @@ The energy spread of a wavelet time-frequency atom $\psi_{u,s}$ corresponds to a
 \caption{The Heisenberg boxes for the wavelet transform.}
 \label{fig:LitRev_HeisenbergBox_wavelets}
 \end{figure}
-The main difference between classic Fourier analysis and Wavelet analysis is that Wavelets are localised in both frequency and time whereas the Fourier transform is only localised in frequency. This leads to some significant advantages when considering data that is inherently transient. While the \gls{stft} does, to an extent, mimic the time localisation of the Wavelet Transform it does so at the cost of temporal resolution \cite{Mallat1999}. The trade-off between temporal and frequency resolution is illustrated in Figure~\ref{fig:LitRev_STFTlims} where two different temporal frame sizes are shown in relation to the resulting frequency resolution.
+The main difference between classic Fourier analysis and Wavelet analysis is that Wavelets are localised in both frequency and time whereas the Fourier transform is only localised in frequency. This leads to some significant advantages when considering data that is inherently transient. While the \DIFdelbegin \DIFdel{STFT }\DIFdelend \DIFaddbegin \gls{stft} \DIFaddend does, to an extent, mimic the time localisation of the Wavelet Transform it does so at the cost of temporal resolution \cite{Mallat1999}. The trade-off between temporal and frequency resolution is illustrated in Figure~\ref{fig:LitRev_STFTlims} where two different temporal frame sizes are shown in relation to the resulting frequency resolution.
 
 %LitRev_STFTlims
 \begin{figure}
@@ -591,13 +672,13 @@ where
 h_i(k) = w(k)e^{-i \omega_i n},
 \end{equation}
 
-and $w(k)$ is a window function. Considering $w(k)$ as a prototypical \gls{fir} lowpass filter, the collection of all $h_i(k)$s constitutes a bank of bandpass filters each centered on frequency $\omega_i$ \cite{Ariananda2013}. This implementation is commonly referred to as the periodogram but it also highlights what is sometimes called the filter bank paradigm and is a particularly simple implementation of the \gls{dwt}\cite{Mallat1999}.
+and $w(k)$ is a window function. Considering $w(k)$ as a prototypical \DIFdelbegin \DIFdel{FIR }\DIFdelend \DIFaddbegin \gls{fir} \DIFaddend lowpass filter, the collection of all $h_i(k)$s constitutes a bank of bandpass filters each centered on frequency $\omega_i$ \cite{Ariananda2013}. This implementation is commonly referred to as the periodogram but it also highlights what is sometimes called the filter bank paradigm and is a particularly simple implementation of the \DIFdelbegin \DIFdel{DWT}\DIFdelend \DIFaddbegin \gls{dwt}\DIFaddend \cite{Mallat1999}.
 
 Considering again the window function $w(k)$ from equation~\ref{eq:LitRev_Detection_PSD3}, the simplest window conceivable would be a simple rectangular window $w(k) = 1/N$. Naturally this would lead to significant side lobe leaks in the spectral domain and is therefore highly undesirable. Employing Hamming and Hann windows is a common approach to alleviate these issues. Another issue that arises with the periodogram is that its estimates are coarse with low precision and large variance \cite{Ariananda2013}. A common method for alleviating this variance problem is by windowing the data first \cite{Lim1988book}.
 
-Work done on Multi Taper Spectrum Estimation (MTSE) \cite{Thomson1982} and later on multi-resolution theory \cite{Mallat1989}\cite{Meyer1995} proves that a conjugate mirror filter characterises a wavelet and that cascading these filters leads to a fast implementation of the discrete wavelet transform.
+Work done on Multi Taper Spectrum Estimation (MTSE) \cite{Thomson1982} and later on multi-resolution theory \cite{Mallat1989}\cite{Meyer1995} proves that \DIFaddbegin \DIFadd{a }\DIFaddend conjugate mirror filter characterises a wavelet and that cascading these filters leads to a fast implementation of the discrete wavelet transform.
 
-Figure~\ref{fig:LitRev_DWTstep.pdf} shows a diagrammatic representation of a single step of the \gls{dwt}. The \emph{Lo} and \emph{Hi-pass} filters represent, respectively, the low and high pass conjugate mirror filters and the following step is a dyadic decimation (down-sampling) step. Since the spectrum of each filtered signal is effectively halved by the filters, the decimation step removes redundant information in accordance with Nyquist's theorem. The output of the low and high-pass filters are commonly referred to as the approximation and the detail coefficients respectively \cite{Mallat1999}. Figure~\ref{fig:LitRev_DWTtree.pdf} shows a three level wavelet decomposition.
+Figure~\ref{fig:LitRev_DWTstep.pdf} shows a diagrammatic representation of a single step of the \DIFdelbegin \DIFdel{DWT}\DIFdelend \DIFaddbegin \gls{dwt}\DIFaddend . The \emph{Lo} and \emph{Hi-pass} filters represent, respectively, the low and high pass conjugate mirror filters and the following step is a dyadic decimation (down-sampling) step. Since the spectrum of each filtered signal is effectively halved by the filters, the decimation step removes redundant information in accordance with Nyquist's theorem. The output of the low and high-pass filters are commonly referred to as the approximation and the detail coefficients respectively \cite{Mallat1999}. Figure~\ref{fig:LitRev_DWTtree.pdf} shows a three level wavelet decomposition.
 
 %LitRev_DWTstep.pdf
 \begin{figure}
@@ -623,14 +704,14 @@ Figure~\ref{fig:LitRev_DWTstep.pdf} shows a diagrammatic representation of a sin
 \label{fig:LitRev_DWTtree.pdf}
 \end{figure}
 
-The multi-resolution properties of the wavelet transform has made the Wavelet transform popular in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands \cite{Sinha1993}\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Biscainho2000}\linebreak[0]\cite{Tzanetakis2001}\linebreak[0]\cite{Zurera2001}\cite{Lin2005}\cite{Nongpiur2008}. Equally the computational efficiency of the discrete wavelet transform is cited \cite{Kadambe1992} as a significant advantage over the \gls{fft} with an $O(N)$ complexity compared to\linebreak[0] $O(N\log{N})$ for the \gls{fft} \cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}. Several authors propose wavelets used as a basis for audio classification applications \cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005} and report that a specific advantage of the wavelet basis is its compact representation compared to the time domain signal which decreases processing delay/cost \cite{Lambrou1998}.
+The multi-resolution properties of the wavelet transform has made the Wavelet transform popular in a range of audio and speech applications where much of the information of interest is located in the lower frequency bands \cite{Sinha1993}\cite{Czyzewski1995}\cite{Lambrou1998}\cite{Biscainho2000}\linebreak[0]\cite{Tzanetakis2001}\linebreak[0]\cite{Zurera2001}\cite{Lin2005}\cite{Nongpiur2008}. Equally the computational efficiency of the discrete wavelet transform is cited \cite{Kadambe1992} as a significant advantage over the \DIFdelbegin \DIFdel{FFT }\DIFdelend \DIFaddbegin \gls{fft} \DIFaddend with an $O(N)$ complexity compared to\linebreak[0] $O(N\log{N})$ for \DIFdelbegin \DIFdel{FFT}\DIFdelend \DIFaddbegin \DIFadd{the }\gls{fft} \DIFaddend \cite{Mallat1999}. In \cite{Kadambe1992} the authors report ``superior pitch detection performance'' citing the Wavelet transforms computational efficiency, temporal resolution and its suitability of the pitch periods found in the analysed material. Speech applications in particular report good spectral estimation capabilities \cite{Hu2004}, good de-noising capabilities \cite{Donoho1995}\cite{Seok1997}, and good compression performance \cite{Sinha1993}\cite{Fgee1999}. Several authors propose wavelets used as a \DIFdelbegin \DIFdel{bases }\DIFdelend \DIFaddbegin \DIFadd{basis }\DIFaddend for audio classification applications \cite{Lambrou1998}\cite{Tzanetakis2001}\cite{Lin2005} and report that a specific advantage of the wavelet basis is its compact representation compared to the time domain signal which decreases processing delay/cost \cite{Lambrou1998}.
 
 An early wavelet based click detection algorithm proposes to detect clicks by analysing the wavelet coefficients of the signal for discontinuities \cite{Czyzewski1995}. The authors apply a neural network algorithm to robustly detect and classify pulses although the authors note that the required training stage is both ``a complex and time-consuming procedure''. While not explicitly discussed the authors appear to be targeting extremely short time pulses of the order of 1 or 2 samples, or what they call ``parazite impulses''.
 
-More recently wavelet bases have been used to detect impulsive noise in speech data by taking advantage of the relatively slow time-varying nature of speech and the Lipschitz regularity of the speech components \cite{Nongpiur2008}. For this application the scope of the corrupted samples appeared larger with suggested possible corruptions including gunshots, rain drops and keyboard typing noise. The author reported that the algorithm managed to reduce the rain drop noise in an instantaneous mixture of speech and rain noise. It was noted that this was the only noise application demonstrated and that it was never intended to completely remove the noise entirely. It was also noted that additional noise suppression algorithms seem to have been used as well as a speech enhancement algorithm. The extent to which this algorithm would reduce the nuisance of longer and louder pulses was not explored, but would have been interesting.
+More recently \DIFdelbegin \DIFdel{the }\DIFdelend wavelet bases have been used to detect impulsive noise in speech data by taking advantage of the relatively slow time-varying nature of speech and the Lipschitz regularity of the speech components \cite{Nongpiur2008}. For this application the scope of the corrupted samples appeared larger with suggested possible corruptions including gunshots, rain drops and keyboard typing noise. The author reported that the algorithm managed to reduce the rain drop noise in an instantaneous mixture of speech and rain noise. It was noted that this was the only noise application demonstrated and that it was never intended to completely remove the noise entirely. It was also noted that additional noise suppression algorithms seem to have been used as well as a speech enhancement algorithm. The extent to which this algorithm would reduce the nuisance of longer and louder pulses was not \DIFdelbegin \DIFdel{explore}\DIFdelend \DIFaddbegin \DIFadd{explored}\DIFaddend , but would have been interesting.
 
 \subsubsection{Wavelet Packet Transform (WPT)}
-The \gls{wpt} can be seen as a generalisation of the Wavelet transform in that it extends the link between multi-resolution approximations and wavelets. The \gls{wpt} can also be seen as a natural extension of \gls{mtse} \cite{Thomson1982}. While the \gls{dwt} decomposes only the approximation coefficients the \gls{wpt} applies the decomposition step symmetrically throughout the tree as seen in Figure~\ref{fig:LitRev_WPTtree.pdf}. Since the standard \gls{dwt} algorithm is limited to wavelet bases that increase by a power of two towards the higher scales (low frequencies) it is possible that some other combination of bases could provide a better basis in some applications \cite{Coifman1992a}.
+The \DIFdelbegin \DIFdel{Wavelet Packet Transform (WPT) }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend can be seen as a generalisation of the Wavelet transform in that it extends the link between multi-resolution approximations and wavelets. The \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend can also be seen as a natural extension of \DIFdelbegin \DIFdel{MSTE}\DIFdelend \DIFaddbegin \gls{mtse} \DIFaddend \cite{Thomson1982}. While the \DIFdelbegin \DIFdel{DWT }\DIFdelend \DIFaddbegin \gls{dwt} \DIFaddend decomposes only the approximation coefficients the \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend applies the decomposition step symmetrically throughout the tree as seen in Figure~\ref{fig:LitRev_WPTtree.pdf}. Since the standard \DIFdelbegin \DIFdel{DWT }\DIFdelend \DIFaddbegin \gls{dwt} \DIFaddend algorithm is limited to wavelet bases that increase by a power of two towards the higher scales (low frequencies) it is possible that some other combination of bases could provide a better basis in some applications \cite{Coifman1992a}.
 
 %LitRev_WPTtree.pdf
 \begin{figure}
@@ -644,9 +725,9 @@ The \gls{wpt} can be seen as a generalisation of the Wavelet transform in that i
 \label{fig:LitRev_WPTtree.pdf}
 \end{figure}
 
-In a recent study comparing the \gls{wpt} to other spectrum estimation techniques it was generally found that the \gls{wpt} ``operated well for all types of sources and its performances were comparable or at times even better than other existing \linebreak[0]approaches.''\linebreak[2]\cite{Ariananda2013}. In particular it was found that \gls{wpt} performed well in reducing variance in the stop bands.
+In a recent study comparing the \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend to other spectrum estimation techniques it was generally found that the \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend ``operated well for all types of sources and its performances were comparable or at times even better than other existing \linebreak[0]approaches.''\linebreak[2]\cite{Ariananda2013}. In particular it was found that \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend performed well in reducing variance in the stop bands.
 
-The authors of \cite{He2008} developed a psychoacoustic model based around the \gls{wpt} and found that not only was the \gls{wpt} computationally more efficient than a Fourier transform-based alternative but it also provided a better spectral resolution. For psychoacoustic applications it was found that the generalization of the \gls{dwt} yielded a better approximation of the critical bands employed \cite{Carnero1999}\cite{He2008} compared to similar \gls{dwt} based models \cite{Sinha1993}\cite{Zurera2001}.
+The authors of \cite{He2008} developed a psychoacoustic model based around the \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend and found that not only was the \DIFdelbegin \DIFdel{WPT }\DIFdelend \DIFaddbegin \gls{wpt} \DIFaddend computationally more efficient than a Fourier transform-based alternative but it also provided a better spectral resolution. For psychoacoustic applications it was found that the generalization of the \DIFdelbegin \DIFdel{DWT }\DIFdelend \DIFaddbegin \gls{dwt} \DIFaddend yielded a better approximation of the critical bands employed \cite{Carnero1999}\cite{He2008} compared to similar \DIFdelbegin \DIFdel{DWT }\DIFdelend \DIFaddbegin \gls{dwt} \DIFaddend based models \cite{Sinha1993}\cite{Zurera2001}.
 
 \section{Restoration}\label{sec:LitRev_Restoration}
 The restoration of corrupted speech and audio samples by a localised degradation, also referred to as clicks or noise pulses, has inspired much research and many approaches. Corruptions can generally be seen to have varying severity. Clicks and pulses have traditionally been treated as completely corrupted or essentially missing samples transforming the restoration task into one of interpolation of missing samples \cite{Tukey1974}\cite{Tukey1977}\cite{Godsill1998book}.
@@ -663,7 +744,8 @@ Much of the early work on nonlinear digital smoothing followed the original prop
 %JAYNAT, N.S.: â€˜Average and median based smoothing for improving
 %digital speech quality in the presence of transmission errorsâ€™,
 %IEEE Trans., COM-24,1976, pp. 1043-1045
-% \cite{Jayant1976}
+%DIF < \cite{Jayant1976}
+%DIF >  \cite{Jayant1976}
 %
 % ^ Efficacy of employing some simple waveform smoothing. Transmission errors.
 %
@@ -673,7 +755,8 @@ A similar early approach used to combat the effects of transmission errors in di
 %RABINER, L.R., SAMBUR, M.R., and SCHMIDT, C.Es
 %of a nonlinear smoothing algorithm to speech processing.
 %IEEE Trans., ASSP-32, (3), 1975
-% \cite{Rabiner1975}
+%DIF < \cite{Rabiner1975}
+%DIF >  \cite{Rabiner1975}
 %
 % ^ Median and linear smoothing combined.
 %   Linear smoothing is rarely enough.
@@ -688,7 +771,7 @@ These methods all appear to have been applied indiscriminately to the data seque
 %and detection of impulsive type interference using adaptive median
 %hybrid filterâ€™. IEEE Proc. ICASSP 1987, pp. 117-120.
 
-Realising the power of both linear and non-linear approaches to non-stationary noise detection and restoration, a range of \emph{hybrid} approaches arose \cite{Nieminen1987a}\cite{Lee1985}\cite{Heinonen1987}. A \gls{mtm} filter, was found to outperform a standard median filter in the task of preserving naturally sharp edged in signals \cite{Lee1985}. The \gls{mtm} filter quite simply replaces values of a frame with the average of a subframe selected around the outer frame's median value \cite{Lee1985}. An \gls{fmh} filter was designed with the aim of outperforming the standard median filter computationally. The \gls{fmh} filter was found to perform similarly the standard median filter \cite{Heinonen1987}. Lastly the \gls{amh} filters, proposed in \cite{Nieminen1987a}, employ multiple substructures which was considered ``ideal for processing of signals with statistics which change abruptly''. The theory is that at least one of the substructures will have adapted to a local change in the signal characteristics, whereas short non-stationary changes will be omitted. For the examples presented, this approach conserved sharp local changes while a comparable \gls{lms} filter did not \cite{Nieminen1987a}.
+Realising the power of both linear and non-linear approaches to non-stationary noise detection and restoration, a range of \emph{hybrid} approaches arose \cite{Nieminen1987a}\cite{Lee1985}\cite{Heinonen1987}. A \DIFdelbegin \DIFdel{modified trimmed mean (MTM) }\DIFdelend \DIFaddbegin \gls{mtm} \DIFaddend filter, was found to outperform a standard median filter in the task of preserving naturally sharp edged in signals \cite{Lee1985}. The \DIFdelbegin \DIFdel{MTM }\DIFdelend \DIFaddbegin \gls{mtm} \DIFaddend filter quite simply replaces values of a frame with the average of a subframe selected around the outer frame's median value \cite{Lee1985}. An \DIFdelbegin \DIFdel{FIR median hybrid (FMH) }\DIFdelend \DIFaddbegin \gls{fmh} \DIFaddend filter was designed with the aim of outperforming the standard median filter computationally. The \DIFdelbegin \DIFdel{FMH }\DIFdelend \DIFaddbegin \gls{fmh} \DIFaddend filter was found to perform similarly the \DIFdelbegin \DIFdel{the }\DIFdelend standard median filter \cite{Heinonen1987}. Lastly the \DIFdelbegin \DIFdel{adaptive median hybrid (AMH) }\DIFdelend \DIFaddbegin \gls{amh} \DIFaddend filters, proposed in \cite{Nieminen1987a}, employ multiple substructures which was considered ``ideal for processing of signals with statistics which change abruptly''. The theory is that at least one of the substructures will have adapted to a local change in the signal characteristics, whereas short non-stationary changes will be omitted. For the examples presented, this approach conserved sharp local changes while a comparable \DIFdelbegin \DIFdel{Least Means Squares (LMS) }\DIFdelend \DIFaddbegin \gls{lms} \DIFaddend filter did not \cite{Nieminen1987a}.
 
 From a computational perspective, median filters involve a sequence of searching and sorting steps and despite dedicated hardware for these operations these procedures are generally computationally intensive \cite{Kundu1984}. A generalised mean implementation for black and white photos showed similar, and in some cases better, performance to the median filter while maintaining a distinct computational advantage \cite{Kundu1984}.
 
@@ -698,8 +781,10 @@ From a computational perspective, median filters involve a sequence of searching
 % "It was observed that M filters offers a more favorable combination of the characteristics of running mean and median filters than the L filters"
 % "The MTM filters were shown to provide better overall characteristics. In fact, we have seen that MTM filters can preserve noisy edges better than can median filters."
 
-%Heinonen: \gls{fir}-median hybrid (FMH) filters (M filter)
-% "The \gls{fir}-median Hybrid (FMH) filters require significantly less computations than the Standard Median (SM) filters.
+%DIF < Heinonen: FIR-median hybrid (FMH) filters (M filter)
+%DIF <  "The FIR-median Hybrid (FMH) filters require significantly less computations than the Standard Median (SM) filters.
+%DIF > Heinonen: \gls{fir}-median hybrid (FMH) filters (M filter)
+%DIF >  "The \gls{fir}-median Hybrid (FMH) filters require significantly less computations than the Standard Median (SM) filters.
 
 %Nieminen: Adaptive Median Hybrid (AMH) filters
 % "In the AMH filters, adaptive filter substructures are used
@@ -713,16 +798,20 @@ From a computational perspective, median filters involve a sequence of searching
 % data, interferences can be detected."
 
 % Non-linear, minimum or maximum of neighborhood based on dark or bright spot. (Alajlan based on Windyga, good explanation of Windyga in Alajlan)
-In the field of image processing the median filter is still an integral part in most state-of-the-art impulsive noise filters \cite{Alajlan2004}. Other popular non-linear methods employed have been the maximum-minimum method \cite{Xu1998}, the peak-and-valley filter\linebreak[2]\cite{Windyga2001} and a modified maximum-minimum approach \cite{Alajlan2004} which aims to apply a maximum-minimum approach to selected samples only. All these non-linear approaches were found to have similar performance but with the median filter bearing a higher computational cost \cite{Alajlan2004}.
+In the field of image processing the median filter is still an integral part in most state-of-the-art impulsive noise filters \cite{Alajlan2004}. Other popular non-linear methods employed have been the maximum-minimum method \cite{Xu1998}, the peak-and-valley filter\linebreak[2]\cite{Windyga2001} and a modified maximum-minimum approach \cite{Alajlan2004} which aims \DIFaddbegin \DIFadd{to }\DIFaddend apply a maximum-minimum approach to selected samples only. All these non-linear approaches were found to have similar performance but with \DIFaddbegin \DIFadd{the }\DIFaddend median filter bearing a higher computational cost \cite{Alajlan2004}.
 
 % waveform substitution schemes
-% \cite{Goodman1986}\cite{Wasem1988}\cite{Niediwiecki2001}
-A more direct and heuristic approach to waveform and audio restoration of longer gaps is found in waveform substitution \cite{Goodman1986} or ``smart copying'' \cite{Niediwiecki2001}. An audio segment immediately prior to a corruption is used as a template for finding matches earlier in the sequence. It is assumed that what follows the best match for the template will be a good substitute for the corrupted segment. Given that speech signals ``display quasi-stationary intervals'' \cite{Goodman1986} this algorithm produces feasible looking results if the corruption does not straddle regions with high-energy voiced speed, low-level unvoiced speech or silence \cite{Goodman1986}. Waveform substitution has been confirmed through several objective listening tests to have ``satisfactory'' results \cite{Niediwiecki2001}. In addition the method excels by being computationally simple \cite{Niediwiecki2001}.
+%DIF < \cite{Goodman1986}\cite{Wasem1988}\cite{Niediwiecki2001}
+%DIF >  \cite{Goodman1986}\cite{Wasem1988}\cite{Niediwiecki2001}
+A more direct and heuristic approach to waveform and audio restoration of longer gaps is found in waveform substitution \cite{Goodman1986} or ``smart copying'' \cite{Niediwiecki2001}. An audio segment immediately prior to a corruption is used as a template for finding \DIFdelbegin \DIFdel{a }\DIFdelend matches earlier in the sequence. It is assumed that what follows the best match for the template will be a good substitute for the corrupted segment. Given that speech signals ``display quasi-stationary intervals'' \cite{Goodman1986} this algorithm produces \DIFdelbegin \DIFdel{feasibly looking results given that }\DIFdelend \DIFaddbegin \DIFadd{feasible looking results if }\DIFaddend the corruption does not straddle regions with high-energy voiced speed, low-level unvoiced speech or silence \cite{Goodman1986}. Waveform substitution has been confirmed through several objective listening tests to have ``satisfactory'' results \cite{Niediwiecki2001}. In addition the method excels by being computationally simple \cite{Niediwiecki2001}.
 
 %pitch detection
-An extension of the basic waveform substitution algorithm, an additional pitch detection extension, was proposed. If a pitch estimate is available, the pitch period prior to the corruption may be reproduced throughout the corruption \cite{Goodman1986}. No direct results were presented to quantify the performance of this addition but a later publication ranks a pitch waveform replication algorithm as producing the highest quality results based on subjective tests \cite{Wasem1988}. In the tests performed in \cite{Wasem1988}, the method was compared with a simple silence insertion and packet repetition algorithms suffering from obviously audible discontinuities \cite{Goodman1986} in addition to one and two-sided waveform substitution algorithms \cite{Goodman1986}. It was noted that while the pitch waveform replicator produced the highest quality results it was not the most computationally complex nor did it produce the longest delays of the tested algorithms \cite{Wasem1988}.
+An extension of the basic waveform substitution algorithm\DIFaddbegin \DIFadd{, }\DIFaddend an additional pitch detection extension\DIFaddbegin \DIFadd{, }\DIFaddend was proposed. If a pitch estimate is available\DIFaddbegin \DIFadd{, }\DIFaddend the pitch period prior to the corruption may be reproduced throughout the corruption \cite{Goodman1986}. No direct results were presented to quantify the performance of this addition but a later publication ranks a pitch waveform replication algorithm as producing the highest quality results based on subjective tests \cite{Wasem1988}. In \DIFdelbegin \DIFdel{this test}\DIFdelend \DIFaddbegin \DIFadd{the tests performed in \mbox{%DIFAUXCMD
+\cite{Wasem1988}
+}%DIFAUXCMD
+}\DIFaddend , the method was compared with a simple silence insertion and packet repetition algorithms suffering from obviously audible discontinuities \cite{Goodman1986} in addition to one and two-sided waveform substitution algorithms \cite{Goodman1986}. It was noted that while the pitch waveform replicator produced the highest quality results it was not the most computationally complex nor did it produce the longest delays of the tested algorithms \cite{Wasem1988}.
 
-A similar heuristic pitch based approach proposes to model speech as a series of spectral peak tracks that are ``born'' and ``die'' employing the \gls{stft} \cite{Maher1994}. First proposed by \cite{McAulay1986} this method has since been referred to as MQ representation (after the authors' names) and been applied to the task of speech interpolation \cite{Maher1994}. Many other authors have applied sinusoidal models for speech modeling in a variety of applications \cite{Godsill1998book}\cite{Vera-Candeas2003}\cite{Wells2006} which attempts in some cases to generalise the glottal excitation model in speech \cite{McAulay1986}.
+A similar heuristic pitch based approach proposes to model speech as a series of spectral peak tracks that are ``born'' and ``die'' employing the \DIFdelbegin \DIFdel{short time Fourier transform (STFT)}\DIFdelend \DIFaddbegin \gls{stft} \DIFaddend \cite{Maher1994}. First proposed by \cite{McAulay1986} this method has since been referred to as MQ representation (after the authors' names) and been applied to the task of speech interpolation \cite{Maher1994}. Many other authors have applied sinusoidal models for speech modeling in a variety of applications \cite{Godsill1998book}\cite{Vera-Candeas2003}\cite{Wells2006} which attempts in some cases to generalise the glottal excitation model in speech \cite{McAulay1986}.
 %other sinusoidal based approaches
 
 % P. A. A. Esquef, L. W. P. Biscainho, V. Välimäki, and M. Karjalainen, "Removal of Long Pulses from Audio Signals Using Two-pass Split-Window Filtering", presented at the 112th AES Convention, preprint no. 5535, Munich, Germany, May 10-13, 2002. \cite{Esquef2002a}
@@ -730,19 +819,34 @@ A similar heuristic pitch based approach proposes to model speech as a series of
 \subsection{Linear approaches}\label{sec:LitRev_RestorationLin}
 %Skip
 % Band limited extrapolation/band-limited interpolation
-% \cite{Papoulis1975}\cite{Ferreira2001}
+%DIF < \cite{Papoulis1975}\cite{Ferreira2001}
+%DIF >  \cite{Papoulis1975}\cite{Ferreira2001}
 
-In speech signals a popular and successful method of interpolation is the \gls{ar} approach \cite{Vaseghi1988thesis}\cite{Godsill1998book}\cite{Kauppinen2002b}. An early approach using it demonstrated that this method produced satisfactory results for speech signals particularly, based on both objective and subjective results, and furthermore established the feasibility of real-time implementation of such methods \cite{Janssen1986}. Independent development applied the methods to audio restoration applications \cite{Vaseghi1988thesis}\cite{Vaseghi1990}.
+In speech signals a popular and successful method of interpolation is the \DIFdelbegin \DIFdel{autoregressive (AR) }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend approach \cite{Vaseghi1988thesis}\cite{Godsill1998book}\cite{Kauppinen2002b}. An early approach using it demonstrated that this method produced satisfactory results for speech signals particularly, based on both objective and subjective results, and furthermore established the feasibility of real-time implementation of such methods \cite{Janssen1986}. Independent development applied the methods to audio restoration applications \cite{Vaseghi1988thesis}\cite{Vaseghi1990}.
 
-Typically longer stretches of audio interpolation have been difficult applications for \gls{ar} models \cite{Veldhuis1992}\cite{Kauppinen2002b}, but modified \gls{ar} based models have been applied to the pure extrapolation problem with some success on longer gaps \cite{Kauppinen2002b}. The basic \gls{ar} models, and later least squares \gls{ar} extensions \cite{Godsill1998book}, have also been paired with synthesis filters designed to excite the \gls{ar} model to achieve longer gap extrapolation with lower model orders \cite{Esquef2006}. This method achieves comparable perceptual quality to higher order \gls{ar} models given significantly lower model complexity \cite{Esquef2006}.
+Typically longer stretches of audio interpolation have been difficult applications for \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend models \cite{Veldhuis1992}\cite{Kauppinen2002b}, but modified \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend based models have been applied to the pure extrapolation problem with some success \DIFdelbegin \DIFdel{to }\DIFdelend \DIFaddbegin \DIFadd{on }\DIFaddend longer gaps \cite{Kauppinen2002b}. The basic \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend models, and later least squares \DIFdelbegin \DIFdel{(LS) AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend extensions \cite{Godsill1998book}, have also been paired with synthesis filters designed to excite the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend model to achieve longer gap extrapolation with lower model orders \cite{Esquef2006}. This method achieves comparable perceptual quality to higher order \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend models given significantly lower model complexity \cite{Esquef2006}.
 
-In general many authors have considered \gls{lpc} and \gls{ar} models for audio and speech data \cite{Vaseghi1990}\cite{Czyzewski1995}\cite{Godsill1998}. A more comprehensive review of \gls{ar}, \gls{lpc} and warped-based methods were covered in section~\ref{sec:LitRevAR} from the perspective of modeling speech and audio in the detection application.
+In general many authors have considered \DIFdelbegin \DIFdel{linear predictive coding (LPC) and AR }\DIFdelend \DIFaddbegin \gls{lpc} \DIFadd{and }\gls{ar} \DIFaddend models for audio and speech data \cite{Vaseghi1990}\cite{Czyzewski1995}\cite{Godsill1998}. A more comprehensive review of \DIFdelbegin \DIFdel{AR, LPC }\DIFdelend \DIFaddbegin \gls{ar}\DIFadd{, }\gls{lpc} \DIFaddend and warped-based methods were covered in section~\ref{sec:LitRevAR} from the perspective of modeling speech and audio in the detection application.
 
 
-In \cite{Godsill1998book} various \gls{ar} based detection methods are proposed and it was found that pairing the \gls{ar} model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \cite{Vaseghi1990} the authors find that \gls{ar} processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''. The detection schemes presented in \cite{Vaseghi1990} and \cite{Godsill1998book} focus on offline processing as well as much shorter noise bursts. These are not feasible in any real time system.
+\DIFaddbegin \DIFadd{In \mbox{%DIFAUXCMD
+\cite{Godsill1998book}
+}%DIFAUXCMD
+various }\gls{ar} \DIFadd{based detection methods are proposed and it was found that pairing the }\gls{ar} \DIFadd{model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \mbox{%DIFAUXCMD
+\cite{Vaseghi1990}
+}%DIFAUXCMD
+the authors find that }\gls{ar} \DIFadd{processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''. The detection schemes presented in \mbox{%DIFAUXCMD
+\cite{Vaseghi1990}
+}%DIFAUXCMD
+and \mbox{%DIFAUXCMD
+\cite{Godsill1998book}
+}%DIFAUXCMD
+focus on offline processing as well as much shorter noise bursts. These are not feasible in any real time system.
+}
 
-%An Efficient Model-Based Method for Reconstruction of Audio Signals Across Long Gaps
-% \cite{Esquef2006} (based on \cite{Kauppinen2002a} and \cite{Kauppinen2002b})
+\DIFaddend %An Efficient Model-Based Method for Reconstruction of Audio Signals Across Long Gaps
+%DIF < \cite{Esquef2006} (based on \cite{Kauppinen2002a} and \cite{Kauppinen2002b})
+%DIF >  \cite{Esquef2006} (based on \cite{Kauppinen2002a} and \cite{Kauppinen2002b})
 % The use of a maximally-decimated filterbank renders easier
 %the interpolation task within a subband. This is due to the decreased
 %number of resonance modes to be modeled, allowing
@@ -750,40 +854,49 @@ In \cite{Godsill1998book} various \gls{ar} based detection methods are proposed 
 %in shortens by the decimation factor of the subband. For the two
 %lowest subbands this factor is 1/32.
 %
-%In such situations  \gls{ar} based interpolators tend to perform poorly toward the middle of the gap, where the energy of the
+%DIF < In such situations AR-based interpolators tend to perform poorly toward the middle of the gap, where the energy of the
+%DIF > In such situations  \gls{ar} based interpolators tend to perform poorly toward the middle of the gap, where the energy of the
 %interpolated signal decreases [13].
 %The aforementioned signal energy reduction occurs in part
-%due to the minimization of the \gls{ar} modeling error, which is employed
+%DIF < due to the minimization of the AR modeling error, which is employed
+%DIF > due to the minimization of the \gls{ar} modeling error, which is employed
 %to solve for the unknown samples within a given gap
 %[15]. In the ideal case of a null modeling error, the resulting interpolated
 %signal would be determined mainly by the impulse
-%response of the \gls{ar} model.%
+%DIF < response of the AR model.%
+%DIF > response of the \gls{ar} model.%
 
 
-% \cite{Vaseghi1990}: LPC. "An interpolation algorithm was
+%DIF < \cite{Vaseghi1990}: LPC. "An interpolation algorithm was
+%DIF >  \cite{Vaseghi1990}: LPC. "An interpolation algorithm was
 %described that takes advantage of the quasi-periodic
 %nature of glottal excitation and provides better estimates
 %than the existing method."
 
 % interpolators based on sinusoidal modeling
-% \cite{Maher1994}\cite{Godsill1998book}
+%DIF < \cite{Maher1994}\cite{Godsill1998book}
+%DIF >  \cite{Maher1994}\cite{Godsill1998book}
 
 % subband methods
-% \cite{Montresor1991} \cite{Cocchi2001}
+%DIF < \cite{Montresor1991} \cite{Cocchi2001}
+%DIF >  \cite{Montresor1991} \cite{Cocchi2001}
 
 %Low frequency pulse corruption:
 %|P. A. A. Esquef, L. W. P. Biscainho, and V. Välimäki, "An Efficient Algorithm for the Restoration of Audio Signals Corrupted with Low-Frequency Pulses", Journal of the Audio Engineering Society, vol. 51, no. 6, pp. 502-517, June 2003
-% \cite{Esquef2003a}
+%DIF < \cite{Esquef2003a}
+%DIF >  \cite{Esquef2003a}
 
 %Wavelet Shrinkage:
 %|L. W. P. Biscainho, F. P. Freeland, P. A. A. Esquef, and P. S. R. Diniz, "Wavelet Shrinkage De-noising Applied to Real Audio Signals under Perceptual Evaluation," in Proc. X European Signal Processing Conf. (EUSIPCO 2000), pp. 2061-2064, Tampere, Finland, September 2000.
-% \cite{Biscainho2000}
+%DIF < \cite{Biscainho2000}
+%DIF >  \cite{Biscainho2000}
 
 %
 
 %\subsection{Median filtering}
 
-% \cite{Nongpiur2008} : "On the basis of these differences, an algorithm was developed
+%DIF < \cite{Nongpiur2008} : "On the basis of these differences, an algorithm was developed
+%DIF >  \cite{Nongpiur2008} : "On the basis of these differences, an algorithm was developed
 %to identify and suppress wavelet coefficients that correspond to
 %impulse noise."
 
@@ -794,59 +907,182 @@ In \cite{Godsill1998book} various \gls{ar} based detection methods are proposed 
 
 %\todo{something more}
 
-\section{Keyboard detection and removal systems}\label{corrections:methods}
-For the keystroke removal application a couple of articles have suggested similar systems \cite{Subramanya2007}\cite{Sugiyama2007}\cite{Abramson2007}\cite{Sugiyama2013}\cite{Seltzer2011Patent}.
+\DIFaddbegin \section{\DIFadd{Keyboard detection and removal systems}}\label{corrections:methods}
+\DIFadd{For the keystroke removal application a couple of articles have suggested similar systems \mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Abramson2007}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Sugiyama2013}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Seltzer2011Patent}
+}%DIFAUXCMD
+.
+}
 
-\cite{Subramanya2007} proposes the \gls{ukd} algorithm. This algorithm relies on \gls{stft} and exploits the assumption of smoothness in the spectral coefficients during normal speech. This approach is nearly identical to the approach taken in patent \cite{Seltzer2011Patent}. Using an \gls{ar} filter on each frequency band the filtering error is considered as a joint probability and thresholded to expose detections. This method is described in great detail in equations \ref{eq:Subramanya2007} and \ref{eq:Subramanya2007_2}. The implementation presented by the authors rely on a lookahead of 2 buffers (of 20 ms) to make their detection requiring additional latency in a potential communication network. Additionally the authors propose to increase the robustness of their system by implementing a constrained detection step using the \gls{os} to feed information back to the algorithm to verify if the detection was in fact correct or not. The approach taken by the authors to restore corrupted coefficients is to replace them with new estimates using a \gls{map} based approach \cite{Raj2004}. The authors assumes the spectral coefficients are modeled as a stationary Gaussian process with a mean and variance. These statistical parameters are learned on an uncorrupted sequence. The method estimates the \gls{map} estimate of the the log-magnitude of the coefficients rather than the coefficients themselves. Further, the authors propose to improve these reconstructions by imposing constraints on the statistical parameters.
-The method proposed in \cite{Subramanya2007} relies on 40 ms lookahead, trained parameters for the speech reconstruction algorithm and, in the case of \gls{ekd} \gls{os} information about keyboard inputs. These elements make the algorithm unsuitable for real-time implementation.
+\DIFadd{\mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+proposes the }\gls{ukd} \DIFadd{algorithm. This algorithm relies on }\gls{stft} \DIFadd{and exploits the assumption of smoothness in the spectral coefficients during normal speech. This approach is nearly identical to the approach taken in patent \mbox{%DIFAUXCMD
+\cite{Seltzer2011Patent}
+}%DIFAUXCMD
+. Using an }\gls{ar} \DIFadd{filter on each frequency band the filtering error is considered as a joint probability and thresholded to expose detections. This method is described in great detail in equations \ref{eq:Subramanya2007} and \ref{eq:Subramanya2007_2}. The implementation presented by the authors rely on a lookahead of 2 buffers (of 20 ms) to make their detection requiring additional latency in a potential communication network. Additionally the authors propose to increase the robustness of their system by implementing a constrained detection step using the }\gls{os} \DIFadd{to feed information back to the algorithm to verify if the detection was in fact correct or not. The approach taken by the authors to restore corrupted coefficients is to replace them with new estimates using a }\gls{map} \DIFadd{based approach \mbox{%DIFAUXCMD
+\cite{Raj2004}
+}%DIFAUXCMD
+. The authors assumes the spectral coefficients are modeled as a stationary Gaussian process with a mean and variance. These statistical parameters are learned on an uncorrupted sequence. The method estimates the }\gls{map} \DIFadd{estimate of the the log-magnitude of the coefficients rather than the coefficients themselves. Further, the authors propose to improve these reconstructions by imposing constraints on the statistical parameters.
+The method proposed in \mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+relies on 40 ms lookahead, trained parameters for the speech reconstruction algorithm and, in the case of }\gls{ekd} \gls{os} \DIFadd{information about keyboard inputs. These elements make the algorithm unsuitable for real-time implementation.
+}
 
-The system proposed by the authors of \cite{Sugiyama2007} base their detection on the \gls{stft} and from that they focus on 7 factors:
-\begin{enumerate}
-\item Number of frequency bins with magnitude exceeding a threshold.
-\item High frequency power compared to medium frequency power.
-\item Low frequency power compared to high frequency power.
-\item Current frame power compared to an average and some threshold.
-\item The increase in number of frequency bins since last frame where a power ratio has been exceeded.
-\item Same as above but with a lower threshold detecting a fall in the number of frequency bins.
-\item The intersection between criterions 2, 3 and 4.
-\end{enumerate}
-These are used in conjunction with a \gls{vad} and a complicated set of logical steps. Ultimately the authors attempt to exploit the spectral flatness of the keyboard strokes as well as the sudden onset of them with these 7 factors.
-To suppress the detected keyboard strokes the authors of \cite{Sugiyama2007} subtract the power-normalized impact-noise derived from the difference between the signal and an estimate of the non-impact noise from the signal. The signal is post-processed, in what appears to be an offline stage making the algorithm essentially an offline algorithm. While this algorithm takes advantage of a complicated set of logical steps the underlying features in focus are similar to those exploited in \cite{Subramanya2007} with the spectral flatness feature being represented by the joint log-likelihood across the frequency bins and the onset detection being represented by the \gls{ar} process in \cite{Subramanya2007}. \cite{Sugiyama2007} is ultimately not an algorithm designed for real-time implementation in its current form and since it relies similar features to other algorithms and a diverse set of thresholds not reported in the publication, this algorithm will not be considered further in this work.
+\DIFadd{The system proposed by the authors of \mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+base their detection on the }\gls{stft} \DIFadd{and from that they focus on 7 factors:
+}\begin{enumerate}
+\item \DIFadd{Number of frequency bins with magnitude exceeding a threshold.
+}\item \DIFadd{High frequency power compared to medium frequency power.
+}\item \DIFadd{Low frequency power compared to high frequency power.
+}\item \DIFadd{Current frame power compared to an average and some threshold.
+}\item \DIFadd{The increase in number of frequency bins since last frame where a power ratio has been exceeded.
+}\item \DIFadd{Same as above but with a lower threshold detecting a fall in the number of frequency bins.
+}\item \DIFadd{The intersection between criterions 2, 3 and 4.
+}\end{enumerate}
+\DIFadd{These are used in conjunction with a }\gls{vad} \DIFadd{and a complicated set of logical steps. Ultimately the authors attempt to exploit the spectral flatness of the keyboard strokes as well as the sudden onset of them with these 7 factors.
+To suppress the detected keyboard strokes the authors of \mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+subtract the power-normalized impact-noise derived from the difference between the signal and an estimate of the non-impact noise from the signal. The signal is post-processed, in what appears to be an offline stage making the algorithm essentially an offline algorithm. While this algorithm takes advantage of a complicated set of logical steps the underlying features in focus are similar to those exploited in \mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+with the spectral flatness feature being represented by the joint log-likelihood across the frequency bins and the onset detection being represented by the }\gls{ar} \DIFadd{process in \mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+. \mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+is ultimately not an algorithm designed for real-time implementation in its current form and since it relies similar features to other algorithms and a diverse set of thresholds not reported in the publication, this algorithm will not be considered further in this work.
+}
 
-A more recent paper by the same authors as \cite{Sugiyama2007} proposes the use of phase linearity as a metric for keyboard tapping detection \cite{Sugiyama2013}. The authors note that a feature of noise pulses is a linear phase response across frequencies, $\theta(k)$, with slope $ \frac{d\theta(k)}{dk} = -2n_0\pi /N$. Here $n_0$ refers to the index of the pulse and $N$ is the frame size of the \gls{fft}. The authors propose $\Delta \theta(k)$, the change in the phase between different frequency bins, as an estimate for the derivative of the phase. Detection is based on the thresholding of the magnitude of a linearity index introduced as:
+\DIFadd{A more recent paper by the same authors as \mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+proposes the use of phase linearity as a metric for keyboard tapping detection \mbox{%DIFAUXCMD
+\cite{Sugiyama2013}
+}%DIFAUXCMD
+. The authors note that a feature of noise pulses is a linear phase response across frequencies, $\theta(k)$, with slope $ \frac{d\theta(k)}{dk} = -2n_0\pi /N$. Here $n_0$ refers to the index of the pulse and $N$ is the frame size of the }\gls{fft}\DIFadd{. The authors propose $\Delta \theta(k)$, the change in the phase between different frequency bins, as an estimate for the derivative of the phase. Detection is based on the thresholding of the magnitude of a linearity index introduced as:
+}
 
-\begin{equation}\label{eq:Sugiyama2013}
+\begin{equation}\DIFadd{\label{eq:Sugiyama2013}
 LI_\theta(k) = \Delta\theta(k) - \frac{-2 \pi \hat{n}_0}{N},
-\end{equation}
+}\end{equation}
 
-where $\hat{n}_0$ is the estimated location a tapping noise. While this should form the basis of the detector the authors note that it performs poorly due to ``strong lowpass characteristics'' of tapping noise giving a more ambiguous estimate for $\hat{n}_0$, so the authors propose weighting the estimate by the input magnitude at each frequency as well as introducing a peak indicator which they claim eliminates contamination by the target signal. Suppression of detected taps are done by phase randomization as well as magnitude suppression to some estimated ambient noise level.
+\DIFadd{where $\hat{n}_0$ is the estimated location a tapping noise. While this should form the basis of the detector the authors note that it performs poorly due to ``strong lowpass characteristics'' of tapping noise giving a more ambiguous estimate for $\hat{n}_0$, so the authors propose weighting the estimate by the input magnitude at each frequency as well as introducing a peak indicator which they claim eliminates contamination by the target signal. Suppression of detected taps are done by phase randomization as well as magnitude suppression to some estimated ambient noise level.
+}
 
-While the authors of \cite{Sugiyama2013} note their motivation behind said algorithm is linked to telecommunication networks no details about the algorithm in question's applicability in such a context is presented and while the paper does contain some objective evaluation these are compared to those of a standard magnitude based noise suppression algorithm by the same authors \cite{Sugiyama2002}. The authors present two examples with \gls{pesq} score improvements of 0.1 and 0.2 but propose cascading their approaches for further improvements. While these results are neither substantial nor well founded and with no comparison to the state of the art it is difficult to assess the actual performance of the algorithm proposed. This approach may be a novel approach to keyboard noise detection but few details about the implementation are presented and therefore questions regarding the algorithm's applicability in the real-time scenario are brought into question.
+\DIFadd{While the authors of \mbox{%DIFAUXCMD
+\cite{Sugiyama2013}
+}%DIFAUXCMD
+note their motivation behind said algorithm is linked to telecommunication networks no details about the algorithm in question's applicability in such a context is presented and while the paper does contain some objective evaluation these are compared to those of a standard magnitude based noise suppression algorithm by the same authors \mbox{%DIFAUXCMD
+\cite{Sugiyama2002}
+}%DIFAUXCMD
+. The authors present two examples with }\gls{pesq} \DIFadd{score improvements of 0.1 and 0.2 but propose cascading their approaches for further improvements. While these results are neither substantial nor well founded and with no comparison to the state of the art it is difficult to assess the actual performance of the algorithm proposed. This approach may be a novel approach to keyboard noise detection but few details about the implementation are presented and therefore questions regarding the algorithm's applicability in the real-time scenario are brought into question.
+}
 
 
-In \cite{Kauppinen2002} the authors present 3 methods for transient detection algorithms which are designed to detect non-Gaussian noise in realtime datastreams. Here the authors focus on detection of transients in musical signals. The methods presented are a derivative based method, an \gls{rms} based method and an \gls{ar} based method. The derivative based method simply proposes to look at the absolute value of the derivative of the time signal. The authors suggest that the 4th derivative gave the best results in their experience. The second method proposed by the authors is an \gls{rms} based detector. While the authors acknowledge that the \gls{rms} is not a particularly good basis for transient detection they note that significant improvements can be obtained by taking the absolute value of the 4th derivative of it. Lastly the authors of \cite{Kauppinen2002} propose to detect transients by considering the \gls{ar} error of the time signal. The authors suggest that the underlying musical signal be modeled with a filter order of 10 although refer to a much higher order of 1000 as an ideal filter order. It was found that the \gls{ar} based method performed the best with the tested data (drums, guitar, saxophone and speech). While these algorithms performed well for this given application it is noted that the application did not contain a specific noise source such as the keyboard typing application. It was although noted that the \gls{ar} was the best performing method and considering the computational restrictions for real time processing at the time of publication of \cite{Kauppinen2002} more advanced methods could be developed.
+\DIFadd{In \mbox{%DIFAUXCMD
+\cite{Kauppinen2002}
+}%DIFAUXCMD
+the authors present 3 methods for transient detection algorithms which are designed to detect non-Gaussian noise in realtime datastreams. Here the authors focus on detection of transients in musical signals. The methods presented are a derivative based method, an }\gls{rms} \DIFadd{based method and an }\gls{ar} \DIFadd{based method. The derivative based method simply proposes to look at the absolute value of the derivative of the time signal. The authors suggest that the 4th derivative gave the best results in their experience. The second method proposed by the authors is an }\gls{rms} \DIFadd{based detector. While the authors acknowledge that the }\gls{rms} \DIFadd{is not a particularly good basis for transient detection they note that significant improvements can be obtained by taking the absolute value of the 4th derivative of it. Lastly the authors of \mbox{%DIFAUXCMD
+\cite{Kauppinen2002}
+}%DIFAUXCMD
+propose to detect transients by considering the }\gls{ar} \DIFadd{error of the time signal. The authors suggest that the underlying musical signal be modeled with a filter order of 10 although refer to a much higher order of 1000 as an ideal filter order. It was found that the }\gls{ar} \DIFadd{based method performed the best with the tested data (drums, guitar, saxophone and speech). While these algorithms performed well for this given application it is noted that the application did not contain a specific noise source such as the keyboard typing application. It was although noted that the }\gls{ar} \DIFadd{was the best performing method and considering the computational restrictions for real time processing at the time of publication of \mbox{%DIFAUXCMD
+\cite{Kauppinen2002}
+}%DIFAUXCMD
+more advanced methods could be developed.
+}
 
-In \cite{Abramson2007} the authors propose a simultaneous estimation and detection approach with an \emph{a priori} \gls{snr} estimator, which facilitate suppression of transient noise. This approach uses a cost function which combines the detection and estimation error in the \gls{stft} domain. A speech coefficients detector and a corresponding estimator for the coefficient values are designed jointly with the aim of minimizing the combined Bayes risk.
+\DIFadd{In \mbox{%DIFAUXCMD
+\cite{Abramson2007}
+}%DIFAUXCMD
+the authors propose a simultaneous estimation and detection approach with an }\emph{\DIFadd{a priori}} \gls{snr} \DIFadd{estimator, which facilitate suppression of transient noise. This approach uses a cost function which combines the detection and estimation error in the }\gls{stft} \DIFadd{domain. A speech coefficients detector and a corresponding estimator for the coefficient values are designed jointly with the aim of minimizing the combined Bayes risk.
+}
 
-To aid in transient noise detection the authors implement an \emph{a priori} \gls{snr} estimator. It is noted that while decision-directed estimators are widely used in similar scenarios, they are not suitable for transient noise environments, since a high energy transient noise may yield an instantaneous increase in \emph{a posteriori} \gls{snr}. This, in turn, would increase the spectral gain of the frequency bin and as a result the transient noise would not be attenuated to the correct degree. The authors propose to base their \emph{a priori} \gls{snr} estimator on the spectral variance where the variance for the underlying stationary noise can be estimated and the transient noise spectral variance is obtained through training. Since the \emph{a priori} \gls{snr} is highly dependent on the spectral variance the speech spectral variance is calculated whereafter the \emph{a priori} \gls{snr} is estimated. The authors show that this \gls{snr} estimate is lower and therefore enables further attenuation of transient noise.
+\DIFadd{To aid in transient noise detection the authors implement an }\emph{\DIFadd{a priori}} \gls{snr} \DIFadd{estimator. It is noted that while decision-directed estimators are widely used in similar scenarios, they are not suitable for transient noise environments, since a high energy transient noise may yield an instantaneous increase in }\emph{\DIFadd{a posteriori}} \gls{snr}\DIFadd{. This, in turn, would increase the spectral gain of the frequency bin and as a result the transient noise would not be attenuated to the correct degree. The authors propose to base their }\emph{\DIFadd{a priori}} \gls{snr} \DIFadd{estimator on the spectral variance where the variance for the underlying stationary noise can be estimated and the transient noise spectral variance is obtained through training. Since the }\emph{\DIFadd{a priori}} \gls{snr} \DIFadd{is highly dependent on the spectral variance the speech spectral variance is calculated whereafter the }\emph{\DIFadd{a priori}} \gls{snr} \DIFadd{is estimated. The authors show that this }\gls{snr} \DIFadd{estimate is lower and therefore enables further attenuation of transient noise.
+}
 
-In the paper the authors evaluate their approach against the \gls{stsa} approach and obtain favorable results for their approach. It is although noted that the transient noise introduced into the signals are simulated short bursts of high energy coloured noise. There are no indications that these transient noise events could be related to any acoustic phenomenon much less the explicit scenario of key strokes where events exhibit a far less constant or flat spectral response with multiple intertwined segments. The paper also omits any mention of computational concerns or applicability in a realtime scenarios and given the parameter choices such as a 256 tap overlapping Hamming filter for \gls{stft} decomposition it is doubtful if this approach would be feasible in a realtime communication scenario as proposed.
+\DIFadd{In the paper the authors evaluate their approach against the }\gls{stsa} \DIFadd{approach and obtain favorable results for their approach. It is although noted that the transient noise introduced into the signals are simulated short bursts of high energy coloured noise. There are no indications that these transient noise events could be related to any acoustic phenomenon much less the explicit scenario of key strokes where events exhibit a far less constant or flat spectral response with multiple intertwined segments. The paper also omits any mention of computational concerns or applicability in a realtime scenarios and given the parameter choices such as a 256 tap overlapping Hamming filter for }\gls{stft} \DIFadd{decomposition it is doubtful if this approach would be feasible in a realtime communication scenario as proposed.
+}
 
 
-\section{Chapter summary}
+\DIFaddend \section{Chapter summary}
 This chapter has aimed to summarise the relevant literature associated with the applications, techniques and theory presented throughout this thesis.
 
-A range of applications have previously been proposed for the \gls{apr} application which all utilise multiple microphones to implement a touchscreen interface \cite{US8174547}\linebreak[0]\cite{US8233353}\linebreak[0]\cite{TouchSystems2006}\cite{US7411581}\cite{WO2006108443}. While a few different approaches are taken the functional elements of these methods all rely on there being multiple sources.
+A range of applications have previously been proposed for the \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend application which all utilise multiple microphones to implement a touchscreen interface \cite{US8174547}\linebreak[0]\cite{US8233353}\linebreak[0]\cite{TouchSystems2006}\cite{US7411581}\cite{WO2006108443}. While a few different approaches are taken the functional elements of these methods all rely on there being multiple sources.
 
-In \cite{Burke2013} a survey of factorisation methods found \gls{pca} to be an effective approach to feature extraction for classification applications, and in \cite{Tipping1999} \gls{pca} was put into a probabilistic framework with \gls{ppca}.
+In \cite{Burke2013} a survey of factorisation methods found \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend to be an effective approach to feature extraction for classification applications, and in \cite{Tipping1999} \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend was put into a probabilistic framework with \DIFdelbegin \DIFdel{probabilistic PCA (PPCA)}\DIFdelend \DIFaddbegin \gls{ppca}\DIFaddend .
 
-%For the keystroke removal application a couple of articles have suggested similar systems \cite{Subramanya2007}\cite{Sugiyama2007}\cite{Abramson2007}. \cite{Subramanya2007} and \cite{Sugiyama2007} propose algorithms specifically for the keyboard stroke detection and removal application. All of these methods rely on the \gls{stft} as a basis for detection using features such as the shape and change of the power spectrum \cite{Sugiyama2007}, \gls{ar} estimation error \cite{Subramanya2007}\cite{Kauppinen2002} or a Bayesian speech estimator \cite{Abramson2007}. In \cite{Godsill1998book} various \gls{ar} based detection methods are proposed and it was found that pairing the \gls{ar} model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \cite{Vaseghi1990} the authors find that \gls{ar} processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''.
+\DIFdelbegin \DIFdel{For the keystroke removal application a couple of articles have suggested similar systems\mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Abramson2007}
+}%DIFAUXCMD
+. \mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+and \mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+propose algorithms specifically for the keyboard stroke detection and removal application. All of these methods rely on STFT as a basis for detection using features such as the shape of and change of the power spectrum\mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+, AR estimation error\mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Kauppinen2002}
+}%DIFAUXCMD
+or a Bayesian speech estimator\mbox{%DIFAUXCMD
+\cite{Abramson2007}
+}%DIFAUXCMD
+. In \mbox{%DIFAUXCMD
+\cite{Godsill1998book}
+}%DIFAUXCMD
+various AR based detection methods are proposed and it was found that pairing the AR model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \mbox{%DIFAUXCMD
+\cite{Vaseghi1990}
+}%DIFAUXCMD
+the authors find that AR processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''.
+}\DIFdelend %DIF > For the keystroke removal application a couple of articles have suggested similar systems \cite{Subramanya2007}\cite{Sugiyama2007}\cite{Abramson2007}. \cite{Subramanya2007} and \cite{Sugiyama2007} propose algorithms specifically for the keyboard stroke detection and removal application. All of these methods rely on the \gls{stft} as a basis for detection using features such as the shape and change of the power spectrum \cite{Sugiyama2007}, \gls{ar} estimation error \cite{Subramanya2007}\cite{Kauppinen2002} or a Bayesian speech estimator \cite{Abramson2007}. In \cite{Godsill1998book} various \gls{ar} based detection methods are proposed and it was found that pairing the \gls{ar} model with a basis, e.g. a sinusoid, gives a generally applicable approach with improved performance. In \cite{Vaseghi1990} the authors find that \gls{ar} processes are ``adequate for modelling of speech signals whereas they can not model impulsive disturbances.''.
 
-Restoration approaches applicable to longer gaps ranged from heuristic waveform substitution methods \cite{Goodman1986}\cite{Niediwiecki2001}, pitch based methods modeling speech as spectral peak tracks \cite{Maher1994}\cite{McAulay1986} to \gls{ar} interpolators \cite{Esquef2006} based on a least squares adaption of the \gls{ar} process \cite{Godsill1998book}.
-%synthesis filters designed to excite the \gls{ar} model to achieve longer gap extrapolation with lower model orders \cite{Esquef2006}
+Restoration approaches applicable to longer gaps ranged from heuristic waveform substitution methods \cite{Goodman1986}\cite{Niediwiecki2001}, pitch based methods modeling speech as spectral peak tracks \cite{Maher1994}\cite{McAulay1986} to \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend interpolators \cite{Esquef2006} based on a least squares adaption of the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend process \cite{Godsill1998book}.
+%DIF < synthesis filters designed to excite the AR model to achieve longer gap extrapolation with lower model orders\cite{Esquef2006}
+%DIF > synthesis filters designed to excite the \gls{ar} model to achieve longer gap extrapolation with lower model orders \cite{Esquef2006}
 
-Specific keystroke removal systems were proposed in a couple of articles \cite{Subramanya2007}\linebreak[0]\cite{Sugiyama2007}\linebreak[0]\cite{Sugiyama2013}\cite{Seltzer2011Patent}. While some implementations propose real time implementations, none offer methods utilizing lookahead less than 10 or 20 ms and without the reliance of and \gls{os} cue.
-% ------------------------------------------------------------------------
+\DIFaddbegin \DIFadd{Specific keystroke removal systems were proposed in a couple of articles \mbox{%DIFAUXCMD
+\cite{Subramanya2007}
+}%DIFAUXCMD
+}\linebreak[0]\DIFadd{\mbox{%DIFAUXCMD
+\cite{Sugiyama2007}
+}%DIFAUXCMD
+}\linebreak[0]\DIFadd{\mbox{%DIFAUXCMD
+\cite{Sugiyama2013}
+}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\cite{Seltzer2011Patent}
+}%DIFAUXCMD
+. While some implementations propose real time implementations, none offer methods utilizing lookahead less than 10 or 20 ms and without the reliance of and }\gls{os} \DIFadd{cue.
+}\DIFaddend % ------------------------------------------------------------------------
 
 
 %%% Local Variables:

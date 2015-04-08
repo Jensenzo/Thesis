@@ -7,21 +7,22 @@
 \fi
 
 %Introduction to multi-channel APR
-While a key aspect of the basic single-channel \gls{apr} system was founded in the breadth of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and more specifically multiple microphones. Laptop computers, tablets and mobile phones frequently employ multiple microphones for noise cancellation \cite{Habets2013}\cite{Habets2012}, echo cancelation \cite{US7925007} and localisation applications \cite{US8174547}\linebreak[2]\cite{US8233353}.
+While a key aspect of the basic single-channel \DIFdelbegin \DIFdel{Acoustic Pulse Recognition (APR) }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system was founded in the \DIFdelbegin \DIFdel{breath }\DIFdelend \DIFaddbegin \DIFadd{breadth }\DIFaddend of devices in the market meeting the hardware requirements for the system presented in chapter~\ref{ch:APR}, a range of devices are emerging with multiple sensors, and more specifically multiple microphones. Laptop computers, tablets and mobile phones frequently employ multiple microphones for noise cancellation \cite{Habets2013}\cite{Habets2012}, echo cancelation \cite{US7925007} and localisation applications \cite{US8174547}\linebreak[2]\cite{US8233353}.
 
-While chapter~\ref{ch:APR} implemented a touchscreen interface on a mobile phone, this chapter will focus on a larger device. A simple wooden board has been chosen since it enables fitting of microphones within the device. Internally fitted microphones should not be considered a requirement for the method presented in this chapter, but it is an option and could help block out external noise sources. It is also noted that although the device is of a much simpler internal structure than the phone used previously, the system does not focus exclusively on implementation in electronic mobile devices. It is possible to imagine that the microphones were attached to a wall or a desk and thereby providing a touch interface on these devices. An imagine could in addition be projected onto these devices thereby making the surface a touchscreen. Whether or not a device with a less homogeneous internal structure would provide better or worse classification performance has not been investigated in this chapter.
+\DIFaddbegin \DIFadd{While chapter~\ref{ch:APR} implemented a touchscreen interface on a mobile phone, this chapter will focus on a larger device. A simple wooden board has been chosen since it enables fitting of microphones within the device. Internally fitted microphones should not be considered a requirement for the method presented in this chapter, but it is an option and could help block out external noise sources. It is also noted that although the device is of a much simpler internal structure than the phone used previously, the system does not focus exclusively on implementation in electronic mobile devices. It is possible to imagine that the microphones were attached to a wall or a desk and thereby providing a touch interface on these devices. An imagine could in addition be projected onto these devices thereby making the surface a touchscreen. Whether or not a device with a less homogeneous internal structure would provide better or worse classification performance has not been investigated in this chapter.
+}
 
-In this chapter the \gls{apr} system is generalised to multiple channels and results are provided to quantify the multi-channel \gls{apr} system's performance in relation to a single-channel equivalent.
+\DIFaddend In this chapter the \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system is generalised to multiple channels and results are provided to quantify the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system's performance in relation to a single-channel equivalent.
 
 %outline of chapter
-The background for the multi-channel \gls{apr} system in relation to the previously discussed single-channel system is presented first and is followed by the generalised theory, after which the training procedures required will be discussed in relation to the approach taken in section~\ref{sec:APRtraining}. The method used for the evaluation of the work is outlined followed by the results, discussion and conclusions.
+The background for the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system in relation to the previously discussed single-channel system is presented first and is followed by the generalised theory, after which the training procedures required will be discussed in relation to the approach taken in section~\ref{sec:APRtraining}. The method used for the evaluation of the work is outlined followed by the results, discussion and conclusions.
 
 \section{Background}
 %Discuss and outline the advantages of multiple channels in a physical detection application
-Chapter~\ref{ch:APR} described the theory and application of a single-channel \gls{apr} system which relied on the presence of a single transducer in or on the device for the \gls{apr} application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanical noise in the device. Multiple channels enable, theoretically, improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same expected results. This is particularly advantageous when the additional available channels are designed to specifically be a reference source discounting either some noise source (eg. background noise) or the target source (eg. speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise. Secondly multiple channels allow for utilisation of the timings of the detections between channels as discussed in more detail below.
+Chapter~\ref{ch:APR} described the theory and application of a single-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system which relied on the presence of a single transducer in or on the device for the \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend application. For many devices this microphone implementation would be designed for speech recordings and design specifications may have included steps to actively reduce the impact of mechanical noise in the device. Multiple channels enable, theoretically, improved performance on two accounts. Firstly since the channels can be considered parallel and independent, each additional channel may be considered an independent trial with same expected results. This is particularly \DIFdelbegin \DIFdel{an }\DIFdelend advantageous when the additional available channels are designed to specifically be a reference source discounting either some noise source (eg. background noise) or the target source (eg. speech). This enables a secondary detection or classification channel potentially affected to a lesser extent by either speech or other noise. Secondly multiple channels allow for utilisation of the timings of the detections between channels as discussed in more detail below.
 
 \subsection{Time of flight (ToF)}
-The second advantage of the multi-channel system is the main functional component of previous multi-channel \gls{apr} systems \cite{TouchSystems2006}\cite{US7411581}. \gls{tof}, \gls{tdoa} or the relative time of arrival of, especially transient, events at uniquely placed receiving transducers gives an indication of the origin of a pulse.
+The second advantage of the multi-channel system is the main functional component of previous multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend systems \cite{TouchSystems2006}\cite{US7411581}. \DIFdelbegin \DIFdel{Time of flight (ToF), time delay of arrival (TDA) }\DIFdelend \DIFaddbegin \gls{tof}\DIFadd{, }\gls{tdoa} \DIFaddend or the relative time of arrival of, especially transient, events at uniquely placed receiving transducers gives an indication of the origin of a pulse.
 
 A tap on a surface generates a pulse and thereby an acoustic wavefront propagating radially outwards from the point of impact. The array of microphones embedded in the surface receive the wavefront at different times relative to their distance from the point of impact and the phase velocity. Figure~\ref{fig:ToFexample.pdf} shows an example of a surface with a wavefront's propagation and 3 microphones' relative position within the propagation pattern.
 
@@ -39,7 +40,7 @@ A tap on a surface generates a pulse and thereby an acoustic wavefront propagati
 \label{fig:ToFexample.pdf}
 \end{figure}
 
-No timing or localisation information can be inferred from a single microphone however a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than three microphones are required to locate the origin of a tap on a 2 dimensional plane using \gls{tof} alone \cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system.
+No timing or localisation information can be inferred from a single microphone however a set of microphones provide a hyperbolic curve upon which the event must have occurred. No less than three microphones are required to locate the origin of a tap on a 2 dimensional plane using \DIFdelbegin \DIFdel{ToF }\DIFdelend \DIFaddbegin \gls{tof} \DIFaddend alone \cite{US7411581}. %Figure~\ref{fig:MultiSourceExample.pdf}(a) and (b) provides an example of 3 waveforms from 3 different microphones located a different points in a system.
 
 %Discuss time of flight (ToF) (and sample rates/size tradeoff)
 For constant phase velocity $c$ in a specific material and time difference $\Delta t$ the spatial difference between microphones $\Delta d$ can be calculated with a basic equation of motion,
@@ -48,7 +49,7 @@ For constant phase velocity $c$ in a specific material and time difference $\Del
 \Delta d  = c \Delta t.
 \end{equation}
 
-For a digital system sampled at sampling rate $f_s$, and time difference is equivalent to $\Delta t = \Delta S/f_s$ where $S$ is the number of samples, $\Delta S$ is the difference in samples $S$ and $t$ and the sampling rate are measured in seconds and samples per second respectively.
+For a digital system sampled at sampling rate $f_s$, \DIFaddbegin \DIFadd{and }\DIFaddend time difference is equivalent to $\Delta t = \Delta S/f_s$ where $S$ is the number of samples\DIFaddbegin \DIFadd{, $\Delta S$ is the difference in samples $S$ }\DIFaddend and $t$ \DIFaddbegin \DIFadd{and }\DIFaddend the sampling rate \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{are }\DIFaddend measured in seconds and samples per second respectively.
 
 The positional difference $\Delta d$ can now be calculated from the sample difference $\Delta S$ between two events as,
 
@@ -56,7 +57,7 @@ The positional difference $\Delta d$ can now be calculated from the sample diffe
 \Delta d  = c \frac{\Delta S}{f_s}.
 \end{equation}
 
-For the minimum sampling rate $f_s$ needed to detect any spatial difference $\Delta S \leq 1$, i.e. no measurable difference in samples, equation~\ref{eq:ToFcalcs2} is rearranged to
+For the minimum sampling rate $f_s$ needed to detect any spatial difference $\Delta S \leq 1$\DIFaddbegin \DIFadd{, i.e. no measurable difference in samples, }\DIFaddend equation~\ref{eq:ToFcalcs2} is rearranged to
 
 \begin{equation}\label{eq:ToFcalcs3}
 f_s  \geq \frac{c}{\Delta d}.
@@ -67,18 +68,24 @@ Figure~\ref{fig:MultiSourceExampleAnnoSpot9.pdf} show an example of 3 waveforms 
 \begin{figure} %MultiSourceExampleAnnoSpot9.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{MultiSourceExampleAnnoSpot9.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{MultiSourceExampleAnnoSpot9.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < \put(-180,60){11}
+%DIFDELCMD < \put(-150,36){19}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{MultiSourceExampleAnnoSpot9.pdf}
   \begin{picture}(0,0)
 \put(-180,60){11}
 \put(-150,36){19}
 \put(-385,160){amplitude}
 \end{picture}}
-\end{minipage}
-\caption{A zoomed example of the 3 wavefronts captured, and their relative alignment, for an impact on spot 9 (see Figure~\ref{fig:MultiAPRsystem.pdf}) on the surface. The approximate distance from spot 9 is 35.5 cm, 9.5 cm and 21 cm for the microphones 1, 2 and 3 respectively.}
+\DIFaddendFL \end{minipage}
+\caption{A zoomed example of the 3 wavefronts captured, and their relative alignment, for an impact on spot 9 \DIFaddbeginFL \DIFaddFL{(see Figure~\ref{fig:MultiAPRsystem.pdf}) }\DIFaddendFL on the surface. \DIFaddbeginFL \DIFaddFL{The approximate distance from spot 9 is 35.5 cm, 9.5 cm and 21 cm for the microphones 1, 2 and 3 respectively.}\DIFaddendFL }
 \label{fig:MultiSourceExampleAnnoSpot9.pdf}
 \end{figure}
 
-Based on the estimated phase velocity in the surface, provided in appendix~\ref{ap:SpeedCalc}, this additional distance is 4.4 cm approximately, corresponding to a range of early reflective paths on the surface.
+Based on the estimated phase velocity in the surface, provided in appendix~\ref{ap:SpeedCalc}, this additional distance is 4.4 cm approximately\DIFaddbegin \DIFadd{, }\DIFaddend corresponding to a range of early reflective paths on the surface.
 
 \section{Model and theory}\label{sec:MultiAPRModelTheory}
 The multi-channel model proposed here is an extension of the multi component model proposed in section~\ref{sec:APRpca}.
@@ -132,7 +139,7 @@ Since the channels are considered independent of each other we have that
 p(\textbf{y} | j) = \prod^C p(y_c | j, c).
 \end{equation}
 
-Similar to equation~\ref{eq:MLdefinition}, the \gls{ml} estimator can be expressed as
+Similar to equation~\ref{eq:MLdefinition}, the \DIFdelbegin \DIFdel{Maximum Likelihood (ML) }\DIFdelend \DIFaddbegin \gls{ml} \DIFaddend estimator can be expressed as
 
 \begin{equation}\label{eq:MLdefinition_c}
 p(j |\textbf{y}) = \argmax{j} \prod^C p(y_c|j,n_0,c),
@@ -144,11 +151,11 @@ p(j |\textbf{y}) = \argmax{j} \prod^C p(y_c|j,n_0,c),
 
 \section{Training}\label{sec:MultiAPRTraining}
 %describe the different training schemes employed
-The training of the templates for the multi-channel \gls{apr} system proceeds similarly to the single-channel \gls{apr} \gls{pca} based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In all tests conducted the number of \gls{pca} components used was $I = 8$.
+The training of the templates for the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system proceeds similarly to the single-channel \DIFdelbegin \DIFdel{APR PCA }\DIFdelend \DIFaddbegin \gls{apr} \gls{pca} \DIFaddend based system outlined in section~\ref{sec:APRtraining} with a few exceptions. In all tests conducted the number of \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend components used was $I = 8$.
 
 In this chapter a number of different methods will be compared, while these will be described in more detail in section~\ref{sec:MultiAPRMethod}, the training for these models will be outlined below.
 
-The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most basic, or the base line approach that will be tested in this chapter. Each channel $c$ will be considered independently and so the training stage will exactly mirror that presented in section~\ref{sec:MultiAPRMethod} relating to the \gls{pca} training with $J$ different templates. The right side of Figures~\ref{fig:trainingSystem1.pdf}-\ref{fig:trainingSystem3.pdf} shows an example of how various models will relate to the data when they are tested. Testing is done on $Q$ samples.
+The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most basic, or the base line approach that will be tested in this chapter. Each channel $c$ will be considered independently and so the training stage will exactly mirror that presented in section~\ref{sec:MultiAPRMethod} relating to the \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend training with $J$ different templates. The right side of Figures~\ref{fig:trainingSystem1.pdf}-\ref{fig:trainingSystem3.pdf} shows an example of how various models will relate to the data when they are tested. Testing is done on $Q$ samples.
 
 \begin{figure} %trainingSystem1.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -171,7 +178,7 @@ The diagram presented in Figure~\ref{fig:trainingSystem1.pdf} outlines the most 
 \label{fig:trainingSystem1.pdf}
 \end{figure}
 
-An initial implementation of the multi-channel system training is shown in Figure~\ref{fig:trainingSystem2.pdf}. Here the templates are considered together but aligned independently. This approach follows the training method presented in section~\ref{sec:MultiAPRMethod} and while the classification probabilities are considered jointly, the templates are trained independently allowing for different templates with different lengths and number of components $I$, although, as mentioned above, the number of components were fixed at $I=8$ for simplicity.
+An initial implementation of the multi-channel system training is shown in Figure~\ref{fig:trainingSystem2.pdf}. Here the templates are considered together but aligned independently. This approach follows the training method presented in section~\ref{sec:MultiAPRMethod} and while the classification probabilities are considered jointly\DIFaddbegin \DIFadd{, }\DIFaddend the templates are trained independently allowing for different templates with different lengths and number of components $I$\DIFaddbegin \DIFadd{, although, as mentioned above, the number of components were fixed at $I=8$ for simplicity}\DIFaddend .
 
 \begin{figure} %trainingSystem2.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -194,7 +201,7 @@ An initial implementation of the multi-channel system training is shown in Figur
 \label{fig:trainingSystem2.pdf}
 \end{figure}
 
-Figure~\ref{fig:trainingSystem3.pdf} shows the multi-channel \gls{apr} system training using joint alignment. While, as in section~\ref{sec:MultiAPRMethod}, the other methods presented here have trained each channel independently, this approach only prompts the trainer for alignment cues based on data from one channel. This means that the relative alignments between channels $c$ and spots $j$ remain intact. Data associated with each channel can be stored independently, as previously, but each template will now be of similar length and will require slightly longer templates to account for pulses arriving prior to those of the alignment channel (channel 1 $c=1$ for all tests conducted).
+Figure~\ref{fig:trainingSystem3.pdf} shows the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system training using joint alignment. While, as in section~\ref{sec:MultiAPRMethod}, the other methods presented here have trained each channel independently, this approach only prompts the trainer for alignment cues based on data from one channel. This means that the relative alignments between channels $c$ and spots $j$ remain intact. Data associated with each channel can be stored independently, as previously, but each template will now be of similar length and will require slightly longer templates to account for pulses arriving prior to those of the alignment channel (channel 1 $c=1$ for all tests conducted).
 
 \begin{figure} %trainingSystem3.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -219,13 +226,27 @@ Figure~\ref{fig:trainingSystem3.pdf} shows the multi-channel \gls{apr} system tr
 
 \section{Method}\label{sec:MultiAPRMethod}
 \subsection{System setup}\label{sec:MultiAPRSystem}
-To evaluate the performance of the algorithms a multi-channel setup was assembled. Figure~\ref{fig:MultiAPRsystem.pdf} shows a diagram of the system. The legend to the right indicates the elements in the diagram the numbers next to each microphone and active spot is the channel/microphone and active spot/template number respectively used henceforth. The surface used in this system is the same as shown in Figure~\ref{fig:Pad} but different active spots, or trained spots, have been chosen. Figure~\ref{fig:MultiAPRsystem.pdf} also shows the relative placement and distance of all elements as well as the external noise source.
+To evaluate the performance of the algorithms a multi-channel setup was assembled. Figure~\ref{fig:MultiAPRsystem.pdf} shows a diagram of the system. The legend to the right indicates the elements in the diagram the numbers \DIFdelbegin \DIFdel{to the left of }\DIFdelend \DIFaddbegin \DIFadd{next to }\DIFaddend each microphone and active spot is the channel/microphone and active spot/template number respectively used henceforth. The surface used in this system is the same as shown in Figure~\ref{fig:Pad} but different active spots, or trained spots, have been chosen. \DIFaddbegin \DIFadd{Figure~\ref{fig:MultiAPRsystem.pdf} also shows the relative placement and distance of all elements as well as the external noise source.
+}\DIFaddend 
 
 \begin{figure} %MultiAPRsystem.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{MultiAPRsystem2.pdf}}
-\end{minipage}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=10cm]{MultiAPRsystem.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < \put(-90,176){Microphone}
+%DIFDELCMD < \put(-90,158){Active spots}
+%DIFDELCMD < \put(-90,140){Surface edge}
+%DIFDELCMD < \put(-294,186){1}
+%DIFDELCMD < \put(-210,8){2}
+%DIFDELCMD < \put(-159,160){3}
+%DIFDELCMD < \put(-253,132){1}\put(-209.5,132){2}\put(-166,132){3}
+%DIFDELCMD < \put(-253,89){4}\put(-209.5,89){5}\put(-166,89){6}
+%DIFDELCMD < \put(-253,45){7}\put(-209.5,45){8}\put(-166,45){9}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{MultiAPRsystem2.pdf}}
+\DIFaddendFL \end{minipage}
 \caption{Diagram of testing setup with numbered microphones and active spots.}
 \label{fig:MultiAPRsystem.pdf}
 \end{figure}
@@ -238,9 +259,9 @@ These differences in microphone type, placement and mounting demonstrates that t
 Training data for the $J=9$ models, see Figure~\ref{fig:MultiAPRsystem.pdf}, consisted of approximately 33 seconds of audio data containing between 46 and 52 taps at varying intensity and strike angle. The taps were done with a capped Bic Cristal pen ``BiC\textregistered''. The $C=3$ channels were recorded simultaneously.
 
 %tests Q for q=1 to q=Q
-Two data sets were used for testing in this chapter, one without noise and one with noise. The noiseless set consisted of $Q=79$ testing taps and the noisy set consisted of $Q=45$ taps, were both randomly distributed over the $J=9$ active spots. Each set of testing taps $q$ comprised $C=3$ channels. Each $Q \times C$ tapping pulse was separated into separate audio files of approximately 2 seconds length.
+Two data sets were used for testing in this chapter, one without noise and one with noise. The noiseless set consisted of $Q=79$ testing taps and the noisy set consisted of $Q=45$ taps\DIFdelbegin \DIFdel{both were }\DIFdelend \DIFaddbegin \DIFadd{, were both }\DIFaddend randomly distributed over the $J=9$ active spots. Each set of testing taps $q$ \DIFdelbegin \DIFdel{was comprised of }\DIFdelend \DIFaddbegin \DIFadd{comprised }\DIFaddend $C=3$ channels. Each $Q \times C$ tapping pulse was separated into separate audio files of approximately 2 seconds length.
 
-All data was recorded as \gls{pcm} 16 bit audio data sampled at 48 kHz. The noisy testing sets were recorded with loud music playing in the background. Figure~\ref{fig:NoisyMicSignalsCompare} shows an example of a pulse recorded in a clean and in a noisy environment for microphone 1, Figure~\ref{fig:NoisyMicSignalsCompare}(a), and for microphone 2, Figure~\ref{fig:NoisyMicSignalsCompare}(b). It is clearly noted that the signal from microphone 2 is less affected by the acoustic noise. This mixture of more and less noise sensitive microphones emulates the real world scenario of devices with noise or signal reference microphones for noise reduction algorithms.
+All data was recorded as \DIFdelbegin \DIFdel{PCM }\DIFdelend \DIFaddbegin \gls{pcm} \DIFaddend 16 bit audio data sampled at 48 kHz. The noisy testing sets were recorded with loud music playing in the background. Figure~\ref{fig:NoisyMicSignalsCompare} shows an example of a pulse recorded in a clean and in a noisy environment for microphone 1, Figure~\ref{fig:NoisyMicSignalsCompare}(a), and for microphone 2, Figure~\ref{fig:NoisyMicSignalsCompare}(b). It is clearly noted that the signal from microphone 2 is less affected by the acoustic noise. This mixture of more and less noise sensitive microphones emulates the real world scenario of devices with noise or signal reference microphones for noise reduction algorithms.
 
 \begin{figure}[t]
 \begin{minipage}[b]{1.0\linewidth}
@@ -252,24 +273,29 @@ All data was recorded as \gls{pcm} 16 bit audio data sampled at 48 kHz. The nois
 \begin{minipage}[b]{1.0\linewidth}
   \centering
   \centerline{\includegraphics[width=11cm]{NoiseCompare2}}%10
+%DIF < \begin{picture}(0,0)
+%DIF < \put(-120,382){(a)}
+%DIF < \put(-120,195){(b)}
+%DIF < \end{picture}
+ \DIFaddbeginFL 
 
- %\vspace{1.5cm}
+ \DIFaddendFL %\vspace{1.5cm}
   \centerline{(b) Microphone 2}\medskip
 \end{minipage}
-\begin{picture}(0,0)
+\DIFaddbeginFL \begin{picture}(0,0)
 \put(-10,280){amplitude}
 \put(-10,110){amplitude}
 \end{picture}
-\caption{Examples of audio signal (waveform) in clean and noisy conditions for (a) Microphone 1 and (b) Microphone 2.}
+\DIFaddendFL \caption{Examples of audio signal (waveform) in clean and noisy conditions for (a) Microphone 1 and (b) Microphone 2.}
 \label{fig:NoisyMicSignalsCompare}
 \end{figure}
 
-\subsection{Classification approaches}
-While the underlying theory behind the multi-channel \gls{apr} system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of the decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
+\subsection{\DIFdelbegin \DIFdel{Approaches}\DIFdelend \DIFaddbegin \DIFadd{Classification approaches}\DIFaddend }
+While the underlying theory behind the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of the decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
 
-As mentioned previously the multi-channel approach will be compared to the standard single-channel approach (\approachChFourN{app:IndiChan}). The single-channel \gls{pca} method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single-channel results will be processed and the unique mode (\approachChFourN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachChFourN{app:IndiChanMedian}) for each test $q$.
+As mentioned previously the multi-channel approach will be compared to the standard single-channel approach (\approachChFourN{app:IndiChan}). The single-channel \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single-channel results will be processed and the unique mode (\approachChFourN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachChFourN{app:IndiChanMedian}) for each test $q$.
 
-Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multi-channel implementation (\approachChFourN{app:MultiNaive}). Here the channels were not aligned and the detection likelihoods were combined as described in equation~\ref{eq:MLdefinition2_c}. While this approach clearly fails to take advantage of the inherent \gls{tof} information it may serve as a control to evaluate the effect of ToF. In addition to this approach the maximum detection likelihood for each channel $c$ are combined and the class corresponding the combined largest excitation is chosen (\approachChFourN{app:MultiNaiveMax}). In other words:
+Figure~\ref{fig:trainingSystem2.pdf} introduced a simple naive multi-channel implementation (\approachChFourN{app:MultiNaive}). Here the channels were not aligned and the detection likelihoods were combined as described in equation~\ref{eq:MLdefinition2_c}. While this approach clearly fails to take advantage of the inherent \DIFdelbegin \DIFdel{ToF }\DIFdelend \DIFaddbegin \gls{tof} \DIFaddend information it may serve as a control to evaluate the effect of ToF. In addition to this approach the maximum detection likelihood for each channel $c$ are combined and the class corresponding the combined largest excitation is chosen (\approachChFourN{app:MultiNaiveMax}). In other words:
 
 \begin{equation}\label{eq:jointprob3_c}
 p(j|\textbf{y}) = \argmax{j} \prod^C \underset{n_0}{\max} p(y_c|j,n_o,c).
@@ -277,24 +303,30 @@ p(j|\textbf{y}) = \argmax{j} \prod^C \underset{n_0}{\max} p(y_c|j,n_o,c).
 
 This approach attempts to remedy the naive multi-channel approach by making an assumption. It is assumed that while a template may not perfectly fit a pulse associated with a different template, it will still have its maximum excitation when aligned correctly with the pulse. This enables a \emph{post hoc} pseudo alignment of the templates. This approach is included to remedy the naive multi-channel approach.
 
-Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is presented (\approachChFourN{app:Multi}). Here the \gls{tof} information is inherently retained assuming that the relative channel alignments in the testing system are kept constant between training and testing. While a template for a single-channel may score well with wrong testing data when combined with templates for other channels, the effect should be blurred in time while a correct classification will have a set of matching template in addition to matching \gls{tof} information.
+Lastly the approach described in Figure~\ref{fig:trainingSystem3.pdf} is presented (\approachChFourN{app:Multi}). Here the \DIFdelbegin \DIFdel{ToF }\DIFdelend \DIFaddbegin \gls{tof} \DIFaddend information is inherently retained assuming that the relative channel alignments in the testing system are kept constant between training and testing. While a template for a single-channel may score well with wrong testing data when combined with templates for other channels\DIFaddbegin \DIFadd{, }\DIFaddend the effect should be blurred in time while a correct classification will have a set of matching template in addition to matching \DIFdelbegin \DIFdel{ToF }\DIFdelend \DIFaddbegin \gls{tof} \DIFaddend information.
 
 \section{Results}\label{sec:MultiAPRResults}
 \subsection{ToF example}
-While the pulse translations, due to differences in \gls{tof} between microphones, presented in the figures in section~\ref{sec:MultiAPRTraining} were exaggerated for visual clarity, the data presented in Figure~\ref{fig:ToFexample.pdf} gave an example of the typical effect of spaced out microphones on the surface. Figure~\ref{fig:MultiSourceExample.pdf} shows the complete pulse from Figure~\ref{fig:ToFexample.pdf}. Figure~\ref{sec:MultiAPRTraining}(a) clearly shows two different pulse decay envelopes for microphones 2 and 3, with microphone 3's signal appearing to decay at a slower rate and contain more energy in general.
+While the pulse translations, due to differences in \DIFdelbegin \DIFdel{ToF }\DIFdelend \DIFaddbegin \gls{tof} \DIFaddend between microphones, presented in the figures in section~\ref{sec:MultiAPRTraining} were exaggerated for visual clarity, the data presented in Figure~\ref{fig:ToFexample.pdf} gave an example of the typical effect of spaced out microphones on the surface. Figure~\ref{fig:MultiSourceExample.pdf} shows the complete pulse from Figure~\ref{fig:ToFexample.pdf}. Figure~\ref{sec:MultiAPRTraining}(a) clearly shows two different pulse decay envelopes for microphones 2 and 3, with microphone 3's signal appearing to decay at a slower rate and contain more energy in general.
 
 \begin{figure} %MultiSourceExample.pdf
 \begin{minipage}[b]{1.0\linewidth}
   \centering
-  \centerline{\includegraphics[width=12cm]{MultiSourceExample.pdf}
+  \DIFdelbeginFL %DIFDELCMD < \centerline{\includegraphics[width=12cm]{MultiSourceExample.pdf}
+%DIFDELCMD <   \begin{picture}(0,0)
+%DIFDELCMD < \put(-320,360){(a)}
+%DIFDELCMD < \put(-320,168){(b)}
+%DIFDELCMD < \end{picture}}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \centerline{\includegraphics[width=12cm]{MultiSourceExample.pdf}
   \begin{picture}(0,0)
 \put(-320,360){(a)}
 \put(-320,168){(b)}
 \put(-400,285){amplitude}
 \put(-400,92){amplitude}
 \end{picture}}
-\end{minipage}
-\caption{(a) An example of the 3 wavefronts captured, and their relative alignment, for an impact on spot 9 on the surface. (b) Zoomed in version of (a). The approximate distance from spot 9 is 35.5 cm, 9.5 cm and 21 cm for the microphones 1, 2 and 3 respectively.}
+\DIFaddendFL \end{minipage}
+\caption{(a) An example of the 3 wavefronts captured, and their relative alignment, for an impact on spot 9 on the surface. (b) Zoomed in version of (a). \DIFaddbeginFL \DIFaddFL{The approximate distance from spot 9 is 35.5 cm, 9.5 cm and 21 cm for the microphones 1, 2 and 3 respectively.}\DIFaddendFL }
 \label{fig:MultiSourceExample.pdf}
 \end{figure}
 
@@ -316,31 +348,32 @@ Approach \#             & Approach description          & \% correct    & \% wro
 \ref{app:Multi}         & Multi-channel Joint           & 99            & 1         & 0          \\ \hline
 \end{tabular}\end{center}\end{table}
 
-The results for individual channels from Approach \ref{app:IndiChanMode} has been presented in Table~\ref{tab:multiAPRresults}. The Individually trained and tested channels approach gives a correct classification result of $89\%$ which is an average of the results from all channels. It should be noted that the individual channels are not proposed as classification methods in their own right, since all channels should be considered of equal weight. The individual channels are only presented here for transparency and to underline that Approach~\ref{app:IndiChan} was run on all test files individually.
+The results for individual channels from Approach \ref{app:IndiChanMode} has been presented in Table~\ref{tab:multiAPRresults}. The Individually trained and tested channels approach \DIFaddbegin \DIFadd{gives a }\DIFaddend correct classification result of $89\%$ \DIFaddbegin \DIFadd{which }\DIFaddend is an average of the results from all channels. It should be noted that the individual channels are not proposed as classification methods in their own right, since all channels should be considered of equal weight. The individual channels are only presented here for transparency and to underline that Approach~\ref{app:IndiChan} was run on all test files individually.
 
-For completeness Table~\ref{tab:multiAPRresultsPerChan} is presented detailing the performance (correct classification rate) at each spot across the surface. Spot 5 is noted to have a low correct classification rate across the board although it is also noted that $c = 1$ for the individual channel classification only lost a classification on spot 7 data.
+\DIFaddbegin \DIFadd{For completeness Table~\ref{tab:multiAPRresultsPerChan} is presented detailing the performance (correct classification rate) at each spot across the surface. Spot 5 is noted to have a low correct classification rate across the board although it is also noted that $c = 1$ for the individual channel classification only lost a classification on spot 7 data.
+}
 
 \begin{table}\begin{center}
-\caption{Multi-channel classification percentage correct results per channel for noiseless data.}
+\caption{\DIFaddFL{Multi-channel classification percentage correct results per channel for noiseless data.}}
 \label{tab:multiAPRresultsPerChan}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
   & \multicolumn{9}{|c|}{Spot} \\
 \hline
-Approach \#             & 1   & 2   & 3   & 4   & 5   & 6   & 7    & 8    & 9  \\ \hline \ref{app:IndiChan}      & 95  & 70  & 92  & 88  & 78  & 89  &  93  & 100  & 93   \\
-$c = 1$                 & 100 & 100 & 100 & 100 & 100 & 100 &   89 &  100 & 100  \\
-$c = 2$                 & 86  & 44  & 75  & 63  & 44  & 89  & 100  & 100  & 90   \\
-$c = 3$                 & 100 &  67 & 100 & 100 &  89 &  78 &   89 &  100 &  90  \\
-\ref{app:IndiChanMode}  & 100 &  67 & 100 & 100 & 100 &  89 &  100 &  100 & 100  \\
-\ref{app:IndiChanMedian}& 100 &  67 & 100 & 100 &  89 &  89 &   89 &  100 & 100  \\
-\ref{app:MultiNaive}    & 100 &  56 &  75 & 100 &   0 & 100 &   89 &  100 &  60  \\
-\ref{app:MultiNaiveMax} & 100 &  56 & 100 & 100 &  89 & 100 &  100 &  100 & 100  \\
-\ref{app:Multi}         & 100 & 100 & 100 & 100 &  89 & 100 &  100 &  100 & 100  \\ \hline
+\DIFaddFL{Approach }\#             & \DIFaddFL{1   }& \DIFaddFL{2   }& \DIFaddFL{3   }& \DIFaddFL{4   }& \DIFaddFL{5   }& \DIFaddFL{6   }& \DIFaddFL{7    }& \DIFaddFL{8    }& \DIFaddFL{9  }\\ \hline \DIFaddFL{\ref{app:IndiChan}      }& \DIFaddFL{95  }& \DIFaddFL{70  }& \DIFaddFL{92  }& \DIFaddFL{88  }& \DIFaddFL{78  }& \DIFaddFL{89  }&  \DIFaddFL{93  }& \DIFaddFL{100  }& \DIFaddFL{93   }\\
+\DIFaddFL{$c = 1$                 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }&   \DIFaddFL{89 }&  \DIFaddFL{100 }& \DIFaddFL{100  }\\
+\DIFaddFL{$c = 2$                 }& \DIFaddFL{86  }& \DIFaddFL{44  }& \DIFaddFL{75  }& \DIFaddFL{63  }& \DIFaddFL{44  }& \DIFaddFL{89  }& \DIFaddFL{100  }& \DIFaddFL{100  }& \DIFaddFL{90   }\\
+\DIFaddFL{$c = 3$                 }& \DIFaddFL{100 }&  \DIFaddFL{67 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{89 }&  \DIFaddFL{78 }&   \DIFaddFL{89 }&  \DIFaddFL{100 }&  \DIFaddFL{90  }\\
+\DIFaddFL{\ref{app:IndiChanMode}  }& \DIFaddFL{100 }&  \DIFaddFL{67 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{89 }&  \DIFaddFL{100 }&  \DIFaddFL{100 }& \DIFaddFL{100  }\\
+\DIFaddFL{\ref{app:IndiChanMedian}}& \DIFaddFL{100 }&  \DIFaddFL{67 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{89 }&  \DIFaddFL{89 }&   \DIFaddFL{89 }&  \DIFaddFL{100 }& \DIFaddFL{100  }\\
+\DIFaddFL{\ref{app:MultiNaive}    }& \DIFaddFL{100 }&  \DIFaddFL{56 }&  \DIFaddFL{75 }& \DIFaddFL{100 }&   \DIFaddFL{0 }& \DIFaddFL{100 }&   \DIFaddFL{89 }&  \DIFaddFL{100 }&  \DIFaddFL{60  }\\
+\DIFaddFL{\ref{app:MultiNaiveMax} }& \DIFaddFL{100 }&  \DIFaddFL{56 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{89 }& \DIFaddFL{100 }&  \DIFaddFL{100 }&  \DIFaddFL{100 }& \DIFaddFL{100  }\\
+\DIFaddFL{\ref{app:Multi}         }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{89 }& \DIFaddFL{100 }&  \DIFaddFL{100 }&  \DIFaddFL{100 }& \DIFaddFL{100  }\\ \hline
 \end{tabular}\end{center}\end{table}
 
 
-Since all the noiseless data contained nothing that could be confused with a pulse, the detection threshold could be set to a very low level without any false detections. The missed classification results noted for the mode-based individual channel approach (Approach \ref{app:IndiChanMode}) were due to three way disagreements between the channels. It is also noted that in these missed detection cases the similar median based classification approach (Approach \ref{app:IndiChanMedian}) will simply have picked the spot with the median value in a numerical sense. The noisy data was processed with the same low threshold as in the noiseless case, but it is assumed, for both the noisy and the noiseless case, that the maximum excitation is still caused by the pulse in the audio segment.
+\DIFaddend Since all the noiseless data contained nothing that could be confused with a pulse, the detection threshold could be set to a very low level without any false detections. The missed classification results noted for the mode-based individual channel approach (Approach \ref{app:IndiChanMode}) were due to three way disagreements between the channels. It is also noted that in these missed detection cases the similar median based classification approach (Approach \ref{app:IndiChanMedian}) will simply have picked the spot with the median value in a numerical sense. The noisy data was processed with the same low threshold as in the noiseless case, but it is assumed, for both the noisy and the noiseless case, that the maximum excitation is still caused by the pulse in the audio segment.
 
-In Table~\ref{tab:multiAPRresultsNoise} the results from a slightly smaller $Q=45$ test set are presented. These results are conducted in a noisy environment with music playing in the background but with the same templates as with the previous test.
+In Table~\ref{tab:multiAPRresultsNoise} the results from \DIFdelbegin \DIFdel{at }\DIFdelend \DIFaddbegin \DIFadd{a }\DIFaddend slightly smaller $Q=45$ test \DIFaddbegin \DIFadd{set }\DIFaddend are presented. These results are conducted in a noisy environment with music playing in the background but with the same templates as with the previous test.
 
 \begin{table}\begin{center}
 \caption{Multi-channel classification results in noisy environment.}
@@ -358,29 +391,30 @@ Approach \#             & Approach description          & \% correct    & \% wro
 \ref{app:Multi}         & Multi-channel Joint           & 100           & 0         & 0           \\ \hline
 \end{tabular}\end{center}\end{table}
 
-For completeness Table~\ref{tab:multiAPRresultsNoisePerChan} is presented detailing the performance (correct classification rate) at each spot across the surface for the noisy classification scenario. It is not clear from this data if the performance at any spots have suffered more than others due to the noise. It is although clear that the noise has not impacted the spots closest to the noise source (spots 1-4 and 6).
+\DIFaddbegin \DIFadd{For completeness Table~\ref{tab:multiAPRresultsNoisePerChan} is presented detailing the performance (correct classification rate) at each spot across the surface for the noisy classification scenario. It is not clear from this data if the performance at any spots have suffered more than others due to the noise. It is although clear that the noise has not impacted the spots closest to the noise source (spots 1-4 and 6).
+}
 
 \begin{table}\begin{center}
-\caption{Multi-channel classification percentage correct results per channel for noisy data.}
+\caption{\DIFaddFL{Multi-channel classification percentage correct results per channel for noisy data.}}
 \label{tab:multiAPRresultsNoisePerChan}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
   & \multicolumn{9}{|c|}{Spot} \\
 \hline
-Approach \#             & 1   & 2   & 3   & 4   & 5   & 6   & 7   & 8   & 9  \\ \hline
-\ref{app:IndiChan}      & 100 &  83 &  92 & 100 &  73 &  73 &  73 &  89 &  71  \\
-$c = 1$                 & 100 & 100 & 100 & 100 & 100 &  80 & 100 & 100 & 100  \\
-$c = 2$                 & 100 &  50 &  75 & 100 &  80 &  80 &  60 & 100 &  57  \\
-$c = 3$                 & 100 & 100 & 100 & 100 &  40 &  60 &  60 &  67 &  57  \\
-\ref{app:IndiChanMode}  & 100 & 100 & 100 & 100 & 100 &  80 &  80 & 100 &  80  \\
-\ref{app:IndiChanMedian}& 100 & 100 & 100 & 100 & 100 &  80 &  80 & 100 &  57  \\
-\ref{app:MultiNaive}    & 100 &  75 &   0 & 100 &  80 &   0 &  20 &  67 &  29  \\
-\ref{app:MultiNaiveMax} & 100 &  75 & 100 & 100 &  80 &  80 &  60 & 100 &  71  \\
-\ref{app:Multi}         & 100 & 100 & 100 & 100 & 100 & 100 & 100 & 100 & 100  \\ \hline
+\DIFaddFL{Approach }\#             & \DIFaddFL{1   }& \DIFaddFL{2   }& \DIFaddFL{3   }& \DIFaddFL{4   }& \DIFaddFL{5   }& \DIFaddFL{6   }& \DIFaddFL{7   }& \DIFaddFL{8   }& \DIFaddFL{9  }\\ \hline
+\DIFaddFL{\ref{app:IndiChan}      }& \DIFaddFL{100 }&  \DIFaddFL{83 }&  \DIFaddFL{92 }& \DIFaddFL{100 }&  \DIFaddFL{73 }&  \DIFaddFL{73 }&  \DIFaddFL{73 }&  \DIFaddFL{89 }&  \DIFaddFL{71  }\\
+\DIFaddFL{$c = 1$                 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{80 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100  }\\
+\DIFaddFL{$c = 2$                 }& \DIFaddFL{100 }&  \DIFaddFL{50 }&  \DIFaddFL{75 }& \DIFaddFL{100 }&  \DIFaddFL{80 }&  \DIFaddFL{80 }&  \DIFaddFL{60 }& \DIFaddFL{100 }&  \DIFaddFL{57  }\\
+\DIFaddFL{$c = 3$                 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{40 }&  \DIFaddFL{60 }&  \DIFaddFL{60 }&  \DIFaddFL{67 }&  \DIFaddFL{57  }\\
+\DIFaddFL{\ref{app:IndiChanMode}  }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{80 }&  \DIFaddFL{80 }& \DIFaddFL{100 }&  \DIFaddFL{80  }\\
+\DIFaddFL{\ref{app:IndiChanMedian}}& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{80 }&  \DIFaddFL{80 }& \DIFaddFL{100 }&  \DIFaddFL{57  }\\
+\DIFaddFL{\ref{app:MultiNaive}    }& \DIFaddFL{100 }&  \DIFaddFL{75 }&   \DIFaddFL{0 }& \DIFaddFL{100 }&  \DIFaddFL{80 }&   \DIFaddFL{0 }&  \DIFaddFL{20 }&  \DIFaddFL{67 }&  \DIFaddFL{29  }\\
+\DIFaddFL{\ref{app:MultiNaiveMax} }& \DIFaddFL{100 }&  \DIFaddFL{75 }& \DIFaddFL{100 }& \DIFaddFL{100 }&  \DIFaddFL{80 }&  \DIFaddFL{80 }&  \DIFaddFL{60 }& \DIFaddFL{100 }&  \DIFaddFL{71  }\\
+\DIFaddFL{\ref{app:Multi}         }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100 }& \DIFaddFL{100  }\\ \hline
 \end{tabular}\end{center}\end{table}
 
 
-\section{Discussion}
-The results presented in section~\ref{sec:MultiAPRResultsClass} show a consistently increasing classification performance for the multi-channel \gls{apr} system with the best performance achieved from the aligned trained and tested multi-channel system (Approach \ref{app:Multi}) with a classification result of 99\% for the 79 clean trials and 100\% for the 45 noisy trials.
+\DIFaddend \section{Discussion}
+The results presented in section~\ref{sec:MultiAPRResultsClass} show a consistently increasing classification performance for the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system with the best performance achieved from the aligned trained and tested multi-channel system (Approach \ref{app:Multi}) with a classification result of 99\% for the 79 clean trials and 100\% for the 45 noisy trials.
 
 %Single-channel results perform well. Which microphone performs best is possibly a question of environment though.
 With the exception of Approach~\ref{app:MultiNaive}, the poorest performance was achieved by the individually trained approach (\ref{app:IndiChan}), yet looking at the performance for channel 1 it was noted that this channel managed correct classification performance identical to Approach \ref{app:Multi} in the clean test while in the noisy test it got very close to it. As can be seen clearly in Figure~\ref{fig:NoisyMicSignalsCompare} the acoustic noise affected microphone 1 more than microphone 2 (and presumably 3 given their identical mounting) despite the classification results still being the best for channel 1.
@@ -389,17 +423,18 @@ Slightly improved performance, from the basic individually trained approach (\re
 
 Approaches \ref{app:IndiChanMode} and \ref{app:IndiChanMedian} were presented as a way of achieving higher classification accuracy with only access to the various classes retrieved from the individual classifiers. Approaches \ref{app:MultiNaive} and \ref{app:MultiNaiveMax} present possible extensions when the underlying classifying statistics are considered as well. As predicted, Approach \ref{app:MultiNaive} does not perform as well as the other methods due to the relatively random alignment of the templates, but as noted previously, Approach \ref{app:MultiNaiveMax} rectifies the underlying idea of the approach and increases the classification performance to 94 \% and 84 \% for clean and noisy tests respectively. As noted, this method assumes that the maximum excitation is achieved at perfect alignment for the correct model. While the multi-channel approach (\ref{app:Multi}) achieves 99 \% and 100 \% correct classification, this assumption clearly does not hold true. Approach \ref{app:MultiNaiveMax} remains the best performing approach for non-aligned templates.
 
-The highest correct classification results, for both the clean and the noisy tests, were achieved with the multi-channel approach (\ref{app:Multi}) with combined alignment. While in the clean test this method managed results identical to results from channel 1 from Approach~\ref{app:IndiChan}, in the noisy test the multi-channel approach (\ref{app:Multi}) managed slightly better performance, underlining that this approach can be better than the best of its constituent parts, and that the results suggest that the performance is unaffected by substantial environmental noise. It is reiterated that the individual channels in Approach~\ref{app:IndiChan} are not to be considered competing approaches individually since no objective weight is applied to these channels \emph{a priori}.
+The highest correct classification results, for both the clean and the noisy tests, were achieved with the multi-channel approach (\ref{app:Multi}) with combined alignment. While in the clean test this method managed results identical to results from \DIFdelbegin \DIFdel{to }\DIFdelend channel 1 from Approach~\ref{app:IndiChan}, in the noisy test the multi-channel approach (\ref{app:Multi}) managed slightly better performance, underlining that this approach can be better than the best of its constituent parts, and that the results suggest that the performance is unaffected by substantial environmental noise. It is reiterated that the individual channels in Approach~\ref{app:IndiChan} are not to be considered competing approaches individually since no objective weight is applied to these channels \emph{a priori}.
 
-Tables~\ref{tab:multiAPRresultsPerChan} and \ref{tab:multiAPRresultsNoisePerChan} show the per spot correct classification performance for the noiseless and noisy environment respectively. While the data indicates that spot 5 contributed significantly to reducing the correct classification results in the noiseless environment it was not clear from the noisy example that any spots were particularly problematic. It was certainly clear that spot 5 did not cause the same difficulties in the noisy environment as in the noiseless environment indicating that the lower correct classification rate stemmed from a poorly trained template.
+\DIFaddbegin \DIFadd{Tables~\ref{tab:multiAPRresultsPerChan} and \ref{tab:multiAPRresultsNoisePerChan} show the per spot correct classification performance for the noiseless and noisy environment respectively. While the data indicates that spot 5 contributed significantly to reducing the correct classification results in the noiseless environment it was not clear from the noisy example that any spots were particularly problematic. It was certainly clear that spot 5 did not cause the same difficulties in the noisy environment as in the noiseless environment indicating that the lower correct classification rate stemmed from a poorly trained template.
+}
 
-%more general implementation discussions
+\DIFaddend %more general implementation discussions
 
 
 \section{Conclusions}
-The results presented in this chapter showed an improvement in detection performance of the multi-channel \gls{apr} system over a single-channel equivalent. In addition the full multi-channel approach (\ref{app:Multi}) outperformed other presented methods which also used the available channel data. For the data and scenario tested, the multi-channel approach (\ref{app:Multi}) appeared unaffected by loud environmental noise, while all other methods tested saw decreased classification accuracy.
+The results presented in this chapter showed \DIFdelbegin \DIFdel{a significant }\DIFdelend \DIFaddbegin \DIFadd{an }\DIFaddend improvement in detection performance of the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system over a single-channel equivalent. In addition the full multi-channel approach (\ref{app:Multi}) outperformed other presented methods which also used the available channel data. For the data and scenario tested, the multi-channel approach (\ref{app:Multi}) appeared unaffected by loud environmental noise, while all other methods tested saw decreased classification accuracy.
 
-While the devices tested in this and the previous chapter have been of moderate sizes, it is not unimaginable that the \gls{apr} systems presented could be applied to larger devices such as walls or tables. Increasing the physical dimensions of the device would generally reduce the energy in the pulses as the impact site moved away from the transducer thereby decreasing the \gls{snr}. In a multi-channel system, transducers could be distributed evenly around the surface edge maintaining high \gls{snr} for at least some channels. Models/templates with channels of low \gls{snr} could easily be registered during training and removed from consideration during classification essentially defaulting to the ignorant prior for that channel-template combination.
+While the devices tested in this and the previous chapter have been of moderate sizes, it is not unimaginable that the \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend systems presented could be applied to larger devices such as walls or tables. Increasing the physical dimensions of the device would generally reduce the energy in the pulses as the impact site moved away from the transducer thereby decreasing the \DIFdelbegin \DIFdel{SNR}\DIFdelend \DIFaddbegin \gls{snr}\DIFaddend . In a multi-channel system, transducers could be distributed evenly around the surface edge maintaining high \DIFdelbegin \DIFdel{SNR }\DIFdelend \DIFaddbegin \gls{snr} \DIFaddend for at least some channels. Models/templates with channels of low \DIFdelbegin \DIFdel{SNR }\DIFdelend \DIFaddbegin \gls{snr} \DIFaddend could easily be registered during training and removed from consideration during classification essentially defaulting to the ignorant prior for that channel-template combination.
 
 %computational concerns X*C only (plus slightly longer templates)
 Although the multi-channel approach (\ref{app:Multi}) in general requires slightly longer templates to capture the alignment of the models the computational cost of the multi-channel approach is a simple linear scaling with the number of channels $C$ making the formal big-``O'' complexity identical to that of the single-channel approach.
@@ -416,7 +451,7 @@ Similar to further work presented in chapter~\ref{ch:APR} it may be possible to 
 
 
 %Mention possibility to implement with other sensors... not microphones. (gyroscopes, accelerometers)
-To further evaluate the combined effect of the \gls{pca} based classification approach presented in chapter~\ref{ch:APR} and the multi-channel approach presented in this chapter, an additional testing approach could be devised that purely attempts to classify the testing data based on \gls{tof} information.
+To further evaluate the combined effect of the \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend based classification approach presented in chapter~\ref{ch:APR} and the multi-channel approach presented in this chapter, an additional testing approach could be devised that purely attempts to classify the testing data based on \DIFdelbegin \DIFdel{ToF }\DIFdelend \DIFaddbegin \gls{tof} \DIFaddend information.
 
 % ------------------------------------------------------------------------
 
