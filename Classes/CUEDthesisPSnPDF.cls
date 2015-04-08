@@ -35,7 +35,7 @@
 \usepackage{fancyhdr}
 \usepackage{eucal}
 \usepackage[english]{babel}
-\usepackage[usenames, dvipsnames]{color}
+\usepackage[usenames, dvipsnames]{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
 \usepackage[perpage]{footmisc}
 %\usepackage[round, sort, numbers, authoryear]{natbib}
 \usepackage[square,sort,comma,numbers]{natbib}

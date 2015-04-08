@@ -227,7 +227,7 @@ Figure~\ref{fig:trainingSystem3.pdf} shows the multi-channel \DIFdelbegin \DIFde
 \section{Method}\label{sec:MultiAPRMethod}
 \subsection{System setup}\label{sec:MultiAPRSystem}
 To evaluate the performance of the algorithms a multi-channel setup was assembled. Figure~\ref{fig:MultiAPRsystem.pdf} shows a diagram of the system. The legend to the right indicates the elements in the diagram the numbers \DIFdelbegin \DIFdel{to the left of }\DIFdelend \DIFaddbegin \DIFadd{next to }\DIFaddend each microphone and active spot is the channel/microphone and active spot/template number respectively used henceforth. The surface used in this system is the same as shown in Figure~\ref{fig:Pad} but different active spots, or trained spots, have been chosen. \DIFaddbegin \DIFadd{Figure~\ref{fig:MultiAPRsystem.pdf} also shows the relative placement and distance of all elements as well as the external noise source.
-}\DIFaddend 
+}\DIFaddend
 
 \begin{figure} %MultiAPRsystem.pdf
 \begin{minipage}[b]{1.0\linewidth}
@@ -277,7 +277,7 @@ All data was recorded as \DIFdelbegin \DIFdel{PCM }\DIFdelend \DIFaddbegin \gls{
 %DIF < \put(-120,382){(a)}
 %DIF < \put(-120,195){(b)}
 %DIF < \end{picture}
- \DIFaddbeginFL 
+ \DIFaddbeginFL
 
  \DIFaddendFL %\vspace{1.5cm}
   \centerline{(b) Microphone 2}\medskip
@@ -290,7 +290,7 @@ All data was recorded as \DIFdelbegin \DIFdel{PCM }\DIFdelend \DIFaddbegin \gls{
 \label{fig:NoisyMicSignalsCompare}
 \end{figure}
 
-\subsection{\DIFdelbegin \DIFdel{Approaches}\DIFdelend \DIFaddbegin \DIFadd{Classification approaches}\DIFaddend }
+\subsection{Classification approaches}
 While the underlying theory behind the multi-channel \DIFdelbegin \DIFdel{APR }\DIFdelend \DIFaddbegin \gls{apr} \DIFaddend system was outlined in section~\ref{sec:MultiAPRModelTheory}, the actual implementation of the decision process can be approached in various ways. This section will outline the ones for which training approaches were presented in section~\ref{sec:MultiAPRTraining} and results are presented in section~\ref{sec:MultiAPRResults}. Each approach will be given a number (Approach \#) as in aid to evaluate the results in section~\ref{sec:MultiAPRResults}.
 
 As mentioned previously the multi-channel approach will be compared to the standard single-channel approach (\approachChFourN{app:IndiChan}). The single-channel \DIFdelbegin \DIFdel{PCA }\DIFdelend \DIFaddbegin \gls{pca} \DIFaddend method will be run for each channel $c$ and will return a total number of $QC$ results for $Q$ tests and $C$ channels as shown in Figure~\ref{fig:trainingSystem1.pdf}. In addition the single-channel results will be processed and the unique mode (\approachChFourN{app:IndiChanMode}) for each test $q$ result, if it exists, will be shown together with the median (\approachChFourN{app:IndiChanMedian}) for each test $q$.

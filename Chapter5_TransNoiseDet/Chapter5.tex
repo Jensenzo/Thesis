@@ -261,7 +261,7 @@ v(j,t) \sim \mathcal{N}_v(0,\sigma^2_{j,t}).
 \end{equation}
 
 We can now express the probability of $X(j,t)$ conditional on prior values of $X$ \DIFdelbegin \DIFdel{.
-}%DIFDELCMD < 
+}%DIFDELCMD <
 
 %DIFDELCMD < %%%
 \DIFdelend \DIFaddbegin \DIFadd{assuming independence.
@@ -292,7 +292,7 @@ where $C_{j,t}$ is a constant. The value $\log \mathcal{L}$ is now a measure of 
 \subsection{Separation algorithm}
 Results provided for the separation algorithm mainly take the form of waveforms. They provide a reference for the amplitude reduction achieved for speech segments of the signal containing both speech and keyboard strokes. Figures are also provided that show the effect of the separation algorithm on both a clean speech segment as well as a keyboard stroke corrupted segment \DIFdelbegin \DIFdel{.
 }\DIFdelend \DIFaddbegin \DIFadd{(e.g. Figure~\ref{fig:Separation_Residual_Example}).
-}\DIFaddend 
+}\DIFaddend
 
 A plot of a moving frame estimate of the \DIFdelbegin \DIFdel{Mean Squared Error (MSE) }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend is also provided \DIFaddbegin \DIFadd{(e.g. Figure~\ref{fig:SeparationError.pdf}) }\DIFaddend as well as other error measurements such as \DIFdelbegin \DIFdel{Peak Signal to Noise Ration (PSNR) }\DIFdelend \DIFaddbegin \gls{psnr} \DIFaddend and the maximum \DIFdelbegin \DIFdel{MSE }\DIFdelend \DIFaddbegin \gls{mse} \DIFaddend for the entire signal.
 
@@ -316,7 +316,7 @@ To evaluate the performance of the detection algorithms in this section, a \DIFd
 }\DIFaddend \end{description}
 
 The speech segments serve as a reference for the false detection rate, the keyboard stroke files provide an unambiguous reference for positive detections and the mixed files are mainly of interest for either visual and audible inspections and subjective restoration trials conducted in the following chapter. \DIFaddbegin \DIFadd{53 short speech samples were used and they were retrieved from a longer speech segments with individual words and short sentences cut out in 1-2 second segments. These comprised a mix of female and male speech in about equal proportions. All samples used here were not part of any publicly available sample libraries.
-}\DIFaddend 
+}\DIFaddend
 
 The term \emph{false detection} will be used to refer to an algorithm wrongfully indicating the presence of a noise pulse when a different cause of the detection can be verified. Typically this would be the sharp onset of a speech segment or \DIFdelbegin \DIFdel{a }\DIFdelend loud speech in general. A \emph{correct detection} is generally anything \DIFdelbegin \DIFdel{else }\DIFdelend \DIFaddbegin \DIFadd{other }\DIFaddend than a \emph{false detection}. This again outlines the difficulty of assessing a noise detection algorithm and great care must be taken when generating speech sequences for \emph{false detection} rate calculations to not allow anything in the signal that could rightly be considered transient or impulsive noise.
 
@@ -658,7 +658,7 @@ By visual inspection of Figures~\ref{fig:Separation_Residual_Example} through \r
 \subsection{Detection algorithms}
 Two different, but related, detection algorithms have been presented in this chapter; the \DIFdelbegin \DIFdel{noise burst }\DIFdelend \DIFaddbegin \DIFadd{Noise Burst }\DIFaddend model algorithm and the \DIFdelbegin \DIFdel{AR }\DIFdelend \DIFaddbegin \gls{ar} \DIFaddend filtering algorithm. These two have been compared to two other approaches; the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm \cite{Subramanya2007} and a median filter algorithm. While the median filter algorithm provides a benchmark for one of the simplest approaches previously used for similar applications, the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm represents the best alternative in the literature.
 
-%Discussion of NBDetectionResults and NBResultsTest 
+%Discussion of NBDetectionResults and NBResultsTest
 \DIFaddbegin \label{corrections:discuss_discrep}
 \DIFaddend It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. It is worth noting that generally the keyboard strokes missed are the ones where the pulse amplitude appears to not exceed that of the speech segment. For all methods tested this appears to be a difficult detection scenario especially at low (for audio in general) sample rates of 16kHz. At higher sample rates, where the speech would take up a lower proportion of the bandwidth, the algorithms should perform better assuming that the noise pulse's spectrum is being limited by the current sample rate. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than \DIFdelbegin \DIFdel{UKD }\DIFdelend \DIFaddbegin \gls{ukd} \DIFaddend while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
 
@@ -687,7 +687,7 @@ Based on the same background assumption that led to the development of the multi
 To improve the preprocessing stage a peak tracking or sinusoidal tracking algorithm could be applied to improve the tonal component detection scheme. While this would complicate the procedure it would also improve the tonal component estimate and perhaps reduce the tonal noise interference \cite{McAulay1986}\DIFaddbegin \DIFadd{.
 }
 
-\subsubsection{\gls{mfcc} \DIFadd{based speech extraction}}\label{corrections:mfcc2}
+\subsubsection{\gls{mfcc} based speech extraction}\label{corrections:mfcc2}
 \DIFadd{While the }\gls{mfcc} \DIFadd{features do exhibit a high sensitivity to additive noise they may provide a useful basis for speech extraction from the noisy signal specifically given that the formants are not primarily affected by this additive noise \mbox{%DIFAUXCMD
 \cite{Tyagi2005}
 }%DIFAUXCMD
