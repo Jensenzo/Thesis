@@ -464,7 +464,7 @@ P_S f(u,\xi) = |S f(u,\xi)|^2 = \left| \int^{+\infty}_{-\infty} f(t)g(t-u)\mathr
 
 The \emph{spectrogram} of $f$ is a measure of the energy in the time-frequency neighborhood of $(u,\xi)$. This is also called the Heisenberg box of $g_{u,\xi}$ and is defined as a region in the time-frequency plane $(t, \omega)$ whose location and width depends entirely on the time-frequency spread of the window $g_{u,\xi}$ centered around $(u,\xi)$ \cite{Mallat1999}. For more details on the derivation of the time-frequency resolution of the windowed Fourier transform see Appendix~\ref{ap:TimeFreqResolutionFourier} on page~\pageref{ap:TimeFreqResolutionFourier}.
 
-For the windowed Fourier transform the time spread $\sigma_t$ and frequency spread $\sigma_w$ are independent of $u$ and $\xi$. Therefore $g_{u,\xi}$ corresponds to a Heisenberg box of area $\sigma_t \sigma_\omega$ centered at $(u,\xi)$ as seen in Figure~\ref{fig:LitRev_HeisenbergBox_STFT}\cite{Heisenberg1927}. The size of the box is constant and therefore independent of $(u,\xi)$ meaning that the windowed Fourier transform has the same temporal and frequency resolution throughout the time-frequency plane \cite{Mallat1999}.
+For the windowed Fourier transform the time spread $\sigma_t$ and frequency spread $\sigma_w$ are independent of $u$ and $\xi$. Therefore $g_{u,\xi}$ corresponds to a Heisenberg box of area $\sigma_t \sigma_\omega$ centered at $(u,\xi)$ as seen in Figure~\ref{fig:LitRev_HeisenbergBox_STFT} \cite{Heisenberg1927}. The size of the box is constant and therefore independent of $(u,\xi)$ meaning that the windowed Fourier transform has the same temporal and frequency resolution throughout the time-frequency plane \cite{Mallat1999}.
 
 \begin{figure}[!] %LitRev_HeisenbergBox_STFT
 \centering
@@ -591,7 +591,7 @@ where
 h_i(k) = w(k)e^{-i \omega_i n},
 \end{equation}
 
-and $w(k)$ is a window function. Considering $w(k)$ as a prototypical \gls{fir} lowpass filter, the collection of all $h_i(k)$s constitutes a bank of bandpass filters each centered on frequency $\omega_i$ \cite{Ariananda2013}. This implementation is commonly referred to as the periodogram but it also highlights what is sometimes called the filter bank paradigm and is a particularly simple implementation of the \gls{dwt}\cite{Mallat1999}.
+and $w(k)$ is a window function. Considering $w(k)$ as a prototypical \gls{fir} lowpass filter, the collection of all $h_i(k)$s constitutes a bank of bandpass filters each centered on frequency $\omega_i$ \cite{Ariananda2013}. This implementation is commonly referred to as the periodogram but it also highlights what is sometimes called the filter bank paradigm and is a particularly simple implementation of the \gls{dwt} \cite{Mallat1999}.
 
 Considering again the window function $w(k)$ from equation~\ref{eq:LitRev_Detection_PSD3}, the simplest window conceivable would be a simple rectangular window $w(k) = 1/N$. Naturally this would lead to significant side lobe leaks in the spectral domain and is therefore highly undesirable. Employing Hamming and Hann windows is a common approach to alleviate these issues. Another issue that arises with the periodogram is that its estimates are coarse with low precision and large variance \cite{Ariananda2013}. A common method for alleviating this variance problem is by windowing the data first \cite{Lim1988book}.
 
@@ -644,7 +644,7 @@ The \gls{wpt} can be seen as a generalisation of the Wavelet transform in that i
 \label{fig:LitRev_WPTtree.pdf}
 \end{figure}
 
-In a recent study comparing the \gls{wpt} to other spectrum estimation techniques it was generally found that the \gls{wpt} ``operated well for all types of sources and its performances were comparable or at times even better than other existing \linebreak[0]approaches.''\linebreak[2]\cite{Ariananda2013}. In particular it was found that \gls{wpt} performed well in reducing variance in the stop bands.
+In a recent study comparing the \gls{wpt} to other spectrum estimation techniques it was generally found that the \gls{wpt} ``operated well for all types of sources and its performances were comparable or at times even better than other existing \linebreak[0]approaches.''\linebreak[2] \cite{Ariananda2013}. In particular it was found that \gls{wpt} performed well in reducing variance in the stop bands.
 
 The authors of \cite{He2008} developed a psychoacoustic model based around the \gls{wpt} and found that not only was the \gls{wpt} computationally more efficient than a Fourier transform-based alternative but it also provided a better spectral resolution. For psychoacoustic applications it was found that the generalization of the \gls{dwt} yielded a better approximation of the critical bands employed \cite{Carnero1999}\cite{He2008} compared to similar \gls{dwt} based models \cite{Sinha1993}\cite{Zurera2001}.
 
@@ -713,7 +713,7 @@ From a computational perspective, median filters involve a sequence of searching
 % data, interferences can be detected."
 
 % Non-linear, minimum or maximum of neighborhood based on dark or bright spot. (Alajlan based on Windyga, good explanation of Windyga in Alajlan)
-In the field of image processing the median filter is still an integral part in most state-of-the-art impulsive noise filters \cite{Alajlan2004}. Other popular non-linear methods employed have been the maximum-minimum method \cite{Xu1998}, the peak-and-valley filter\linebreak[2]\cite{Windyga2001} and a modified maximum-minimum approach \cite{Alajlan2004} which aims to apply a maximum-minimum approach to selected samples only. All these non-linear approaches were found to have similar performance but with the median filter bearing a higher computational cost \cite{Alajlan2004}.
+In the field of image processing the median filter is still an integral part in most state-of-the-art impulsive noise filters \cite{Alajlan2004}. Other popular non-linear methods employed have been the maximum-minimum method \cite{Xu1998}, the peak-and-valley filter\linebreak[2] \cite{Windyga2001} and a modified maximum-minimum approach \cite{Alajlan2004} which aims to apply a maximum-minimum approach to selected samples only. All these non-linear approaches were found to have similar performance but with the median filter bearing a higher computational cost \cite{Alajlan2004}.
 
 % waveform substitution schemes
 % \cite{Goodman1986}\cite{Wasem1988}\cite{Niediwiecki2001}

@@ -6,7 +6,7 @@ To evaluate the energy density $P_S$ of the STFT, also called the \emph{spectrog
 P_S f(u,\xi) = |S f(u,\xi)|^2 = \left| \int^{+\infty}_{-\infty} f(t)g(t-u)\mathrm{e}^{-i\xi t} dt \right|^2.
 \end{equation}
 
-The \emph{spectrogram} of $f$ is a measure of the energy in the time-frequency neighborhood of $(u,\xi)$. This is also called the Heisenberg box of $g_{u,\xi}$ and is defined as a region in the time-frequency plane $(t, \omega)$ whose location and width depends entirely on the time-frequency spread of the window $g_{u,\xi}$ centered around $(u,\xi)$\cite{Mallat1999}.
+The \emph{spectrogram} of $f$ is a measure of the energy in the time-frequency neighborhood of $(u,\xi)$. This is also called the Heisenberg box of $g_{u,\xi}$ and is defined as a region in the time-frequency plane $(t, \omega)$ whose location and width depends entirely on the time-frequency spread of the window $g_{u,\xi}$ centered around $(u,\xi)$ \cite{Mallat1999}.
 
 The time spread around $u$ is independent of $u$ and $\xi$:
 
@@ -26,7 +26,7 @@ The center frequency of the window $\hat{g}$ is now $\xi$ and the frequency spre
 \sigma^2_\omega = \frac{1}{2\pi} \int^{+\infty}_{-\infty} (\omega - \xi)^2 |\hat{g}_{u,\xi}(\omega)| d\omega = \frac{1}{2\pi} \int^{+\infty}_{-\infty} \omega^2 |\hat{g}(\omega)| d\omega.
 \end{equation}
 
-For the windowed Fourier transform the time spread $\sigma_t$ and frequency spread $\sigma_w$ are independent of $u$ and $\xi$. Therefore $g_{u,\xi}$ corresponds to a Heisenberg box of area $\sigma_t \sigma_\omega$ centered at $(u,\xi)$ as seen in Figure~\ref{fig:LitRev_HeisenbergBox_STFT}\cite{Heisenberg1927}. The size of the box is constant and therefore independent of $(u,\xi)$ meaning that the windowed Fourier transform has the same temporal and frequency resolution throughout the time-frequency plane\cite{Mallat1999}.
+For the windowed Fourier transform the time spread $\sigma_t$ and frequency spread $\sigma_w$ are independent of $u$ and $\xi$. Therefore $g_{u,\xi}$ corresponds to a Heisenberg box of area $\sigma_t \sigma_\omega$ centered at $(u,\xi)$ as seen in Figure~\ref{fig:LitRev_HeisenbergBox_STFT} \cite{Heisenberg1927}. The size of the box is constant and therefore independent of $(u,\xi)$ meaning that the windowed Fourier transform has the same temporal and frequency resolution throughout the time-frequency plane \cite{Mallat1999}.
 
 \section{Wavelet transform}\label{ap:TimeFreqResolutionWavelet}
 The integral wavelet transform $W$ of $f(t)$ is defined as:
@@ -34,7 +34,7 @@ The integral wavelet transform $W$ of $f(t)$ is defined as:
 \begin{equation}\label{eq:Mallat1999_xcopy}
 W f(u,s) = \langle f, \psi_{u,s} \rangle = \int^{+\infty}_{-\infty} f(t) \frac{1}{\sqrt{s}}\psi^\ast \left( \frac{t-u}{s} \right) dt,
 \end{equation}
-scales by $s$ and translated by $u$\cite{Mallat1999}.
+scales by $s$ and translated by $u$ \cite{Mallat1999}.
 
 Suppose that $\phi$ is centered at 0, so that $\phi_{u,s}$ is at $t=u$. The time-frequency spread of the wavelet atom $\phi_{u,s}$ determines the time-frequency resolution of the transform. Suppose that $v = \frac{t-u}{s}$ it can be verified that:
 
@@ -72,7 +72,7 @@ where
 \sigma^2_\omega = \frac{1}{2\pi} \int^{+\infty}_0 (\omega - \eta)^2 |\hat{\phi}(\omega)|^2 d\omega.
 \end{equation}
 
-The energy spread of a wavelet time-frequency atom $\phi_{u,s}$ corresponds to a Heisenberg box centered at $(u,\eta/s)$ where $\eta$ is the center frequency of $\hat{\phi}$ the Fourier transform of $\phi$, and $\hat{\phi_{u,s}}$ is the Fourier transform of $\phi$ dilated by $1/s$. The Heisenberg box remains of area $\sigma_t \sigma_\omega$ at all scales but it is now $s\sigma_t$ on the time axis and $\sigma_\omega /s$ along the frequency axis\cite{Mallat1999}. The temporal and frequency resolution is now dependent on $s$ as illustrated in Figure~\ref{fig:LitRev_HeisenbergBox_wavelets}
+The energy spread of a wavelet time-frequency atom $\phi_{u,s}$ corresponds to a Heisenberg box centered at $(u,\eta/s)$ where $\eta$ is the center frequency of $\hat{\phi}$ the Fourier transform of $\phi$, and $\hat{\phi_{u,s}}$ is the Fourier transform of $\phi$ dilated by $1/s$. The Heisenberg box remains of area $\sigma_t \sigma_\omega$ at all scales but it is now $s\sigma_t$ on the time axis and $\sigma_\omega /s$ along the frequency axis \cite{Mallat1999}. The temporal and frequency resolution is now dependent on $s$ as illustrated in Figure~\ref{fig:LitRev_HeisenbergBox_wavelets}
 
 
 
