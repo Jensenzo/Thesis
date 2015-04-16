@@ -91,7 +91,7 @@ Figure~\ref{fig:Keyboard4StrokesFast} shows an example of a short rapid 4 keystr
 \end{figure}
 
 \section{Detection algorithms}\label{sec:WPdetection}
-The basic detection algorithm comprise two stages. First a separation stage aims to separate the transient noise pulses by separating out tonal atoms assumed to be speech components and secondly a detection stage which attempts to detect transient noise events through the wavelet bases. For the detection stage, 2 different approaches have been explored.
+The basic detection algorithm comprises two stages. First a separation stage aims to separate the transient noise pulses by separating out tonal atoms assumed to be speech components and secondly a detection stage which attempts to detect transient noise events through the wavelet bases. For the detection stage, 2 different approaches have been explored.
 
 \subsection{Separation pre processing}\label{sec:WPseparation}
 %good amplitude results in \cite{Vaseghi1990}
@@ -501,7 +501,7 @@ To further quantify the performance of the algorithm a similar test to the above
  \label{table:NBResultsTest}
 \end{table}
 
-While the detection rate of the Media filtering approach in Table~\ref{table:NBResultsTest} does appear to conflict with the results shown previously, it is noted that this is most likely caused by the consistently much louder transients recorded for the external microphone data. This aligns with previous results showing the Media approach to be heavily reliant on the amplitude of the transient noise. All methods show a similarly low false detection rate.
+While the detection rate of the median filtering approach in Table~\ref{table:NBResultsTest} does appear to conflict with the results shown previously, it is noted that this is most likely caused by the consistently much louder transients recorded for the external microphone data. This aligns with previous results showing the median approach to be heavily reliant on the amplitude of the transient noise. All methods show a similarly low false detection rate.
 
 \subsection{AR Filter method results}
 Figure~\ref{fig:ARFilterDetectionResults} shows, similar to Figure~\ref{fig:NBDetectionResults}, the detection performance for the \gls{ar} filter method (red) in relation to that of the \gls{ukd}\cite{Subramanya2007} (blue) and the standard median filter method (green). Figure~\ref{fig:ARFilterDetectionResults}(a) shows the algorithms' performance on 10 clean keyboard strokes while Figure~\ref{fig:ARFilterDetectionResults}(b) shows an example of the algorithms' performance when the keyboard strokes are embedded in speech. As seen in Figure~\ref{fig:NBDetectionResults} with the proposed Noise Burst model, the \gls{ar} filter model in Figure~\ref{fig:ARFilterDetectionResults} indicates a detection in between the first and the second correct detections. Both of these detections are clearly provoked by the sudden onset of the speech utterance which is considered a false detection.
@@ -595,7 +595,7 @@ By visual inspection of Figures~\ref{fig:Separation_Residual_Example} through \r
 \subsection{Detection algorithms}
 Two different, but related, detection algorithms have been presented in this chapter; the Noise Burst model algorithm and the \gls{ar} filtering algorithm. These two have been compared to two other approaches; the \gls{ukd} algorithm \cite{Subramanya2007} and a median filter algorithm. While the median filter algorithm provides a benchmark for one of the simplest approaches previously used for similar applications, the \gls{ukd} algorithm represents the best alternative in the literature.
 
-%Discussion of NBDetectionResults and NBResultsTest 
+%Discussion of NBDetectionResults and NBResultsTest
 \label{corrections:discuss_discrep}
 It is clear from Figure~\ref{fig:NBDetectionResults} and Table~\ref{table:NBResultsTest} that both the Noise Burst and the \gls{ukd} algorithm outperform the standard median filter approach. Figure~\ref{fig:NBDetectionResults}(a) shows the \gls{ukd} algorithm being slightly more sensitive than the Noise Burst model, while in Figure~\ref{fig:NBDetectionResults}(b) the \gls{ukd} appears slightly less sensitive to embedded taps while finding more false detections than the Noise Burst model. It is worth noting that generally the keyboard strokes missed are the ones where the pulse amplitude appears to not exceed that of the speech segment. For all methods tested this appears to be a difficult detection scenario especially at low (for audio in general) sample rates of 16kHz. At higher sample rates, where the speech would take up a lower proportion of the bandwidth, the algorithms should perform better assuming that the noise pulse's spectrum is being limited by the current sample rate. Table~\ref{table:NBResultsTest} shows the Noise Burst algorithm being more sensitive than \gls{ukd} while all tested algorithms maintain a low false detection rate. The median detector's good performance in the last test is probably explained by the relatively loud transients in the audio compared to the speech.
 
