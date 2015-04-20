@@ -222,7 +222,7 @@ It appears that temperature has a dramatic effect on the mean template and there
 Figure~\ref{fig:testingSystemPlot} shows a block diagram of the implementation of the use/testing stage of the algorithm. The diagram shows how a tap $y$ incident on the tapping device is picked up by the microphone on the device and transmitted to a computer. Within the computer the algorithm calculates the statistics, as outlined below, utilising data from the training stage of the algorithm. The statistics of the signal are then evaluated and the most probable class or spot is displayed to the user unless the models do not yield a sufficiently high probability, as determined by a threshold, in which case no tap will be registered.
 
 \subsection{Model and theory}
-A standard linear instantaneous model is considered where\linebreak[0] observations \linebreak[2]$y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
+A standard linear instantaneous model is considered where\linebreak[0] observations \linebreak[4]$y = [y_0, \ldots , y_{N-1}]^T $ are modeled as a noisy linear combination:
 
 \begin{equation}\label{eq:mod1}
 y = \sum_{i=1}^{I} \theta_i^j t_i^j(n_0) + v,

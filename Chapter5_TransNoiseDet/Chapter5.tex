@@ -104,7 +104,7 @@ The incoming audio signal can be expressed as the linear combination of a voiced
 \end{equation}
 where $c_i$ are the coefficients for the voiced parts of the signal and $\Phi$ is the standard short-time Fourier basis. $w_{j}(n)$ are the coefficients of the residual where $j$ is an integer relating to some translation and dilation of some Wavelet basis function $\Psi$. Here we utilise an over-complete dictionary of atoms to represent the audio: a dictionary of `tonal' atoms and a dictionary of `transient' atoms that are aimed at capturing voiced speech and transient noise, respectively. Multiple dictionaries have been employed in Bayesian probabilistic methodologies for noise reduction purposes in \cite{Fevotte2006}\cite{Fevotte2008} (see also references therein for other approaches with multiple dictionaries). Here we focus on development of a fast algorithm using the principles of the above model in order to first extract the tonal (voiced) components in order to process the noise components directly in the wavelet domain. Other tonal dictionaries such as Gabor functions and other transient dictionaries such as standard discrete or continuous wavelet transforms can of course be substituted in our methods with minor modifications. Wavelets are found to be particularly suited to the types of transient noise we observed here, which are localised in time and can be of highly variable durations and frequency profile.
 
-The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a \gls{wpt} such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for a level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. Terminal nodes are the coefficient sets $AAA_3, DAA_3, ADA_3, DDA_3, AAD_3, DAD_3, ADD_3$ and $DDD_3$ in \ref{fig:LitRev_WPTtree.pdf}.
+The coefficients $w_{j}(n)$ from equation (\ref{eq:modelgeneral}) can be interpreted as wavelet coefficients from a \gls{wpt} such that $j$ denotes the $j$th terminal node or scale, $j \in \{1, \ldots, J\}$ where $J = L^2$ for a level $L$ decomposition, and $n$ is the time index related to the coefficient set and so $w(n)$ will be used to denote a vector of all coefficients at a given time index $n$. Terminal nodes are the coefficient sets $AAA_3, DAA_3, ADA_3, DDA_3,\linebreak[4] AAD_3, DAD_3, ADD_3$ and $DDD_3$ in \ref{fig:LitRev_WPTtree.pdf}.
 %For the case of a wavelet decomposition with decimation steps the time index from the terminal node coefficient sets and equation~\ref{eq:modelgeneral} will be related by a factor of $1/J$. %This sentence could be removed.
 
 \subsubsection{Algorithm description}\label{sec:WPdetectionSep}
@@ -250,7 +250,7 @@ The terminal node coefficients of the \gls{wpt} of an incoming audio sequence $x
 X(j,t) = \sum_{m=1}^{M} a_{j,m} X(j,t - m) + v(j,t),
 \end{equation}
 
-where $a_{jm}$ is the $m$th weight applied to the $j$th terminal node so that $\mathbf{a}_j = \{a_{j,1}, \ldots, a_{j,M} \}$, $M$ is the size of the buffer used, and $v(j,t)$ is Gaussian noise with zero mean so that
+where $a_{jm}$ is the $m$th weight applied to the $j$th terminal node so that \linebreak[4]$\mathbf{a}_j = \{a_{j,1}, \ldots, a_{j,M} \}$, $M$ is the size of the buffer used, and $v(j,t)$ is Gaussian noise with zero mean so that
 
 \begin{equation}\label{eq:lpmnoise}
 v(j,t) \sim \mathcal{N}_v(0,\sigma^2_{j,t}).
